@@ -29,7 +29,7 @@ class Enviroment():
         i = 0
 
         self.x = 55
-        self.y = 50
+        self.y = 55
 
 
 
