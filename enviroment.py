@@ -1,6 +1,7 @@
 
 import pygame
 import random
+import sys
 from sprite_object import Rocket, Rocket_action, Bullet, Asteroid
 
 screen_width = 900
