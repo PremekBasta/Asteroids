@@ -28,7 +28,7 @@ class Enviroment():
         global i
         i = 0
 
-        self.x = 50
+        self.x = 55
         self.y = 50
 
 
