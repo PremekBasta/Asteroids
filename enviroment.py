@@ -18,24 +18,23 @@ class Enviroment():
         pygame.init()
         self.screen = pygame.display.set_mode((screen_width, screen_height))
         pygame.display.init()
-        print("init")
         self.bullets_one = []
-        self.asteroids_one = []
+        self.bullets_two = []
+        self.asteroids_neutral = []
+        Asteroid.initialize_images()
         self.rockets = pygame.sprite.Group()
-        self.RocketOne = Rocket(self.screen)
-        self.rockets.add(self.RocketOne)
+        self.RocketOne = Rocket(self.screen, 0)
+        self.RocketTwo = Rocket(self.screen, 1)
+        self.rockets.add(self.RocketOne, self.RocketTwo)
         self.visual = visual
         global i
         i = 0
 
-        self.x = 55
-        self.y = 55
 
 
 
     def next_step(self, actions):
-        # for action in actions:
-        #     todo:switch
+
 
 
         if Rocket_action.ROCKET_ONE_ROTATE_LEFT in actions:
@@ -47,11 +46,20 @@ class Enviroment():
         if Rocket_action.ROCKET_ONE_SHOOT in actions:
             self.bullets_one.append(Bullet(self.screen, self.RocketOne))
 
+        if Rocket_action.ROCKET_TWO_ROTATE_LEFT in actions:
+            self.RocketTwo.rotate_left()
+        if Rocket_action.ROCKET_TWO_ROTATE_RIGHT in actions:
+            self.RocketTwo.rotate_right()
+        if Rocket_action.ROCKET_TWO_ACCELERATE in actions:
+            self.RocketTwo.accelerate()
+        if Rocket_action.ROCKET_TWO_SHOOT in actions:
+            self.bullets_two.append(Bullet(self.screen, self.RocketTwo))
+
         if "Debug" in actions:
             self.print_debug()
 
-        # if random.randint(0,10) == 5:
-        self.asteroids_one.append(Asteroid(self.screen))
+        if random.randint(0,100) == 5:
+            self.asteroids_neutral.append(Asteroid(self.screen, 0))
 
         self._check_collisions_()
 
@@ -60,14 +68,24 @@ class Enviroment():
         self._draw_sprites_()
 
     def _check_collisions_(self):
-        for bullet in self.bullets_one:
-            for asteroid in self.asteroids_one:
-                if bullet.rect.colliderect(asteroid.rect):
-                    self.asteroids_one.remove(asteroid)
+        for bullet_one in self.bullets_one:
+            for asteroid in self.asteroids_neutral:
+                if bullet_one.rect.colliderect(asteroid.collision_rect):
+                    self.asteroids_neutral.remove(asteroid)
+                    if bullet_one in self.bullets_one:
+                        self.bullets_one.remove(bullet_one)
+                    continue
 
-        for asteroid in self.asteroids_one:
-            if asteroid.rect.colliderect(self.RocketOne.rect):
-                print("you lost")
+        for bullet_two in self.bullets_two:
+            for asteroid in self.asteroids_neutral:
+                if bullet_two.rect.colliderect(asteroid.collision_rect):
+                    self.asteroids_neutral.remove(asteroid)
+                    if bullet_two in self.bullets_two:
+                        self.bullets_two.remove(bullet_two)
+                    continue
+
+        for asteroid in self.asteroids_neutral:
+            if asteroid.collision_rect.colliderect(self.RocketOne.collision_rect) or asteroid.collision_rect.colliderect(self.RocketTwo.collision_rect):
                 quit()
 
     def _update_sprites_(self):
@@ -75,13 +93,20 @@ class Enviroment():
             rocket.update()
         # self.RocketOne.update()
 
-        for bullet in self.bullets_one:
-            if bullet.is_alive():
-                bullet.update()
+        for bullet_one in self.bullets_one:
+            if bullet_one.is_alive():
+                bullet_one.update()
             else:
-                self.bullets_one.remove(bullet)
+                self.bullets_one.remove(bullet_one)
 
-        for asteroid in self.asteroids_one:
+        for bullet_two in self.bullets_two:
+            if bullet_two.is_alive():
+                bullet_two.update()
+            else:
+                self.bullets_two.remove(bullet_two)
+
+
+        for asteroid in self.asteroids_neutral:
             asteroid.update()
 
 
@@ -91,13 +116,17 @@ class Enviroment():
 
         # Rockets
         self.RocketOne.draw()
+        self.RocketTwo.draw()
 
         # Bullets
-        for bullet in self.bullets_one:
-            bullet.draw()
+        for bullet_one in self.bullets_one:
+            bullet_one.draw()
+
+        for bullet_two in self.bullets_two:
+            bullet_two.draw()
 
         # Asteroids
-        for asteroid in self.asteroids_one:
+        for asteroid in self.asteroids_neutral:
             asteroid.draw()
 
 
@@ -113,8 +142,9 @@ class Enviroment():
         for event in events:
             if(event.key == pygame.K_SPACE):
                 actions.append(Rocket_action.ROCKET_ONE_SHOOT)
-            if(event.key == pygame.K_d):
-                actions.append("Debug")
+            if(event.key == pygame.K_LCTRL):
+                actions.append(Rocket_action.ROCKET_TWO_SHOOT)
+
 
         all_keys = pygame.key.get_pressed()
         if all_keys[pygame.K_UP]:
@@ -123,13 +153,17 @@ class Enviroment():
             actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
         if all_keys[pygame.K_RIGHT]:
             actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
+
+
+        if all_keys[pygame.K_a]:
+            actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
         if all_keys[pygame.K_d]:
-            actions.append("Debug")
+            actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+        if all_keys[pygame.K_w]:
+            actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+
+
 
         # clearing it apparently prevents from stucking
         pygame.event.clear()
         return actions
-
-    def print_debug(self):
-        print("bullets: " + str(self.bullets_one))
-        print("asteroids: " + str(self.asteroids_one))
