@@ -21,6 +21,8 @@ class Enviroment():
         self.bullets_one = []
         self.bullets_two = []
         self.asteroids_neutral = []
+        self.asteroids_one = []
+        self.asteroids_two = []
         Asteroid.initialize_images()
         self.rockets = pygame.sprite.Group()
         self.RocketOne = Rocket(self.screen, 0)
@@ -58,8 +60,7 @@ class Enviroment():
         if "Debug" in actions:
             self.print_debug()
 
-        if random.randint(0,100) == 5:
-            self.asteroids_neutral.append(Asteroid(self.screen, 0))
+        self._generate_asteroid_()
 
         self._check_collisions_()
 
@@ -67,25 +68,88 @@ class Enviroment():
 
         self._draw_sprites_()
 
+
+    def _generate_asteroid_(self):
+        if random.randint(0,100) == 1:
+            self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+
     def _check_collisions_(self):
+        # Bullets ONE with NEUTRAL asteroids
         for bullet_one in self.bullets_one:
             for asteroid in self.asteroids_neutral:
                 if bullet_one.rect.colliderect(asteroid.collision_rect):
                     self.asteroids_neutral.remove(asteroid)
+                    new_asteroid = Asteroid(self.screen, None, None, asteroid, bullet_one.rocket,
+                                            bullet_one)
+
                     if bullet_one in self.bullets_one:
                         self.bullets_one.remove(bullet_one)
+
+                    if new_asteroid is not None:
+                        self.asteroids_one.append(new_asteroid)
                     continue
 
+        # Bullets ONE with TWO's asteroids
+        for bullet_one in self.bullets_one:
+            for asteroid_two in self.asteroids_two:
+                if bullet_one.rect.colliderect(asteroid_two.collision_rect):
+                    self.asteroids_two.remove(asteroid_two)
+
+                    new_asteroid = Asteroid(self.screen, None, None, asteroid_two, bullet_one.rocket,
+                                            bullet_one)
+
+                    if bullet_one in self.bullets_one:
+                        self.bullets_one.remove(bullet_one)
+
+                    if new_asteroid is not None:
+                        self.asteroids_one.append(new_asteroid)
+
+        # Bullets TWO with ONE' asteroids
+        for bullet_two in self.bullets_two:
+            for asteroid_one in self.asteroids_one:
+                if bullet_two.rect.colliderect(asteroid_one.collision_rect):
+                    self.asteroids_one.remove(asteroid_one)
+
+                    new_asteroid = Asteroid(self.screen, None, None, asteroid_one, bullet_two.rocket,
+                                            bullet_two)
+
+                    if bullet_two in self.bullets_two:
+                        self.bullets_two.remove(bullet_two)
+
+                    if new_asteroid is not None:
+                        self.asteroids_two.append(new_asteroid)
+
+        # Bullets TWO with NEUTRAL asteroids
         for bullet_two in self.bullets_two:
             for asteroid in self.asteroids_neutral:
                 if bullet_two.rect.colliderect(asteroid.collision_rect):
                     self.asteroids_neutral.remove(asteroid)
+                    new_asteroid = Asteroid(self.screen, self.RocketOne, self.RocketTwo, asteroid, bullet_two.rocket,
+                                            bullet_two)
+
                     if bullet_two in self.bullets_two:
                         self.bullets_two.remove(bullet_two)
+
+                    if new_asteroid is not None:
+                        self.asteroids_two.append(new_asteroid)
                     continue
 
+
+
         for asteroid in self.asteroids_neutral:
-            if asteroid.collision_rect.colliderect(self.RocketOne.collision_rect) or asteroid.collision_rect.colliderect(self.RocketTwo.collision_rect):
+            # Rocket ONE with NEUTRAL asteroid
+            if asteroid.collision_rect.colliderect(self.RocketOne.collision_rect):
+                asteroid.draw()
+                self.RocketOne.draw()
+                pygame.display.update()
+                print("Rcoket_one")
+                quit()
+            # Rocket TWO with NEUTRAL asteroid
+            if asteroid.collision_rect.colliderect(self.RocketTwo.collision_rect):
+                asteroid.draw()
+                self.RocketTwo.draw()
+                pygame.display.update()
+                print("Rcoket_two")
                 quit()
 
     def _update_sprites_(self):
@@ -109,6 +173,12 @@ class Enviroment():
         for asteroid in self.asteroids_neutral:
             asteroid.update()
 
+        for asteroid_one in self.asteroids_one:
+            asteroid_one.update()
+
+        for asteroid_two in self.asteroids_two:
+            asteroid_two.update()
+
 
 
     def _draw_sprites_(self):
@@ -128,6 +198,10 @@ class Enviroment():
         # Asteroids
         for asteroid in self.asteroids_neutral:
             asteroid.draw()
+        for asteroid_one in self.asteroids_one:
+            asteroid_one.draw()
+        for asteroid_two in self.asteroids_two:
+            asteroid_two.draw()
 
 
         pygame.display.update()

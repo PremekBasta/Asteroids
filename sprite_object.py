@@ -58,22 +58,22 @@ class Rocket(pygame.sprite.Sprite):
          pygame.image.load('images/rocket_two_312.png'), pygame.image.load('images/rocket_two_324.png'),
          pygame.image.load('images/rocket_two_336.png'), pygame.image.load('images/rocket_two_348.png')]]
 
-    def __init__(self, screen, rocket_index):
+    def __init__(self, screen, player):
         super().__init__()
         self.angle = 0
         self.speedx = 0
         self.speedy = 0
         self.screen = screen
-        self.rocket_index = rocket_index
+        self.player = player
         for i in range(2):
             for image in Rocket.rocket_rotation_images[i]:
                 image.set_colorkey((0,0,0))
 
-        self.image = Rocket.rocket_rotation_images[rocket_index][0]
+        self.image = Rocket.rocket_rotation_images[player][0]
         self.image_rect = self.image.get_rect()
         self.image_rect.centery = self.screen.get_height() / 2
         self.image_rect.centerx = self.screen.get_width() / 2
-        if rocket_index == 0:
+        if player == 1:
             self.image_rect.centerx = self.image_rect.centerx - 150
         else:
             self.image_rect.centerx = self.image_rect.centerx + 150
@@ -94,8 +94,6 @@ class Rocket(pygame.sprite.Sprite):
     def accelerate(self):
         self.speedx = self.speedx - int(math.sin(self.angle / 180 * math.pi) * 20 / 2)
         self.speedy = self.speedy - int(math.cos(self.angle / 180 * math.pi) * 20 / 2)
-        print("speed x: " + str(self.speedx))
-        print("speed y: " + str(self.speedy))
         if math.sqrt(math.pow(self.speedx, 2) + math.pow(self.speedy, 2)) > Rocket.max_speed:
             minusx = False
             minusy = False
@@ -118,23 +116,11 @@ class Rocket(pygame.sprite.Sprite):
 
     def draw(self):
         pygame.draw.rect(self.screen, (255, 255, 255), self.collision_rect)
-        self.screen.blit(Rocket.rocket_rotation_images[self.rocket_index][self.angle // 12], (self.image_rect.left, self.image_rect.top))
+        self.screen.blit(Rocket.rocket_rotation_images[self.player][self.angle // 12], (self.image_rect.left, self.image_rect.top))
 
 
 
     def update(self, *args):
-        # self.x = self.x + self.speedx / 8
-        # if self.x < 0:
-        #     self.x = self.screen.get_width()
-        # if self.x > self.screen.get_width():
-        #     self.x = 0
-
-        # self.y = self.y + self.speedy / 8
-        # if self.y < 0:
-        #     self.y = self.screen.get_height()
-
-
-
         self.image_rect.centerx = self.image_rect.centerx + self.speedx / 8
         if self.image_rect.centerx < 0:
             self.image_rect.centerx = self.screen.get_width()
@@ -186,7 +172,7 @@ class Bullet(pygame.sprite.Sprite):
         super().__init__()
         for image in Bullet.bullet_angle_images[0]:
             image.set_colorkey((0, 0, 0))
-        self.image = Bullet.bullet_angle_images[rocket.rocket_index][rocket.angle // 12]
+        self.image = Bullet.bullet_angle_images[rocket.player][rocket.angle // 12]
         self.screen = screen
         self.rect = self.image.get_rect()
         self.rocket = rocket
@@ -213,7 +199,6 @@ class Bullet(pygame.sprite.Sprite):
 
         self.lifecount = self.lifecount - 1
 
-        # TODO substitute for constants
 
     def draw(self):
         self.screen.blit(self.image, (self.rect.left, self.rect.top))
@@ -224,20 +209,62 @@ class Bullet(pygame.sprite.Sprite):
 
 
 class Asteroid(pygame.sprite.Sprite):
-    asteroid_images = [[pygame.image.load('images/asteroid_40x40_00.bmp'),
-                        pygame.image.load('images/asteroid_40x40_01.bmp'),
-                        pygame.image.load('images/asteroid_40x40_02.bmp')],
-                      [pygame.image.load('images/asteroid_71x71_00.bmp'),
-                       pygame.image.load('images/asteroid_71x71_01.bmp'),
-                       pygame.image.load('images/asteroid_71x71_02.bmp')]]
-    def __init__(self, screen, size_index):
+    asteroid_images =  [
+                        [
+                            [pygame.image.load('images/asteroid_one_50x50_00.bmp'),
+                            pygame.image.load('images/asteroid_one_50x50_01.bmp'),
+                            pygame.image.load('images/asteroid_one_50x50_02.bmp')],
+
+                            [pygame.image.load('images/asteroid_one_71x71_00.bmp'),
+                            pygame.image.load('images/asteroid_one_71x71_01.bmp'),
+                            pygame.image.load('images/asteroid_one_71x71_02.bmp')]],
+
+
+                        [
+                            [pygame.image.load('images/asteroid_two_50x50_00.bmp'),
+                            pygame.image.load('images/asteroid_two_50x50_01.bmp'),
+                            pygame.image.load('images/asteroid_two_50x50_02.bmp')],
+
+                            [pygame.image.load('images/asteroid_two_71x71_00.bmp'),
+                            pygame.image.load('images/asteroid_two_71x71_01.bmp'),
+                            pygame.image.load('images/asteroid_two_71x71_02.bmp')]],
+
+
+                        [
+                            [pygame.image.load('images/asteroid_40x40_00.bmp'),
+                             pygame.image.load('images/asteroid_40x40_01.bmp'),
+                             pygame.image.load('images/asteroid_40x40_02.bmp')],
+
+                            [pygame.image.load('images/asteroid_71x71_00.bmp'),
+                             pygame.image.load('images/asteroid_71x71_01.bmp'),
+                             pygame.image.load('images/asteroid_71x71_02.bmp')],
+
+                            [pygame.image.load('images/asteroid_110x110_00.bmp'),
+                             pygame.image.load('images/asteroid_110x110_01.bmp'),
+                             pygame.image.load('images/asteroid_110x110_02.bmp')]]
+                        ]
+
+
+
+    def __init__(self, screen, rocket_one, rocket_two, old_asteroid, rocket_shooter, impact_bullet):
         super().__init__()
         self.screen = screen
-        self.speedx = -5 + random.randint(0,10)
-        self.speedy = -5 + random.randint(0,10)
-        self.size_index = size_index
+        if rocket_shooter is not None:
+            self.player = rocket_shooter.player
+            if old_asteroid.size_index < 0:
+                return None
+            self.speedx = impact_bullet.speedx / 20
+            self.speedy = impact_bullet.speedy / 20
+            self.size_index = old_asteroid.size_index - 1
+            self.image = Asteroid.asteroid_images[self.player][self.size_index][random.randint(0, 2)]
+        else:
+            player = 2
+            self.speedx = -5 + random.randint(0, 10)
+            self.speedy = -5 + random.randint(0, 10)
+            self.size_index = 2
+            self.image = Asteroid.asteroid_images[2][2][random.randint(0, 2)]
 
-        self.image = Asteroid.asteroid_images[size_index][random.randint(0,2)]
+
         self.image_rect = self.image.get_rect()
         self.image_rect.centerx = self.screen.get_width() / 2
         self.image_rect.centery = self.screen.get_height() / 2
@@ -247,16 +274,42 @@ class Asteroid(pygame.sprite.Sprite):
         collide_height = self.image_rect.height * 0.57
         self.collision_rect = pygame.Rect(collide_left, collide_top, collide_width, collide_height)
 
+        if rocket_shooter is not None:
+            self.image_rect.centerx = old_asteroid.image_rect.centerx
+            self.image_rect.centery = old_asteroid.image_rect.centery
+        else:
+            self.__place_asteroid__(screen.get_width(), screen.get_height(), rocket_one.collision_rect, rocket_two.collision_rect)
+
+
     def __place_asteroid__(self, screen_width, screen_height, rocket_one_rect, rocket_two_rect):
-        x = random.randint(screen_width)
-        y = random.randint(screen_height)
-        # TODO
+        x = random.randint(0, screen_width)
+        y = random.randint(0, screen_height)
+        while True:
+            if(
+                math.fabs(x - rocket_one_rect.centerx) > 100 and
+                math.fabs(x - rocket_two_rect.centerx) > 100 and
+                x > 50 and x < screen_width - 50 and
+                math.fabs(y - rocket_one_rect.centery) > 100 and
+                math.fabs(y - rocket_two_rect.centery) > 100 and
+                y > 50 and y < screen_height - 50
+            ):
+                break
+            x = x + 10
+            y = y + 10
+            if x > screen_width:
+                x = x - screen_width
+            if y > screen_height:
+                y = y -screen_height
+
+        self.image_rect.centerx = x
+        self.image_rect.centery = y
 
     @classmethod
     def initialize_images(cls):
-        for i in range(2):
-            for image in Asteroid.asteroid_images[i]:
-                image.set_colorkey((0,0,0,0))
+        for i in range(3):
+            for images in Asteroid.asteroid_images[i]:
+                for image in images:
+                    image.set_colorkey((0,0,0,0))
 
     def update(self):
         self.image_rect.centerx = self.image_rect.centerx + self.speedx
