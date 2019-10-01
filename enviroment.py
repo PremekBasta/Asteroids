@@ -144,7 +144,6 @@ class Enviroment():
                 self.RocketOne.draw()
                 pygame.display.update()
                 time.sleep(2)
-                print("Rcoket_one")
                 quit()
             # Rocket TWO with NEUTRAL asteroid
             if asteroid.collision_rect.colliderect(self.RocketTwo.collision_rect):
@@ -152,7 +151,22 @@ class Enviroment():
                 self.RocketTwo.draw()
                 pygame.display.update()
                 time.sleep(2)
-                print("Rcoket_two")
+                quit()
+
+        for asteroid_one in self.asteroids_one:
+            if asteroid_one.collision_rect.colliderect(self.RocketTwo.collision_rect):
+                asteroid_one.draw()
+                self.RocketTwo.draw()
+                pygame.display.update()
+                time.sleep(2)
+                quit()
+
+        for asteroid_two in self.asteroids_two:
+            if asteroid_two.collision_rect.colliderect(self.RocketOne.collision_rect):
+                asteroid_two.draw()
+                self.RocketOne.draw()
+                pygame.display.update()
+                time.sleep(2)
                 quit()
 
     def _update_sprites_(self):
@@ -176,9 +190,6 @@ class Enviroment():
         for asteroid in self.asteroids_neutral:
             asteroid.update()
 
-        for asteroid in self.asteroids_one:
-            print(asteroid)
-        print("/////")
         for asteroid_one in self.asteroids_one:
             asteroid_one.update()
 

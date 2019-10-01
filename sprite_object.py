@@ -251,9 +251,7 @@ class Asteroid(pygame.sprite.Sprite):
         self.valid = True
         self.screen = screen
         if rocket_shooter is not None:
-            print(f"old_asteroid.size_index: {old_asteroid.size_index}")
             if old_asteroid.size_index == 0:
-                print("returning None")
                 self.valid = False
                 return
 
