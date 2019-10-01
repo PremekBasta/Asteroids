@@ -115,7 +115,7 @@ class Rocket(pygame.sprite.Sprite):
                 self.speedy = -self.speedy
 
     def draw(self):
-        pygame.draw.rect(self.screen, (255, 255, 255), self.collision_rect)
+        # pygame.draw.rect(self.screen, (255, 255, 255), self.collision_rect)
         self.screen.blit(Rocket.rocket_rotation_images[self.player][self.angle // 12], (self.image_rect.left, self.image_rect.top))
 
 
@@ -248,14 +248,20 @@ class Asteroid(pygame.sprite.Sprite):
 
     def __init__(self, screen, rocket_one, rocket_two, old_asteroid, rocket_shooter, impact_bullet):
         super().__init__()
+        self.valid = True
         self.screen = screen
         if rocket_shooter is not None:
+            print(f"old_asteroid.size_index: {old_asteroid.size_index}")
+            if old_asteroid.size_index == 0:
+                print("returning None")
+                self.valid = False
+                return
+
             self.player = rocket_shooter.player
-            if old_asteroid.size_index < 0:
-                return None
             self.speedx = impact_bullet.speedx / 20
             self.speedy = impact_bullet.speedy / 20
             self.size_index = old_asteroid.size_index - 1
+            print(self.size_index)
             self.image = Asteroid.asteroid_images[self.player][self.size_index][random.randint(0, 2)]
         else:
             player = 2
@@ -266,19 +272,18 @@ class Asteroid(pygame.sprite.Sprite):
 
 
         self.image_rect = self.image.get_rect()
-        self.image_rect.centerx = self.screen.get_width() / 2
-        self.image_rect.centery = self.screen.get_height() / 2
-        collide_left = self.image_rect.left + 0.215 * self.image_rect.width
-        collide_top = self.image_rect.top + 0.215 * self.image_rect.height
-        collide_width = self.image_rect.width * 0.57
-        collide_height = self.image_rect.height * 0.57
-        self.collision_rect = pygame.Rect(collide_left, collide_top, collide_width, collide_height)
 
         if rocket_shooter is not None:
             self.image_rect.centerx = old_asteroid.image_rect.centerx
             self.image_rect.centery = old_asteroid.image_rect.centery
         else:
             self.__place_asteroid__(screen.get_width(), screen.get_height(), rocket_one.collision_rect, rocket_two.collision_rect)
+
+        collide_left = self.image_rect.left + 0.215 * self.image_rect.width
+        collide_top = self.image_rect.top + 0.215 * self.image_rect.height
+        collide_width = self.image_rect.width * 0.57
+        collide_height = self.image_rect.height * 0.57
+        self.collision_rect = pygame.Rect(collide_left, collide_top, collide_width, collide_height)
 
 
     def __place_asteroid__(self, screen_width, screen_height, rocket_one_rect, rocket_two_rect):
@@ -328,7 +333,7 @@ class Asteroid(pygame.sprite.Sprite):
         self.collision_rect.centery = self.image_rect.centery
 
     def draw(self):
-        pygame.draw.rect(self.screen, (255, 255, 255), self.collision_rect)
+        # pygame.draw.rect(self.screen, (255, 255, 255), self.collision_rect)
         self.screen.blit(self.image, (self.image_rect.left, self.image_rect.top))
 
 

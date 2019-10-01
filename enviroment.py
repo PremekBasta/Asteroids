@@ -1,7 +1,7 @@
 
 import pygame
 import random
-import sys
+import sys, time
 from sprite_object import Rocket, Rocket_action, Bullet, Asteroid
 
 screen_width = 900
@@ -85,7 +85,7 @@ class Enviroment():
                     if bullet_one in self.bullets_one:
                         self.bullets_one.remove(bullet_one)
 
-                    if new_asteroid is not None:
+                    if new_asteroid.valid:
                         self.asteroids_one.append(new_asteroid)
                     continue
 
@@ -97,11 +97,12 @@ class Enviroment():
 
                     new_asteroid = Asteroid(self.screen, None, None, asteroid_two, bullet_one.rocket,
                                             bullet_one)
+                    print(f"new asteroid is valid: {new_asteroid.valid == True}")
 
                     if bullet_one in self.bullets_one:
                         self.bullets_one.remove(bullet_one)
 
-                    if new_asteroid is not None:
+                    if new_asteroid.valid:
                         self.asteroids_one.append(new_asteroid)
 
         # Bullets TWO with ONE' asteroids
@@ -112,11 +113,11 @@ class Enviroment():
 
                     new_asteroid = Asteroid(self.screen, None, None, asteroid_one, bullet_two.rocket,
                                             bullet_two)
-
+                    print(f"new asteroid is valid: {new_asteroid.valid == True}")
                     if bullet_two in self.bullets_two:
                         self.bullets_two.remove(bullet_two)
 
-                    if new_asteroid is not None:
+                    if new_asteroid.valid:
                         self.asteroids_two.append(new_asteroid)
 
         # Bullets TWO with NEUTRAL asteroids
@@ -130,7 +131,7 @@ class Enviroment():
                     if bullet_two in self.bullets_two:
                         self.bullets_two.remove(bullet_two)
 
-                    if new_asteroid is not None:
+                    if new_asteroid.valid:
                         self.asteroids_two.append(new_asteroid)
                     continue
 
@@ -142,6 +143,7 @@ class Enviroment():
                 asteroid.draw()
                 self.RocketOne.draw()
                 pygame.display.update()
+                time.sleep(2)
                 print("Rcoket_one")
                 quit()
             # Rocket TWO with NEUTRAL asteroid
@@ -149,6 +151,7 @@ class Enviroment():
                 asteroid.draw()
                 self.RocketTwo.draw()
                 pygame.display.update()
+                time.sleep(2)
                 print("Rcoket_two")
                 quit()
 
@@ -173,6 +176,9 @@ class Enviroment():
         for asteroid in self.asteroids_neutral:
             asteroid.update()
 
+        for asteroid in self.asteroids_one:
+            print(asteroid)
+        print("/////")
         for asteroid_one in self.asteroids_one:
             asteroid_one.update()
 
