@@ -176,7 +176,7 @@ class Bullet(pygame.sprite.Sprite):
         self.screen = screen
         self.rect = self.image.get_rect()
         self.rocket = rocket
-        self.lifecount = 50
+        self.lifecount = 20
         self.rect.centerx = self.rocket.image_rect.centerx
         self.rect.centery = self.rocket.image_rect.centery
 
@@ -256,10 +256,15 @@ class Asteroid(pygame.sprite.Sprite):
                 return
 
             self.player = rocket_shooter.player
-            self.speedx = impact_bullet.speedx / 20
-            self.speedy = impact_bullet.speedy / 20
+            if old_asteroid.size_index == 2:
+                self.speedx = impact_bullet.speedx / 20
+                self.speedy = impact_bullet.speedy / 20
+            else:
+                self.speedx = impact_bullet.speedx / 14
+                self.speedy = impact_bullet.speedy / 14
+
             self.size_index = old_asteroid.size_index - 1
-            print(self.size_index)
+
             self.image = Asteroid.asteroid_images[self.player][self.size_index][random.randint(0, 2)]
         else:
             player = 2
