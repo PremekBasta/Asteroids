@@ -12,7 +12,7 @@ rocket_two_invulnerable = False
 env = Enviroment(visual, rocket_one_invulnerable, rocket_two_invulnerable)
 
 agent_one = Input_agent(1)
-agent_two = Input_agent(2)
+agent_two = Random_agent(2)
 
 
 
@@ -22,7 +22,7 @@ while game_over == False:
         time.sleep(0.05)
 
     actions_one, actions_two = agent_one.choose_actions()
-    # actions_two = agent_two.choose_actions()
+    actions_two = agent_two.choose_actions()
     # _, actions_two = env.get_actions_from_keyboard_input()
 
     step_count, game_over = env.next_step(actions_one, actions_two)

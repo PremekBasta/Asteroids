@@ -19,18 +19,21 @@ class Random_agent(Agent):
 
         for i in range(number_of_actions):
 
-            action_number = random.randint(1,4)
+            action_number = random.randint(1,5)
             while action_number in actions_numbers:
-                action_number = random.randint(1, 4)
+                action_number = random.randint(1, 5)
             actions_numbers.append(action_number)
 
         if 4 in actions_numbers:
             if self.steps % 4 != 0:
                 actions_numbers.remove(4)
+        if 5 in actions_numbers:
+            if self.steps % 4 != 0:
+                actions_numbers.remove(5)
 
         if self.player_number == 2:
             for i in range(len(actions_numbers)):
-                actions_numbers[i] = actions_numbers[i] + 4
+                actions_numbers[i] = actions_numbers[i] + 5
 
         actions = []
 
@@ -78,12 +81,19 @@ class Input_agent(Agent):
 
 
         for event in events:
-            if(event.key == pygame.K_SPACE):
+            if(event.key == pygame.K_KP5):
                 actions.append(Rocket_action.ROCKET_ONE_SHOOT)
                 actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
-            if(event.key == pygame.K_LCTRL):
+            if(event.key == pygame.K_KP6):
+                actions.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
+                actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
+            if(event.key == pygame.K_g):
                 actions.append(Rocket_action.ROCKET_TWO_SHOOT)
                 actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
+            if(event.key == pygame.K_h):
+                actions.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
+                actions_two.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
+
 
 
         all_keys = pygame.key.get_pressed()

@@ -69,6 +69,8 @@ class Rocket(pygame.sprite.Sprite):
             for image in Rocket.rocket_rotation_images[i]:
                 image.set_colorkey((0,0,0))
 
+        self.health = 100
+
         self.image = Rocket.rocket_rotation_images[player][0]
         self.image_rect = self.image.get_rect()
         self.image_rect.centery = self.screen.get_height() / 2
@@ -168,7 +170,7 @@ class Bullet(pygame.sprite.Sprite):
                             pygame.image.load('images/bullet_two_312.png'), pygame.image.load('images/bullet_two_324.png'),
                             pygame.image.load('images/bullet_two_336.png'), pygame.image.load('images/bullet_two_348.png')]]
 
-    def __init__(self, screen, rocket):
+    def __init__(self, screen, rocket, split):
         super().__init__()
         for image in Bullet.bullet_angle_images[0]:
             image.set_colorkey((0, 0, 0))
@@ -176,6 +178,7 @@ class Bullet(pygame.sprite.Sprite):
         self.screen = screen
         self.rect = self.image.get_rect()
         self.rocket = rocket
+        self.split = split
         self.lifecount = 20
         self.rect.centerx = self.rocket.image_rect.centerx
         self.rect.centery = self.rocket.image_rect.centery
@@ -319,6 +322,23 @@ class Asteroid(pygame.sprite.Sprite):
                 for image in images:
                     image.set_colorkey((0,0,0,0))
 
+    @classmethod
+    def split_asteroid(cls, screen, rocket, old_asteroid, bullet):
+        asteroid_one = Asteroid(screen, None, None, old_asteroid, rocket, bullet)
+        asteroid_two = Asteroid(screen, None, None, old_asteroid, rocket, bullet)
+        if asteroid_one.valid == False:
+            return None, None
+
+
+        asteroid_one.speedx = int(math.cos(15 / 360 * 2 * math.pi) * (asteroid_one.speedx) - math.sin(15 / 360 * 2 * math.pi) * (asteroid_one.speedy))
+        asteroid_one.speedy = int(math.sin(15 / 360 * 2 * math.pi) * (asteroid_one.speedx) + math.cos(15 / 360 * 2 * math.pi) * (asteroid_one.speedy))
+
+
+        asteroid_two.speedx = int(math.cos(-15 / 360 * 2 * math.pi) * (asteroid_two.speedx) - math.sin(-15 / 360 * 2 * math.pi) * (asteroid_two.speedy))
+        asteroid_two.speedy = int(math.sin(-15 / 360 * 2 * math.pi) * (asteroid_two.speedx) + math.cos(-15 / 360 * 2 * math.pi) * (asteroid_two.speedy))
+
+        return asteroid_one, asteroid_two
+
     def update(self):
         self.image_rect.centerx = self.image_rect.centerx + self.speedx
         if self.image_rect.centerx < 0:
@@ -346,7 +366,9 @@ class Rocket_action(Enum):
     ROCKET_ONE_ROTATE_LEFT = 2
     ROCKET_ONE_ROTATE_RIGHT = 3
     ROCKET_ONE_SHOOT = 4
-    ROCKET_TWO_ACCELERATE = 5
-    ROCKET_TWO_ROTATE_LEFT = 6
-    ROCKET_TWO_ROTATE_RIGHT = 7
-    ROCKET_TWO_SHOOT = 8
+    ROCKET_ONE_SPLIT_SHOOT = 5
+    ROCKET_TWO_ACCELERATE = 6
+    ROCKET_TWO_ROTATE_LEFT = 7
+    ROCKET_TWO_ROTATE_RIGHT = 8
+    ROCKET_TWO_SHOOT = 9
+    ROCKET_TWO_SPLIT_SHOOT = 10
