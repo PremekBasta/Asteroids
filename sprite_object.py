@@ -3,25 +3,6 @@ import math
 from enum import Enum
 
 
-class Rect(pygame.sprite.Sprite):
-    def __init__(self, width, height, color, value):
-        super().__init__()
-        self.image = pygame.Surface([2 * width, 2 * height])
-        self.image.fill(color)
-        self.rect = self.image.get_rect()
-        self.colliderect = pygame.rect.Rect((0, 0), (width, height))
-        self.colliderect.midbottom = self.rect.midbottom
-        self.value = value
-
-    def update(self, *args):
-        if self.value == 1:
-            self.rect = self.rect.move(1, 1)
-            self.colliderect.midbottom = self.rect.midbottom
-        elif self.value == 2:
-            self.rect = self.rect.move(-1, -1)
-            self.colliderect.midbottom = self.rect.midbottom
-        pass
-
 
 class Rocket(pygame.sprite.Sprite):
     max_speed = 100
@@ -77,8 +58,10 @@ class Rocket(pygame.sprite.Sprite):
         self.image_rect.centerx = self.screen.get_width() / 2
         if player == 1:
             self.image_rect.centerx = self.image_rect.centerx - 150
+            self.health_bar_color = (237, 28, 36)
         else:
             self.image_rect.centerx = self.image_rect.centerx + 150
+            self.health_bar_color = (0, 162, 232)
         collide_left = self.image_rect.left + 0.215 * self.image_rect.width
         collide_top = self.image_rect.top + 0.215 * self.image_rect.height
         collide_width = self.image_rect.width * 0.57
@@ -117,29 +100,18 @@ class Rocket(pygame.sprite.Sprite):
                 self.speedy = -self.speedy
 
     def draw(self):
-        # pygame.draw.rect(self.screen, (255, 255, 255), self.collision_rect)
+        pygame.draw.rect(self.screen, self.health_bar_color, pygame.Rect(0.85*self.screen.get_width() - self.player * 0.82*self.screen.get_width(), 0.95*self.screen.get_height(), self.health, 10))
         self.screen.blit(Rocket.rocket_rotation_images[self.player][self.angle // 12], (self.image_rect.left, self.image_rect.top))
 
-
-
-    def update(self, *args):
-        self.image_rect.centerx = self.image_rect.centerx + self.speedx / 8
-        if self.image_rect.centerx < 0:
-            self.image_rect.centerx = self.screen.get_width()
-        if self.image_rect.centerx > self.screen.get_width():
-            self.image_rect.centerx = 0
-
-        self.image_rect.centery = self.image_rect.centery + self.speedy / 8
-        if self.image_rect.centery < 0:
-            self.image_rect.centery = self.screen.get_height()
-        if self.image_rect.centery > self.screen.get_height():
-            self.image_rect.centery = 0
+    def move(self, *args):
+        self.image_rect.centerx = (self.image_rect.centerx + self.speedx / 8) % self.screen.get_width()
+        self.image_rect.centery = (self.image_rect.centery + self.speedy / 8) % self.screen.get_height()
 
         self.collision_rect.center = self.image_rect.center
 
 
 class Bullet(pygame.sprite.Sprite):
-    bullet_angle_images = [[pygame.image.load('images/bullet_one_0.png'), pygame.image.load('images/bullet_one_12.png'),
+    bullet_angle_images = [[[pygame.image.load('images/bullet_one_0.png'), pygame.image.load('images/bullet_one_12.png'),
                             pygame.image.load('images/bullet_one_24.png'), pygame.image.load('images/bullet_one_36.png'),
                             pygame.image.load('images/bullet_one_48.png'), pygame.image.load('images/bullet_one_60.png'),
                             pygame.image.load('images/bullet_one_72.png'), pygame.image.load('images/bullet_one_84.png'),
@@ -168,43 +140,70 @@ class Bullet(pygame.sprite.Sprite):
                             pygame.image.load('images/bullet_two_264.png'), pygame.image.load('images/bullet_two_276.png'),
                             pygame.image.load('images/bullet_two_288.png'), pygame.image.load('images/bullet_two_300.png'),
                             pygame.image.load('images/bullet_two_312.png'), pygame.image.load('images/bullet_two_324.png'),
-                            pygame.image.load('images/bullet_two_336.png'), pygame.image.load('images/bullet_two_348.png')]]
+                            pygame.image.load('images/bullet_two_336.png'), pygame.image.load('images/bullet_two_348.png')]],
+
+                           [[pygame.image.load('images/bullet_one_split_0.bmp'), pygame.image.load('images/bullet_one_split_12.bmp'),
+                            pygame.image.load('images/bullet_one_split_24.bmp'), pygame.image.load('images/bullet_one_split_36.bmp'),
+                            pygame.image.load('images/bullet_one_split_48.bmp'), pygame.image.load('images/bullet_one_split_60.bmp'),
+                            pygame.image.load('images/bullet_one_split_72.bmp'), pygame.image.load('images/bullet_one_split_84.bmp'),
+                            pygame.image.load('images/bullet_one_split_96.bmp'), pygame.image.load('images/bullet_one_split_108.bmp'),
+                            pygame.image.load('images/bullet_one_split_120.bmp'), pygame.image.load('images/bullet_one_split_132.bmp'),
+                            pygame.image.load('images/bullet_one_split_144.bmp'), pygame.image.load('images/bullet_one_split_156.bmp'),
+                            pygame.image.load('images/bullet_one_split_168.bmp'), pygame.image.load('images/bullet_one_split_180.bmp'),
+                            pygame.image.load('images/bullet_one_split_192.bmp'), pygame.image.load('images/bullet_one_split_204.bmp'),
+                            pygame.image.load('images/bullet_one_split_216.bmp'), pygame.image.load('images/bullet_one_split_228.bmp'),
+                            pygame.image.load('images/bullet_one_split_240.bmp'), pygame.image.load('images/bullet_one_split_252.bmp'),
+                            pygame.image.load('images/bullet_one_split_264.bmp'), pygame.image.load('images/bullet_one_split_276.bmp'),
+                            pygame.image.load('images/bullet_one_split_288.bmp'), pygame.image.load('images/bullet_one_split_300.bmp'),
+                            pygame.image.load('images/bullet_one_split_312.bmp'), pygame.image.load('images/bullet_one_split_324.bmp'),
+                            pygame.image.load('images/bullet_one_split_336.bmp'), pygame.image.load('images/bullet_one_split_348.bmp')],
+                           [pygame.image.load('images/bullet_two_split_0.bmp'), pygame.image.load('images/bullet_two_split_12.bmp'),
+                            pygame.image.load('images/bullet_two_split_24.bmp'), pygame.image.load('images/bullet_two_split_36.bmp'),
+                            pygame.image.load('images/bullet_two_split_48.bmp'), pygame.image.load('images/bullet_two_split_60.bmp'),
+                            pygame.image.load('images/bullet_two_split_72.bmp'), pygame.image.load('images/bullet_two_split_84.bmp'),
+                            pygame.image.load('images/bullet_two_split_96.bmp'), pygame.image.load('images/bullet_two_split_108.bmp'),
+                            pygame.image.load('images/bullet_two_split_120.bmp'), pygame.image.load('images/bullet_two_split_132.bmp'),
+                            pygame.image.load('images/bullet_two_split_144.bmp'), pygame.image.load('images/bullet_two_split_156.bmp'),
+                            pygame.image.load('images/bullet_two_split_168.bmp'), pygame.image.load('images/bullet_two_split_180.bmp'),
+                            pygame.image.load('images/bullet_two_split_192.bmp'), pygame.image.load('images/bullet_two_split_204.bmp'),
+                            pygame.image.load('images/bullet_two_split_216.bmp'), pygame.image.load('images/bullet_two_split_228.bmp'),
+                            pygame.image.load('images/bullet_two_split_240.bmp'), pygame.image.load('images/bullet_two_split_252.bmp'),
+                            pygame.image.load('images/bullet_two_split_264.bmp'), pygame.image.load('images/bullet_two_split_276.bmp'),
+                            pygame.image.load('images/bullet_two_split_288.bmp'), pygame.image.load('images/bullet_two_split_300.bmp'),
+                            pygame.image.load('images/bullet_two_split_312.bmp'), pygame.image.load('images/bullet_two_split_324.bmp'),
+                            pygame.image.load('images/bullet_two_split_336.bmp'), pygame.image.load('images/bullet_two_split_348.bmp')]]]
 
     def __init__(self, screen, rocket, split):
         super().__init__()
-        for image in Bullet.bullet_angle_images[0]:
-            image.set_colorkey((0, 0, 0))
-        self.image = Bullet.bullet_angle_images[rocket.player][rocket.angle // 12]
-        self.screen = screen
-        self.rect = self.image.get_rect()
+        for split_set in Bullet.bullet_angle_images:
+            for player_set in split_set:
+                for image in player_set:
+                    image.set_colorkey((0, 0, 0))
         self.rocket = rocket
-        self.split = split
+        if split:
+            self.split = 1
+        else:
+            self.split = 0
+        self.image = Bullet.bullet_angle_images[self.split][rocket.player][rocket.angle // 12]
+        self.screen = screen
+        self.collision_rect = self.image.get_rect()
         self.lifecount = 20
-        self.rect.centerx = self.rocket.image_rect.centerx
-        self.rect.centery = self.rocket.image_rect.centery
+        self.collision_rect.centerx = self.rocket.image_rect.centerx
+        self.collision_rect.centery = self.rocket.image_rect.centery
 
         self.speedx = int(-240 * math.sin(self.rocket.angle / 180 * math.pi))
         self.speedy = int(-240 * math.cos(self.rocket.angle / 180 * math.pi))
 
 
-    def update(self, *args):
-        self.rect.centerx = self.rect.centerx + self.speedx / 8
-        if self.rect.centerx < 0:
-            self.rect.centerx = self.screen.get_width()
-        if self.rect.centerx > self.screen.get_width():
-            self.rect.centerx = 0
-
-        self.rect.centery = self.rect.centery + self.speedy / 8
-        if self.rect.centery < 0:
-            self.rect.centery = self.screen.get_height()
-        if self.rect.centery > self.screen.get_height():
-            self.rect.centery = 0
+    def move(self, *args):
+        self.collision_rect.centerx = (self.collision_rect.centerx + self.speedx / 8) % self.screen.get_width()
+        self.collision_rect.centery = (self.collision_rect.centery + self.speedy / 8) % self.screen.get_height()
 
         self.lifecount = self.lifecount - 1
 
 
     def draw(self):
-        self.screen.blit(self.image, (self.rect.left, self.rect.top))
+        self.screen.blit(self.image, (self.collision_rect.left, self.collision_rect.top))
         # pygame.draw.rect(self.screen, (255,255,255), (self.x, self.y, 20, 20))
 
     def is_alive(self):
@@ -339,18 +338,9 @@ class Asteroid(pygame.sprite.Sprite):
 
         return asteroid_one, asteroid_two
 
-    def update(self):
-        self.image_rect.centerx = self.image_rect.centerx + self.speedx
-        if self.image_rect.centerx < 0:
-            self.image_rect.centerx = self.screen.get_width()
-        if self.image_rect.centerx > self.screen.get_width():
-            self.image_rect.centerx = 0
-
-        self.image_rect.centery = self.image_rect.centery + self.speedy
-        if self.image_rect.centery < 0:
-            self.image_rect.centery = self.screen.get_height()
-        if self.image_rect.centery > self.screen.get_height():
-            self.image_rect.centery = 0
+    def move(self):
+        self.image_rect.centerx = (self.image_rect.centerx + self.speedx) % self.screen.get_width()
+        self.image_rect.centery = (self.image_rect.centery + self.speedy) % self.screen.get_height()
 
         self.collision_rect.centerx = self.image_rect.centerx
         self.collision_rect.centery = self.image_rect.centery

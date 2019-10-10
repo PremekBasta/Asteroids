@@ -1,11 +1,30 @@
 import random
 from sprite_object import Rocket_action
 import pygame
+import time
 
 class Agent():
     def __init__(self, player_number):
         super().__init__()
         self.player_number = player_number
+
+    def first_impact_asteroid(self, rocket, neutral_asteroids, enemy_asteroids):
+        for steps_count in range(60):
+            for neutral_asteroid in neutral_asteroids:
+                if rocket.collision_rect.colliderect(neutral_asteroid.collision_rect):
+                    neutral_asteroid.reverse_move(steps_count)
+                    return (neutral_asteroid, steps_count)
+            for enemy_asteroid in enemy_asteroids:
+                if rocket.collision_rect.colliderect(enemy_asteroid.collision_rect):
+                    enemy_asteroid.reverse_move(steps_count)
+                    return (enemy_asteroid, steps_count)
+
+            rocket.move()
+            for neutral_asteroid in neutral_asteroids:
+                neutral_asteroid.move()
+            for enemy_asteroid in enemy_asteroids:
+                enemy_asteroid.move()
+
 
 class Random_agent(Agent):
     def __init__(self, player_number):
@@ -42,11 +61,34 @@ class Random_agent(Agent):
 
         return actions
 
-class Input_agent(Agent):
-    def __init__(self, player_number):
+class Defensive_agent(Agent):
+    def __init__(self, screen, player_number):
         super().__init__(player_number)
+        self.screen = screen
 
-    def choose_actions(self):
+    def choose_actions(self, state):
+        if self.player_number == 1:
+            rocket = state.player_one_rocket
+            enemy_asteroids = state.player_two_asteroids
+        else:
+            rocket = state.player_two_rocket
+            enemy_asteroids = state.player_one_asteroids
+
+        impact_asteroid = super().first_impact_asteroid(rocket, state.neutral_asteroids, enemy_asteroids)
+        if impact_asteroid is not None:
+            pygame.draw.rect(self.screen, (200, 200, 200), impact_asteroid[0].collision_rect)
+            pygame.display.update()
+            time.sleep(0.05)
+
+        actions = Random_agent.choose_actions(Random_agent(self.player_number))
+        return actions
+
+class Input_agent(Agent):
+    def __init__(self,  screen, player_number):
+        super().__init__(player_number)
+        self.screen = screen
+
+    def choose_actions(self, state):
         actions_one = []
         actions_two = []
         actions = []
@@ -122,5 +164,18 @@ class Input_agent(Agent):
 
         # clearing it apparently prevents from stucking
         pygame.event.clear()
+
+        if self.player_number == 1:
+            rocket = state.player_one_rocket
+            enemy_asteroids = state.player_two_asteroids
+        else:
+            rocket = state.player_two_rocket
+            enemy_asteroids = state.player_one_asteroids
+
+        impact_asteroid = super().first_impact_asteroid(rocket, state.neutral_asteroids, enemy_asteroids)
+        if impact_asteroid is not None:
+            pygame.draw.rect(self.screen, (200, 200, 200), impact_asteroid[0].collision_rect)
+            pygame.display.update()
+            time.sleep(0.05)
 
         return actions_one, actions_two

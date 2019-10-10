@@ -3,6 +3,8 @@ import pygame
 import random
 import sys, time
 from sprite_object import Rocket, Rocket_action, Bullet, Asteroid
+from state import State
+
 
 screen_width = 900
 screen_height = 600
@@ -37,6 +39,25 @@ class Enviroment():
         self.step_count = 0
         self.game_over = False
 
+    def reset(self):
+        self.asteroids_neutral = []
+
+        self.RocketOne = Rocket(self.screen, 0)
+        self.asteroids_one = []
+        self.bullets_one = []
+
+        self.RocketTwo = Rocket(self.screen, 1)
+        self.asteroids_two = []
+        self.bullets_two = []
+
+        self.game_over = False
+        self.step_count = 0
+        self.ticks_elapsed_since_last_asteroid = 0
+        self.ticks_amount_to_create_asteroid = 50
+
+        print(self.RocketOne)
+        return State(self.asteroids_neutral, self.RocketOne, self.asteroids_one, self.bullets_one,
+                     self.RocketTwo, self.asteroids_two, self.bullets_two)
 
 
     def next_step(self, actions_one, actions_two):
@@ -48,14 +69,17 @@ class Enviroment():
 
         self._check_collisions_()
 
-        self._update_sprites_()
+        self._move_sprites_()
 
         if self.visual:
             self._draw_sprites_()
 
         game_over = self._check_end_()
 
-        return self.step_count, game_over
+        current_state = State(self.asteroids_neutral, self.RocketOne, self.asteroids_one, self.bullets_one,
+                              self.RocketTwo, self.asteroids_two, self.bullets_two)
+
+        return self.step_count, game_over, current_state
 
 
     def _handle_actions_(self, actions_one, actions_two):
@@ -66,9 +90,9 @@ class Enviroment():
         if Rocket_action.ROCKET_ONE_ACCELERATE in actions_one:
             self.RocketOne.accelerate()
         if Rocket_action.ROCKET_ONE_SHOOT in actions_one:
-            self.bullets_one.append(Bullet(self.screen, self.RocketOne, split=False))
+            self.bullets_one.append(Bullet(self.screen, self.RocketOne, split=0))
         if Rocket_action.ROCKET_ONE_SPLIT_SHOOT in actions_one:
-            self.bullets_one.append(Bullet(self.screen, self.RocketOne, split=True))
+            self.bullets_one.append(Bullet(self.screen, self.RocketOne, split=1))
 
         if Rocket_action.ROCKET_TWO_ROTATE_LEFT in actions_two:
             self.RocketTwo.rotate_left()
@@ -77,9 +101,9 @@ class Enviroment():
         if Rocket_action.ROCKET_TWO_ACCELERATE in actions_two:
             self.RocketTwo.accelerate()
         if Rocket_action.ROCKET_TWO_SHOOT in actions_two:
-            self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=False))
+            self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=0))
         if Rocket_action.ROCKET_TWO_SPLIT_SHOOT in actions_two:
-            self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=True))
+            self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=1))
 
     def _generate_asteroid_(self):
         if self.ticks_elapsed_since_last_asteroid > self.ticks_amount_to_create_asteroid:
@@ -96,7 +120,7 @@ class Enviroment():
         # Bullets ONE with NEUTRAL asteroids
         for bullet_one in self.bullets_one:
             for asteroid in self.asteroids_neutral:
-                if bullet_one.rect.colliderect(asteroid.collision_rect):
+                if bullet_one.collision_rect.colliderect(asteroid.collision_rect):
                     self.asteroids_neutral.remove(asteroid)
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
                     if bullet_one.split:
@@ -120,7 +144,7 @@ class Enviroment():
         # Bullets ONE with TWO's asteroids
         for bullet_one in self.bullets_one:
             for asteroid_two in self.asteroids_two:
-                if bullet_one.rect.colliderect(asteroid_two.collision_rect):
+                if bullet_one.collision_rect.colliderect(asteroid_two.collision_rect):
                     self.asteroids_two.remove(asteroid_two)
 
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
@@ -143,7 +167,7 @@ class Enviroment():
         # Bullets TWO with ONE' asteroids
         for bullet_two in self.bullets_two:
             for asteroid_one in self.asteroids_one:
-                if bullet_two.rect.colliderect(asteroid_one.collision_rect):
+                if bullet_two.collision_rect.colliderect(asteroid_one.collision_rect):
                     self.asteroids_one.remove(asteroid_one)
 
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
@@ -165,7 +189,7 @@ class Enviroment():
         # Bullets TWO with NEUTRAL asteroids
         for bullet_two in self.bullets_two:
             for asteroid in self.asteroids_neutral:
-                if bullet_two.rect.colliderect(asteroid.collision_rect):
+                if bullet_two.collision_rect.colliderect(asteroid.collision_rect):
                     self.asteroids_neutral.remove(asteroid)
 
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
@@ -209,36 +233,37 @@ class Enviroment():
 
             for asteroid_one in self.asteroids_one:
                 if asteroid_one.collision_rect.colliderect(self.RocketTwo.collision_rect):
-                    self.asteroids_neutral.remove(asteroid_one)
+                    self.asteroids_one.remove(asteroid_one)
                     self.RocketTwo.health = self.RocketTwo.health - 30
 
 
 
-    def _update_sprites_(self):
-        for rocket in self.rockets:
-            rocket.update()
+    def _move_sprites_(self):
+        self.RocketOne.move()
+        self.RocketTwo.move()
+
 
         for bullet_one in self.bullets_one:
             if bullet_one.is_alive():
-                bullet_one.update()
+                bullet_one.move()
             else:
                 self.bullets_one.remove(bullet_one)
 
         for bullet_two in self.bullets_two:
             if bullet_two.is_alive():
-                bullet_two.update()
+                bullet_two.move()
             else:
                 self.bullets_two.remove(bullet_two)
 
 
         for asteroid in self.asteroids_neutral:
-            asteroid.update()
+            asteroid.move()
 
         for asteroid_one in self.asteroids_one:
-            asteroid_one.update()
+            asteroid_one.move()
 
         for asteroid_two in self.asteroids_two:
-            asteroid_two.update()
+            asteroid_two.move()
 
 
 
