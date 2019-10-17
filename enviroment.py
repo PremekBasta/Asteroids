@@ -38,6 +38,7 @@ class Enviroment():
         self.ticks_amount_to_create_asteroid = 50
         self.step_count = 0
         self.game_over = False
+        self.generate_asteroid = True
 
     def reset(self):
         self.asteroids_neutral = []
@@ -106,6 +107,13 @@ class Enviroment():
             self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=1))
 
     def _generate_asteroid_(self):
+        # if self.generate_asteroid:
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.generate_asteroid = False
+        # return
+
         if self.ticks_elapsed_since_last_asteroid > self.ticks_amount_to_create_asteroid:
             self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
             self.ticks_elapsed_since_last_asteroid = 0

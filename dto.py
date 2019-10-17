@@ -1,12 +1,14 @@
 import pygame
+import math
 
 class SpaceObjectDTO():
-    def __init__(self, rect, speedx, speedy, width, height):
+    def __init__(self, rect, speedx, speedy, width, height, angle):
         self.collision_rect = pygame.Rect(rect)
         self.speedx = int(speedx)
         self.speedy = int(speedy)
         self.width = width
         self.height = height
+        self.angle = angle
 
     def move(self):
         self.collision_rect.centerx = (self.collision_rect.centerx + self.speedx) % self.width

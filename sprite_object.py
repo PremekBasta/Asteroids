@@ -1,6 +1,7 @@
 import pygame, random
 import math
 from enum import Enum
+import numpy
 
 
 
@@ -180,6 +181,7 @@ class Bullet(pygame.sprite.Sprite):
                 for image in player_set:
                     image.set_colorkey((0, 0, 0))
         self.rocket = rocket
+        self.angle = rocket.angle
         if split:
             self.split = 1
         else:
@@ -191,8 +193,8 @@ class Bullet(pygame.sprite.Sprite):
         self.collision_rect.centerx = self.rocket.image_rect.centerx
         self.collision_rect.centery = self.rocket.image_rect.centery
 
-        self.speedx = int(-240 * math.sin(self.rocket.angle / 180 * math.pi))
-        self.speedy = int(-240 * math.cos(self.rocket.angle / 180 * math.pi))
+        self.speedx = int(-120 * math.sin(self.rocket.angle / 180 * math.pi))
+        self.speedy = int(-120 * math.cos(self.rocket.angle / 180 * math.pi))
 
 
     def move(self, *args):
@@ -290,6 +292,8 @@ class Asteroid(pygame.sprite.Sprite):
         collide_height = self.image_rect.height * 0.57
         self.collision_rect = pygame.Rect(collide_left, collide_top, collide_width, collide_height)
 
+    def get_angle(self):
+        return int(math.atan2(-self.speedy, self.speedx) * 180 / math.pi - 90) % 360
 
     def __place_asteroid__(self, screen_width, screen_height, rocket_one_rect, rocket_two_rect):
         x = random.randint(0, screen_width)
@@ -362,3 +366,10 @@ class Rocket_action(Enum):
     ROCKET_TWO_ROTATE_RIGHT = 8
     ROCKET_TWO_SHOOT = 9
     ROCKET_TWO_SPLIT_SHOOT = 10
+
+class Rocket_base_action(Enum):
+    ROTATE_LEFT = 1
+    ROTATE_RIGHT = 2
+    ACCELERATE = 3
+    SHOT = 4
+    SPLIT_SHOOT = 5

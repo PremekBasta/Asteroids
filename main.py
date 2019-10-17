@@ -12,9 +12,10 @@ rocket_two_invulnerable = False
 env = Enviroment(visual, rocket_one_invulnerable, rocket_two_invulnerable)
 state = env.reset()
 
-agent_one = Input_agent(env.screen, 1)
-# agent_two = Defensive_agent(env.screen, 2)
-agent_two = Input_agent(env.screen, 2)
+# agent_one = Input_agent(env.screen, 1)
+agent_one = Stable_defensive_agent(env.screen, 1)
+# agent_two = Input_agent(env.screen, 2)
+agent_two = Stable_defensive_agent(env.screen, 2)
 
 
 game_over = False
@@ -25,10 +26,13 @@ incremental_time = 0
 while game_over == False:
 
     if visual:
-        time.sleep(0.055)
+        time.sleep(0.010)
 
-    actions_one, actions_two = agent_one.choose_actions(state)
-    # actions_two = agent_two.choose_actions(state)
+    # actions_one, actions_two = agent_one.choose_actions(state)
+    # actions_one, _ = agent_one.choose_actions(state)
+    # _, actions_two = agent_two.choose_actions(state)
+    actions_one = agent_one.choose_actions(state)
+    actions_two = agent_two.choose_actions(state)
     # _, actions_two = env.get_actions_from_keyboard_input()
 
     # start = time.time()
