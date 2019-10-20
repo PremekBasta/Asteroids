@@ -23,8 +23,13 @@ longest_step = 0
 shortest_step = 1
 incremental_time = 0
 
-while game_over == False:
 
+
+RocketOne_wins = 0
+RocketTwo_wins = 0
+total_steps = 0
+
+while game_over == False:
     if visual:
         time.sleep(0.010)
 
@@ -36,17 +41,20 @@ while game_over == False:
     # _, actions_two = env.get_actions_from_keyboard_input()
 
     # start = time.time()
-    step_count, game_over, state = env.next_step(actions_one, actions_two)
-
-    # end = time.time()
-    # if end - start < shortest_step:
-    #     shortest_step = end - start
-    # if end - start > longest_step:
-    #     longest_step = end - start
-    # incremental_time = incremental_time + end - start
-
+    step_count, (game_over, rocketOne_health, rocketTwo_health), state = env.next_step(actions_one, actions_two)
+if rocketOne_health <= 0:
+    RocketOne_wins = RocketOne_wins + 1
+else:
+    RocketTwo_wins = RocketTwo_wins + 1
+total_steps = total_steps + step_count
 
 print(step_count)
+
+# print(f"average steps count: {total_steps / (i + 1)}")
+print(f"Rocket one wins: {RocketOne_wins}")
+print(f"Rocket two wins: {RocketTwo_wins}")
+
+
 # print(f"longest tick: {longest_step}")
 # print(f"shortest tick: {shortest_step}")
 # print(f"average tick: {incremental_time / step_count}")

@@ -1,4 +1,4 @@
-import random
+import random, copy
 from sprite_object import Rocket_action, Bullet, Rocket_base_action
 import pygame
 import time
@@ -11,38 +11,79 @@ class Agent():
         self.shoot_reload_ticks = 0
 
 
-    def first_impact_neutral_asteroid(self, rocket, neutral_asteroids):
+    def first_impact_neutral_asteroid(self, rocket, neutral_asteroids, own_bullets):
         steps_limit = 60
+        own_bullets = copy.deepcopy(own_bullets)
+
+
 
         for steps_count in range(steps_limit):
             for neutral_asteroid in neutral_asteroids:
                 if rocket.collision_rect.colliderect(neutral_asteroid.collision_rect):
                     for neutral_asteroid_reverse in neutral_asteroids:
                         neutral_asteroid_reverse.reverse_move(steps_count)
+                    # for bullet in own_bullets:
+                    #     bullet.reverse_move(steps_count)
                     rocket.reverse_move(steps_count)
                     return (neutral_asteroid, steps_count)
 
             for neutral_asteroid in neutral_asteroids:
+                for bullet in own_bullets:
+                    if neutral_asteroid.collision_rect.colliderect(bullet.collision_rect):
+                        own_bullets.remove(bullet)
+                        neutral_asteroids.remove(neutral_asteroid)
+
+            for neutral_asteroid in neutral_asteroids:
                 neutral_asteroid.move()
+
+
+            for bullet in own_bullets:
+                bullet.move()
 
             rocket.move()
 
         rocket.reverse_move(steps_limit - 1)
         for neutral_asteroid in neutral_asteroids:
             neutral_asteroid.reverse_move(steps_limit - 1)
+        # for bullet in own_bullets:
+        #     bullet.reverese_move(steps_limit - 1)
         return (None, steps_limit + 1)
 
-    def first_impact_enemy_asteroid(self, rocket, enemy_asteroids):
+
+
+    def first_impact_enemy_asteroid(self, rocket, enemy_asteroids, own_bullets):
         steps_limit = 60
 
-        # for steps_count in range(steps_limit):
-        #     for enemy_asteroid in enemy_asteroids:
-        #         if rocket.collision_rect.colliderect(enemy_asteroid.collision_rect):
-        #             rocket.reverse_move(steps_count)
-        #             ene
+        own_bullets = copy.deepcopy(own_bullets)
+
+        for steps_count in range(steps_limit):
+            for enemy_asteroid in enemy_asteroids:
+                if rocket.collision_rect.colliderect(enemy_asteroid.collision_rect):
+                    for enemy_asteroid_reverse in enemy_asteroids:
+                        enemy_asteroid_reverse.reverse_move(steps_count)
+                    rocket.reverse_move(steps_count)
+                    return(enemy_asteroid, steps_count)
+
+            for enemy_asteroid in enemy_asteroids:
+                for bullet in own_bullets:
+                    if enemy_asteroid.collision_rect.colliderect(bullet.collision_rect):
+                        enemy_asteroids.remove(enemy_asteroid)
+                        own_bullets.remove(bullet)
+
+            for bullet in own_bullets:
+                bullet.move()
+
+            for enemy_asteroid in enemy_asteroids:
+                enemy_asteroid.move()
+            rocket.move()
+
+        rocket.reverse_move(steps_limit - 1)
+        for enemy_asteroid in enemy_asteroids:
+            enemy_asteroid.reverse_move(steps_limit - 1)
+        return(None, steps_limit + 1)
 
     def first_impact_asteroid(self, rocket, neutral_asteroids, enemy_asteroids):
-        steps_limit = 60
+        steps_limit = 30
 
         for steps_count in range(steps_limit):
             for neutral_asteroid in neutral_asteroids:
@@ -210,27 +251,41 @@ class Stable_defensive_agent(Agent):
         self.shoot_reload_ticks = 0
 
     def choose_actions(self, state):
+
         self.shoot_reload_ticks = self.shoot_reload_ticks + 1
 
         if self.player_number == 1:
             rocket = state.player_one_rocket
             enemy_asteroids = state.player_two_asteroids
+            enemy_bullets = state.player_two_bullets
+            own_bullets = state.player_one_bullets
         else:
             rocket = state.player_two_rocket
             enemy_asteroids = state.player_one_asteroids
+            enemy_bullets = state.player_one_bullets
+            own_bullets = state.player_two_bullets
 
-        impact_asteroid, impact_steps = super().first_impact_asteroid(rocket, state.neutral_asteroids, enemy_asteroids)
-        # impact_asteroid, impact_steps = super().first_impact_neutral_asteroid(rocket, state.neutral_asteroids)
-        if impact_asteroid is not None:
-            pygame.draw.rect(self.screen, (200, 200, 200), impact_asteroid.collision_rect)
-            pygame.display.update()
-            actions = super().face_asteroid(rocket, impact_asteroid)
-            if not actions:
-                actions = super().simple_shot()
-            actions = super().convert_actions(actions)
-            # time.sleep(0.005)
-            return actions
-        return []
+        # impact_asteroid, impact_steps = super().first_impact_asteroid(rocket, state.neutral_asteroids, enemy_asteroids)
+        impact_neutral_asteroid, impact_neutral_asteroid_steps = super().first_impact_neutral_asteroid(rocket, state.neutral_asteroids, own_bullets)
+        impact_enemy_asteroid, impact_enemy_asteroid_steps = super().first_impact_enemy_asteroid(rocket, enemy_asteroids, own_bullets)
+
+        if impact_neutral_asteroid_steps < impact_enemy_asteroid_steps:
+            impact_asteroid = impact_neutral_asteroid
+        elif impact_neutral_asteroid_steps > impact_enemy_asteroid_steps:
+            impact_asteroid = impact_enemy_asteroid
+        elif impact_neutral_asteroid is None and impact_enemy_asteroid is None:
+            return []
+        else:
+            impact_asteroid = impact_enemy_asteroid
+
+        # pygame.draw.rect(self.screen, (200, 200, 200), impact_asteroid.collision_rect)
+        # pygame.display.update()
+        actions = super().face_asteroid(rocket, impact_asteroid)
+        if not actions:
+            actions = super().simple_shot()
+        actions = super().convert_actions(actions)
+        # time.sleep(0.005)
+        return actions
 
 class Defensive_agent(Agent):
     def __init__(self, screen, player_number):

@@ -302,8 +302,9 @@ class Enviroment():
 
     def _check_end_(self):
         if self.RocketOne.health <= 0 or self.RocketTwo.health <= 0:
-            return True
-        return False
+            return (True, self.RocketOne.health, self.RocketTwo.health)
+        return (False, self.RocketOne.health, self.RocketTwo.health)
+
 
     def _update_(self):
         pass
