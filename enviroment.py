@@ -4,10 +4,10 @@ import random
 import sys, time
 from sprite_object import Rocket, Rocket_action, Bullet, Asteroid
 from state import State
+from constants import *
 
 
-screen_width = 900
-screen_height = 600
+
 black = (0, 0, 0)
 white = (255,255,255)
 
@@ -18,7 +18,7 @@ class Enviroment():
     def __init__(self, visual, rocket_one_invulnerable, rocket_two_invulnerable):
         super().__init__()
         pygame.init()
-        self.screen = pygame.display.set_mode((screen_width, screen_height))
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.init()
         self.bullets_one = []
         self.bullets_two = []
@@ -26,10 +26,11 @@ class Enviroment():
         self.asteroids_one = []
         self.asteroids_two = []
         Asteroid.initialize_images()
-        self.rockets = pygame.sprite.Group()
+        self.rockets = []
         self.RocketOne = Rocket(self.screen, 0)
         self.RocketTwo = Rocket(self.screen, 1)
-        self.rockets.add(self.RocketOne, self.RocketTwo)
+        self.rockets.append(self.RocketOne)
+        self.rockets.append(self.RocketTwo)
         self.visual = visual
         self.rocket_one_invulnerable = rocket_one_invulnerable
         self.rocket_two_invlunerable = rocket_two_invulnerable
@@ -108,6 +109,15 @@ class Enviroment():
 
     def _generate_asteroid_(self):
         # if self.generate_asteroid:
+        #     ast = Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None)
+        #     ast.collision_rect.center = (self.RocketTwo.collision_rect.centerx + 400, self.RocketTwo.collision_rect.centery)
+        #     ast.speedx = 0
+        #     ast.speedy = 0
+        #     bullet = Bullet(self.screen, self.RocketOne, split=0)
+        #
+        #     # ast = Asteroid(self.screen, None, None, ast, self.RocketOne, bullet)
+        #     self.asteroids_neutral.append(ast)
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
         #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
         #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
         #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
