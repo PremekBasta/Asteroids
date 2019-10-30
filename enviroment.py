@@ -57,7 +57,6 @@ class Enviroment():
         self.ticks_elapsed_since_last_asteroid = 0
         self.ticks_amount_to_create_asteroid = 50
 
-        print(self.RocketOne)
         return State(self.asteroids_neutral, self.RocketOne, self.asteroids_one, self.bullets_one,
                      self.RocketTwo, self.asteroids_two, self.bullets_two)
 

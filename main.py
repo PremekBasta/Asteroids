@@ -12,7 +12,7 @@ rocket_two_invulnerable = False
 env = Enviroment(visual, rocket_one_invulnerable, rocket_two_invulnerable)
 state = env.reset()
 
-agent_one = Evasion_agent(env.screen, 1)
+agent_one = Input_agent(env.screen, 1)
 # agent_one = Stable_defensive_agent(env.screen, 1)
 agent_two = Stable_defensive_agent(env.screen, 2)
 # agent_two = Stable_defensive_agent(env.screen, 2)
@@ -29,15 +29,15 @@ RocketOne_wins = 0
 RocketTwo_wins = 0
 total_steps = 0
 
-for i in range(1000):
+for i in range(1):
     game_over = False
     state = env.reset()
     while game_over == False:
         if visual:
-            time.sleep(0.030)
+            time.sleep(0.050)
 
         # actions_one, actions_two = agent_one.choose_actions(state)
-        # actions_one, _ = agent_one.choose_actions(state)
+        actions_one, _ = agent_one.choose_actions(state)
         start = time.time()
         # _, actions_two = agent_two.choose_actions(state)
         end = time.time()
@@ -46,7 +46,7 @@ for i in range(1000):
         if end - start < shortest_step:
             shortest_step = end - start
         incremental_time = incremental_time + (end - start)
-        actions_one = agent_one.choose_actions(state)
+        # actions_one = agent_one.choose_actions(state)
         actions_two = agent_two.choose_actions(state)
         # _, actions_two = env.get_actions_from_keyboard_input()
 

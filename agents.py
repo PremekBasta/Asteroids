@@ -430,6 +430,24 @@ class Agent():
         return ret_actions
 
 
+class Attacking_agent(Agent):
+    def __init__(self, screen, player_number):
+        super().__init__(player_number)
+        self.screen = screen
+        self.shoot_reload_ticks = 0
+
+    def choose_actions(self, state):
+        self.shoot_reload_ticks = self.shoot_reload_ticks + 1
+
+        own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
+
+        hit, actions, count = super().shoot_in_all_directions_to_hit_enemy(own_rocket, enemy_rocket,
+                                                                           state.neutral_asteroids, enemy_asteroids,
+                                                                           own_bullets, enemy_bullets)
+        if hit:
+            actions = super().convert_actions(actions)
+
+        return actions
 
 class Random_agent(Agent):
     def __init__(self, player_number):
@@ -628,10 +646,10 @@ class Input_agent(Agent):
 
 
 
-        hit, actions, count  = super().shoot_in_all_directions_to_hit_enemy(own_rocket, enemy_rocket, state.neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets)
-        if hit:
-            # actions_one = super().convert_actions(actions)
-            actions_two = super().convert_actions(actions)
+        # hit, actions, count  = super().shoot_in_all_directions_to_hit_enemy(own_rocket, enemy_rocket, state.neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets)
+        # if hit:
+        #     # actions_one = super().convert_actions(actions)
+        #     actions_two = super().convert_actions(actions)
 
 
         # pygame.draw.rect(self.screen, (200,200,200), own_asteroid.collision_rect)
