@@ -55,19 +55,19 @@ class Rocket():
 
         self.image = Rocket.rocket_rotation_images[player][0]
         self.image_rect = self.image.get_rect()
-        self.image_rect.centery = SCREEN_HEIGHT / 2
-        self.image_rect.centerx = SCREEN_WIDTH / 2
+        self.image_width = self.image_rect.width
+        self.image_height = self.image_rect.height
+        self.radius = int(self.image_rect.width * ROCKET_RADIUS_RATIO)
+        self.centerx = int(SCREEN_WIDTH / 2)
+        self.centery = int(SCREEN_HEIGHT / 2)
+
         if player == 1:
-            self.image_rect.centerx = self.image_rect.centerx - 150
+            self.centerx = self.centerx - 150
             self.health_bar_color = PLAYER_ONE_COLOR
         else:
-            self.image_rect.centerx = self.image_rect.centerx + 150
+            self.centerx = self.centerx + 150
             self.health_bar_color = PLAYER_TWO_COLOR
-        collide_left = self.image_rect.left + 0.215 * self.image_rect.width
-        collide_top = self.image_rect.top + 0.215 * self.image_rect.height
-        collide_width = self.image_rect.width * 0.57
-        collide_height = self.image_rect.height * 0.57
-        self.collision_rect = pygame.Rect(collide_left, collide_top, collide_width, collide_height)
+
 
     def rotate_left(self):
         self.angle = self.angle + ROCKET_ANGLE_ROTATION + 360
@@ -102,13 +102,12 @@ class Rocket():
 
     def draw(self):
         pygame.draw.rect(self.screen, self.health_bar_color, pygame.Rect(0.85*SCREEN_WIDTH - self.player * 0.82*SCREEN_WIDTH, 0.95*SCREEN_HEIGHT, self.health, 10))
-        self.screen.blit(Rocket.rocket_rotation_images[self.player][self.angle // 12], (self.image_rect.left, self.image_rect.top))
+        pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
+        self.screen.blit(Rocket.rocket_rotation_images[self.player][self.angle // 12], (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
     def move(self, *args):
-        self.collision_rect.centerx = (self.collision_rect.centerx + self.speedx / 8) % SCREEN_WIDTH
-        self.collision_rect.centery = (self.collision_rect.centery + self.speedy / 8) % SCREEN_HEIGHT
-
-        self.image_rect.center = self.collision_rect.center
+        self.centerx = int((self.centerx + self.speedx / 8) % SCREEN_WIDTH)
+        self.centery = int((self.centery + self.speedy / 8) % SCREEN_HEIGHT)
 
 
 class Bullet():
@@ -188,25 +187,27 @@ class Bullet():
             self.split = 0
         self.image = Bullet.bullet_angle_images[self.split][rocket.player][rocket.angle // 12]
         self.screen = screen
-        self.collision_rect = self.image.get_rect()
+        self.image_rect = self.image.get_rect()
+        self.image_width = self.image_rect.width
+        self.image_height = self.image_rect.height
+        self.radius = int(self.image_rect.width * BULLET_RADIUS_RATIO)
         self.life_count = BULLET_LIFE_COUNT
-        self.collision_rect.centerx = self.rocket.collision_rect.centerx
-        self.collision_rect.centery = self.rocket.collision_rect.centery
+
+        self.centerx = int(self.rocket.centerx)
+        self.centery = int(self.rocket.centery)
 
         self.speedx = int(-120 * math.sin(self.rocket.angle / 180 * math.pi))
         self.speedy = int(-120 * math.cos(self.rocket.angle / 180 * math.pi))
 
 
     def move(self, *args):
-        self.collision_rect.centerx = (self.collision_rect.centerx + self.speedx / 8) % SCREEN_WIDTH
-        self.collision_rect.centery = (self.collision_rect.centery + self.speedy / 8) % SCREEN_HEIGHT
-
-        self.life_count = self.life_count - 1
+        self.centerx = int((self.centerx + self.speedx / 8) % SCREEN_WIDTH)
+        self.centery = int((self.centery + self.speedy / 8) % SCREEN_HEIGHT)
 
 
     def draw(self):
-        self.screen.blit(self.image, (self.collision_rect.left, self.collision_rect.top))
-        # pygame.draw.rect(self.screen, (255,255,255), (self.x, self.y, 20, 20))
+        pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
+        self.screen.blit(self.image, (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
     def is_alive(self):
         return self.life_count > 0
@@ -264,8 +265,8 @@ class Asteroid():
                 self.speedx = impact_bullet.speedx / 20
                 self.speedy = impact_bullet.speedy / 20
             else:
-                self.speedx = impact_bullet.speedx / 14
-                self.speedy = impact_bullet.speedy / 14
+                self.speedx = impact_bullet.speedx // 14
+                self.speedy = impact_bullet.speedy // 14
 
             self.size_index = old_asteroid.size_index - 1
 
@@ -278,45 +279,49 @@ class Asteroid():
             self.image = Asteroid.asteroid_images[2][2][random.randint(0, 2)]
 
 
+
+
         self.image_rect = self.image.get_rect()
+        self.image_width = self.image_rect.width
+        self.image_height = self.image_rect.height
+        self.radius = int(self.image_rect.width * ASTEROID_RADIUS_RATIO)
 
         if rocket_shooter is not None:
-            self.image_rect.centerx = old_asteroid.collision_rect.centerx
-            self.image_rect.centery = old_asteroid.collision_rect.centery
-        else:
-            self.__place_asteroid__(rocket_one.collision_rect, rocket_two.collision_rect)
+            self.centerx = old_asteroid.centerx
+            self.centery = old_asteroid.centery
 
-        collide_left = self.image_rect.left + 0.215 * self.image_rect.width
-        collide_top = self.image_rect.top + 0.215 * self.image_rect.height
-        collide_width = self.image_rect.width * 0.57
-        collide_height = self.image_rect.height * 0.57
-        self.collision_rect = pygame.Rect(collide_left, collide_top, collide_width, collide_height)
+
+        else:
+            self.__place_asteroid__(rocket_one, rocket_two)
+
+
 
     def get_angle(self):
         return int(math.atan2(-self.speedy, self.speedx) * 180 / math.pi - 90) % 360
 
-    def __place_asteroid__(self, rocket_one_rect, rocket_two_rect):
+    def __place_asteroid__(self, rocket_one, rocket_two):
         x = random.randint(0, SCREEN_WIDTH)
         y = random.randint(0, SCREEN_HEIGHT)
         while True:
             if(
-                math.fabs(x - rocket_one_rect.centerx) > 100 and
-                math.fabs(x - rocket_two_rect.centerx) > 100 and
+                math.fabs(x - rocket_one.centerx) > 100 and
+                math.fabs(x - rocket_two.centerx) > 100 and
                 x > 50 and x < SCREEN_WIDTH - 50 and
-                math.fabs(y - rocket_one_rect.centery) > 100 and
-                math.fabs(y - rocket_two_rect.centery) > 100 and
+                math.fabs(y - rocket_one.centery) > 100 and
+                math.fabs(y - rocket_two.centery) > 100 and
                 y > 50 and y < SCREEN_HEIGHT - 50
             ):
                 break
             x = x + 10
             y = y + 10
+            #TODO use %
             if x > SCREEN_WIDTH:
                 x = x - SCREEN_WIDTH
             if y > SCREEN_HEIGHT:
                 y = y -SCREEN_HEIGHT
 
-        self.image_rect.centerx = x
-        self.image_rect.centery = y
+        self.centerx = x
+        self.centery = y
 
     @classmethod
     def initialize_images(cls):
@@ -343,20 +348,21 @@ class Asteroid():
         return asteroid_one, asteroid_two
 
     def move(self):
-        self.collision_rect.centerx = (self.collision_rect.centerx + self.speedx) % SCREEN_WIDTH
-        self.collision_rect.centery = (self.collision_rect.centery + self.speedy) % SCREEN_HEIGHT
-
-        self.image_rect.center = self.collision_rect.center
+        self.centerx = int((self.centerx + self.speedx) % SCREEN_WIDTH)
+        self.centery = int((self.centery + self.speedy) % SCREEN_HEIGHT)
 
     def reverse_move(self, steps_count):
-        self.collision_rect.centerx = (self.collision_rect.centerx - steps_count * self.speedx) % SCREEN_WIDTH
-        self.collision_rect.centery = (self.collision_rect.centery - steps_count * self.speedy) % SCREEN_HEIGHT
+        self.centerx = int((self.centerx - steps_count * self.speedx) % SCREEN_WIDTH)
+        self.centery = int((self.centery - steps_count * self.speedy) % SCREEN_HEIGHT)
 
     def draw(self):
-        # pygame.draw.rect(self.screen, (255, 255, 255), self.collision_rect)
-        self.screen.blit(self.image, (self.image_rect.left, self.image_rect.top))
+        pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
+        self.screen.blit(self.image, (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
 
+def collides(objectA, objectB):
+    return math.sqrt(math.pow(objectA.centerx - objectB.centerx, 2) + math.pow(objectA.centery - objectB.centery, 2)) < (
+                objectA.radius + objectB.radius)
 
 class Rocket_action(Enum):
     ROCKET_ONE_ACCELERATE = 1

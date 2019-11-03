@@ -1,10 +1,26 @@
+from typing import OrderedDict
+
 import pygame, math
 from constants import *
+import numba
 
+spec = OrderedDict()
+spec['radius'] = numba.int32
+spec['centerx'] = numba.int32
+spec['centery'] = numba.int32
+spec['speedx'] = numba.int32
+spec['speedy'] = numba.int32
+spec['angle'] = numba.int32
+spec['size_index'] = numba.int32
+spec['player'] = numba.int32
+spec['life_count'] = numba.int32
 
+# @numba.jitclass(spec)
 class SpaceObjectDTO():
-    def __init__(self, rect, speedx, speedy, angle, size_index = 0, player = 1, life_count = 0):
-        self.collision_rect = pygame.Rect(rect)
+    def __init__(self, radius, centerx, centery, speedx, speedy, angle, size_index = 0, player = 1, life_count = 0):
+        self.radius = radius
+        self.centerx = centerx
+        self.centery = centery
         self.speedx = int(speedx)
         self.speedy = int(speedy)
         self.angle = angle
@@ -12,14 +28,15 @@ class SpaceObjectDTO():
         self.player = player
         self.life_count = life_count
 
+
     def move(self, steps_count = 1):
-        self.collision_rect.centerx = (self.collision_rect.centerx + steps_count * self.speedx) % SCREEN_WIDTH
-        self.collision_rect.centery = (self.collision_rect.centery + steps_count * self.speedy) % SCREEN_HEIGHT
+        self.centerx = int((self.centerx + steps_count * self.speedx) % SCREEN_WIDTH)
+        self.centery = int((self.centery + steps_count * self.speedy) % SCREEN_HEIGHT)
         self.life_count = self.life_count - steps_count * 1
 
     def reverse_move(self, steps_count = 1):
-        self.collision_rect.centerx = (self.collision_rect.centerx - steps_count * self.speedx) % SCREEN_WIDTH
-        self.collision_rect.centery = (self.collision_rect.centery - steps_count * self.speedy) % SCREEN_HEIGHT
+        self.centerx = int((self.centerx - steps_count * self.speedx) % SCREEN_WIDTH)
+        self.centery = int((self.centery - steps_count * self.speedy) % SCREEN_HEIGHT)
         self.life_count = self.life_count + steps_count
 
     def is_alive(self):
@@ -55,3 +72,18 @@ class SpaceObjectDTO():
                 self.speedx = -self.speedx
             if minusy:
                 self.speedy = -self.speedy
+
+
+    def collides(self, object):
+        return math.sqrt(math.pow(self.centerx - object.centerx, 2) + math.pow(self.centery - object.centery, 2)) < (self.radius + object.radius)
+
+
+def collides(objectA, objectB):
+    return math.sqrt(math.pow(objectA.centerx - objectB.centerx, 2) + math.pow(objectA.centery - objectB.centery, 2)) < (
+                objectA.radius + objectB.radius)
+
+# @numba.jit(nopython=True)
+def collides_numba(objectA_centerx, objectA_centery, objectB_centerx, objectB_centery, objectA_radius, objectB_radius):
+    return math.sqrt(
+        math.pow(objectA_centerx - objectB_centerx, 2) + math.pow(objectA_centery - objectB_centery, 2)) < (
+                   objectA_radius + objectB_radius)

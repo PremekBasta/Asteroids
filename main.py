@@ -5,16 +5,17 @@ import time
 import timeit
 
 
-visual = True
+visual = False
 rocket_one_invulnerable = False
 rocket_two_invulnerable = False
 
 env = Enviroment(visual, rocket_one_invulnerable, rocket_two_invulnerable)
+clock = pygame.time.Clock()
 state = env.reset()
 
-agent_one = Input_agent(env.screen, 1)
+agent_one = Attacking_agent(env.screen, 1)
 # agent_one = Stable_defensive_agent(env.screen, 1)
-agent_two = Stable_defensive_agent(env.screen, 2)
+agent_two = Attacking_agent(env.screen, 2)
 # agent_two = Stable_defensive_agent(env.screen, 2)
 
 
@@ -32,26 +33,27 @@ total_steps = 0
 for i in range(1):
     game_over = False
     state = env.reset()
+    start = time.time()
     while game_over == False:
         if visual:
-            time.sleep(0.050)
+            # time.sleep(0.010)
+            clock.tick(25)
 
         # actions_one, actions_two = agent_one.choose_actions(state)
-        actions_one, _ = agent_one.choose_actions(state)
-        start = time.time()
+        # actions_one, _ = agent_one.choose_actions(state)
+
         # _, actions_two = agent_two.choose_actions(state)
-        end = time.time()
-        if end - start > longest_step:
-            longest_step = end - start
-        if end - start < shortest_step:
-            shortest_step = end - start
-        incremental_time = incremental_time + (end - start)
-        # actions_one = agent_one.choose_actions(state)
+
+
+
+        actions_one = agent_one.choose_actions(state)
         actions_two = agent_two.choose_actions(state)
         # _, actions_two = env.get_actions_from_keyboard_input()
 
         # start = time.time()
         step_count, (game_over, rocketOne_health, rocketTwo_health), state = env.next_step(actions_one, actions_two)
+    end = time.time()
+    print(end - start)
     print(f"max: {longest_step}")
     print(f"min: {shortest_step}")
     print(f"avg: {incremental_time / step_count}")
