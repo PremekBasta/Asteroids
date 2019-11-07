@@ -1,6 +1,7 @@
 from typing import OrderedDict
 
 import pygame, math
+import numpy as np
 from constants import *
 import numba
 
@@ -77,10 +78,14 @@ class SpaceObjectDTO():
     def collides(self, object):
         return math.sqrt(math.pow(self.centerx - object.centerx, 2) + math.pow(self.centery - object.centery, 2)) < (self.radius + object.radius)
 
+def copy_object(o):
+    return SpaceObjectDTO(o.radius, o.centerx, o.centery, o.speedx, o.speedy, o.angle, o.size_index, o.player, o.life_count)
 
 def collides(objectA, objectB):
+    # return np.sqrt(np.power(objectA.centerx - objectB.centerx, 2) + np.power(objectA.centery - objectB.centery, 2)) < (
+    #             objectA.radius + objectB.radius)
     return math.sqrt(math.pow(objectA.centerx - objectB.centerx, 2) + math.pow(objectA.centery - objectB.centery, 2)) < (
-                objectA.radius + objectB.radius)
+            objectA.radius + objectB.radius)
 
 # @numba.jit(nopython=True)
 def collides_numba(objectA_centerx, objectA_centery, objectB_centerx, objectB_centery, objectA_radius, objectB_radius):

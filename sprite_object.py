@@ -102,7 +102,7 @@ class Rocket():
 
     def draw(self):
         pygame.draw.rect(self.screen, self.health_bar_color, pygame.Rect(0.85*SCREEN_WIDTH - self.player * 0.82*SCREEN_WIDTH, 0.95*SCREEN_HEIGHT, self.health, 10))
-        pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
+        # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
         self.screen.blit(Rocket.rocket_rotation_images[self.player][self.angle // 12], (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
     def move(self, *args):
@@ -175,10 +175,6 @@ class Bullet():
 
     def __init__(self, screen, rocket, split):
         super().__init__()
-        for split_set in Bullet.bullet_angle_images:
-            for player_set in split_set:
-                for image in player_set:
-                    image.set_colorkey(COLOR_BLACK)
         self.rocket = rocket
         self.angle = rocket.angle
         if split:
@@ -199,6 +195,12 @@ class Bullet():
         self.speedx = int(-120 * math.sin(self.rocket.angle / 180 * math.pi))
         self.speedy = int(-120 * math.cos(self.rocket.angle / 180 * math.pi))
 
+    @classmethod
+    def initialize_images(cls):
+        for split_set in Bullet.bullet_angle_images:
+            for player_set in split_set:
+                for image in player_set:
+                    image.set_colorkey(COLOR_BLACK)
 
     def move(self, *args):
         self.centerx = int((self.centerx + self.speedx / 8) % SCREEN_WIDTH)
@@ -206,7 +208,7 @@ class Bullet():
 
 
     def draw(self):
-        pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
+        # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
         self.screen.blit(self.image, (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
     def is_alive(self):
@@ -356,7 +358,7 @@ class Asteroid():
         self.centery = int((self.centery - steps_count * self.speedy) % SCREEN_HEIGHT)
 
     def draw(self):
-        pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
+        # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
         self.screen.blit(self.image, (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
 

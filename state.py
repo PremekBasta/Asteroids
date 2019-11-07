@@ -23,8 +23,8 @@ class State:
         # Rocket ONE
         self.player_one_rocket = SpaceObjectDTO(player_one_rocket.radius, player_one_rocket.centerx, player_one_rocket.centery,
                                                 # player_one_rocket.collision_rect,
-                                                player_one_rocket.speedx / 8,
-                                                player_one_rocket.speedy / 8, player_one_rocket.angle, player = player_one_rocket.player)
+                                                player_one_rocket.speedx // 8,
+                                                player_one_rocket.speedy // 8, player_one_rocket.angle, player = player_one_rocket.player)
         # Asteroids ONE
         self.player_one_asteroids = []
         for player_one_asteroid in player_one_asteroids:
