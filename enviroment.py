@@ -47,7 +47,7 @@ class Enviroment():
 
         self.RocketOne = Rocket(self.screen, 0)
         self.RocketOne.speedx = 0
-        self.RocketOne.speedy = -1
+        self.RocketOne.speedy = -17
         self.asteroids_one = []
         self.bullets_one = []
 
@@ -110,25 +110,25 @@ class Enviroment():
             self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=1))
 
     def _generate_asteroid_(self):
-        if self.generate_asteroid:
-            ast = Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None)
-            # ast.collision_rect.center = (self.RocketTwo.centerx + 600, self.RocketTwo.centery)
-            ast.centerx = self.RocketTwo.centerx + 600
-            ast.centery = self.RocketTwo.centery - 200
-            # ast.centerx = ast.centerx
-            # ast.centery = ast.centery
-            ast.speedx = -2
-            ast.speedy = 0
-            bullet = Bullet(self.screen, self.RocketOne, split=0)
-
-            # ast = Asteroid(self.screen, None, None, ast, self.RocketOne, bullet)
-            self.asteroids_neutral.append(ast)
-            # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-            # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-            # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-            # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-            self.generate_asteroid = False
-        return
+        # if self.generate_asteroid:
+        #     ast = Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None)
+        #     # ast.collision_rect.center = (self.RocketTwo.centerx + 600, self.RocketTwo.centery)
+        #     ast.centerx = self.RocketTwo.centerx + 600
+        #     ast.centery = self.RocketTwo.centery - 200
+        #     # ast.centerx = ast.centerx
+        #     # ast.centery = ast.centery
+        #     ast.speedx = -2
+        #     ast.speedy = 0
+        #     bullet = Bullet(self.screen, self.RocketOne, split=0)
+        #
+        #     # ast = Asteroid(self.screen, None, None, ast, self.RocketOne, bullet)
+        #     self.asteroids_neutral.append(ast)
+        #     # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.generate_asteroid = False
+        # return
 
         if self.ticks_elapsed_since_last_asteroid > self.ticks_amount_to_create_asteroid:
             self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))

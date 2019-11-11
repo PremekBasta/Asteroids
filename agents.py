@@ -275,7 +275,17 @@ class Agent():
         shot_asteroid.reverse_move(steps_limit - 1)
         return (False, steps_limit + 1)
 
+    def shoot_will_hit_explicit_asteroid(self, rocket, asteroid):
+        bullet = Bullet(self.screen, rocket)
+        asteroid_copy = copy_object(asteroid)
 
+        for step_count in range(BULLET_LIFE_COUNT):
+            if collides(bullet, asteroid_copy):
+                return True
+
+            bullet.move()
+            asteroid_copy.move()
+        return False
 
     def shoot_will_hit_asteroid(self, own_rocket, neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets, split = 0):
         bullet = Bullet(self.screen, own_rocket, split=split)
@@ -403,6 +413,57 @@ class Agent():
             rocket.reverse_move(moved_steps)
 
             rocket.rotate_left()
+
+    def recalculate_target_position(self, rocket, asteroid):
+        a1 = [rocket.centerx, rocket.centery]
+        a2 = [rocket.centerx + rocket.speedx, rocket.centery + rocket.speedy]
+        b1 = [asteroid.centerx, asteroid.centery]
+        b2 = [asteroid.centerx + asteroid.speedx, asteroid.centery + asteroid.speedy]
+
+        if a1 == a2 or b1 == b2:
+            (target_x, target_y) = b1
+        else:
+            (intersection_x, intersection_y), found = self.get_intersect(a1, a2, b1, b2)
+            target_x = int(intersection_x * 0.15 + asteroid.centerx * 0.85)
+            target_y = int(intersection_y * 0.15 + asteroid.centery * 0.85)
+
+
+        temp_x, temp_y = target_x, target_y
+        # Try
+        distance = self.distance(temp_x, rocket.centerx, temp_y, rocket.centery)
+
+        # -x
+        temp_x = temp_x - SCREEN_WIDTH
+        temp_distance = self.distance(temp_x, rocket.centerx, temp_y, rocket.centery)
+        if temp_distance < distance:
+            target_x = temp_x
+            distance = temp_distance
+        temp_x = temp_x + SCREEN_WIDTH
+
+        # -y
+        temp_y = temp_y - SCREEN_HEIGHT
+        temp_distance = self.distance(temp_x, rocket.centerx, temp_y, rocket.centery)
+        if temp_distance < distance:
+            target_y = temp_y
+            distance = temp_distance
+        temp_y = temp_distance + SCREEN_HEIGHT
+
+        # -x -y
+        temp_x = temp_x - SCREEN_WIDTH
+        temp_y = temp_y - SCREEN_HEIGHT
+        temp_distance = self.distance(temp_x, rocket.centerx, temp_y, rocket.centery)
+        if temp_distance < distance:
+            target_y = temp_y
+            target_x = temp_x
+
+
+
+
+        asteroid.centerx, asteroid.centery = target_x, target_y
+
+    def distance(self,x1, x2, y1, y2):
+        return math.sqrt(math.pow(x1-x2, 2) + math.pow(y1 - y2, 2))
+
 
     def get_intersect(self, a1, a2, b1, b2):
         """
@@ -594,15 +655,22 @@ class Stable_defensive_agent(Agent):
         # pygame.draw.rect(self.screen, (200, 200, 200), impact_asteroid.collision_rect)
         # pygame.display.update()
         # time.sleep(0.005)
-        a1 = [rocket.centerx, rocket.centery]
-        a2 = [rocket.centerx + rocket.speedx, rocket.centery + rocket.speedy]
-        b1 = [impact_asteroid.centerx, impact_asteroid.centery]
-        b2 = [impact_asteroid.centerx + impact_asteroid.speedx, impact_asteroid.centery + impact_asteroid.speedy]
-        intersection, found = super().get_intersect(a1, a2, b1, b2)
-        if found:
-            pygame.draw.circle(self.screen, (255, 255, 255), (int(intersection[0]), int(intersection[1])), 3*rocket.radius)
-            pygame.display.update()
-            time.sleep(0.05)
+        if super().shoot_will_hit_explicit_asteroid(rocket, impact_asteroid):
+            # if self.player_number == 1:
+                # pygame.draw.circle(self.screen, (255, 0, 255),
+                #                    (int(impact_asteroid.centerx), int(impact_asteroid.centery)), 3 * rocket.radius)
+                # pygame.display.update()
+                # time.sleep(0.15)
+            actions = super().simple_shot()
+            actions = super().convert_actions(actions)
+            return actions
+
+        super().recalculate_target_position(rocket, impact_asteroid)
+        # if self.player_number == 1:
+        #     pygame.draw.circle(self.screen, (255, 255, 255), (int(impact_asteroid.centerx), int(impact_asteroid.centery)), 3*rocket.radius)
+        #     pygame.display.update()
+        #     time.sleep(0.1)
+
         actions = super().face_asteroid(rocket, impact_asteroid)
         if not actions:
             actions = super().simple_shot()

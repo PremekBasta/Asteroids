@@ -173,7 +173,7 @@ class Bullet():
                             pygame.image.load('images/bullet_two_split_312.bmp'), pygame.image.load('images/bullet_two_split_324.bmp'),
                             pygame.image.load('images/bullet_two_split_336.bmp'), pygame.image.load('images/bullet_two_split_348.bmp')]]]
 
-    def __init__(self, screen, rocket, split):
+    def __init__(self, screen, rocket, split = 0):
         super().__init__()
         self.rocket = rocket
         self.angle = rocket.angle

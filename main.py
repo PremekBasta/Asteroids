@@ -5,7 +5,7 @@ import time
 import timeit
 
 
-visual = True
+visual = False
 rocket_one_invulnerable = False
 rocket_two_invulnerable = False
 
@@ -31,22 +31,22 @@ RocketTwo_wins = 0
 total_steps = 0
 total_time = 0
 
-for i in range(100):
+for i in range(2):
     game_over = False
     state = env.reset()
     start = time.time()
     while game_over == False:
         if visual:
             # time.sleep(0.010)
-            clock.tick(60)
+            clock.tick(30)
 
         # actions_one, actions_two = agent_one.choose_actions(state)
         # actions_one, _ = agent_one.choose_actions(state)
 
         # _, actions_two = agent_two.choose_actions(state)
 
-
-
+        # events = pygame.event.get(pygame.KEYDOWN)
+        # all_keys = pygame.key.get_pressed()
         actions_one = agent_one.choose_actions(state)
         actions_two = agent_two.choose_actions(state)
         # _, actions_two = env.get_actions_from_keyboard_input()
