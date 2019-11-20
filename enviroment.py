@@ -2,7 +2,7 @@
 import pygame
 import random
 import sys, time
-from sprite_object import Rocket, Rocket_action, Bullet, Asteroid, collides
+from sprite_object import Rocket, Rocket_action, Rocket_base_action, Bullet, Asteroid, collides
 from state import State
 from constants import *
 
@@ -47,7 +47,7 @@ class Enviroment():
 
         self.RocketOne = Rocket(self.screen, 0)
         self.RocketOne.speedx = 0
-        self.RocketOne.speedy = -17
+        self.RocketOne.speedy = 0
         self.asteroids_one = []
         self.bullets_one = []
 
@@ -83,31 +83,57 @@ class Enviroment():
         current_state = State(self.asteroids_neutral, self.RocketOne, self.asteroids_one, self.bullets_one,
                               self.RocketTwo, self.asteroids_two, self.bullets_two)
 
-        return self.step_count, game_over, current_state
+        return self.step_count, game_over, current_state, actions_one, actions_two
 
 
     def _handle_actions_(self, actions_one, actions_two):
-        if Rocket_action.ROCKET_ONE_ROTATE_LEFT in actions_one:
+        if Rocket_base_action.ROTATE_LEFT in actions_one:
             self.RocketOne.rotate_left()
-        if Rocket_action.ROCKET_ONE_ROTATE_RIGHT in actions_one:
+        if Rocket_base_action.ROTATE_RIGHT in actions_one:
             self.RocketOne.rotate_right()
-        if Rocket_action.ROCKET_ONE_ACCELERATE in actions_one:
+        if Rocket_base_action.ACCELERATE in actions_one:
             self.RocketOne.accelerate()
-        if Rocket_action.ROCKET_ONE_SHOOT in actions_one:
+        if Rocket_base_action.SHOT in actions_one:
             self.bullets_one.append(Bullet(self.screen, self.RocketOne, split=0))
-        if Rocket_action.ROCKET_ONE_SPLIT_SHOOT in actions_one:
+        if Rocket_base_action.SPLIT_SHOOT in actions_one:
             self.bullets_one.append(Bullet(self.screen, self.RocketOne, split=1))
 
-        if Rocket_action.ROCKET_TWO_ROTATE_LEFT in actions_two:
+        if Rocket_base_action.ROTATE_LEFT in actions_two:
             self.RocketTwo.rotate_left()
-        if Rocket_action.ROCKET_TWO_ROTATE_RIGHT in actions_two:
+        if Rocket_base_action.ROTATE_RIGHT in actions_two:
             self.RocketTwo.rotate_right()
-        if Rocket_action.ROCKET_TWO_ACCELERATE in actions_two:
+        if Rocket_base_action.ACCELERATE in actions_two:
             self.RocketTwo.accelerate()
-        if Rocket_action.ROCKET_TWO_SHOOT in actions_two:
+        if Rocket_base_action.SHOT in actions_two:
             self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=0))
-        if Rocket_action.ROCKET_TWO_SPLIT_SHOOT in actions_two:
+        if Rocket_base_action.SPLIT_SHOOT in actions_two:
             self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=1))
+
+        ################
+
+
+
+        # if Rocket_action.ROCKET_ONE_ROTATE_LEFT in actions_one:
+        #     self.RocketOne.rotate_left()
+        # if Rocket_action.ROCKET_ONE_ROTATE_RIGHT in actions_one:
+        #     self.RocketOne.rotate_right()
+        # if Rocket_action.ROCKET_ONE_ACCELERATE in actions_one:
+        #     self.RocketOne.accelerate()
+        # if Rocket_action.ROCKET_ONE_SHOOT in actions_one:
+        #     self.bullets_one.append(Bullet(self.screen, self.RocketOne, split=0))
+        # if Rocket_action.ROCKET_ONE_SPLIT_SHOOT in actions_one:
+        #     self.bullets_one.append(Bullet(self.screen, self.RocketOne, split=1))
+        #
+        # if Rocket_action.ROCKET_TWO_ROTATE_LEFT in actions_two:
+        #     self.RocketTwo.rotate_left()
+        # if Rocket_action.ROCKET_TWO_ROTATE_RIGHT in actions_two:
+        #     self.RocketTwo.rotate_right()
+        # if Rocket_action.ROCKET_TWO_ACCELERATE in actions_two:
+        #     self.RocketTwo.accelerate()
+        # if Rocket_action.ROCKET_TWO_SHOOT in actions_two:
+        #     self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=0))
+        # if Rocket_action.ROCKET_TWO_SPLIT_SHOOT in actions_two:
+        #     self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=1))
 
     def _generate_asteroid_(self):
         # if self.generate_asteroid:
@@ -200,14 +226,14 @@ class Enviroment():
 
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
                     if bullet_two.split:
-                        asteroid_one, asteroid_two = Asteroid.split_asteroid(self.screen, bullet_two.rocket, asteroid_one, bullet_two)
+                        new_asteroid_one, new_asteroid_two = Asteroid.split_asteroid(self.screen, bullet_two.rocket, asteroid_one, bullet_two)
                     else:
                         new_asteroid = Asteroid(self.screen, None, None, asteroid_one, bullet_two.rocket, bullet_two)
                     if bullet_two in self.bullets_two:
                         self.bullets_two.remove(bullet_two)
 
-                    if new_asteroid_one is not None and asteroid_one.valid \
-                            and new_asteroid_two is not None and asteroid_two.valid:
+                    if new_asteroid_one is not None and new_asteroid_one.valid \
+                            and new_asteroid_two is not None and new_asteroid_two.valid:
                         self.asteroids_two.append(new_asteroid_one)
                         self.asteroids_two.append(new_asteroid_two)
 

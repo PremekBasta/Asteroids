@@ -205,6 +205,7 @@ class Bullet():
     def move(self, *args):
         self.centerx = int((self.centerx + self.speedx / 8) % SCREEN_WIDTH)
         self.centery = int((self.centery + self.speedy / 8) % SCREEN_HEIGHT)
+        self.life_count = self.life_count - 1
 
 
     def draw(self):
