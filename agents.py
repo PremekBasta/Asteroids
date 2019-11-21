@@ -19,6 +19,7 @@ class Agent():
         self.inactiv_ticks = 0
         self.active_ticks = 0
         self.finished_plan = False
+        self.finished_plan_attack = False
 
 
     def assign_objects_to_agent(self, state):
@@ -48,12 +49,15 @@ class Agent():
     def store_plan(self, actions):
         self.plan = actions
         self.finished_plan = False
+        self.finished_plan_attack = False
 
     def choose_action_from_plan(self):
         if len(self.plan) > 0:
             actions = self.plan.pop(0)
         else:
             actions = []
+            self.plan = []
+            self.finished_plan_attack = True
         return actions
 
 
@@ -205,37 +209,52 @@ class Agent():
         # if len(neutral_asteroids)>12:
         #     steps_limit = 35
 
-        own_bullets = [copy_object(own_bullet) for own_bullet in own_bullets]
+        # own_bullets = [copy_object(own_bullet) for own_bullet in own_bullets]
+        own_bullets_copy = [copy_object(own_bullet) for own_bullet in own_bullets]
+        neutral_asteroids_copy = [copy_object(neutral_asteroid) for neutral_asteroid in neutral_asteroids]
+        neutral_asteroids_copy2 = [copy_object(neutral_asteroid) for neutral_asteroid in neutral_asteroids]
+        rocket_copy = copy_object(rocket)
+
+        for neutral_asteroid in neutral_asteroids_copy:
+            neutral_asteroid.valid = True
 
 
         for steps_count in range(steps_limit):
-            for neutral_asteroid in neutral_asteroids:
-                if collides(rocket, neutral_asteroid):
-                    for neutral_asteroid_reverse in neutral_asteroids:
+            for neutral_asteroid in neutral_asteroids_copy:
+                if collides(rocket_copy, neutral_asteroid):
+                    for neutral_asteroid_reverse in neutral_asteroids_copy:
                         neutral_asteroid_reverse.reverse_move(steps_count)
-                    rocket.reverse_move(steps_count)
+
+                    # ast2 = neutral_asteroids[neutral_asteroids_copy.index(neutral_asteroid)]
+                    # ast3 = neutral_asteroids_copy2[neutral_asteroids_copy.index(neutral_asteroid)]
+                    # ast4 = neutral_asteroid
+                    # neutral_asteroids_copy.index(neutral_asteroid)
+                    # rocket.reverse_move(steps_count)
+                    # return (copy_object(neutral_asteroids[neutral_asteroids_copy.index(neutral_asteroid)]), steps_count)
                     return (neutral_asteroid, steps_count)
 
-            for neutral_asteroid in neutral_asteroids:
-                for bullet in own_bullets:
-                    if collides(neutral_asteroid, bullet):
-                        own_bullets.remove(bullet)
-                        neutral_asteroids.remove(neutral_asteroid)
-                        break
+            for neutral_asteroid in neutral_asteroids_copy:
+                # if neutral_asteroid.valid:
+                    for bullet in own_bullets_copy:
+                        if collides(neutral_asteroid, bullet):
+                            own_bullets_copy.remove(bullet)
+                            neutral_asteroids_copy.remove(neutral_asteroid)
+                            # neutral_asteroid.valid = False
+                            break
 
-            for neutral_asteroid in neutral_asteroids:
+            for neutral_asteroid in neutral_asteroids_copy:
                 neutral_asteroid.move()
 
 
-            for bullet in own_bullets:
+            for bullet in own_bullets_copy:
                 bullet.move()
 
 
-            rocket.move()
+            rocket_copy.move()
 
-        rocket.reverse_move(steps_limit - 1)
-        for neutral_asteroid in neutral_asteroids:
-            neutral_asteroid.reverse_move(steps_limit - 1)
+        # rocket.reverse_move(steps_limit - 1)
+        # for neutral_asteroid in neutral_asteroids_copy:
+        #     neutral_asteroid.reverse_move(steps_limit - 1)
         return (None, steps_limit + 1)
 
     def first_impact_enemy_asteroid(self, rocket, enemy_asteroids, own_bullets):
@@ -340,8 +359,6 @@ class Agent():
 
 
         left_found = False
-        if self.odd:
-            self.odd = False
         # zkusim kruh doleva
         for rotation_count in range(int(360 / 12)):
             # if self.try_shoot_some_asteroid_to_enemy_rocket(own_rocket, enemy_rocket, neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets):
@@ -352,6 +369,7 @@ class Agent():
             if hit:
                 left_found, left_steps = True, rotation_count
                 break
+
 
             own_rocket_copy.rotate_left()
             own_rocket_copy.move()
@@ -376,13 +394,21 @@ class Agent():
         # for enemy_asteroid in enemy_asteroids:
         #     enemy_asteroid.reverse_move(back_steps_count)
 
+        actions = []
+
         if left_found:
             if left_steps == 0:
-                return True, [shoot_type], 1
+                return True, [[shoot_type]], 1
             if left_steps < 15:
-                return True, [Rocket_base_action.ROTATE_LEFT], left_steps + 1
+                for i in range(left_steps):
+                    actions.append([Rocket_base_action.ROTATE_LEFT])
+                actions.append([shoot_type])
+                return True, actions, left_steps + 1
             else:
-                return True, [Rocket_base_action.ROTATE_RIGHT], 30 - left_steps + 1
+                for i in range(30 - left_steps):
+                    actions.append([Rocket_base_action.ROTATE_RIGHT])
+                actions.append([shoot_type])
+                return True, actions, 30 - left_steps + 1
         else:
             return False, [], 31
 
@@ -392,6 +418,9 @@ class Agent():
         # if shot and created_asteroid.valid:
         #     hit, steps_count = self.asteroid_will_hit_rocket(enemy_rocket, created_asteroid)
         #     return hit
+
+
+
 
         shot, bullet, impact_asteroid, steps_count = self.shoot_will_hit_asteroid(own_rocket, neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets)
         if shot:
@@ -449,6 +478,26 @@ class Agent():
     def shoot_will_hit_asteroid(self, own_rocket, neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets, split = 0):
         bullet = Bullet(self.screen, own_rocket, split=split)
 
+        # neutral_asteroids_risk = [neutral_asteroid for neutral_asteroid in neutral_asteroids if self.risk_of_collision(neutral_asteroid, bullet)]
+        # enemy_asteroids_risk = [enemy_asteroid for enemy_asteroid in enemy_asteroids if self.risk_of_collision(enemy_asteroid, bullet)]
+        #
+        # for neutral_asteroid in neutral_asteroids_risk:
+        #     pygame.draw.circle(self.screen, (255, 255, 255), (neutral_asteroid.centerx, neutral_asteroid.centery), 30, 3)
+        #
+        # for enemy_asteroid in enemy_asteroids_risk:
+        #     pygame.draw.circle(self.screen, (255, 255, 255), (enemy_asteroid.centerx, enemy_asteroid.centery), 30,
+        #                        3)
+        #
+        # pygame.draw.line(self.screen, (255,255,255), (bullet.centerx, bullet.centery), (bullet.centerx + 10*bullet.speedx, bullet.centery + 10* bullet.speedy),5)
+        #
+        # events = pygame.event.get(pygame.KEYDOWN)
+        # all_keys = pygame.key.get_pressed()
+        # if all_keys[pygame.K_d] and self.player_number == 1:
+        #     pygame.display.update()
+        #     time.sleep(0.5)
+
+
+
         # own_rocket_copy = SpaceObjectDTO(own_rocket.radius, own_rocket.centerx, own_rocket.centery, own_rocket.speedx,
         #                                  own_rocket.speedy, own_rocket.angle, own_rocket.size_index, own_rocket.player)
         own_rocket_copy = copy_object(own_rocket)
@@ -456,6 +505,15 @@ class Agent():
         enemy_asteroids_copy = [copy_object(enemy_asteroid) for enemy_asteroid in enemy_asteroids]
         own_bullets_copy = [copy_object(own_bullet) for own_bullet in own_bullets]
         enemy_bullets_copy = [copy_object(enemy_bullet) for enemy_bullet in enemy_bullets]
+
+        # neutral_asteroids_copy = [copy_object(neutral_asteroid) for neutral_asteroid in neutral_asteroids if self.risk_of_collision(neutral_asteroid, bullet)]
+        # enemy_asteroids_copy = [copy_object(enemy_asteroid) for enemy_asteroid in enemy_asteroids if self.risk_of_collision(enemy_asteroid, bullet)]
+
+        # if len(neutral_asteroids_copy) != len(neutral_asteroids):
+        #     print(len(neutral_asteroids) - len(neutral_asteroids_copy))
+        # if len(enemy_asteroids_copy) != len(enemy_asteroids):
+        #     print(len(enemy_asteroids) - len(enemy_asteroids_copy))
+
 
 
 
@@ -623,6 +681,49 @@ class Agent():
     def distance(self,x1, x2, y1, y2):
         return math.sqrt(math.pow(x1-x2, 2) + math.pow(y1 - y2, 2))
 
+    def risk_of_collision(self, objectA, objectB):
+
+        found, (pointx, pointy) = self.intersect_point(objectA, objectB)
+        if found:
+            if objectA.speedx == 0:
+                steps_A = 1000
+            else:
+                steps_A = (pointx - objectA.centerx) / objectA.speedx
+
+            if objectB.speedx == 0:
+                steps_B = - 1000
+            else:
+                steps_B = - (pointx - objectB.centerx) / objectB.speedx
+
+            if math.fabs(steps_A - steps_B) < 60:
+                return True
+            return False
+        return True
+
+    def intersect_point(self,objectA, objectB):
+        c1 = objectA.speedy * objectA.centerx - objectA.speedx * objectA.centery
+        a1 = -objectA.speedy
+        b1 = objectA.speedx
+
+        c2 = objectB.speedy * objectB.centerx - objectB.speedx * objectB.centery
+        a2 = -objectB.speedy
+        b2 = objectB.speedx
+
+
+
+        if a1 == 0:
+            if (a1*b2 - a2*b1 != 0):
+                x = objectB.centerx
+                y = (-a1*c2 + a2*c1)/(a1*b2 - a2*b1)
+                return True, (int(x),int(y))
+            return False, (0,0)
+        if (a1*b2 - a2*b1 == 0):
+            return False, (0,0)
+
+        x = (-c1 - b1*((-a1*c2 + a2*c1)/(a1*b2 - a2*b1))) / a1
+        y = (-a1*c2 + a2*c1)/(a1*b2 - a2*b1)
+
+        return True, (int(x), int(y))
 
     def get_intersect(self, a1, a2, b1, b2):
         """
@@ -717,23 +818,41 @@ class Attacking_agent(Agent):
         super().__init__(player_number)
         self.screen = screen
         self.shoot_reload_ticks = 0
-        self.inactiv_ticks = 0
-        self.active_ticks = 0
         self.active_steps = 0
         self.inactive_steps = 0
-        self.odd = True
+        self.inactiv_ticks = 0
+        self.plan = []
+        self.finished_plan = True
 
     def choose_actions(self, state, opposite_agent_actions):
 
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
 
-        hit, actions, count = super().shoot_in_all_directions_to_hit_enemy(own_rocket, enemy_rocket,
-                                                                           state.neutral_asteroids, enemy_asteroids,
-                                                                           own_bullets, enemy_bullets)
-        if hit:
-            actions = super().convert_actions(actions)
+        if self.reevaluate_plan():
+            self.active_steps = self.active_steps + 1
+            hit, actions, count = super().shoot_in_all_directions_to_hit_enemy(own_rocket, enemy_rocket,
+                                                                               state.neutral_asteroids, enemy_asteroids,
+                                                                               own_bullets, enemy_bullets)
+            if hit:
+                super().store_plan(actions)
+        else:
+            self.inactive_steps = self.inactive_steps + 1
 
-        return actions
+        actions = super().choose_action_from_plan()
+        return super().convert_actions(actions)
+
+
+
+    def reevaluate_plan(self):
+        if self.inactiv_ticks > 0:
+            self.inactiv_ticks = 0
+            return True
+
+        if not self.finished_plan_attack:
+            return False
+
+        self.inactiv_ticks = self.inactiv_ticks + 1
+        return False
 
 class Random_agent(Agent):
     def __init__(self, player_number):
@@ -820,6 +939,11 @@ class Stable_defensive_agent(Agent):
             end = time.time()
             self.python_time = self.python_time + (end - start)
 
+            # if impact_neutral_asteroid is not None:
+                # pygame.draw.circle(self.screen, (255,255,255), (impact_neutral_asteroid.centerx, impact_neutral_asteroid.centery), 30)
+                # pygame.display.update()
+                # time.sleep(0.5)
+
             # start = time.time()
             # impact_neutral_asteroid, impact_neutral_asteroid_steps = super().first_impact_neutral_asteroid_numpy(rocket,
             #                                                                                                state.neutral_asteroids,
@@ -878,6 +1002,24 @@ class Dummy_agent(Agent):
         super().__init__(player_name)
         self.screen = screen
     def choose_actions(self, state, actions):
+        if len(state.neutral_asteroids) < 1:
+            return []
+        ast = state.neutral_asteroids[0]
+        rocket = state.player_one_rocket
+
+        if super().risk_of_collision(rocket, ast):
+            pygame.draw.circle(self.screen, (100, 100, 100), (ast.centerx, ast.centery), 30, 3)
+            pygame.display.update()
+            time.sleep(0.05)
+
+        # hit, point = super().intersect_point(ast, rocket)
+        # if hit:
+        #     pygame.draw.circle(self.screen, (100,100,100), point, 30, 3)
+        #     pygame.display.update()
+        #     time.sleep(0.05)
+
+
+
         return []
 
 class Defensive_agent(Agent):

@@ -32,16 +32,18 @@ RocketTwo_wins = 0
 total_steps = 0
 total_time = 0
 
-for i in range(30):
+for i in range(1000):
     game_over = False
     state = env.reset()
     agent_one_actions = []
     agent_two_actions = []
+    agent_one.finished_plan = True
+    agent_two.finished_plan = True
     start = time.time()
     while game_over == False:
         if visual:
             # time.sleep(0.010)
-            clock.tick(20)
+            clock.tick(60)
 
         # actions_one, actions_two = agent_one.choose_actions(state)
         # actions_one, _ = agent_one.choose_actions(state)
@@ -97,8 +99,8 @@ for i in range(30):
     # print(step_count)
     #
     # # print(f"average steps count: {total_steps / (i + 1)}")
-    # print(f"Rocket one wins: {RocketOne_wins}")
-    # print(f"Rocket two wins: {RocketTwo_wins}")
+    print(f"Rocket one wins: {RocketOne_wins}")
+    print(f"Rocket two wins: {RocketTwo_wins}")
 
 
 # print(f"longest tick: {longest_step}")

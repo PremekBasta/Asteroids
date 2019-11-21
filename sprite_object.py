@@ -61,7 +61,7 @@ class Rocket():
         self.centerx = int(SCREEN_WIDTH / 2)
         self.centery = int(SCREEN_HEIGHT / 2)
 
-        if player == 1:
+        if player == 0:
             self.centerx = self.centerx - 150
             self.health_bar_color = PLAYER_ONE_COLOR
         else:
