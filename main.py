@@ -14,9 +14,9 @@ env = Enviroment(visual, rocket_one_invulnerable, rocket_two_invulnerable)
 clock = pygame.time.Clock()
 state = env.reset()
 
-agent_one = Attacking_agent(env.screen, 1)
+agent_one = Stable_defensive_agent(env.screen, 1)
 # agent_one = Stable_defensive_agent(env.screen, 1)
-agent_two = Attacking_agent(env.screen, 2)
+agent_two = Stable_defensive_agent(env.screen, 2)
 # agent_two = Stable_defensive_agent(env.screen, 2)
 
 
@@ -43,7 +43,7 @@ for i in range(1000):
     while game_over == False:
         if visual:
             # time.sleep(0.010)
-            clock.tick(60)
+            clock.tick(30)
 
         # actions_one, actions_two = agent_one.choose_actions(state)
         # actions_one, _ = agent_one.choose_actions(state)
@@ -52,8 +52,9 @@ for i in range(1000):
 
         # events = pygame.event.get(pygame.KEYDOWN)
         # all_keys = pygame.key.get_pressed()
-        actions_one = agent_one.choose_actions(state, agent_two_actions)
         actions_two = agent_two.choose_actions(state, agent_one_actions)
+        actions_one = agent_one.choose_actions(state, agent_two_actions)
+
         # _, actions_two = env.get_actions_from_keyboard_input()
 
         # start = time.time()
