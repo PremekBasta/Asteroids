@@ -6,7 +6,6 @@ from constants import *
 
 
 class Rocket():
-    max_speed = MAX_ROCKET_SPEED
     rocket_angle_rotation = ROCKET_ANGLE_ROTATION
     rocket_rotation_images = [
         [pygame.image.load('images/rocket_one_0.png'), pygame.image.load('images/rocket_one_12.png'),
@@ -78,9 +77,18 @@ class Rocket():
         self.angle = self.angle % 360
 
     def accelerate(self):
-        self.speedx = self.speedx - int(math.sin(self.angle / 180 * math.pi) * 20 / 2)
-        self.speedy = self.speedy - int(math.cos(self.angle / 180 * math.pi) * 20 / 2)
-        if math.sqrt(math.pow(self.speedx, 2) + math.pow(self.speedy, 2)) > Rocket.max_speed:
+        x_acc_difference = int(math.sin(self.angle / 180 * math.pi) * 10 / 2)
+        y_acc_difference = int(math.cos(self.angle / 180 * math.pi) * 10 / 2)
+        if (self.speedx * x_acc_difference) > 0 and (self.speedy * y_acc_difference) > 0:
+            self.speedx = self.speedx - 3 * x_acc_difference
+            self.speedy = self.speedy - 3 * y_acc_difference
+        elif (self.speedx * x_acc_difference) > 0 and self.speedy == 0:
+            self.speedx = self.speedx - 3 * x_acc_difference
+            self.speedy = self.speedy - y_acc_difference
+        else:
+            self.speedx = self.speedx - x_acc_difference
+            self.speedy = self.speedy - y_acc_difference
+        if math.sqrt(math.pow(self.speedx, 2) + math.pow(self.speedy, 2)) > MAX_ROCKET_SPEED:
             minusx = False
             minusy = False
             if self.speedx < 0:
@@ -88,17 +96,20 @@ class Rocket():
             if self.speedy < 0:
                 minusy = True
 
-            if self.speedy == 0:
-                self.speedx = int(self.speedx * math.sqrt(math.pow(Rocket.max_speed, 2) / math.pow(self.speedx, 2)))
+
+            if (self.speedy == 0):
+                self.speedx = int(self.speedx * math.sqrt(math.pow(MAX_ROCKET_SPEED, 2) / math.pow(self.speedx, 2)))
+
             else:
                 ratio = self.speedx / self.speedy
-                self.speedy = int(math.sqrt(math.pow(Rocket.max_speed, 2) / (math.pow(ratio, 2) + 1)))
-                self.speedx = int(math.sqrt(math.pow(Rocket.max_speed, 2) - math.pow(self.speedy, 2)))
+                self.speedy = int(math.sqrt(math.pow(MAX_ROCKET_SPEED, 2) / (math.pow(ratio, 2) + 1)))
+                self.speedx = int(math.sqrt(math.pow(MAX_ROCKET_SPEED, 2) - math.pow(self.speedy, 2)))
+                if minusx:
+                    self.speedx = -self.speedx
+                if minusy:
+                    self.speedy = -self.speedy
 
-            if minusx:
-                self.speedx = -self.speedx
-            if minusy:
-                self.speedy = -self.speedy
+
 
     def draw(self):
         pygame.draw.rect(self.screen, self.health_bar_color, pygame.Rect(0.85*SCREEN_WIDTH - self.player * 0.82*SCREEN_WIDTH, 0.95*SCREEN_HEIGHT, self.health, 10))
@@ -215,6 +226,7 @@ class Bullet():
     def is_alive(self):
         return self.life_count > 0
 
+random.seed(112)
 
 class Asteroid():
     asteroid_images =  [
@@ -283,7 +295,6 @@ class Asteroid():
 
 
 
-
         self.image_rect = self.image.get_rect()
         self.image_width = self.image_rect.width
         self.image_height = self.image_rect.height
@@ -303,6 +314,7 @@ class Asteroid():
         return int(math.atan2(-self.speedy, self.speedx) * 180 / math.pi - 90) % 360
 
     def __place_asteroid__(self, rocket_one, rocket_two):
+        global random
         x = random.randint(0, SCREEN_WIDTH)
         y = random.randint(0, SCREEN_HEIGHT)
         while True:
@@ -364,8 +376,9 @@ class Asteroid():
 
 
 def collides(objectA, objectB):
-    return math.sqrt(math.pow(objectA.centerx - objectB.centerx, 2) + math.pow(objectA.centery - objectB.centery, 2)) < (
-                objectA.radius + objectB.radius)
+    return math.sqrt(
+        math.pow(objectA.centerx - objectB.centerx, 2) + math.pow(objectA.centery - objectB.centery, 2)) < (
+                   objectA.radius + objectB.radius)
 
 class Rocket_action(Enum):
     ROCKET_ONE_ACCELERATE = 1

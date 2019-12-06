@@ -1,5 +1,5 @@
 import random, copy
-from sprite_object import Rocket_action, Bullet, Rocket_base_action, Asteroid
+from sprite_object import Rocket_action, Bullet, Rocket_base_action, Asteroid,Rocket
 from constants import *
 import pygame
 import time
@@ -93,25 +93,46 @@ class Agent():
 
         rocket_copy = copy_object(rocket)
         asteroid_copy = copy_object(asteroid)
+        plan = []
+
 
         rotation_limit = 15
-        rocket_copy.rotate_left(rotation_limit)
-        rocket_copy.move(rotation_limit)
-        asteroid_copy.move(rotation_limit)
-        for left_turns in range(rotation_limit,0,-1):
+        for left_turns in range(0, rotation_limit):
             if self.evade_by_accelerating(rocket_copy, asteroid_copy):
                 if left_turns == 0:
+                    # print(f"Accelerate")
+                    # time.sleep(0.4)
+                    # pygame.draw.circle(self.screen, (255,0,0), (asteroid_copy.centerx, asteroid_copy.centery), 5)
+                    # pygame.draw.circle(self.screen, (0, 255, 0), (rocket_copy.centerx, rocket_copy.centery), 5)
+                    # pygame.display.update()
+                    # time.sleep(0.1)
+                    plan = [[Rocket_base_action.ACCELERATE] for i in range(10)]
                     return [Rocket_base_action.ACCELERATE]
-                else:
+                elif left_turns < 15:
+                    # print(f"left: {left_turns}")
+                    # time.sleep(0.4)
+                    plan = [[Rocket_base_action.ROTATE_LEFT] for i in range(left_turns)]
+                    plan.extend([[Rocket_base_action.ACCELERATE] for i in range(10)])
                     return [Rocket_base_action.ROTATE_LEFT]
 
-            rocket_copy.rotate_right()
-            rocket_copy.reverse_move()
-            asteroid_copy.reverse_move()
+            rocket_copy.rotate_left()
+            rocket_copy.move()
+            asteroid_copy.move()
 
-        rocket_copy.rotate_right(rotation_limit)
-        rocket_copy.reverse_move(rotation_limit)
-        asteroid_copy.reverse_move(rotation_limit)
+        rocket_copy = copy_object(rocket)
+        asteroid_copy = copy_object(asteroid)
+        for right_turns in range(0, rotation_limit):
+            if self.evade_by_accelerating(rocket_copy, asteroid_copy):
+                # print(f"right: {right_turns}")
+                # time.sleep(0.4)
+                plan = [[Rocket_base_action.ROTATE_RIGHT] for i in range(right_turns)]
+                plan.extend([[Rocket_base_action.ACCELERATE] for i in range(10)])
+                return [Rocket_base_action.ROTATE_RIGHT]
+
+            rocket_copy.rotate_right()
+            rocket_copy.move()
+            asteroid_copy.move()
+
 
         return []
 
@@ -122,15 +143,18 @@ class Agent():
     def evade_by_accelerating(self, rocket, asteroid):
         rocket_copy = copy_object(rocket)
         asteroid_copy = copy_object(asteroid)
-        accelerate_limit = 10
+        accelerate_limit = 20
         for accelerate_count in range(accelerate_limit):
             if collides(rocket_copy, asteroid_copy):
                 return False
 
+            # pygame.draw.circle(self.screen, (255,0,0), (asteroid_copy.centerx, asteroid_copy.centery), asteroid_copy.radius)
+            # pygame.draw.circle(self.screen, (0, 255, 0), (rocket_copy.centerx, rocket_copy.centery), rocket_copy.radius)
+            # pygame.display.update()
+            # time.sleep(0.1)
             rocket_copy.accelerate()
             rocket_copy.move()
             asteroid_copy.move()
-
 
         return True
 
@@ -225,7 +249,12 @@ class Agent():
 
 
         for steps_count in range(steps_limit):
+
+            # pygame.draw.circle(self.screen, (0, 255, 0), (rocket_copy.centerx, rocket_copy.centery), rocket_copy.radius)
+
             for neutral_asteroid in neutral_asteroids_copy:
+                # pygame.draw.circle(self.screen, (255, 0, 0), (neutral_asteroid.centerx, neutral_asteroid.centery),
+                #                    neutral_asteroid.radius)
                 if collides(rocket_copy, neutral_asteroid):
                     for neutral_asteroid_reverse in neutral_asteroids_copy:
                         neutral_asteroid_reverse.reverse_move(steps_count)
@@ -237,6 +266,7 @@ class Agent():
                     # rocket.reverse_move(steps_count)
                     # return (copy_object(neutral_asteroids[neutral_asteroids_copy.index(neutral_asteroid)]), steps_count)
                     return (neutral_asteroid, steps_count)
+            pygame.display.update()
 
             for neutral_asteroid in neutral_asteroids_copy:
                 # if neutral_asteroid.valid:
@@ -295,7 +325,7 @@ class Agent():
 
             for enemy_asteroid in enemy_asteroids_copy:
                 enemy_asteroid.move()
-            rocket.move()
+            rocket_copy.move()
 
         # rocket.reverse_move(steps_limit - 1)
         for enemy_asteroid in enemy_asteroids_copy:
@@ -572,38 +602,25 @@ class Agent():
 
 
 
-    def first_impact_asteroid(self, rocket, neutral_asteroids, enemy_asteroids):
-        steps_limit = 30
+    def first_impact_asteroid(self, own_rocket, neutral_asteroids, own_bullets, enemy_asteroids):
+        impact_neutral_asteroid, impact_neutral_asteroid_steps = self.first_impact_neutral_asteroid(own_rocket, neutral_asteroids, own_bullets)
+        impact_enemy_asteroid, impact_enemy_asteroid_steps = self.first_impact_enemy_asteroid(own_rocket,
+                                                                                                 enemy_asteroids,
+                                                                                                 own_bullets)
 
-        for steps_count in range(steps_limit):
-            for neutral_asteroid in neutral_asteroids:
-                if collides(rocket, neutral_asteroid):
-                # if rocket.collision_rect.colliderect(neutral_asteroid.collision_rect):
-                    neutral_asteroid.reverse_move(steps_count)
-                    rocket.reverse_move(steps_count)
-                    return (neutral_asteroid, steps_count)
-            for enemy_asteroid in enemy_asteroids:
-                if collides(rocket, enemy_asteroid):
-                # if rocket.collision_rect.colliderect(enemy_asteroid.collision_rect):
-                    enemy_asteroid.reverse_move(steps_count)
-                    rocket.reverse_move(steps_count)
-                    return (enemy_asteroid, steps_count)
+        if impact_neutral_asteroid_steps < impact_enemy_asteroid_steps:
+            impact_asteroid = impact_neutral_asteroid
+            impact_steps = impact_neutral_asteroid_steps
+        elif impact_neutral_asteroid_steps > impact_enemy_asteroid_steps:
+            impact_asteroid = impact_enemy_asteroid
+            impact_steps = impact_enemy_asteroid_steps
+        elif impact_neutral_asteroid is None and impact_enemy_asteroid is None:
+            return None, IMPACT_RADIUS + 1
+        else:
+            impact_asteroid = impact_enemy_asteroid
+            impact_steps = impact_enemy_asteroid_steps
 
-            rocket.move()
-            for neutral_asteroid in neutral_asteroids:
-                neutral_asteroid.move()
-            for enemy_asteroid in enemy_asteroids:
-                enemy_asteroid.move()
-
-        # Place every object to inital place
-        rocket.reverse_move(steps_limit)
-        for neutral_asteroid in neutral_asteroids:
-            neutral_asteroid.reverse_move(steps_limit)
-
-        for enemy_asteroid in enemy_asteroids:
-            enemy_asteroid.reverse_move(steps_count)
-
-        return None, steps_limit + 1
+        return impact_asteroid, impact_steps
 
     def shoot_impact_asteroid(self, rocket, asteroid):
         moved_steps = 0
@@ -903,6 +920,9 @@ class Evasion_agent(Agent):
         self.screen = screen
         self.shoot_reload_ticks = 0
 
+
+
+
     def choose_actions(self, state, opposite_actions):
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
         impact_neutral_asteroid, impact_neutral_asteroid_steps = super().first_impact_neutral_asteroid(own_rocket, state.neutral_asteroids, own_bullets)
@@ -912,15 +932,20 @@ class Evasion_agent(Agent):
 
         if impact_neutral_asteroid_steps < impact_enemy_asteroid_steps:
             impact_asteroid = impact_neutral_asteroid
+            impact_steps = impact_neutral_asteroid_steps
         elif impact_neutral_asteroid_steps > impact_enemy_asteroid_steps:
             impact_asteroid = impact_enemy_asteroid
+            impact_steps = impact_enemy_asteroid_steps
         elif impact_neutral_asteroid is None and impact_enemy_asteroid is None:
             return super().convert_actions([])
         else:
             impact_asteroid = impact_enemy_asteroid
 
 
-        if impact_asteroid is not None:
+        if impact_asteroid is not None and impact_steps < 25:
+            # pygame.draw.circle(self.screen, (255,0,0), (impact_asteroid.centerx, impact_asteroid.centery), 15)
+            # pygame.display.update()
+            # time.sleep(0.1)
             actions = super().evade_asteroid(own_rocket, impact_asteroid)
             actions = super().convert_actions(actions)
             return actions
@@ -1069,7 +1094,7 @@ class Input_agent(Agent):
         super().__init__(player_number)
         self.screen = screen
 
-    def choose_actions(self, state):
+    def  choose_actions(self, state):
         actions_one = []
         actions_two = []
         actions = []
@@ -1078,60 +1103,68 @@ class Input_agent(Agent):
         for event in events:
             if(event.key == pygame.K_KP5):
                 actions.append(Rocket_action.ROCKET_ONE_SHOOT)
-                actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
+                # actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
+                actions_one.append(Rocket_base_action.SHOT)
             if(event.key == pygame.K_KP6):
                 actions.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
-                actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
+                # actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
+                actions_one.append(Rocket_base_action.SPLIT_SHOOT)
             if(event.key == pygame.K_g):
                 actions.append(Rocket_action.ROCKET_TWO_SHOOT)
-                actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
+                # actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
+                actions_two.append(Rocket_base_action.SHOT)
             if(event.key == pygame.K_h):
                 actions.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
-                actions_two.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
-
+                # actions_two.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
+                actions_two.append(Rocket_base_action.SPLIT_SHOOT)
 
 
         all_keys = pygame.key.get_pressed()
         if all_keys[pygame.K_UP]:
             actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-            actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
+            # actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
+            actions_one.append(Rocket_base_action.ACCELERATE)
         if all_keys[pygame.K_LEFT]:
             actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-            actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
+            # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
+            actions_one.append(Rocket_base_action.ROTATE_LEFT)
         if all_keys[pygame.K_RIGHT]:
             actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-            actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-
+            # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
+            actions_one.append(Rocket_base_action.ROTATE_RIGHT)
 
         if all_keys[pygame.K_a]:
             actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-            actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
+            # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
+            actions_two.append(Rocket_base_action.ROTATE_LEFT)
         if all_keys[pygame.K_d]:
             actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-            actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+            # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+            actions_two.append(Rocket_base_action.ROTATE_RIGHT)
         if all_keys[pygame.K_w]:
             actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-            actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+            # actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+            actions_two.append(Rocket_base_action.ACCELERATE)
 
 
 
         # clearing it apparently prevents from stucking
         pygame.event.clear()
 
-        if self.player_number == 1:
-            own_rocket = state.player_one_rocket
-            enemy_rocket = state.player_two_rocket
-            own_asteroids = state.player_one_asteroids
-            enemy_asteroids = state.player_two_asteroids
-            own_bullets = state.player_one_bullets
-            enemy_bullets = state.player_two_bullets
-        else:
-            own_rocket = state.player_two_rocket
-            enemy_rocket = state.player_one_rocket
-            own_asteroids = state.player_two_asteroids
-            enemy_asteroids = state.player_one_asteroids
-            own_bullets = state.player_two_bullets
-            enemy_bullets = state.player_one_bullets
+        # if self.player_number == 1:
+        #     own_rocket = state.player_one_rocket
+        #     enemy_rocket = state.player_two_rocket
+        #     own_asteroids = state.player_one_asteroids
+        #     enemy_asteroids = state.player_two_asteroids
+        #     own_bullets = state.player_one_bullets
+        #     enemy_bullets = state.player_two_bullets
+        # else:
+        #     own_rocket = state.player_two_rocket
+        #     enemy_rocket = state.player_one_rocket
+        #     own_asteroids = state.player_two_asteroids
+        #     enemy_asteroids = state.player_one_asteroids
+        #     own_bullets = state.player_two_bullets
+        #     enemy_bullets = state.player_one_bullets
 
 
 

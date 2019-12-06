@@ -49,6 +49,7 @@ class Enviroment():
         self.RocketOne = Rocket(self.screen, 0)
         self.RocketOne.speedx = 0
         self.RocketOne.speedy = 0
+        self.RocketOne.angle = 0
         self.asteroids_one = []
         self.bullets_one = []
 
@@ -139,21 +140,34 @@ class Enviroment():
     def _generate_asteroid_(self):
         # if self.generate_asteroid:
         #     ast = Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None)
+        #
         #     # ast.collision_rect.center = (self.RocketTwo.centerx + 600, self.RocketTwo.centery)
-        #     ast.centerx = self.RocketTwo.centerx + 600
-        #     ast.centery = self.RocketTwo.centery - 200
+        #     ast.centerx = self.RocketOne.centerx - 100
+        #     ast.centery = self.RocketOne.centery + 200
         #     # ast.centerx = ast.centerx
         #     # ast.centery = ast.centery
-        #     ast.speedx = 6
+        #     ast.speedx = 2
         #     ast.speedy = 2
         #     bullet = Bullet(self.screen, self.RocketOne, split=0)
         #
-        #     # ast = Asteroid(self.screen, None, None, ast, self.RocketOne, bullet)
+        #     ast = Asteroid(self.screen, None, None, ast, self.RocketOne, bullet)
         #     self.asteroids_neutral.append(ast)
-        #     # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     # self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
+        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
         #     self.generate_asteroid = False
         # return
 
