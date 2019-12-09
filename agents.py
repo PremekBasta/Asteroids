@@ -50,6 +50,7 @@ class Agent():
         self.plan = actions
         self.finished_plan = False
         self.finished_plan_attack = False
+        self.finished_plan_evasion = False
 
     def choose_action_from_plan(self):
         if len(self.plan) > 0:
@@ -58,6 +59,7 @@ class Agent():
             actions = []
             self.plan = []
             self.finished_plan_attack = True
+            self.finished_plan_evasion = True
         return actions
 
 
@@ -95,25 +97,20 @@ class Agent():
         asteroid_copy = copy_object(asteroid)
         plan = []
 
-
         rotation_limit = 15
         for left_turns in range(0, rotation_limit):
             if self.evade_by_accelerating(rocket_copy, asteroid_copy):
                 if left_turns == 0:
-                    # print(f"Accelerate")
-                    # time.sleep(0.4)
-                    # pygame.draw.circle(self.screen, (255,0,0), (asteroid_copy.centerx, asteroid_copy.centery), 5)
-                    # pygame.draw.circle(self.screen, (0, 255, 0), (rocket_copy.centerx, rocket_copy.centery), 5)
-                    # pygame.display.update()
-                    # time.sleep(0.1)
                     plan = [[Rocket_base_action.ACCELERATE] for i in range(10)]
-                    return [Rocket_base_action.ACCELERATE]
+                    return plan
+                    # return [Rocket_base_action.ACCELERATE]
                 elif left_turns < 15:
                     # print(f"left: {left_turns}")
                     # time.sleep(0.4)
                     plan = [[Rocket_base_action.ROTATE_LEFT] for i in range(left_turns)]
                     plan.extend([[Rocket_base_action.ACCELERATE] for i in range(10)])
-                    return [Rocket_base_action.ROTATE_LEFT]
+                    # return [Rocket_base_action.ROTATE_LEFT]
+                    return plan
 
             rocket_copy.rotate_left()
             rocket_copy.move()
@@ -127,12 +124,12 @@ class Agent():
                 # time.sleep(0.4)
                 plan = [[Rocket_base_action.ROTATE_RIGHT] for i in range(right_turns)]
                 plan.extend([[Rocket_base_action.ACCELERATE] for i in range(10)])
-                return [Rocket_base_action.ROTATE_RIGHT]
+                # return [Rocket_base_action.ROTATE_RIGHT]
+                return plan
 
             rocket_copy.rotate_right()
             rocket_copy.move()
             asteroid_copy.move()
-
 
         return []
 
@@ -148,9 +145,9 @@ class Agent():
             if collides(rocket_copy, asteroid_copy):
                 return False
 
-            # pygame.draw.circle(self.screen, (255,0,0), (asteroid_copy.centerx, asteroid_copy.centery), asteroid_copy.radius)
-            # pygame.draw.circle(self.screen, (0, 255, 0), (rocket_copy.centerx, rocket_copy.centery), rocket_copy.radius)
-            # pygame.display.update()
+            pygame.draw.circle(self.screen, (255,0,0), (asteroid_copy.centerx, asteroid_copy.centery), asteroid_copy.radius)
+            pygame.draw.circle(self.screen, (0, 255, 0), (rocket_copy.centerx, rocket_copy.centery), rocket_copy.radius)
+            pygame.display.update()
             # time.sleep(0.1)
             rocket_copy.accelerate()
             rocket_copy.move()
@@ -919,39 +916,46 @@ class Evasion_agent(Agent):
         super().__init__(player_number)
         self.screen = screen
         self.shoot_reload_ticks = 0
-
-
-
+        self.inactive_steps = 0
+        self.finished_plan_evasion = True
 
     def choose_actions(self, state, opposite_actions):
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
-        impact_neutral_asteroid, impact_neutral_asteroid_steps = super().first_impact_neutral_asteroid(own_rocket, state.neutral_asteroids, own_bullets)
-        impact_enemy_asteroid, impact_enemy_asteroid_steps = super().first_impact_enemy_asteroid(own_rocket,
-                                                                                                 enemy_asteroids,
-                                                                                                 own_bullets)
 
-        if impact_neutral_asteroid_steps < impact_enemy_asteroid_steps:
-            impact_asteroid = impact_neutral_asteroid
-            impact_steps = impact_neutral_asteroid_steps
-        elif impact_neutral_asteroid_steps > impact_enemy_asteroid_steps:
-            impact_asteroid = impact_enemy_asteroid
-            impact_steps = impact_enemy_asteroid_steps
-        elif impact_neutral_asteroid is None and impact_enemy_asteroid is None:
-            return super().convert_actions([])
+
+
+        if self.reevaluate_plan(opposite_actions):
+            impact_asteroid, impact_steps = super().first_impact_asteroid(own_rocket, state.neutral_asteroids, own_bullets, enemy_asteroids)
+            if impact_asteroid is None:
+                super().finish_plan()
+                return super().convert_actions([])
+
+            if impact_asteroid is not None and impact_steps < 25:
+                # pygame.draw.circle(self.screen, (255,0,0), (impact_asteroid.centerx, impact_asteroid.centery), 15)
+                # pygame.display.update()
+                # time.sleep(0.1)
+                actions = super().evade_asteroid(own_rocket, impact_asteroid)
+                super().store_plan(actions)
+                # actions(actions)
+                # return actions
         else:
-            impact_asteroid = impact_enemy_asteroid
+            self.inactive_steps = self.inactive_steps + 1
 
+        actions = super().choose_action_from_plan()
 
-        if impact_asteroid is not None and impact_steps < 25:
-            # pygame.draw.circle(self.screen, (255,0,0), (impact_asteroid.centerx, impact_asteroid.centery), 15)
-            # pygame.display.update()
-            # time.sleep(0.1)
-            actions = super().evade_asteroid(own_rocket, impact_asteroid)
-            actions = super().convert_actions(actions)
-            return actions
-        return []
+        return super().convert_actions(actions)
 
+    def reevaluate_plan(self, opposite_actions):
+        if self.inactiv_ticks > INACTIVE_EVASION_TIME_LIMIT:
+            self.inactiv_ticks = 0
+            return True
 
+        if not self.finished_plan_evasion:
+            self.inactiv_ticks = self.inactiv_ticks + 1
+            return False
+
+        self.inactiv_ticks = self.inactiv_ticks + 1
+        return False
 
 class Stable_defensive_agent(Agent):
     def __init__(self, screen, player_number):
@@ -969,8 +973,6 @@ class Stable_defensive_agent(Agent):
     def choose_actions(self, state, opposite_agent_actions):
 
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
-
-
 
         if super().reevaluate_plan(opposite_agent_actions):
             self.active_steps = self.active_steps + 1

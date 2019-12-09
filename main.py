@@ -8,7 +8,7 @@ import numpy as np
 
 visual = True
 rocket_one_invulnerable = False
-rocket_two_invulnerable = False
+rocket_two_invulnerable = True
 
 env = Enviroment(visual, rocket_one_invulnerable, rocket_two_invulnerable)
 clock = pygame.time.Clock()
@@ -16,7 +16,7 @@ state = env.reset()
 
 agent_one = Evasion_agent(env.screen, 1)
 # agent_one = Stable_defensive_agent(env.screen, 1)
-agent_two = Evasion_agent(env.screen, 2)
+agent_two = Dummy_agent(env.screen, 2)
 # agent_two = Stable_defensive_agent(env.screen, 2)
 
 
