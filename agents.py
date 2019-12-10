@@ -388,7 +388,8 @@ class Agent():
         own_rocket_copy = copy_object(own_rocket)
         enemy_rocket_copy = copy_object(enemy_rocket)
         neutral_asteroids_copy = [copy_object(neutral_asteroid) for neutral_asteroid in neutral_asteroids]
-        enemy_asteroids_copy = [copy_object(enemy_asteroid) for enemy_asteroid in enemy_asteroids]
+        # enemy_asteroids_copy = [copy_object(enemy_asteroid) for enemy_asteroid in enemy_asteroids]
+        enemy_asteroids_copy = [copy_object(enemy_asteroid) for enemy_asteroid in enemy_asteroids if enemy_asteroid.size_index != 0]
         own_bullets_copy = [copy_object(own_bullet) for own_bullet in own_bullets]
         enemy_bullets_copy = [copy_object(enemy_bullet) for enemy_bullet in enemy_bullets]
 
