@@ -6,17 +6,17 @@ import timeit
 import numpy as np
 
 
-visual = True
+visual = False
 rocket_one_invulnerable = False
-rocket_two_invulnerable = True
+rocket_two_invulnerable = False
 
 env = Enviroment(visual, rocket_one_invulnerable, rocket_two_invulnerable)
 clock = pygame.time.Clock()
 state = env.reset()
 
-agent_one = Evasion_agent(env.screen, 1)
+agent_one = Smart_agent(env.screen, 1)
 # agent_one = Stable_defensive_agent(env.screen, 1)
-agent_two = Dummy_agent(env.screen, 2)
+agent_two = Stable_defensive_agent(env.screen, 2)
 # agent_two = Stable_defensive_agent(env.screen, 2)
 
 
@@ -43,23 +43,25 @@ for i in range(1000):
     while game_over == False:
         if visual:
             # time.sleep(0.010)
-            clock.tick(30)
+            clock.tick(60)
 
         # actions_one, actions_two = agent_one.choose_actions(state)
         # actions_one, _ = agent_one.choose_actions(state)
 
         # _, actions_two = agent_two.choose_actions(state)
 
-
         events = pygame.event.get(pygame.KEYDOWN)
         all_keys = pygame.key.get_pressed()
         actions_two = agent_two.choose_actions(state, agent_one_actions)
+
         actions_one = agent_one.choose_actions(state, agent_two_actions)
+
         #
         # # _, actions_two = env.get_actions_from_keyboard_input()
         #
         # # start = time.time()
         step_count, (game_over, rocketOne_health, rocketTwo_health), state, agent_one_actions, agent_two_actions = env.next_step(actions_one, actions_two)
+
     end = time.time()
     total_time = total_time + (end - start)
     # print(f"active steps: {agent_one.active_steps}")
@@ -103,6 +105,13 @@ for i in range(1000):
     # # print(f"average steps count: {total_steps / (i + 1)}")
     print(f"Rocket one wins: {RocketOne_wins}")
     print(f"Rocket two wins: {RocketTwo_wins}")
+
+    print(f"Attack count: {agent_one.attack_count}")
+    agent_one.attack_count = 0
+    print(f"Defense count: {agent_one.defense_count}")
+    agent_one.defense_count = 0
+    print(f"Evasion count: {agent_one.evasion_count}")
+    agent_one.evasion_count = 0
 
 
 # print(f"longest tick: {longest_step}")

@@ -226,7 +226,7 @@ class Bullet():
     def is_alive(self):
         return self.life_count > 0
 
-random.seed(112)
+random.seed(RANDOM_SEED)
 
 class Asteroid():
     asteroid_images =  [
@@ -317,7 +317,8 @@ class Asteroid():
         global random
         x = random.randint(0, SCREEN_WIDTH)
         y = random.randint(0, SCREEN_HEIGHT)
-        while True:
+        # while True:
+        for i in range(10000):
             if(
                 math.fabs(x - rocket_one.centerx) > 100 and
                 math.fabs(x - rocket_two.centerx) > 100 and

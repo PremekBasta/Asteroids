@@ -71,16 +71,22 @@ class Enviroment():
 
         self._handle_actions_(actions_one, actions_two)
 
+
         self._generate_asteroid_()
+
 
         self._check_collisions_()
 
+
         self._move_sprites_()
+
 
         if self.visual:
             self._draw_sprites_()
 
+
         game_over = self._check_end_()
+
 
         current_state = State(self.asteroids_neutral, self.RocketOne, self.asteroids_one, self.bullets_one,
                               self.RocketTwo, self.asteroids_two, self.bullets_two)
@@ -318,7 +324,7 @@ class Enviroment():
                     self.asteroids_one.remove(asteroid_one)
                     self.RocketTwo.health = self.RocketTwo.health - 30
 
-    def _check_collisions_(self):
+    def  _check_collisions_(self):
         if self.step_count % 2 == 0:
             self.check_collisions_objects_one()
             self.check_collisions_objects_two()
