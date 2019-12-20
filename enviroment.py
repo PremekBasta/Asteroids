@@ -15,11 +15,12 @@ white = (255,255,255)
 
 
 class Enviroment():
-    def __init__(self, visual, rocket_one_invulnerable, rocket_two_invulnerable):
+    def __init__(self, visual, rocket_one_invulnerable, rocket_two_invulnerable, draw_modul = None):
         super().__init__()
         pygame.init()
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        pygame.display.init()
+        self.draw_modul = draw_modul
+        # self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        # pygame.display.init()
         self.bullets_one = []
         self.bullets_two = []
         self.asteroids_neutral = []
@@ -81,9 +82,25 @@ class Enviroment():
         self._move_sprites_()
 
 
-        if self.visual:
-            self._draw_sprites_()
+        if self.draw_modul is not None:
+            # self._draw_sprites_()
+            self.draw_modul.clear_display()
+            self.draw_modul.draw_rocket(self.RocketOne)
+            self.draw_modul.draw_rocket(self.RocketTwo)
 
+            for bullet in self.bullets_one:
+                self.draw_modul.draw_bullet(bullet)
+            for bullet in self.bullets_two:
+                self.draw_modul.draw_bullet(bullet)
+
+            for asteroid in self.asteroids_neutral:
+                self.draw_modul.draw_asteroid(asteroid)
+            for asteroid in self.asteroids_one:
+                self.draw_modul.draw_asteroid(asteroid)
+            for asteroid in self.asteroids_two:
+                self.draw_modul.draw_asteroid(asteroid)
+
+            self.draw_modul.render()
 
         game_over = self._check_end_()
 

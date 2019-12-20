@@ -1,20 +1,23 @@
-
+from draw_module import draw_module
 from enviroment import Enviroment
 from agents import *
 import time
 import timeit
 import numpy as np
+from gp import return_individual
 
-
-visual = False
+visual = True
 rocket_one_invulnerable = False
 rocket_two_invulnerable = False
 
-env = Enviroment(visual, rocket_one_invulnerable, rocket_two_invulnerable)
+draw_module = draw_module()
+
+
+env = Enviroment(visual, rocket_one_invulnerable, rocket_two_invulnerable, draw_module)
 clock = pygame.time.Clock()
 state = env.reset()
 
-agent_one = Smart_agent(env.screen, 1)
+agent_one = Attacking_agent(env.screen, 1)
 # agent_one = Stable_defensive_agent(env.screen, 1)
 agent_two = Stable_defensive_agent(env.screen, 2)
 # agent_two = Stable_defensive_agent(env.screen, 2)
@@ -41,9 +44,8 @@ for i in range(1000):
     agent_two.finished_plan = True
     start = time.time()
     while game_over == False:
-        if visual:
-            # time.sleep(0.010)
-            clock.tick(60)
+        # if visual:
+        #     clock.tick(60)
 
         # actions_one, actions_two = agent_one.choose_actions(state)
         # actions_one, _ = agent_one.choose_actions(state)
@@ -72,6 +74,12 @@ for i in range(1000):
     print(f"avg_time: {total_time / (i+1)}")
     total_steps = total_steps + step_count
     print(f"avg_steps_count: {total_steps / (i+1)}")
+    print(f"attack_count: {agent_one.attack_count}")
+    agent_one.attack_count = 0
+    print(f"deffense_count: {agent_one.defense_count}")
+    agent_one.defense_count = 0
+    print(f"evasion_count: {agent_one.evasion_count}")
+    agent_one.evasion_count = 0
     #
     # print(f"player one python: {agent_one.python_time}")
     # print(f"player one numpy: {agent_one.numpy_time}")

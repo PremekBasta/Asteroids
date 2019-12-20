@@ -284,14 +284,15 @@ class Asteroid():
                 self.speedy = impact_bullet.speedy // 14
 
             self.size_index = old_asteroid.size_index - 1
-
-            self.image = Asteroid.asteroid_images[self.player][self.size_index][random.randint(0, 2)]
+            self.random_image_index = random.randint(0,2)
+            self.image = Asteroid.asteroid_images[self.player][self.size_index][self.random_image_index]
         else:
-            player = 2
+            self.player = 2
+            self.random_image_index = random.randint(0, 2)
             self.speedx = -5 + random.randint(0, 10)
             self.speedy = -5 + random.randint(0, 10)
             self.size_index = 2
-            self.image = Asteroid.asteroid_images[2][2][random.randint(0, 2)]
+            self.image = Asteroid.asteroid_images[2][2][self.random_image_index]
 
 
 

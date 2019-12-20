@@ -7,6 +7,8 @@ import math
 from dto import collides, collides_numba, SpaceObjectDTO, copy_object
 from numba import jit, jitclass, int32
 import numpy as np
+from enum import Enum
+
 
 
 class Agent():
@@ -953,9 +955,9 @@ class Evasion_agent(Agent):
         return False
 
 class Stable_defensive_agent(Agent):
-    def __init__(self, screen, player_number):
+    def __init__(self, player_number):
         super().__init__(player_number)
-        self.screen = screen
+        # self.screen = screen
         self.shoot_reload_ticks = 0
         self.python_time = 0
         self.numpy_time = 0
@@ -1061,6 +1063,9 @@ class Smart_agent(Agent):
         self.evasion_count = 0
         self.odd = 0
 
+
+#TODO: evoluce pravidel jedince je mnozina pravidel, neurnka s vectorem vstupu
+
     def choose_actions(self, state, opposite_agent_actions):
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
         if self.reevaluate_plan(opposite_agent_actions):
@@ -1135,8 +1140,88 @@ class Smart_agent(Agent):
             self.inactiv_ticks = 0
             return True
 
+
+
         self.inactiv_ticks = self.inactiv_ticks + 1
         return False
+
+class Genetic_agent(Agent):
+    def __init__(self, player_number, decision_function):
+        super().__init__(player_number)
+        # self.screen = screen
+        self.inactiv_ticks = 0
+        self.attack_count = 0
+        self.defense_count = 0
+        self.evasion_count = 0
+        self.odd = 0
+        self.decision_function = decision_function
+        self.penalty = 0
+
+    def choose_actions(self, state, opposite_agent_actions):
+        actions = []
+        if self.reevaluate_plan(opposite_agent_actions):
+            (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count) = self.get_state_stats(state)
+            actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count)
+            if actions_index() == ActionEnum.ATTACK:
+                actions = attack_actions
+                self.attack_count+=1
+            elif actions_index() == ActionEnum.DEFFENSE:
+                actions = defense_shoot_actions
+                self.defense_count+=1
+            elif actions_index() == ActionEnum.EVASION:
+                actions = evade_actions
+                self.evasion_count+=1
+            else:
+                self.penalty = self.penalty + 1
+
+            super().store_plan(actions)
+
+        return super().convert_actions(super().choose_action_from_plan())
+
+
+    def reevaluate_plan(self, opposite_player_actions):
+        if self.inactiv_ticks > INACTIVE_SMART_TIME_LIMIT:
+            self.inactiv_ticks = 0
+            return True
+
+        self.inactiv_ticks = self.inactiv_ticks + 1
+        return False
+
+    def get_state_stats(self, state):
+        own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
+        impact, impact_asteroid, impact_steps_count = super().first_impact_asteroid(own_rocket, neutral_asteroids,
+                                                                                    own_bullets, enemy_asteroids)
+
+        attack_actions = []
+        attack_steps_count = NOT_FOUND_STEPS_COUNT
+
+        evade_actions = []
+        evade_steps_count = NOT_FOUND_STEPS_COUNT
+
+        defense_shoot_actions = []
+        defense_steps_count = NOT_FOUND_STEPS_COUNT
+
+
+        if impact:
+            evade_actions, evade_steps_count = super().evade_asteroid(own_rocket, impact_asteroid)
+            defense_shoot_actions, defense_steps_count = super().defense_shoot_asteroid_actions(own_rocket,
+                                                                                                impact_asteroid)
+        if self.odd < 1:
+            self.odd = self.odd + 1
+        else:
+            self.odd = 0
+            hit, attack_actions, attack_steps_count = super().shoot_in_all_directions_to_hit_enemy(own_rocket,
+                                                                                                   enemy_rocket,
+                                                                                                   state.neutral_asteroids,
+                                                                                                   enemy_asteroids,
+                                                                                                   own_bullets,
+                                                                                                   enemy_bullets)
+        return (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count)
+
+    def foo(attack_steps_count, defense_steps_count, evade_steps_count):
+        if defense_steps_count < NOT_FOUND_STEPS_COUNT:
+            return 2
+        return 1
 
 class Input_agent(Agent):
     def __init__(self,  screen, player_number):
@@ -1235,3 +1320,8 @@ class Input_agent(Agent):
         #     pass
 
         return actions_one, actions_two
+
+class ActionEnum(Enum):
+    ATTACK = 1
+    DEFFENSE = 2
+    EVASION = 3
