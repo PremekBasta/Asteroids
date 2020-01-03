@@ -135,6 +135,57 @@ class Agent():
 
         return [], NOT_FOUND_STEPS_COUNT
 
+    def stop_moving(self, rocket):
+        rocket_copy = copy_object(rocket)
+
+        if (math.fabs(rocket_copy.speedx) + math.fabs(rocket_copy.speedy)) < 16:
+            return False, [], 0
+
+        if rocket_copy.speedx == 0:
+            if rocket_copy.speedy > 0:
+                move_angle = 270
+            elif rocket_copy.speedy < 0:
+                move_angle = 90
+        else:
+            move_angle = (math.atan(- rocket_copy.speedy / rocket_copy.speedx) * 180) / math.pi
+            if rocket_copy.speedx < 0:
+                move_angle = move_angle + 180
+            move_angle = move_angle % 360
+
+        reverse_angle = (move_angle + 180 - 90) % 360
+
+        left_turns = 0
+        right_turns = 0
+        if ((reverse_angle + 360 - rocket_copy.angle) % 360) < 180:
+            left_turns = int(((reverse_angle + 360 - rocket_copy.angle) % 360) // 12)
+        else:
+            right_turns = int((360 - ((reverse_angle + 360 - rocket_copy.angle) % 360)) // 12)
+
+
+        rocket_copy.rotate_left(left_turns)
+        rocket_copy.rotate_right(right_turns)
+
+        accelerate_count = 0
+
+        while (math.fabs(rocket_copy.speedx) + math.fabs(rocket_copy.speedy)) > 14 and accelerate_count < 10:
+            rocket_copy.accelerate()
+            accelerate_count = accelerate_count + 1
+
+        actions = []
+
+        if left_turns > 0:
+            actions = [[Rocket_base_action.ROTATE_LEFT] for i in range(left_turns)]
+        if right_turns > 0:
+            actions = [[Rocket_base_action.ROTATE_RIGHT] for i in range(right_turns)]
+
+        for i in range(accelerate_count):
+            actions.append([Rocket_base_action.ACCELERATE])
+        return True, actions, left_turns + right_turns + accelerate_count
+
+
+
+
+
 
 
 
@@ -450,13 +501,13 @@ class Agent():
 
         shot, bullet, impact_asteroid, steps_count = self.shoot_will_hit_asteroid(own_rocket, neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets)
         if shot:
-            created_asteroid_single = Asteroid(self.screen, None, None, impact_asteroid, own_rocket, bullet)
+            created_asteroid_single = Asteroid(None, None, impact_asteroid, own_rocket, bullet)
             if created_asteroid_single.valid:
                 hit, steps_count = self.asteroid_will_hit_rocket(enemy_rocket, created_asteroid_single)
                 if hit:
                     return True, Rocket_base_action.SHOT
 
-            created_asteroid_split_one, created_asteroid_split_two = Asteroid.split_asteroid(self.screen, own_rocket, impact_asteroid, bullet)
+            created_asteroid_split_one, created_asteroid_split_two = Asteroid.split_asteroid(own_rocket, impact_asteroid, bullet)
             if created_asteroid_split_one is not None:
                 hit, steps_count = self.asteroid_will_hit_rocket(enemy_rocket, created_asteroid_split_one)
                 if hit:
@@ -490,7 +541,7 @@ class Agent():
         return (False, steps_limit + 1)
 
     def shoot_will_hit_explicit_asteroid(self, rocket, asteroid):
-        bullet = Bullet(self.screen, rocket)
+        bullet = Bullet(rocket)
         asteroid_copy = copy_object(asteroid)
 
         for step_count in range(BULLET_LIFE_COUNT):
@@ -502,7 +553,7 @@ class Agent():
         return False
 
     def shoot_will_hit_asteroid(self, own_rocket, neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets, split = 0):
-        bullet = Bullet(self.screen, own_rocket, split=split)
+        bullet = Bullet(own_rocket, split=split)
 
         # neutral_asteroids_risk = [neutral_asteroid for neutral_asteroid in neutral_asteroids if self.risk_of_collision(neutral_asteroid, bullet)]
         # enemy_asteroids_risk = [enemy_asteroid for enemy_asteroid in enemy_asteroids if self.risk_of_collision(enemy_asteroid, bullet)]
@@ -833,9 +884,9 @@ class Agent():
 
 
 class Attacking_agent(Agent):
-    def __init__(self, screen, player_number):
+    def __init__(self, player_number):
         super().__init__(player_number)
-        self.screen = screen
+        # self.screen = screen
         self.shoot_reload_ticks = 0
         self.active_steps = 0
         self.inactive_steps = 0
@@ -909,12 +960,15 @@ class Random_agent(Agent):
         return actions
 
 class Evasion_agent(Agent):
-    def __init__(self, screen, player_number):
+    def __init__(self, player_number, draw_modul):
         super().__init__(player_number)
-        self.screen = screen
         self.shoot_reload_ticks = 0
         self.inactive_steps = 0
         self.finished_plan_evasion = True
+        self.draw_modul = draw_modul
+        self.attack_count = 0
+        self.evasion_count = 0
+        self.defense_count = 0
 
     def choose_actions(self, state, opposite_actions):
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
@@ -923,9 +977,13 @@ class Evasion_agent(Agent):
 
         if self.reevaluate_plan(opposite_actions):
             impact, impact_asteroid, impact_steps = super().first_impact_asteroid(own_rocket, state.neutral_asteroids, own_bullets, enemy_asteroids)
+            stop_found, stop_actions, stop_actions_count = super().stop_moving(own_rocket)
             if impact_asteroid is None:
-                super().finish_plan()
-                return super().convert_actions([])
+                if stop_found:
+                    super().store_plan(stop_actions)
+                else:
+                    super().finish_plan()
+                    return super().convert_actions([])
 
             if impact_asteroid is not None and impact_steps < 25:
                 # pygame.draw.circle(self.screen, (255,0,0), (impact_asteroid.centerx, impact_asteroid.centery), 15)
@@ -982,10 +1040,7 @@ class Stable_defensive_agent(Agent):
             end = time.time()
             self.python_time = self.python_time + (end - start)
 
-            # if impact_neutral_asteroid is not None:
-                # pygame.draw.circle(self.screen, (255,255,255), (impact_neutral_asteroid.centerx, impact_neutral_asteroid.centery), 30)
-                # pygame.display.update()
-                # time.sleep(0.5)
+
 
             # start = time.time()
             # impact_neutral_asteroid, impact_neutral_asteroid_steps = super().first_impact_neutral_asteroid_numpy(rocket,
@@ -1153,6 +1208,7 @@ class Genetic_agent(Agent):
         self.attack_count = 0
         self.defense_count = 0
         self.evasion_count = 0
+        self.stop_count = 0
         self.odd = 0
         self.decision_function = decision_function
         self.penalty = 0
@@ -1160,7 +1216,7 @@ class Genetic_agent(Agent):
     def choose_actions(self, state, opposite_agent_actions):
         actions = []
         if self.reevaluate_plan(opposite_agent_actions):
-            (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count) = self.get_state_stats(state)
+            (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count) = self.get_state_stats(state)
             actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count)
             if actions_index() == ActionEnum.ATTACK:
                 actions = attack_actions
@@ -1171,6 +1227,9 @@ class Genetic_agent(Agent):
             elif actions_index() == ActionEnum.EVASION:
                 actions = evade_actions
                 self.evasion_count+=1
+            elif actions_index() == ActionEnum.STOP:
+                actions = stop_actions
+                self.stop_count+=1
             else:
                 self.penalty = self.penalty + 1
 
@@ -1201,6 +1260,10 @@ class Genetic_agent(Agent):
         defense_shoot_actions = []
         defense_steps_count = NOT_FOUND_STEPS_COUNT
 
+        stop_actions = []
+        stop_steps_count = NOT_FOUND_STEPS_COUNT
+
+        _, stop_actions, stop_steps_count = super().stop_moving(own_rocket)
 
         if impact:
             evade_actions, evade_steps_count = super().evade_asteroid(own_rocket, impact_asteroid)
@@ -1216,7 +1279,7 @@ class Genetic_agent(Agent):
                                                                                                    enemy_asteroids,
                                                                                                    own_bullets,
                                                                                                    enemy_bullets)
-        return (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count)
+        return (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count)
 
     def foo(attack_steps_count, defense_steps_count, evade_steps_count):
         if defense_steps_count < NOT_FOUND_STEPS_COUNT:
@@ -1228,100 +1291,101 @@ class Input_agent(Agent):
         super().__init__(player_number)
         self.screen = screen
 
-    def  choose_actions(self, state):
-        actions_one = []
-        actions_two = []
-        actions = []
-        events = pygame.event.get(pygame.KEYDOWN)
-
-        for event in events:
-            if(event.key == pygame.K_KP5):
-                actions.append(Rocket_action.ROCKET_ONE_SHOOT)
-                # actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
-                actions_one.append(Rocket_base_action.SHOT)
-            if(event.key == pygame.K_KP6):
-                actions.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
-                # actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
-                actions_one.append(Rocket_base_action.SPLIT_SHOOT)
-            if(event.key == pygame.K_g):
-                actions.append(Rocket_action.ROCKET_TWO_SHOOT)
-                # actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
-                actions_two.append(Rocket_base_action.SHOT)
-            if(event.key == pygame.K_h):
-                actions.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
-                # actions_two.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
-                actions_two.append(Rocket_base_action.SPLIT_SHOOT)
-
-
-        all_keys = pygame.key.get_pressed()
-        if all_keys[pygame.K_UP]:
-            actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-            # actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-            actions_one.append(Rocket_base_action.ACCELERATE)
-        if all_keys[pygame.K_LEFT]:
-            actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-            # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-            actions_one.append(Rocket_base_action.ROTATE_LEFT)
-        if all_keys[pygame.K_RIGHT]:
-            actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-            # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-            actions_one.append(Rocket_base_action.ROTATE_RIGHT)
-
-        if all_keys[pygame.K_a]:
-            actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-            # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-            actions_two.append(Rocket_base_action.ROTATE_LEFT)
-        if all_keys[pygame.K_d]:
-            actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-            # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-            actions_two.append(Rocket_base_action.ROTATE_RIGHT)
-        if all_keys[pygame.K_w]:
-            actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-            # actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-            actions_two.append(Rocket_base_action.ACCELERATE)
-
-
-
-        # clearing it apparently prevents from stucking
-        pygame.event.clear()
-
-        # if self.player_number == 1:
-        #     own_rocket = state.player_one_rocket
-        #     enemy_rocket = state.player_two_rocket
-        #     own_asteroids = state.player_one_asteroids
-        #     enemy_asteroids = state.player_two_asteroids
-        #     own_bullets = state.player_one_bullets
-        #     enemy_bullets = state.player_two_bullets
-        # else:
-        #     own_rocket = state.player_two_rocket
-        #     enemy_rocket = state.player_one_rocket
-        #     own_asteroids = state.player_two_asteroids
-        #     enemy_asteroids = state.player_one_asteroids
-        #     own_bullets = state.player_two_bullets
-        #     enemy_bullets = state.player_one_bullets
-
-
-
-        # hit, actions, count  = super().shoot_in_all_directions_to_hit_enemy(own_rocket, enemy_rocket, state.neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets)
-        # if hit:
-        #     # actions_one = super().convert_actions(actions)
-        #     actions_two = super().convert_actions(actions)
-
-
-        # pygame.draw.rect(self.screen, (200,200,200), own_asteroid.collision_rect)
-        # pygame.display.update()
-        # time.sleep(0.05)
-
-        # impact_asteroid, impact_steps = super().first_impact_asteroid(rocket, state.neutral_asteroids, enemy_asteroids)
-        # if impact_asteroid is not None:
-        #     # pygame.draw.rect(self.screen, (200, 200, 200), impact_asteroid.collision_rect)
-        #     # pygame.display.update()
-        #     # time.sleep(0.05)
-        #     pass
-
-        return actions_one, actions_two
+    # def  choose_actions(self, state):
+    #     actions_one = []
+    #     actions_two = []
+    #     actions = []
+    #     events = pygame.event.get(pygame.KEYDOWN)
+    #
+    #     for event in events:
+    #         if(event.key == pygame.K_KP5):
+    #             actions.append(Rocket_action.ROCKET_ONE_SHOOT)
+    #             # actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
+    #             actions_one.append(Rocket_base_action.SHOT)
+    #         if(event.key == pygame.K_KP6):
+    #             actions.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
+    #             # actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
+    #             actions_one.append(Rocket_base_action.SPLIT_SHOOT)
+    #         if(event.key == pygame.K_g):
+    #             actions.append(Rocket_action.ROCKET_TWO_SHOOT)
+    #             # actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
+    #             actions_two.append(Rocket_base_action.SHOT)
+    #         if(event.key == pygame.K_h):
+    #             actions.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
+    #             # actions_two.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
+    #             actions_two.append(Rocket_base_action.SPLIT_SHOOT)
+    #
+    #
+    #     all_keys = pygame.key.get_pressed()
+    #     if all_keys[pygame.K_UP]:
+    #         actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
+    #         # actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
+    #         actions_one.append(Rocket_base_action.ACCELERATE)
+    #     if all_keys[pygame.K_LEFT]:
+    #         actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
+    #         # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
+    #         actions_one.append(Rocket_base_action.ROTATE_LEFT)
+    #     if all_keys[pygame.K_RIGHT]:
+    #         actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
+    #         # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
+    #         actions_one.append(Rocket_base_action.ROTATE_RIGHT)
+    #
+    #     if all_keys[pygame.K_a]:
+    #         actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
+    #         # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
+    #         actions_two.append(Rocket_base_action.ROTATE_LEFT)
+    #     if all_keys[pygame.K_d]:
+    #         actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+    #         # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+    #         actions_two.append(Rocket_base_action.ROTATE_RIGHT)
+    #     if all_keys[pygame.K_w]:
+    #         actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+    #         # actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+    #         actions_two.append(Rocket_base_action.ACCELERATE)
+    #
+    #
+    #
+    #     # clearing it apparently prevents from stucking
+    #     pygame.event.clear()
+    #
+    #     # if self.player_number == 1:
+    #     #     own_rocket = state.player_one_rocket
+    #     #     enemy_rocket = state.player_two_rocket
+    #     #     own_asteroids = state.player_one_asteroids
+    #     #     enemy_asteroids = state.player_two_asteroids
+    #     #     own_bullets = state.player_one_bullets
+    #     #     enemy_bullets = state.player_two_bullets
+    #     # else:
+    #     #     own_rocket = state.player_two_rocket
+    #     #     enemy_rocket = state.player_one_rocket
+    #     #     own_asteroids = state.player_two_asteroids
+    #     #     enemy_asteroids = state.player_one_asteroids
+    #     #     own_bullets = state.player_two_bullets
+    #     #     enemy_bullets = state.player_one_bullets
+    #
+    #
+    #
+    #     # hit, actions, count  = super().shoot_in_all_directions_to_hit_enemy(own_rocket, enemy_rocket, state.neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets)
+    #     # if hit:
+    #     #     # actions_one = super().convert_actions(actions)
+    #     #     actions_two = super().convert_actions(actions)
+    #
+    #
+    #     # pygame.draw.rect(self.screen, (200,200,200), own_asteroid.collision_rect)
+    #     # pygame.display.update()
+    #     # time.sleep(0.05)
+    #
+    #     # impact_asteroid, impact_steps = super().first_impact_asteroid(rocket, state.neutral_asteroids, enemy_asteroids)
+    #     # if impact_asteroid is not None:
+    #     #     # pygame.draw.rect(self.screen, (200, 200, 200), impact_asteroid.collision_rect)
+    #     #     # pygame.display.update()
+    #     #     # time.sleep(0.05)
+    #     #     pass
+    #
+    #     return actions_one, actions_two
 
 class ActionEnum(Enum):
     ATTACK = 1
     DEFFENSE = 2
     EVASION = 3
+    STOP = 4

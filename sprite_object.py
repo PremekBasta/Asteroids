@@ -7,56 +7,52 @@ from constants import *
 
 class Rocket():
     rocket_angle_rotation = ROCKET_ANGLE_ROTATION
-    rocket_rotation_images = [
-        [pygame.image.load('images/rocket_one_0.png'), pygame.image.load('images/rocket_one_12.png'),
-         pygame.image.load('images/rocket_one_24.png'), pygame.image.load('images/rocket_one_36.png'),
-         pygame.image.load('images/rocket_one_48.png'), pygame.image.load('images/rocket_one_60.png'),
-         pygame.image.load('images/rocket_one_72.png'), pygame.image.load('images/rocket_one_84.png'),
-         pygame.image.load('images/rocket_one_96.png'), pygame.image.load('images/rocket_one_108.png'),
-         pygame.image.load('images/rocket_one_120.png'), pygame.image.load('images/rocket_one_132.png'),
-         pygame.image.load('images/rocket_one_144.png'), pygame.image.load('images/rocket_one_156.png'),
-         pygame.image.load('images/rocket_one_168.png'), pygame.image.load('images/rocket_one_180.png'),
-         pygame.image.load('images/rocket_one_192.png'), pygame.image.load('images/rocket_one_204.png'),
-         pygame.image.load('images/rocket_one_216.png'), pygame.image.load('images/rocket_one_228.png'),
-         pygame.image.load('images/rocket_one_240.png'), pygame.image.load('images/rocket_one_252.png'),
-         pygame.image.load('images/rocket_one_264.png'), pygame.image.load('images/rocket_one_276.png'),
-         pygame.image.load('images/rocket_one_288.png'), pygame.image.load('images/rocket_one_300.png'),
-         pygame.image.load('images/rocket_one_312.png'), pygame.image.load('images/rocket_one_324.png'),
-         pygame.image.load('images/rocket_one_336.png'), pygame.image.load('images/rocket_one_348.png')],
-        [pygame.image.load('images/rocket_two_0.png'), pygame.image.load('images/rocket_two_12.png'),
-         pygame.image.load('images/rocket_two_24.png'), pygame.image.load('images/rocket_two_36.png'),
-         pygame.image.load('images/rocket_two_48.png'), pygame.image.load('images/rocket_two_60.png'),
-         pygame.image.load('images/rocket_two_72.png'), pygame.image.load('images/rocket_two_84.png'),
-         pygame.image.load('images/rocket_two_96.png'), pygame.image.load('images/rocket_two_108.png'),
-         pygame.image.load('images/rocket_two_120.png'), pygame.image.load('images/rocket_two_132.png'),
-         pygame.image.load('images/rocket_two_144.png'), pygame.image.load('images/rocket_two_156.png'),
-         pygame.image.load('images/rocket_two_168.png'), pygame.image.load('images/rocket_two_180.png'),
-         pygame.image.load('images/rocket_two_192.png'), pygame.image.load('images/rocket_two_204.png'),
-         pygame.image.load('images/rocket_two_216.png'), pygame.image.load('images/rocket_two_228.png'),
-         pygame.image.load('images/rocket_two_240.png'), pygame.image.load('images/rocket_two_252.png'),
-         pygame.image.load('images/rocket_two_264.png'), pygame.image.load('images/rocket_two_276.png'),
-         pygame.image.load('images/rocket_two_288.png'), pygame.image.load('images/rocket_two_300.png'),
-         pygame.image.load('images/rocket_two_312.png'), pygame.image.load('images/rocket_two_324.png'),
-         pygame.image.load('images/rocket_two_336.png'), pygame.image.load('images/rocket_two_348.png')]]
+    # rocket_rotation_images = [
+    #     [pygame.image.load('images/rocket_one_0.png'), pygame.image.load('images/rocket_one_12.png'),
+    #      pygame.image.load('images/rocket_one_24.png'), pygame.image.load('images/rocket_one_36.png'),
+    #      pygame.image.load('images/rocket_one_48.png'), pygame.image.load('images/rocket_one_60.png'),
+    #      pygame.image.load('images/rocket_one_72.png'), pygame.image.load('images/rocket_one_84.png'),
+    #      pygame.image.load('images/rocket_one_96.png'), pygame.image.load('images/rocket_one_108.png'),
+    #      pygame.image.load('images/rocket_one_120.png'), pygame.image.load('images/rocket_one_132.png'),
+    #      pygame.image.load('images/rocket_one_144.png'), pygame.image.load('images/rocket_one_156.png'),
+    #      pygame.image.load('images/rocket_one_168.png'), pygame.image.load('images/rocket_one_180.png'),
+    #      pygame.image.load('images/rocket_one_192.png'), pygame.image.load('images/rocket_one_204.png'),
+    #      pygame.image.load('images/rocket_one_216.png'), pygame.image.load('images/rocket_one_228.png'),
+    #      pygame.image.load('images/rocket_one_240.png'), pygame.image.load('images/rocket_one_252.png'),
+    #      pygame.image.load('images/rocket_one_264.png'), pygame.image.load('images/rocket_one_276.png'),
+    #      pygame.image.load('images/rocket_one_288.png'), pygame.image.load('images/rocket_one_300.png'),
+    #      pygame.image.load('images/rocket_one_312.png'), pygame.image.load('images/rocket_one_324.png'),
+    #      pygame.image.load('images/rocket_one_336.png'), pygame.image.load('images/rocket_one_348.png')],
+    #     [pygame.image.load('images/rocket_two_0.png'), pygame.image.load('images/rocket_two_12.png'),
+    #      pygame.image.load('images/rocket_two_24.png'), pygame.image.load('images/rocket_two_36.png'),
+    #      pygame.image.load('images/rocket_two_48.png'), pygame.image.load('images/rocket_two_60.png'),
+    #      pygame.image.load('images/rocket_two_72.png'), pygame.image.load('images/rocket_two_84.png'),
+    #      pygame.image.load('images/rocket_two_96.png'), pygame.image.load('images/rocket_two_108.png'),
+    #      pygame.image.load('images/rocket_two_120.png'), pygame.image.load('images/rocket_two_132.png'),
+    #      pygame.image.load('images/rocket_two_144.png'), pygame.image.load('images/rocket_two_156.png'),
+    #      pygame.image.load('images/rocket_two_168.png'), pygame.image.load('images/rocket_two_180.png'),
+    #      pygame.image.load('images/rocket_two_192.png'), pygame.image.load('images/rocket_two_204.png'),
+    #      pygame.image.load('images/rocket_two_216.png'), pygame.image.load('images/rocket_two_228.png'),
+    #      pygame.image.load('images/rocket_two_240.png'), pygame.image.load('images/rocket_two_252.png'),
+    #      pygame.image.load('images/rocket_two_264.png'), pygame.image.load('images/rocket_two_276.png'),
+    #      pygame.image.load('images/rocket_two_288.png'), pygame.image.load('images/rocket_two_300.png'),
+    #      pygame.image.load('images/rocket_two_312.png'), pygame.image.load('images/rocket_two_324.png'),
+    #      pygame.image.load('images/rocket_two_336.png'), pygame.image.load('images/rocket_two_348.png')]]
 
-    def __init__(self, screen, player):
+    def __init__(self, player):
         super().__init__()
         self.angle = 0
         self.speedx = 0
         self.speedy = 0
-        self.screen = screen
+        # self.screen = screen
         self.player = player
-        for i in range(2):
-            for image in Rocket.rocket_rotation_images[i]:
-                image.set_colorkey((0,0,0))
+        # for i in range(2):
+        #     for image in Rocket.rocket_rotation_images[i]:
+        #         image.set_colorkey((0,0,0))
 
         self.health = 100
 
-        self.image = Rocket.rocket_rotation_images[player][0]
-        self.image_rect = self.image.get_rect()
-        self.image_width = self.image_rect.width
-        self.image_height = self.image_rect.height
-        self.radius = int(self.image_rect.width * ROCKET_RADIUS_RATIO)
+        self.radius = int(ROCKET_IMAGE_WIDTH * ROCKET_RADIUS_RATIO)
         self.centerx = int(SCREEN_WIDTH / 2)
         self.centery = int(SCREEN_HEIGHT / 2)
 
@@ -111,10 +107,10 @@ class Rocket():
 
 
 
-    def draw(self):
-        pygame.draw.rect(self.screen, self.health_bar_color, pygame.Rect(0.85*SCREEN_WIDTH - self.player * 0.82*SCREEN_WIDTH, 0.95*SCREEN_HEIGHT, self.health, 10))
-        # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
-        self.screen.blit(Rocket.rocket_rotation_images[self.player][self.angle // 12], (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
+    # def draw(self):
+    #     pygame.draw.rect(self.screen, self.health_bar_color, pygame.Rect(0.85*SCREEN_WIDTH - self.player * 0.82*SCREEN_WIDTH, 0.95*SCREEN_HEIGHT, self.health, 10))
+    #     # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
+    #     self.screen.blit(Rocket.rocket_rotation_images[self.player][self.angle // 12], (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
     def move(self, *args):
         self.centerx = int((self.centerx + self.speedx / 8) % SCREEN_WIDTH)
@@ -122,69 +118,70 @@ class Rocket():
 
 
 class Bullet():
-    bullet_angle_images = [[[pygame.image.load('images/bullet_one_0.png'), pygame.image.load('images/bullet_one_12.png'),
-                            pygame.image.load('images/bullet_one_24.png'), pygame.image.load('images/bullet_one_36.png'),
-                            pygame.image.load('images/bullet_one_48.png'), pygame.image.load('images/bullet_one_60.png'),
-                            pygame.image.load('images/bullet_one_72.png'), pygame.image.load('images/bullet_one_84.png'),
-                            pygame.image.load('images/bullet_one_96.png'), pygame.image.load('images/bullet_one_108.png'),
-                            pygame.image.load('images/bullet_one_120.png'), pygame.image.load('images/bullet_one_132.png'),
-                            pygame.image.load('images/bullet_one_144.png'), pygame.image.load('images/bullet_one_156.png'),
-                            pygame.image.load('images/bullet_one_168.png'), pygame.image.load('images/bullet_one_180.png'),
-                            pygame.image.load('images/bullet_one_192.png'), pygame.image.load('images/bullet_one_204.png'),
-                            pygame.image.load('images/bullet_one_216.png'), pygame.image.load('images/bullet_one_228.png'),
-                            pygame.image.load('images/bullet_one_240.png'), pygame.image.load('images/bullet_one_252.png'),
-                            pygame.image.load('images/bullet_one_264.png'), pygame.image.load('images/bullet_one_276.png'),
-                            pygame.image.load('images/bullet_one_288.png'), pygame.image.load('images/bullet_one_300.png'),
-                            pygame.image.load('images/bullet_one_312.png'), pygame.image.load('images/bullet_one_324.png'),
-                            pygame.image.load('images/bullet_one_336.png'), pygame.image.load('images/bullet_one_348.png')],
-                           [pygame.image.load('images/bullet_two_0.png'), pygame.image.load('images/bullet_two_12.png'),
-                            pygame.image.load('images/bullet_two_24.png'), pygame.image.load('images/bullet_two_36.png'),
-                            pygame.image.load('images/bullet_two_48.png'), pygame.image.load('images/bullet_two_60.png'),
-                            pygame.image.load('images/bullet_two_72.png'), pygame.image.load('images/bullet_two_84.png'),
-                            pygame.image.load('images/bullet_two_96.png'), pygame.image.load('images/bullet_two_108.png'),
-                            pygame.image.load('images/bullet_two_120.png'), pygame.image.load('images/bullet_two_132.png'),
-                            pygame.image.load('images/bullet_two_144.png'), pygame.image.load('images/bullet_two_156.png'),
-                            pygame.image.load('images/bullet_two_168.png'), pygame.image.load('images/bullet_two_180.png'),
-                            pygame.image.load('images/bullet_two_192.png'), pygame.image.load('images/bullet_two_204.png'),
-                            pygame.image.load('images/bullet_two_216.png'), pygame.image.load('images/bullet_two_228.png'),
-                            pygame.image.load('images/bullet_two_240.png'), pygame.image.load('images/bullet_two_252.png'),
-                            pygame.image.load('images/bullet_two_264.png'), pygame.image.load('images/bullet_two_276.png'),
-                            pygame.image.load('images/bullet_two_288.png'), pygame.image.load('images/bullet_two_300.png'),
-                            pygame.image.load('images/bullet_two_312.png'), pygame.image.load('images/bullet_two_324.png'),
-                            pygame.image.load('images/bullet_two_336.png'), pygame.image.load('images/bullet_two_348.png')]],
+    # bullet_angle_images = [[[pygame.image.load('images/bullet_one_0.png'), pygame.image.load('images/bullet_one_12.png'),
+    #                         pygame.image.load('images/bullet_one_24.png'), pygame.image.load('images/bullet_one_36.png'),
+    #                         pygame.image.load('images/bullet_one_48.png'), pygame.image.load('images/bullet_one_60.png'),
+    #                         pygame.image.load('images/bullet_one_72.png'), pygame.image.load('images/bullet_one_84.png'),
+    #                         pygame.image.load('images/bullet_one_96.png'), pygame.image.load('images/bullet_one_108.png'),
+    #                         pygame.image.load('images/bullet_one_120.png'), pygame.image.load('images/bullet_one_132.png'),
+    #                         pygame.image.load('images/bullet_one_144.png'), pygame.image.load('images/bullet_one_156.png'),
+    #                         pygame.image.load('images/bullet_one_168.png'), pygame.image.load('images/bullet_one_180.png'),
+    #                         pygame.image.load('images/bullet_one_192.png'), pygame.image.load('images/bullet_one_204.png'),
+    #                         pygame.image.load('images/bullet_one_216.png'), pygame.image.load('images/bullet_one_228.png'),
+    #                         pygame.image.load('images/bullet_one_240.png'), pygame.image.load('images/bullet_one_252.png'),
+    #                         pygame.image.load('images/bullet_one_264.png'), pygame.image.load('images/bullet_one_276.png'),
+    #                         pygame.image.load('images/bullet_one_288.png'), pygame.image.load('images/bullet_one_300.png'),
+    #                         pygame.image.load('images/bullet_one_312.png'), pygame.image.load('images/bullet_one_324.png'),
+    #                         pygame.image.load('images/bullet_one_336.png'), pygame.image.load('images/bullet_one_348.png')],
+    #                        [pygame.image.load('images/bullet_two_0.png'), pygame.image.load('images/bullet_two_12.png'),
+    #                         pygame.image.load('images/bullet_two_24.png'), pygame.image.load('images/bullet_two_36.png'),
+    #                         pygame.image.load('images/bullet_two_48.png'), pygame.image.load('images/bullet_two_60.png'),
+    #                         pygame.image.load('images/bullet_two_72.png'), pygame.image.load('images/bullet_two_84.png'),
+    #                         pygame.image.load('images/bullet_two_96.png'), pygame.image.load('images/bullet_two_108.png'),
+    #                         pygame.image.load('images/bullet_two_120.png'), pygame.image.load('images/bullet_two_132.png'),
+    #                         pygame.image.load('images/bullet_two_144.png'), pygame.image.load('images/bullet_two_156.png'),
+    #                         pygame.image.load('images/bullet_two_168.png'), pygame.image.load('images/bullet_two_180.png'),
+    #                         pygame.image.load('images/bullet_two_192.png'), pygame.image.load('images/bullet_two_204.png'),
+    #                         pygame.image.load('images/bullet_two_216.png'), pygame.image.load('images/bullet_two_228.png'),
+    #                         pygame.image.load('images/bullet_two_240.png'), pygame.image.load('images/bullet_two_252.png'),
+    #                         pygame.image.load('images/bullet_two_264.png'), pygame.image.load('images/bullet_two_276.png'),
+    #                         pygame.image.load('images/bullet_two_288.png'), pygame.image.load('images/bullet_two_300.png'),
+    #                         pygame.image.load('images/bullet_two_312.png'), pygame.image.load('images/bullet_two_324.png'),
+    #                         pygame.image.load('images/bullet_two_336.png'), pygame.image.load('images/bullet_two_348.png')]],
+    #
+    #                        [[pygame.image.load('images/bullet_one_split_0.bmp'), pygame.image.load('images/bullet_one_split_12.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_24.bmp'), pygame.image.load('images/bullet_one_split_36.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_48.bmp'), pygame.image.load('images/bullet_one_split_60.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_72.bmp'), pygame.image.load('images/bullet_one_split_84.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_96.bmp'), pygame.image.load('images/bullet_one_split_108.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_120.bmp'), pygame.image.load('images/bullet_one_split_132.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_144.bmp'), pygame.image.load('images/bullet_one_split_156.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_168.bmp'), pygame.image.load('images/bullet_one_split_180.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_192.bmp'), pygame.image.load('images/bullet_one_split_204.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_216.bmp'), pygame.image.load('images/bullet_one_split_228.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_240.bmp'), pygame.image.load('images/bullet_one_split_252.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_264.bmp'), pygame.image.load('images/bullet_one_split_276.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_288.bmp'), pygame.image.load('images/bullet_one_split_300.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_312.bmp'), pygame.image.load('images/bullet_one_split_324.bmp'),
+    #                         pygame.image.load('images/bullet_one_split_336.bmp'), pygame.image.load('images/bullet_one_split_348.bmp')],
+    #                        [pygame.image.load('images/bullet_two_split_0.bmp'), pygame.image.load('images/bullet_two_split_12.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_24.bmp'), pygame.image.load('images/bullet_two_split_36.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_48.bmp'), pygame.image.load('images/bullet_two_split_60.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_72.bmp'), pygame.image.load('images/bullet_two_split_84.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_96.bmp'), pygame.image.load('images/bullet_two_split_108.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_120.bmp'), pygame.image.load('images/bullet_two_split_132.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_144.bmp'), pygame.image.load('images/bullet_two_split_156.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_168.bmp'), pygame.image.load('images/bullet_two_split_180.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_192.bmp'), pygame.image.load('images/bullet_two_split_204.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_216.bmp'), pygame.image.load('images/bullet_two_split_228.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_240.bmp'), pygame.image.load('images/bullet_two_split_252.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_264.bmp'), pygame.image.load('images/bullet_two_split_276.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_288.bmp'), pygame.image.load('images/bullet_two_split_300.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_312.bmp'), pygame.image.load('images/bullet_two_split_324.bmp'),
+    #                         pygame.image.load('images/bullet_two_split_336.bmp'), pygame.image.load('images/bullet_two_split_348.bmp')]]]
 
-                           [[pygame.image.load('images/bullet_one_split_0.bmp'), pygame.image.load('images/bullet_one_split_12.bmp'),
-                            pygame.image.load('images/bullet_one_split_24.bmp'), pygame.image.load('images/bullet_one_split_36.bmp'),
-                            pygame.image.load('images/bullet_one_split_48.bmp'), pygame.image.load('images/bullet_one_split_60.bmp'),
-                            pygame.image.load('images/bullet_one_split_72.bmp'), pygame.image.load('images/bullet_one_split_84.bmp'),
-                            pygame.image.load('images/bullet_one_split_96.bmp'), pygame.image.load('images/bullet_one_split_108.bmp'),
-                            pygame.image.load('images/bullet_one_split_120.bmp'), pygame.image.load('images/bullet_one_split_132.bmp'),
-                            pygame.image.load('images/bullet_one_split_144.bmp'), pygame.image.load('images/bullet_one_split_156.bmp'),
-                            pygame.image.load('images/bullet_one_split_168.bmp'), pygame.image.load('images/bullet_one_split_180.bmp'),
-                            pygame.image.load('images/bullet_one_split_192.bmp'), pygame.image.load('images/bullet_one_split_204.bmp'),
-                            pygame.image.load('images/bullet_one_split_216.bmp'), pygame.image.load('images/bullet_one_split_228.bmp'),
-                            pygame.image.load('images/bullet_one_split_240.bmp'), pygame.image.load('images/bullet_one_split_252.bmp'),
-                            pygame.image.load('images/bullet_one_split_264.bmp'), pygame.image.load('images/bullet_one_split_276.bmp'),
-                            pygame.image.load('images/bullet_one_split_288.bmp'), pygame.image.load('images/bullet_one_split_300.bmp'),
-                            pygame.image.load('images/bullet_one_split_312.bmp'), pygame.image.load('images/bullet_one_split_324.bmp'),
-                            pygame.image.load('images/bullet_one_split_336.bmp'), pygame.image.load('images/bullet_one_split_348.bmp')],
-                           [pygame.image.load('images/bullet_two_split_0.bmp'), pygame.image.load('images/bullet_two_split_12.bmp'),
-                            pygame.image.load('images/bullet_two_split_24.bmp'), pygame.image.load('images/bullet_two_split_36.bmp'),
-                            pygame.image.load('images/bullet_two_split_48.bmp'), pygame.image.load('images/bullet_two_split_60.bmp'),
-                            pygame.image.load('images/bullet_two_split_72.bmp'), pygame.image.load('images/bullet_two_split_84.bmp'),
-                            pygame.image.load('images/bullet_two_split_96.bmp'), pygame.image.load('images/bullet_two_split_108.bmp'),
-                            pygame.image.load('images/bullet_two_split_120.bmp'), pygame.image.load('images/bullet_two_split_132.bmp'),
-                            pygame.image.load('images/bullet_two_split_144.bmp'), pygame.image.load('images/bullet_two_split_156.bmp'),
-                            pygame.image.load('images/bullet_two_split_168.bmp'), pygame.image.load('images/bullet_two_split_180.bmp'),
-                            pygame.image.load('images/bullet_two_split_192.bmp'), pygame.image.load('images/bullet_two_split_204.bmp'),
-                            pygame.image.load('images/bullet_two_split_216.bmp'), pygame.image.load('images/bullet_two_split_228.bmp'),
-                            pygame.image.load('images/bullet_two_split_240.bmp'), pygame.image.load('images/bullet_two_split_252.bmp'),
-                            pygame.image.load('images/bullet_two_split_264.bmp'), pygame.image.load('images/bullet_two_split_276.bmp'),
-                            pygame.image.load('images/bullet_two_split_288.bmp'), pygame.image.load('images/bullet_two_split_300.bmp'),
-                            pygame.image.load('images/bullet_two_split_312.bmp'), pygame.image.load('images/bullet_two_split_324.bmp'),
-                            pygame.image.load('images/bullet_two_split_336.bmp'), pygame.image.load('images/bullet_two_split_348.bmp')]]]
 
-    def __init__(self, screen, rocket, split = 0):
+    def __init__(self, rocket, split = 0):
         super().__init__()
         self.rocket = rocket
         self.angle = rocket.angle
@@ -192,12 +189,8 @@ class Bullet():
             self.split = 1
         else:
             self.split = 0
-        self.image = Bullet.bullet_angle_images[self.split][rocket.player][rocket.angle // 12]
-        self.screen = screen
-        self.image_rect = self.image.get_rect()
-        self.image_width = self.image_rect.width
-        self.image_height = self.image_rect.height
-        self.radius = int(self.image_rect.width * BULLET_RADIUS_RATIO)
+
+        self.radius = int(BULLET_IMAGE_WIDTH * BULLET_RADIUS_RATIO)
         self.life_count = BULLET_LIFE_COUNT
 
         self.centerx = int(self.rocket.centerx)
@@ -206,12 +199,12 @@ class Bullet():
         self.speedx = int(-120 * math.sin(self.rocket.angle / 180 * math.pi))
         self.speedy = int(-120 * math.cos(self.rocket.angle / 180 * math.pi))
 
-    @classmethod
-    def initialize_images(cls):
-        for split_set in Bullet.bullet_angle_images:
-            for player_set in split_set:
-                for image in player_set:
-                    image.set_colorkey(COLOR_BLACK)
+    # @classmethod
+    # def initialize_images(cls):
+    #     for split_set in Bullet.bullet_angle_images:
+    #         for player_set in split_set:
+    #             for image in player_set:
+    #                 image.set_colorkey(COLOR_BLACK)
 
     def move(self, *args):
         self.centerx = int((self.centerx + self.speedx / 8) % SCREEN_WIDTH)
@@ -219,9 +212,9 @@ class Bullet():
         self.life_count = self.life_count - 1
 
 
-    def draw(self):
-        # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
-        self.screen.blit(self.image, (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
+    # def draw(self):
+    #     # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
+    #     self.screen.blit(self.image, (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
     def is_alive(self):
         return self.life_count > 0
@@ -229,47 +222,47 @@ class Bullet():
 random.seed(RANDOM_SEED)
 
 class Asteroid():
-    asteroid_images =  [
-                        [
-                            [pygame.image.load('images/asteroid_one_50x50_00.bmp'),
-                            pygame.image.load('images/asteroid_one_50x50_01.bmp'),
-                            pygame.image.load('images/asteroid_one_50x50_02.bmp')],
+    # asteroid_images =  [
+    #                     [
+    #                         [pygame.image.load('images/asteroid_one_50x50_00.bmp'),
+    #                         pygame.image.load('images/asteroid_one_50x50_01.bmp'),
+    #                         pygame.image.load('images/asteroid_one_50x50_02.bmp')],
+    #
+    #                         [pygame.image.load('images/asteroid_one_71x71_00.bmp'),
+    #                         pygame.image.load('images/asteroid_one_71x71_01.bmp'),
+    #                         pygame.image.load('images/asteroid_one_71x71_02.bmp')]],
+    #
+    #
+    #                     [
+    #                         [pygame.image.load('images/asteroid_two_50x50_00.bmp'),
+    #                         pygame.image.load('images/asteroid_two_50x50_01.bmp'),
+    #                         pygame.image.load('images/asteroid_two_50x50_02.bmp')],
+    #
+    #                         [pygame.image.load('images/asteroid_two_71x71_00.bmp'),
+    #                         pygame.image.load('images/asteroid_two_71x71_01.bmp'),
+    #                         pygame.image.load('images/asteroid_two_71x71_02.bmp')]],
+    #
+    #
+    #                     [
+    #                         [pygame.image.load('images/asteroid_40x40_00.bmp'),
+    #                          pygame.image.load('images/asteroid_40x40_01.bmp'),
+    #                          pygame.image.load('images/asteroid_40x40_02.bmp')],
+    #
+    #                         [pygame.image.load('images/asteroid_71x71_00.bmp'),
+    #                          pygame.image.load('images/asteroid_71x71_01.bmp'),
+    #                          pygame.image.load('images/asteroid_71x71_02.bmp')],
+    #
+    #                         [pygame.image.load('images/asteroid_110x110_00.bmp'),
+    #                          pygame.image.load('images/asteroid_110x110_01.bmp'),
+    #                          pygame.image.load('images/asteroid_110x110_02.bmp')]]
+    #                     ]
 
-                            [pygame.image.load('images/asteroid_one_71x71_00.bmp'),
-                            pygame.image.load('images/asteroid_one_71x71_01.bmp'),
-                            pygame.image.load('images/asteroid_one_71x71_02.bmp')]],
 
 
-                        [
-                            [pygame.image.load('images/asteroid_two_50x50_00.bmp'),
-                            pygame.image.load('images/asteroid_two_50x50_01.bmp'),
-                            pygame.image.load('images/asteroid_two_50x50_02.bmp')],
-
-                            [pygame.image.load('images/asteroid_two_71x71_00.bmp'),
-                            pygame.image.load('images/asteroid_two_71x71_01.bmp'),
-                            pygame.image.load('images/asteroid_two_71x71_02.bmp')]],
-
-
-                        [
-                            [pygame.image.load('images/asteroid_40x40_00.bmp'),
-                             pygame.image.load('images/asteroid_40x40_01.bmp'),
-                             pygame.image.load('images/asteroid_40x40_02.bmp')],
-
-                            [pygame.image.load('images/asteroid_71x71_00.bmp'),
-                             pygame.image.load('images/asteroid_71x71_01.bmp'),
-                             pygame.image.load('images/asteroid_71x71_02.bmp')],
-
-                            [pygame.image.load('images/asteroid_110x110_00.bmp'),
-                             pygame.image.load('images/asteroid_110x110_01.bmp'),
-                             pygame.image.load('images/asteroid_110x110_02.bmp')]]
-                        ]
-
-
-
-    def __init__(self, screen, rocket_one, rocket_two, old_asteroid, rocket_shooter, impact_bullet):
+    def __init__(self, rocket_one, rocket_two, old_asteroid, rocket_shooter, impact_bullet):
         super().__init__()
         self.valid = True
-        self.screen = screen
+        # self.screen = screen
         if rocket_shooter is not None:
             if old_asteroid.size_index == 0:
                 self.valid = False
@@ -285,21 +278,24 @@ class Asteroid():
 
             self.size_index = old_asteroid.size_index - 1
             self.random_image_index = random.randint(0,2)
-            self.image = Asteroid.asteroid_images[self.player][self.size_index][self.random_image_index]
+            # self.image = Asteroid.asteroid_images[self.player][self.size_index][self.random_image_index]
         else:
             self.player = 2
             self.random_image_index = random.randint(0, 2)
             self.speedx = -5 + random.randint(0, 10)
             self.speedy = -5 + random.randint(0, 10)
             self.size_index = 2
-            self.image = Asteroid.asteroid_images[2][2][self.random_image_index]
+            # self.image = Asteroid.asteroid_images[2][2][self.random_image_index]
+
+        if self.size_index == 0:
+            self.image_height, self.image_width = ASTEROID_IMAGE_DIMENSION_SIZE_0, ASTEROID_IMAGE_DIMENSION_SIZE_0
+        elif self.size_index == 1:
+            self.image_height, self.image_width = ASTEROID_IMAGE_DIMENSION_SIZE_1, ASTEROID_IMAGE_DIMENSION_SIZE_1
+        else:
+            self.image_height, self.image_width = ASTEROID_IMAGE_DIMENSION_SIZE_2, ASTEROID_IMAGE_DIMENSION_SIZE_2
 
 
-
-        self.image_rect = self.image.get_rect()
-        self.image_width = self.image_rect.width
-        self.image_height = self.image_rect.height
-        self.radius = int(self.image_rect.width * ASTEROID_RADIUS_RATIO)
+        self.radius = int(self.image_width * ASTEROID_RADIUS_RATIO)
 
         if rocket_shooter is not None:
             self.centerx = old_asteroid.centerx
@@ -340,17 +336,17 @@ class Asteroid():
         self.centerx = x
         self.centery = y
 
-    @classmethod
-    def initialize_images(cls):
-        for i in range(3):
-            for images in Asteroid.asteroid_images[i]:
-                for image in images:
-                    image.set_colorkey((0,0,0,0))
+    # @classmethod
+    # def initialize_images(cls):
+    #     for i in range(3):
+    #         for images in Asteroid.asteroid_images[i]:
+    #             for image in images:
+    #                 image.set_colorkey((0,0,0,0))
 
     @classmethod
-    def split_asteroid(cls, screen, rocket, old_asteroid, bullet):
-        asteroid_one = Asteroid(screen, None, None, old_asteroid, rocket, bullet)
-        asteroid_two = Asteroid(screen, None, None, old_asteroid, rocket, bullet)
+    def split_asteroid(cls, rocket, old_asteroid, bullet):
+        asteroid_one = Asteroid(None, None, old_asteroid, rocket, bullet)
+        asteroid_two = Asteroid(None, None, old_asteroid, rocket, bullet)
         if asteroid_one.valid == False:
             return None, None
 
@@ -372,9 +368,9 @@ class Asteroid():
         self.centerx = int((self.centerx - steps_count * self.speedx) % SCREEN_WIDTH)
         self.centery = int((self.centery - steps_count * self.speedy) % SCREEN_HEIGHT)
 
-    def draw(self):
-        # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
-        self.screen.blit(self.image, (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
+    # def draw(self):
+    #     # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
+    #     self.screen.blit(self.image, (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
 
 def collides(objectA, objectB):
