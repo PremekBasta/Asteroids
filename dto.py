@@ -3,18 +3,7 @@ from typing import OrderedDict
 import pygame, math
 import numpy as np
 from constants import *
-import numba
 
-spec = OrderedDict()
-spec['radius'] = numba.int32
-spec['centerx'] = numba.int32
-spec['centery'] = numba.int32
-spec['speedx'] = numba.int32
-spec['speedy'] = numba.int32
-spec['angle'] = numba.int32
-spec['size_index'] = numba.int32
-spec['player'] = numba.int32
-spec['life_count'] = numba.int32
 
 # @numba.jitclass(spec)
 class SpaceObjectDTO():

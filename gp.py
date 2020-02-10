@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pydot
 from IPython.display import Image
 from enum import Enum
-from multiprocessing import Process
+from multiprocessing import *
 import dill
 from pathos.multiprocessing import ProcessingPool
 
@@ -61,17 +61,22 @@ agent3_two = Stable_defensive_agent(2)
 semi_result = [0,0,0]
 
 def simulate_one_game(index, env, agent_one, agent_two):
+    print(f"{index} started")
     game_over = False
     state = env.reset()
     agent_one_actions = []
     agent_two_actions = []
+    global semi_result
     while game_over == False:
         actions_two = agent_two.choose_actions(state, agent_one_actions)
         actions_one = agent_one.choose_actions(state, agent_two_actions)
 
-        step_count, (game_over, rocketOne_health, rocketTwo_health), state, agent_one_actions, agent_two_actions = env.next_step(actions_one, actions_two)
+        step_count, (game_over, rocket_one_won), state, agent_one_actions, agent_two_actions = env.next_step(actions_one, actions_two)
+
+    print(step_count)
 
     semi_result[index-1] = step_count - agent_one.penalty
+    print(semi_result)
     return step_count
 
 
@@ -85,12 +90,30 @@ def paralel_fitness(ind):
     agent2_one = Genetic_agent(1, func2)
     agent3_one = Genetic_agent(1, func3)
 
-    result = pool.amap(simulate_one_game, [1,2,3], [env1, env2, env3], [agent1_one, agent2_one, agent3_one], [agent1_two, agent2_two, agent3_two])
-    while not result.ready():
-        print(result.ready())
-        time.sleep(0.01)
-    a = 50
-    a,b,c = result.get()
+
+
+    p1 = Process(target=simulate_one_game, args=(1, env1, agent1_one, agent1_two))
+    p2 = Process(target=simulate_one_game, args=(2, env2, agent2_one, agent2_two))
+    p3 = Process(target=simulate_one_game, args=(3, env3, agent3_one, agent3_two))
+    p1.start()
+    p2.start()
+    p3.start()
+    p1.join()
+    p2.join()
+    p3.join()
+
+    global semi_result
+
+    print(semi_result)
+    
+    print("finished")
+
+    # result = pool.amap(simulate_one_game, [1,2,3], [env1, env2, env3], [agent1_one, agent2_one, agent3_one], [agent1_two, agent2_two, agent3_two])
+    #while not result.ready():
+    #    print(result.ready())
+    #    time.sleep(0.01)
+    # a = 50
+    # a,b,c = result.get()
 
 # p1 = Process(target=simulate_one_game, args=(1, env1, agent1_one, agent1_two,))
     # p2 = Process(target=simulate_one_game, args=(2, env2, agent2_one, agent2_two,))
@@ -196,7 +219,7 @@ toolbox.register("mutate", gp.mutUniform, expr=toolbox.expr_mut, pset=pset)
 toolbox.decorate("mate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
 toolbox.decorate("mutate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
 
-pop = toolbox.population(n=30)
+pop = toolbox.population(n=2)
 hof = tools.HallOfFame(5)
 
 stats_fit = tools.Statistics(lambda ind: ind.fitness.values[0])
@@ -209,14 +232,14 @@ mstats.register("max", np.max)
 
 if __name__ == "__main__":
     # pass
-    # paralel_fitness(toolbox.individual())
+    paralel_fitness(toolbox.individual())
     # print(toolbox.individual())
-    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 250, stats=mstats, halloffame=hof, verbose=True)
-    print(f"hof[0]: {hof[0]}")
-    print(f"hof[1]: {hof[1]}")
-    print(f"hof[2]: {hof[2]}")
-    print(f"hof[3]: {hof[3]}")
-    print(f"hof[4]: {hof[4]}")
+    # pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 250, stats=mstats, halloffame=hof, verbose=True)
+    # print(f"hof[0]: {hof[0]}")
+    # print(f"hof[1]: {hof[1]}")
+    # print(f"hof[2]: {hof[2]}")
+    # print(f"hof[3]: {hof[3]}")
+    # print(f"hof[4]: {hof[4]}")
     # pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 50, stats=mstats, halloffame=hof, verbose=True)
     # print(f"hof[0]: {hof[0]}")
     # print(f"hof[1]: {hof[1]}")

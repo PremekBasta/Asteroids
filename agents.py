@@ -5,7 +5,6 @@ import pygame
 import time
 import math
 from dto import collides, collides_numba, SpaceObjectDTO, copy_object
-from numba import jit, jitclass, int32
 import numpy as np
 from enum import Enum
 
