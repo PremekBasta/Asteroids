@@ -22,7 +22,7 @@ class DQAgent:
     # vytvari model Q-site
     def build_model(self):
         self.model = tf.keras.models.Sequential([tf.keras.layers.Dense(24, activation=tf.nn.relu, input_dim=self.num_inputs, name='dense_1'),
-                                                 tf.keras.layers.Dense(24, activation=tf.nn.relu),
+                                                 tf.keras.layers.Dense(24, activation=tf.nn.relu, name = 'dense_02'),
                                                  tf.keras.layers.Dense(self.num_outputs, activation='linear')])
         opt = tf.keras.optimizers.Adam(lr=0.001)
         self.model.compile(optimizer=opt, loss='mse')
@@ -34,7 +34,7 @@ class DQAgent:
         else:
             return np.argmax(self.model.predict(state)[0])
 
-    # ulozeni informaci do experience bufferu
+    # ulozeni informaci do experience bufferus
     def record_experience(self, exp):
         self.exp_buffer.append(exp)
         if len(self.exp_buffer) > 2000:

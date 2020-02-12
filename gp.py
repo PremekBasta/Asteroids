@@ -64,12 +64,10 @@ agent2_two = Stable_defensive_agent(2)
 agent3_two = Stable_defensive_agent(2)
 semi_result = [0,0,0,0,0,0,0]
 
-<<<<<<< HEAD
-def simulate_one_game(index, env, agent_one, agent_two):
-    print(f"{index} started")
-=======
+
+
 def simulate_one_game(index, env, agent_one, agent_two, return_vals):
->>>>>>> 78964b829d8223883cf448e37a745b035fe22b72
+
     game_over = False
     state = env.reset()
     agent_one_actions = []
@@ -80,14 +78,14 @@ def simulate_one_game(index, env, agent_one, agent_two, return_vals):
         actions_one = agent_one.choose_actions(state, agent_two_actions)
 
         step_count, (game_over, rocket_one_won), state, agent_one_actions, agent_two_actions = env.next_step(actions_one, actions_two)
-<<<<<<< HEAD
+
 
     print(step_count)
 
     semi_result[index-1] = step_count - agent_one.penalty
     print(semi_result)
     return step_count
-=======
+
 
     result = step_count
 
@@ -117,7 +115,7 @@ def simulate_one_game(index, env, agent_one, agent_two, return_vals):
 
     return_vals[index] = result
     return
->>>>>>> 78964b829d8223883cf448e37a745b035fe22b72
+
 
 
 def paralel_fitness(ind):
@@ -138,7 +136,7 @@ def paralel_fitness(ind):
         agents_one[i] = Genetic_agent(1, funcs[i])
         processes.append(Process(target=simulate_one_game, args=(i, envs[i], agents_one[i], agents_two[i], return_vals)))
 
-<<<<<<< HEAD
+
     func1 = toolbox.compile(expr=ind)
     func2 = toolbox.compile(expr=ind)
     func3 = toolbox.compile(expr=ind)
@@ -183,14 +181,14 @@ def paralel_fitness(ind):
     # p3.join()
     #
     # return sum(semi_result)
-=======
+
     for i in range(len(processes)):
         processes[i].start()
     for i in range(len(processes)):
         processes[i].join()
     result = sum(return_vals.values()) // 6
     return result,
->>>>>>> 78964b829d8223883cf448e37a745b035fe22b72
+
 
 
 
@@ -282,11 +280,8 @@ toolbox.register("mutate", gp.mutUniform, expr=toolbox.expr_mut, pset=pset)
 toolbox.decorate("mate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
 toolbox.decorate("mutate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
 
-<<<<<<< HEAD
-pop = toolbox.population(n=2)
-=======
+
 pop = toolbox.population(n=15)
->>>>>>> 78964b829d8223883cf448e37a745b035fe22b72
 hof = tools.HallOfFame(5)
 
 stats_fit = tools.Statistics(lambda ind: ind.fitness.values[0])
@@ -299,7 +294,6 @@ mstats.register("max", np.max)
 
 if __name__ == "__main__":
     # pass
-<<<<<<< HEAD
     paralel_fitness(toolbox.individual())
     # print(toolbox.individual())
     # pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 250, stats=mstats, halloffame=hof, verbose=True)
@@ -308,17 +302,7 @@ if __name__ == "__main__":
     # print(f"hof[2]: {hof[2]}")
     # print(f"hof[3]: {hof[3]}")
     # print(f"hof[4]: {hof[4]}")
-=======
-    # for i in range(100):
-    #     paralel_fitness(toolbox.individual())
-    # print(toolbox.individual())
-    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.3, 30, stats=mstats, halloffame=hof, verbose=True)
-    print(f"hof[0]: {hof[0]}")
-    print(f"hof[1]: {hof[1]}")
-    print(f"hof[2]: {hof[2]}")
-    print(f"hof[3]: {hof[3]}")
-    print(f"hof[4]: {hof[4]}")
->>>>>>> 78964b829d8223883cf448e37a745b035fe22b72
+
     # pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 50, stats=mstats, halloffame=hof, verbose=True)
     # print(f"hof[0]: {hof[0]}")
     # print(f"hof[1]: {hof[1]}")
