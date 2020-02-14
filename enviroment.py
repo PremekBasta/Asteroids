@@ -105,13 +105,12 @@ class Enviroment():
 
             self.draw_modul.render()
 
-        game_over = self._check_end_()
-
+        (game_over, player_one_won) = self._check_end_()
 
         current_state = State(self.asteroids_neutral, self.RocketOne, self.asteroids_one, self.bullets_one,
                               self.RocketTwo, self.asteroids_two, self.bullets_two)
 
-        return self.step_count, game_over, current_state, actions_one, actions_two
+        return self.step_count, (game_over, player_one_won), current_state, actions_one, actions_two
 
 
     def _handle_actions_(self, actions_one, actions_two):

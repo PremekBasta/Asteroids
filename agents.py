@@ -9,6 +9,7 @@ import numpy as np
 from enum import Enum
 import tensorflow as tf
 import numpy as np
+import gc
 
 
 
@@ -1395,6 +1396,23 @@ class DQAgent(Agent):
         return (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count)
 
 
+    def choose_action_plan_index(self, state):
+        if np.random.uniform() < self.eps:
+            val = np.random.randint(self.num_outputs)
+            self.history[val] += 1
+            return val
+        else:
+            val = np.argmax(self.model.predict(state)[0])
+            self.history[val] += 1
+            return val
+
+    def get_action_from_action_plan(self, plan_index, action_plans):
+        action_plan = action_plans[plan_index]
+
+        super().store_plan(action_plan)
+
+        return super().convert_actions(super().choose_action_from_plan())
+
 
     def choose_actions(self, state, train=False):
         if train:
@@ -1483,12 +1501,13 @@ class DQAgent(Agent):
             pred = self.model.predict(states)
             next_pred = self.model.predict(next_states)
             # spocitame cilove hodnoty
-            for i, (s, a, r, ns, d) in enumerate(batch):
+            for i, (s, a, r, ns, go) in enumerate(batch):
                 pred[i][a] = r
-                if not d:
+                if not go:
                     pred[i][a] = r + self.gamma*np.amax(next_pred[i])
 
             self.model.fit(states, pred, epochs=1, verbose=0)
+            gc.collect()
         # snizime epsilon pro epsilon-greedy strategii
         if self.eps > 0.01:
             self.eps = self.eps*self.eps_decay
