@@ -24,6 +24,10 @@ class Agent():
         self.active_ticks = 0
         self.finished_plan = False
         self.finished_plan_attack = False
+        self.attack_count = 0
+        self.evasion_count = 0
+        self.defense_count = 0
+        self.stop_count = 0
 
 
     def assign_objects_to_agent(self, state):
@@ -103,18 +107,24 @@ class Agent():
 
         rotation_limit = 15
         for left_turns in range(0, rotation_limit):
-            if self.evade_by_accelerating(rocket_copy, asteroid_copy):
+            evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy)
+            if evaded:
                 if left_turns == 0:
-                    plan = [[Rocket_base_action.ACCELERATE] for i in range(10)]
-                    return plan, 5
-                    # return [Rocket_base_action.ACCELERATE]
+                    plan = [[Rocket_base_action.ACCELERATE] for i in range(accelerate_steps)]
+                    return plan, accelerate_steps
                 elif left_turns < 15:
-                    # print(f"left: {left_turns}")
-                    # time.sleep(0.4)
                     plan = [[Rocket_base_action.ROTATE_LEFT] for i in range(left_turns)]
-                    plan.extend([[Rocket_base_action.ACCELERATE, Rocket_base_action.ROTATE_LEFT] for i in range(10)])
-                    # return [Rocket_base_action.ROTATE_LEFT]
-                    return plan, left_turns + 5
+                    plan.extend([[Rocket_base_action.ACCELERATE] for i in range(accelerate_steps)])
+                    return plan, left_turns + accelerate_steps
+
+            #if self.evade_by_accelerating(rocket_copy, asteroid_copy):
+            #    if left_turns == 0:
+            #        plan = [[Rocket_base_action.ACCELERATE] for i in range(10)]
+            #        return plan, 5
+            #    elif left_turns < 15:
+            #        plan = [[Rocket_base_action.ROTATE_LEFT] for i in range(left_turns)]
+            #        plan.extend([[Rocket_base_action.ACCELERATE, Rocket_base_action.ROTATE_LEFT] for i in range(10)])
+            #        return plan, left_turns + 5
 
             rocket_copy.rotate_left()
             rocket_copy.move()
@@ -123,15 +133,21 @@ class Agent():
         rocket_copy = copy_object(rocket)
         asteroid_copy = copy_object(asteroid)
         for right_turns in range(0, rotation_limit):
-            if self.evade_by_accelerating(rocket_copy, asteroid_copy):
-                # print(f"right: {right_turns}")
-                # time.sleep(0.4)
-                plan = [[Rocket_base_action.ROTATE_RIGHT] for i in range(right_turns)]
-                plan.extend([[Rocket_base_action.ACCELERATE, Rocket_base_action.ROTATE_RIGHT] for i in range(10)])
-                # return [Rocket_base_action.ROTATE_RIGHT]
-                return plan, right_turns + 5
+            evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy)
+            if evaded:
+                if right_turns == 0:
+                    plan = [[Rocket_base_action.ACCELERATE] for i in range(accelerate_steps)]
+                    return plan, accelerate_steps
+                elif right_turns < 15:
+                    plan = [[Rocket_base_action.ROTATE_RIGHT] for i in range(right_turns)]
+                    plan.extend([[Rocket_base_action.ACCELERATE] for i in range(accelerate_steps)])
+                    return plan, right_turns + accelerate_steps
 
-            # time.sleep(0.1)
+            #if self.evade_by_accelerating(rocket_copy, asteroid_copy):
+            #    plan = [[Rocket_base_action.ROTATE_RIGHT] for i in range(right_turns)]
+            #    plan.extend([[Rocket_base_action.ACCELERATE, Rocket_base_action.ROTATE_RIGHT] for i in range(10)])
+            #    return plan, right_turns + 5
+
             rocket_copy.rotate_right()
             rocket_copy.move()
             asteroid_copy.move()
@@ -191,6 +207,26 @@ class Agent():
 
 
 
+    def evade_by_continual_accelerating(self, rocket, asteroid):
+        # how many maximal times can rocket accelerate in attemp to avoid asteroid
+        accelerate_limit = 20
+        # how many steps it is checking whether they collided or rocket escaped
+        evade_steps_limit = 20
+        for accelerate_count in range(accelerate_limit):
+            rocket_copy = copy_object(rocket)
+            asteroid_copy = copy_object(asteroid)
+            collided = False
+            for step_number in range(evade_steps_limit):
+                if collides(rocket_copy, asteroid_copy):
+                    collided = True
+                    break
+                if step_number < accelerate_count:
+                    rocket_copy.accelerate()
+                rocket_copy.move()
+                asteroid_copy.move()
+            if not collided:
+                return True, accelerate_count
+        return False, NOT_FOUND_STEPS_COUNT
 
 
     def evade_by_accelerating(self, rocket, asteroid):
@@ -453,7 +489,7 @@ class Agent():
 
 
         left_found = False
-        # zkusim kruh doleva
+        # zkusim kruh doleva, lepsi by byly polokruhy pro kratsi action plan vpravo
         for rotation_count in range(int(360 / 12)):
             # if self.try_shoot_some_asteroid_to_enemy_rocket(own_rocket, enemy_rocket, neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets):
             #     left_found, left_steps = True, rotation_count
@@ -1002,9 +1038,7 @@ class Evasion_agent(Agent):
         self.inactive_steps = 0
         self.finished_plan_evasion = True
         self.draw_modul = draw_modul
-        self.attack_count = 0
-        self.evasion_count = 0
-        self.defense_count = 0
+
 
     def choose_actions(self, state, opposite_actions):
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
@@ -1013,6 +1047,7 @@ class Evasion_agent(Agent):
 
         if self.reevaluate_plan(opposite_actions):
             impact, impact_asteroid, impact_steps = super().first_impact_asteroid(own_rocket, state.neutral_asteroids, own_bullets, enemy_asteroids)
+            #with stopping agent it looks less chaotic, but shows similar results
             stop_found, stop_actions, stop_actions_count = super().stop_moving(own_rocket)
             if impact_asteroid is None:
                 if stop_found:
@@ -1022,13 +1057,8 @@ class Evasion_agent(Agent):
                     return super().convert_actions([])
 
             if impact_asteroid is not None and impact_steps < 25:
-                # pygame.draw.circle(self.screen, (255,0,0), (impact_asteroid.centerx, impact_asteroid.centery), 15)
-                # pygame.display.update()
-                # time.sleep(0.1)
                 actions, steps_count = super().evade_asteroid(own_rocket, impact_asteroid)
                 super().store_plan(actions)
-                # actions(actions)
-                # return actions
         else:
             self.inactive_steps = self.inactive_steps + 1
 
@@ -1323,17 +1353,16 @@ class Genetic_agent(Agent):
         return 1
 
 class DQAgent(Agent):
-    def __init__(self, player_number, num_inputs, num_outputs, batch_size = 32, num_batches = 16):
+    def __init__(self, player_number, num_inputs, num_outputs, batch_size = 32, num_batches = 64, model = None):
         super().__init__(player_number)
         self.num_inputs = num_inputs
         self.num_outputs = num_outputs
         self.batch_size = batch_size
         self.num_batches = num_batches
         self.eps = 1.0
-        self.eps_decay = 0.995
+        self.eps_decay = 0.9985
         self.gamma = 0.95
         self.exp_buffer = []
-        self.build_model()
         self.inactiv_ticks = 0
         self.attack_count = 0
         self.defense_count = 0
@@ -1341,6 +1370,10 @@ class DQAgent(Agent):
         self.stop_count = 0
         self.penalty = 0
         self.odd = 0
+        if model is None:
+            self.build_model()
+        else:
+            self.model = model
 
     # vytvari model Q-site
     def build_model(self):
@@ -1484,11 +1517,13 @@ class DQAgent(Agent):
     # ulozeni informaci do experience bufferus
     def record_experience(self, exp):
         self.exp_buffer.append(exp)
-        if len(self.exp_buffer) > 2000:
-            self.exp_buffer = self.exp_buffer[-2000:]
+        if len(self.exp_buffer) > 10000:
+            self.exp_buffer = self.exp_buffer[-10000:]
 
     # trenovani z bufferu
-    def train(self):
+    def train(self, input_buffer = None):
+        if input_buffer is not None:
+            self.exp_buffer = input_buffer
         if (len(self.exp_buffer) <= self.batch_size):
             return
 

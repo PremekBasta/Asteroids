@@ -7,13 +7,13 @@ import time
 
 if __name__ == "__main__":
     draw_module = draw_module()
-    draw_module = None
+    #draw_module = None
 
     env = Enviroment(VISUAL, ROCKET_ONE_INVULNERABLE, ROCKET_TWO_INVULNERABLE, draw_module)
     state = env.reset()
 
-    agent_one = Genetic_agent(1, return_individual())
-    # agent_one = Evasion_agent(1, draw_module)
+    #agent_one = Genetic_agent(1, return_individual())
+    agent_one = Evasion_agent(1, draw_module)
     agent_two = Stable_defensive_agent(2)
     # agent_two = Stable_defensive_agent(env.screen, 2)
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
             # # _, actions_two = env.get_actions_from_keyboard_input()
             #
             # # start = time.time()
-            step_count, (game_over, rocket_one_won), state, agent_one_actions, agent_two_actions = env.next_step(actions_one, actions_two)
+            step_count, (game_over, rocket_one_won), state, agent_one_actions, agent_two_actions, _ = env.next_step(actions_one, actions_two)
 
         end = time.time()
         total_time = total_time + (end - start)

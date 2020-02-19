@@ -71,6 +71,7 @@ class Enviroment():
 
     def next_step(self, actions_one, actions_two):
         self.step_count = self.step_count + 1
+        self.reward = 0
 
         self._handle_actions_(actions_one, actions_two)
 
@@ -110,7 +111,7 @@ class Enviroment():
         current_state = State(self.asteroids_neutral, self.RocketOne, self.asteroids_one, self.bullets_one,
                               self.RocketTwo, self.asteroids_two, self.bullets_two)
 
-        return self.step_count, (game_over, player_one_won), current_state, actions_one, actions_two
+        return self.step_count, (game_over, player_one_won), current_state, actions_one, actions_two, self.reward
 
 
     def _handle_actions_(self, actions_one, actions_two):
@@ -212,6 +213,7 @@ class Enviroment():
                 # if collides(bullet_one, asteroid):
                 if collides(bullet_one, asteroid):
                     # if bullet_one.collision_rect.colliderect(asteroid.collision_rect):
+                    self.reward += 1
                     self.asteroids_neutral.remove(asteroid)
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
                     if bullet_one.split:
@@ -237,6 +239,7 @@ class Enviroment():
             for asteroid_two in self.asteroids_two:
                 if collides(bullet_one, asteroid_two):
                     # if bullet_one.collision_rect.colliderect(asteroid_two.collision_rect):
+                    self.reward += 1
                     self.asteroids_two.remove(asteroid_two)
 
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
@@ -337,6 +340,7 @@ class Enviroment():
 
             for asteroid_one in self.asteroids_one:
                 if collides(asteroid_one, self.RocketTwo):
+                    self.reward += 20
                     # if asteroid_one.collision_rect.colliderect(self.RocketTwo.collision_rect):
                     self.asteroids_one.remove(asteroid_one)
                     self.RocketTwo.health = self.RocketTwo.health - 30
