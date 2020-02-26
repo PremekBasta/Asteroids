@@ -32,16 +32,16 @@ def compare(val1, val2):
     return val1 > val2
 
 def ret_attack():
-    return ActionEnum.ATTACK
+    return ActionPlanEnum.ATTACK
 
 def ret_deffense():
-    return ActionEnum.DEFFENSE
+    return ActionPlanEnum.DEFFENSE
 
 def ret_evade():
-    return ActionEnum.EVASION
+    return ActionPlanEnum.EVASION
 
 def ret_stop():
-    return ActionEnum.STOP
+    return ActionPlanEnum.STOP
 
 
 def return_individual():
@@ -51,7 +51,7 @@ def return_individual():
 
 
 
-envs = [Enviroment(VISUAL, ROCKET_ONE_INVULNERABLE, ROCKET_TWO_INVULNERABLE) for i in range(6)]
+envs = [Enviroment() for i in range(6)]
 agents_one = [None for i in range(6)]
 agents_two = [Stable_defensive_agent(2) for i in range(6)]
 funcs = [None for i in range(6)]
@@ -238,8 +238,8 @@ def fitness(ind):
 
 class Bool(object): pass
 
-pset = gp.PrimitiveSetTyped("main", [int, int, int], ActionEnum)
-pset.addPrimitive(if_then_else, [Bool, ActionEnum, ActionEnum], ActionEnum)
+pset = gp.PrimitiveSetTyped("main", [int, int, int], ActionPlanEnum)
+pset.addPrimitive(if_then_else, [Bool, ActionPlanEnum, ActionPlanEnum], ActionPlanEnum)
 pset.addPrimitive(compare, [int, int], Bool)
 pset.addPrimitive(operator.mul, [int, int], int)
 pset.addPrimitive(operator.add, [int, int], int)
@@ -251,13 +251,13 @@ pset.addTerminal(3, int)
 pset.addTerminal(1, int)
 pset.addTerminal(-1, int)
 pset.addTerminal(0, int)
-pset.addTerminal(ret_attack, ActionEnum)
-pset.addTerminal(ret_deffense, ActionEnum)
-pset.addTerminal(ret_evade, ActionEnum)
-pset.addTerminal(ret_stop, ActionEnum)
-# pset.addTerminal(ActionEnum.ATTACK ,ActionEnum)
-# pset.addTerminal(ActionEnum.DEFFENSE,ActionEnum)
-# pset.addTerminal(ActionEnum.EVASION,ActionEnum)
+pset.addTerminal(ret_attack, ActionPlanEnum)
+pset.addTerminal(ret_deffense, ActionPlanEnum)
+pset.addTerminal(ret_evade, ActionPlanEnum)
+pset.addTerminal(ret_stop, ActionPlanEnum)
+# pset.addTerminal(ActionPlanEnum.ATTACK ,ActionPlanEnum)
+# pset.addTerminal(ActionPlanEnum.DEFFENSE,ActionPlanEnum)
+# pset.addTerminal(ActionPlanEnum.EVASION,ActionPlanEnum)
 # pset.addTerminal(True, bool)
 pset.addTerminal(False, Bool)
 
@@ -266,7 +266,7 @@ creator.create("FitnessMin", base.Fitness, weights=(1.0,))
 creator.create("Individual", gp.PrimitiveTree, fitness=creator.FitnessMin, pset=pset)
 
 toolbox = base.Toolbox()
-toolbox.register("expr", gp.genFull, pset=pset, type_=ActionEnum, min_=7, max_=10)
+toolbox.register("expr", gp.genFull, pset=pset, type_=ActionPlanEnum, min_=7, max_=10)
 toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.expr)
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 toolbox.register("compile", gp.compile, pset=pset)

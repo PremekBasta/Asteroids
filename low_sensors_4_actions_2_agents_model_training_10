@@ -1,0 +1,48 @@
+(episode_num, reward) one: 0 2620
+(history: left, right, accelerate, shoot, split_shoot, empty) one: 
+ [241, 0, 9, 17, 273, 16] 
+
+(episode_num, reward) two: 0 -445
+(history: left, right, accelerate, shoot, split_shoot, empty) two: 
+ [0, 0, 556, 0, 0, 0] 
+
+(episode_num, reward) one: 1 2581
+(history: left, right, accelerate, shoot, split_shoot, empty) one: 
+ [214, 0, 77, 65, 173, 7] 
+
+(episode_num, reward) two: 1 -462
+(history: left, right, accelerate, shoot, split_shoot, empty) two: 
+ [91, 0, 401, 29, 0, 15] 
+
+(episode_num, reward) one: 2 2706
+(history: left, right, accelerate, shoot, split_shoot, empty) one: 
+ [141, 0, 148, 12, 303, 36] 
+
+(episode_num, reward) two: 2 -353
+(history: left, right, accelerate, shoot, split_shoot, empty) two: 
+ [36, 6, 459, 131, 2, 6] 
+
+(episode_num, reward) one: 3 2956
+(history: left, right, accelerate, shoot, split_shoot, empty) one: 
+ [116, 0, 118, 46, 388, 239] 
+
+(episode_num, reward) two: 3 -42
+(history: left, right, accelerate, shoot, split_shoot, empty) two: 
+ [165, 66, 392, 213, 9, 62] 
+
+(episode_num, reward) one: 4 -232
+(history: left, right, accelerate, shoot, split_shoot, empty) one: 
+ [114, 0, 157, 8, 419, 19] 
+
+(episode_num, reward) two: 4 2789
+(history: left, right, accelerate, shoot, split_shoot, empty) two: 
+ [162, 37, 332, 80, 0, 106] 
+
+(episode_num, reward) one: 5 2694
+(history: left, right, accelerate, shoot, split_shoot, empty) one: 
+ [289, 0, 64, 11, 242, 23] 
+
+(episode_num, reward) two: 5 -360
+(history: left, right, accelerate, shoot, split_shoot, empty) two: 
+ [107, 39, 289, 194, 0, 0] 
+

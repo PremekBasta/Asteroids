@@ -162,5 +162,8 @@ class draw_module(object):
     def draw_bullet(self, bullet):
         self.screen.blit(self.bullet_angle_images[bullet.split][bullet.rocket.player][bullet.rocket.angle // 12], (bullet.centerx - BULLET_IMAGE_WIDTH / 2, bullet.centery - BULLET_IMAGE_HEIGHT / 2))
 
+    def draw_line(self, pointA, pointB):
+        pygame.draw.line(self.screen, PLAYER_ONE_COLOR, pointA, pointB)
+
     def render(self):
         pygame.display.update()

@@ -1,15 +1,14 @@
 import random, copy
 from sprite_object import Rocket_action, Bullet, Rocket_base_action, Asteroid,Rocket
 from constants import *
-import pygame
+#import pygame
 import time
 import math
-from dto import collides, collides_numba, SpaceObjectDTO, copy_object
-import numpy as np
+from dto import collides, SpaceObjectDTO, copy_object
 from enum import Enum
 import tensorflow as tf
 import numpy as np
-import gc
+#import gc
 
 
 
@@ -97,6 +96,89 @@ class Agent():
         return False
 
 
+    def two_points_distance_squared(self, pointA, pointB):
+        return int(math.pow(pointA[0]-pointB[0], 2)+math.pow(pointA[1]-pointB[1], 2))
+
+    def rocket_asteroid_distance_squared(self, rocket, asteroid):
+        ast_x = asteroid.centerx
+        ast_y = asteroid.centery
+
+        rocket_x = rocket.centerx
+        rocket_y = rocket.centery
+
+        ast_x_width = ast_x + SCREEN_WIDTH
+        ast_y_height = ast_y + SCREEN_HEIGHT
+
+        min_distance = self.two_points_distance_squared((ast_x, ast_y), (rocket_x, rocket_y))
+
+        #shift asteroid to + SCREEN_WIDTH
+        dist = self.two_points_distance_squared((rocket_x,rocket_y), (ast_x_width, ast_y))
+        if dist < min_distance:
+            min_distance = dist
+
+        #shift asteroid to + SCREEN_HEIGHT
+        dist = self.two_points_distance_squared((rocket_x,rocket_y), (ast_x, ast_y_height))
+        if dist < min_distance:
+            min_distance = dist
+
+        #shift asteroid to + SCREEN_HEIGHT and + SCREEN_WIDTH
+        dist = self.two_points_distance_squared((rocket_x, rocket_y), (ast_x_width, ast_y_height))
+        if dist < min_distance:
+            min_distance = dist
+
+        return min_distance
+
+    def object_object_vector(self, objA, objB):
+        return [objA.centerx - objB.centerx, objA.centery - objB.centery]
+
+    def find_N_closest_asteroids(self, rocket, neutral_asteroids, enemy_asteroids, N):
+        arr = []
+        for neutral_asteroid in neutral_asteroids:
+            arr.append([self.object_object_vector(neutral_asteroid, rocket),
+                        self.rocket_asteroid_distance_squared(rocket, neutral_asteroid)])
+
+        for enemy_asteroid in enemy_asteroids:
+            arr.append([self.object_object_vector(enemy_asteroid, rocket),
+                        self.rocket_asteroid_distance_squared(rocket, enemy_asteroid)])
+
+        sorted_by_distance = sorted(arr, key=lambda x: x[1])
+
+        if len(sorted_by_distance) < N:
+            for i in range(N-len(sorted_by_distance)):
+                sorted_by_distance.append([(SCREEN_WIDTH, SCREEN_HEIGHT), SCREEN_FULL_DISTANCE_SQUARED])
+
+
+        return sorted_by_distance[0:N]
+
+    def low_level_state_info(self, state, N_nearest_asteroids = 3):
+        # self speed, self angle, self shoot cooldown, enemy vector, enemy speed, N nearest asteroids vectors
+
+        own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets \
+            = self.assign_objects_to_agent(state)
+
+        own_rocket_speed = [own_rocket.speedx, own_rocket.speedy]
+        own_rocket_angle = [own_rocket.angle]
+        own_rocket_shoot_ticks = [self.shoot_reload_ticks]
+
+        enemy_rocket_vector = self.object_object_vector(own_rocket, enemy_rocket)
+        enemy_speed = [enemy_rocket.speedx, enemy_rocket.speedy]
+        near_asteroids = self.find_N_closest_asteroids(own_rocket, neutral_asteroids, enemy_asteroids, N_nearest_asteroids)
+
+        asteroids_positions = []
+        for near_asteroid in near_asteroids:
+            asteroids_positions.append(near_asteroid[0][0])
+            asteroids_positions.append(near_asteroid[0][1])
+
+        result = np.array(own_rocket_speed +
+                          own_rocket_angle +
+                          own_rocket_shoot_ticks +
+                          enemy_rocket_vector +
+                          enemy_speed +
+                          asteroids_positions)
+
+        result = np.reshape(result, newshape=(1, -1))
+
+        return result
 
 
 
@@ -200,11 +282,6 @@ class Agent():
         for i in range(accelerate_count):
             actions.append([Rocket_base_action.ACCELERATE])
         return True, actions, left_turns + right_turns + accelerate_count
-
-
-
-
-
 
 
     def evade_by_continual_accelerating(self, rocket, asteroid):
@@ -902,6 +979,9 @@ class Agent():
     def simple_shot(self):
         return [Rocket_base_action.SHOT]
 
+    def can_shoot(self):
+        return self.shoot_reload_ticks >= 5
+
     def convert_actions(self, actions):
         self.shoot_reload_ticks = self.shoot_reload_ticks + 1
 
@@ -1032,7 +1112,7 @@ class Random_agent(Agent):
         return actions
 
 class Evasion_agent(Agent):
-    def __init__(self, player_number, draw_modul):
+    def __init__(self, player_number, draw_modul = None):
         super().__init__(player_number)
         self.shoot_reload_ticks = 0
         self.inactive_steps = 0
@@ -1042,7 +1122,17 @@ class Evasion_agent(Agent):
 
     def choose_actions(self, state, opposite_actions):
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
+        #COOL
+        #closest_asteroids = super().find_N_closest_asteroids(own_rocket, neutral_asteroids, enemy_asteroids, 3)
+        #for close_ast in closest_asteroids:
+        #    self.draw_modul.draw_line((own_rocket.centerx, own_rocket.centery),
+        #                              (own_rocket.centerx + close_ast[0][0], own_rocket.centery + close_ast[0][1]))
 
+        #enemy_vector = super().object_object_vector(enemy_rocket, own_rocket)
+        #self.draw_modul.draw_line((own_rocket.centerx, own_rocket.centery),
+        #                          (own_rocket.centerx + enemy_vector[0], own_rocket.centery + enemy_vector[1]))
+
+        #self.draw_modul.render()
 
 
         if self.reevaluate_plan(opposite_actions):
@@ -1284,16 +1374,16 @@ class Genetic_agent(Agent):
         if self.reevaluate_plan(opposite_agent_actions):
             (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count) = self.get_state_stats(state)
             actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count)
-            if actions_index() == ActionEnum.ATTACK:
+            if actions_index() == ActionPlanEnum.ATTACK:
                 actions = attack_actions
                 self.attack_count+=1
-            elif actions_index() == ActionEnum.DEFFENSE:
+            elif actions_index() == ActionPlanEnum.DEFFENSE:
                 actions = defense_shoot_actions
                 self.defense_count+=1
-            elif actions_index() == ActionEnum.EVASION:
+            elif actions_index() == ActionPlanEnum.EVASION:
                 actions = evade_actions
                 self.evasion_count+=1
-            elif actions_index() == ActionEnum.STOP:
+            elif actions_index() == ActionPlanEnum.STOP:
                 actions = stop_actions
                 self.stop_count+=1
             else:
@@ -1469,16 +1559,16 @@ class DQAgent(Agent):
             actions_index = np.argmax(self.model.predict(transformed_state)[0])
 
 
-        if actions_index == ActionEnum.ATTACK:
+        if actions_index == ActionPlanEnum.ATTACK:
             actions = attack_actions
             self.attack_count+=1
-        elif actions_index == ActionEnum.DEFFENSE:
+        elif actions_index == ActionPlanEnum.DEFFENSE:
             actions = defense_shoot_actions
             self.defense_count+=1
-        elif actions_index == ActionEnum.EVASION:
+        elif actions_index == ActionPlanEnum.EVASION:
             actions = evade_actions
             self.evasion_count+=1
-        elif actions_index == ActionEnum.STOP:
+        elif actions_index == ActionPlanEnum.STOP:
             actions = stop_actions
             self.stop_count+=1
 
@@ -1488,16 +1578,16 @@ class DQAgent(Agent):
         if self.reevaluate_plan():
             (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count) = self.get_state_stats(state)
             actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count)
-            if actions_index() == ActionEnum.ATTACK:
+            if actions_index() == ActionPlanEnum.ATTACK:
                 actions = attack_actions
                 self.attack_count+=1
-            elif actions_index() == ActionEnum.DEFFENSE:
+            elif actions_index() == ActionPlanEnum.DEFFENSE:
                 actions = defense_shoot_actions
                 self.defense_count+=1
-            elif actions_index() == ActionEnum.EVASION:
+            elif actions_index() == ActionPlanEnum.EVASION:
                 actions = evade_actions
                 self.evasion_count+=1
-            elif actions_index() == ActionEnum.STOP:
+            elif actions_index() == ActionPlanEnum.STOP:
                 actions = stop_actions
                 self.stop_count+=1
             else:
@@ -1542,80 +1632,192 @@ class DQAgent(Agent):
                     pred[i][a] = r + self.gamma*np.amax(next_pred[i])
 
             self.model.fit(states, pred, epochs=1, verbose=0)
-            gc.collect()
+            #gc.collect()
         # snizime epsilon pro epsilon-greedy strategii
         if self.eps > 0.01:
             self.eps = self.eps*self.eps_decay
 
+class Low_level_sensor_DQAgent(Agent):
+    def __init__(self, player_number, num_inputs, num_outputs, batch_size = 32, num_batches = 64, model = None):
+        super().__init__(player_number)
+        self.num_inputs = num_inputs
+        self.num_outputs = num_outputs
+        self.batch_size = batch_size
+        self.num_batches = num_batches
+        self.buffer_size = 3000
+        self.eps = 1.0
+        self.eps_decay = 0.9985
+        self.gamma = 0.95
+        self.exp_buffer = []
+        self.inactiv_ticks = 0
+        self.attack_count = 0
+        self.defense_count = 0
+        self.evasion_count = 0
+        self.stop_count = 0
+        self.penalty = 0
+        self.odd = 0
+        if model is None:
+            self.build_model()
+        else:
+            self.model = model
+
+    # vytvari model Q-site
+    def build_model(self):
+        self.model = tf.keras.models.Sequential([tf.keras.layers.Dense(24, activation=tf.nn.relu, input_dim=self.num_inputs
+                                                                       #, name='dense_1'
+                                                                       ),
+                                                 tf.keras.layers.Dense(24, activation=tf.nn.relu
+                                                                       #, name = 'dense_02'
+                                                                       ),
+                                                 tf.keras.layers.Dense(self.num_outputs, activation='linear')])
+        opt = tf.keras.optimizers.Adam(lr=0.001)
+        self.model.compile(optimizer=opt, loss='mse')
+
+    def train(self):
+        if (len(self.exp_buffer) <= self.batch_size):
+            return
+
+        for _ in range(self.num_batches):
+            batch = random.sample(self.exp_buffer, self.batch_size)
+            states = np.array([s for (s, _, _, _, _) in batch])
+            next_states = np.array([ns for (_, _, _, ns, _) in batch])
+            states = states.reshape((-1, self.num_inputs))
+            next_states = next_states.reshape((-1, self.num_inputs))
+            pred = self.model.predict(states)
+            next_pred = self.model.predict(next_states)
+            # spocitame cilove hodnoty
+            for i, (s, a, r, ns, go) in enumerate(batch):
+                pred[i][a] = r
+                if not go:
+                    pred[i][a] = r + self.gamma*np.amax(next_pred[i])
+
+            self.model.fit(states, pred, epochs=1, verbose=0)
+            #gc.collect()
+        # snizime epsilon pro epsilon-greedy strategii
+        if self.eps > 0.01:
+            self.eps = self.eps*self.eps_decay
+
+    def record_experience(self, exp):
+        self.exp_buffer.append(exp)
+        if len(self.exp_buffer) > self.buffer_size:
+            self.exp_buffer = self.exp_buffer[-self.buffer_size:]
+
+    def get_simple_action_from_action_value(self, value):
+        if value == 0:
+            actions = [Rocket_base_action.ROTATE_LEFT]
+        if value == 1:
+            actions = [Rocket_base_action.ROTATE_RIGHT]
+        if value == 2:
+            actions = [Rocket_base_action.ACCELERATE]
+        if value == 3:
+            actions = [Rocket_base_action.SHOT]
+        if value == 4:
+            actions = [Rocket_base_action.SPLIT_SHOOT]
+        if value == 5:
+            actions = []
+        return actions
+
+
+    def choose_action_index(self, state, train=False):
+        if train and np.random.uniform() < self.eps:
+            val = np.random.randint(self.num_outputs)
+            action = self.get_simple_action_from_action_value(val)
+
+            if not self.can_shoot():
+                while action == Rocket_base_action.SHOT or action == Rocket_base_action.SPLIT_SHOOT:
+                    val = np.random.randint(self.num_outputs)
+                    action = self.get_simple_action_from_action_value(val)
+
+            self.history[val] += 1
+        else:
+            predictions = self.model.predict(state)[0]
+            best_args = predictions.argsort()[-3:][::-1]
+            if not self.can_shoot():
+                for i in range(3):
+                    val = best_args[i]
+                    action = self.get_simple_action_from_action_value(val)
+                    if action != Rocket_base_action.SHOT and action != Rocket_base_action.SPLIT_SHOOT:
+                        break
+
+
+
+            #val = np.argmax(self.model.predict(state)[0])
+            self.history[val] +=1
+
+        return val
+
+
+
 # vytvorime agenta (4 vstupy, 2 akce)
 
 
-class Input_agent(Agent):
-    def __init__(self,  screen, player_number):
-        super().__init__(player_number)
-        self.screen = screen
+# class Input_agent(Agent):
+#     def __init__(self,  screen, player_number):
+#         super().__init__(player_number)
+#         self.screen = screen
+#
+#     def  choose_actions(self, state):
+#         actions_one = []
+#         actions_two = []
+#         actions = []
+#         events = pygame.event.get(pygame.KEYDOWN)
+#
+#         for event in events:
+#             if(event.key == pygame.K_KP5):
+#                 actions.append(Rocket_action.ROCKET_ONE_SHOOT)
+#                 # actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
+#                 actions_one.append(Rocket_base_action.SHOT)
+#             if(event.key == pygame.K_KP6):
+#                 actions.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
+#                 # actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
+#                 actions_one.append(Rocket_base_action.SPLIT_SHOOT)
+#             if(event.key == pygame.K_g):
+#                 actions.append(Rocket_action.ROCKET_TWO_SHOOT)
+#                 # actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
+#                 actions_two.append(Rocket_base_action.SHOT)
+#             if(event.key == pygame.K_h):
+#                 actions.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
+#                 # actions_two.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
+#                 actions_two.append(Rocket_base_action.SPLIT_SHOOT)
+#
+#
+#         all_keys = pygame.key.get_pressed()
+#         if all_keys[pygame.K_UP]:
+#             actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
+#             # actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
+#             actions_one.append(Rocket_base_action.ACCELERATE)
+#         if all_keys[pygame.K_LEFT]:
+#             actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
+#             # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
+#             actions_one.append(Rocket_base_action.ROTATE_LEFT)
+#         if all_keys[pygame.K_RIGHT]:
+#             actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
+#             # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
+#             actions_one.append(Rocket_base_action.ROTATE_RIGHT)
+#
+#         if all_keys[pygame.K_a]:
+#             actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
+#             # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
+#             actions_two.append(Rocket_base_action.ROTATE_LEFT)
+#         if all_keys[pygame.K_d]:
+#             actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+#             # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+#             actions_two.append(Rocket_base_action.ROTATE_RIGHT)
+#         if all_keys[pygame.K_w]:
+#             actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+#             # actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+#             actions_two.append(Rocket_base_action.ACCELERATE)
+#
+#
+#
+#         # clearing it apparently prevents from stucking
+#         pygame.event.clear()
+#
+#         return actions_one, actions_two
 
-    def  choose_actions(self, state):
-        actions_one = []
-        actions_two = []
-        actions = []
-        events = pygame.event.get(pygame.KEYDOWN)
-
-        for event in events:
-            if(event.key == pygame.K_KP5):
-                actions.append(Rocket_action.ROCKET_ONE_SHOOT)
-                # actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
-                actions_one.append(Rocket_base_action.SHOT)
-            if(event.key == pygame.K_KP6):
-                actions.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
-                # actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
-                actions_one.append(Rocket_base_action.SPLIT_SHOOT)
-            if(event.key == pygame.K_g):
-                actions.append(Rocket_action.ROCKET_TWO_SHOOT)
-                # actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
-                actions_two.append(Rocket_base_action.SHOT)
-            if(event.key == pygame.K_h):
-                actions.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
-                # actions_two.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
-                actions_two.append(Rocket_base_action.SPLIT_SHOOT)
-
-
-        all_keys = pygame.key.get_pressed()
-        if all_keys[pygame.K_UP]:
-            actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-            # actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-            actions_one.append(Rocket_base_action.ACCELERATE)
-        if all_keys[pygame.K_LEFT]:
-            actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-            # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-            actions_one.append(Rocket_base_action.ROTATE_LEFT)
-        if all_keys[pygame.K_RIGHT]:
-            actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-            # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-            actions_one.append(Rocket_base_action.ROTATE_RIGHT)
-
-        if all_keys[pygame.K_a]:
-            actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-            # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-            actions_two.append(Rocket_base_action.ROTATE_LEFT)
-        if all_keys[pygame.K_d]:
-            actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-            # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-            actions_two.append(Rocket_base_action.ROTATE_RIGHT)
-        if all_keys[pygame.K_w]:
-            actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-            # actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-            actions_two.append(Rocket_base_action.ACCELERATE)
-
-
-
-        # clearing it apparently prevents from stucking
-        pygame.event.clear()
-
-        return actions_one, actions_two
-
-class ActionEnum(Enum):
+class ActionPlanEnum(Enum):
     ATTACK = 0
     DEFFENSE = 1
     EVASION = 2
     STOP = 3
+

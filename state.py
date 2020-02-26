@@ -1,15 +1,9 @@
 from dto import SpaceObjectDTO
-from constants import *
-import copy
-import pygame
 
 class State:
     def __init__(self, neutral_asteroids,
                  player_one_rocket, player_one_asteroids, player_one_bullets,
                  player_two_rocket, player_two_asteroids, player_two_bullets):
-
-
-        rect = pygame.rect.Rect(0,0,0,0)
 
         # Neutral asteroids
         self.neutral_asteroids = []

@@ -1,21 +1,16 @@
 
-import pygame
-import random
-import sys, time
+#import pygame
 from sprite_object import Rocket, Rocket_action, Rocket_base_action, Bullet, Asteroid, collides
 from state import State
 from constants import *
 
 
 
-black = (0, 0, 0)
-white = (255,255,255)
-
 
 
 
 class Enviroment():
-    def __init__(self, visual, rocket_one_invulnerable, rocket_two_invulnerable, draw_modul = None):
+    def __init__(self, draw_modul = None):
         super().__init__()
         # pygame.init()
         self.draw_modul = draw_modul
@@ -35,9 +30,6 @@ class Enviroment():
         self.RocketTwo = Rocket(1)
         self.rockets.append(self.RocketOne)
         self.rockets.append(self.RocketTwo)
-        self.visual = visual
-        self.rocket_one_invulnerable = rocket_one_invulnerable
-        self.rocket_two_invlunerable = rocket_two_invulnerable
 
         self.ticks_elapsed_since_last_asteroid = 0
         self.ticks_amount_to_create_asteroid = 50
@@ -71,7 +63,8 @@ class Enviroment():
 
     def next_step(self, actions_one, actions_two):
         self.step_count = self.step_count + 1
-        self.reward = 0
+        self.reward_one = 0
+        self.reward_two = 0
 
         self._handle_actions_(actions_one, actions_two)
 
@@ -107,11 +100,14 @@ class Enviroment():
             self.draw_modul.render()
 
         (game_over, player_one_won) = self._check_end_()
+        if not game_over:
+            self.reward_one += 1
+            self.reward_two += 1
 
         current_state = State(self.asteroids_neutral, self.RocketOne, self.asteroids_one, self.bullets_one,
                               self.RocketTwo, self.asteroids_two, self.bullets_two)
 
-        return self.step_count, (game_over, player_one_won), current_state, actions_one, actions_two, self.reward
+        return self.step_count, (game_over, player_one_won), current_state, actions_one, actions_two, (self.reward_one, self.reward_two)
 
 
     def _handle_actions_(self, actions_one, actions_two):
@@ -213,7 +209,7 @@ class Enviroment():
                 # if collides(bullet_one, asteroid):
                 if collides(bullet_one, asteroid):
                     # if bullet_one.collision_rect.colliderect(asteroid.collision_rect):
-                    self.reward += 1
+                    self.reward_one += BULLET_ASTEROID_COLLISION_REWARD
                     self.asteroids_neutral.remove(asteroid)
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
                     if bullet_one.split:
@@ -239,7 +235,7 @@ class Enviroment():
             for asteroid_two in self.asteroids_two:
                 if collides(bullet_one, asteroid_two):
                     # if bullet_one.collision_rect.colliderect(asteroid_two.collision_rect):
-                    self.reward += 1
+                    self.reward_one += BULLET_ASTEROID_COLLISION_REWARD
                     self.asteroids_two.remove(asteroid_two)
 
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
@@ -262,16 +258,19 @@ class Enviroment():
                         self.asteroids_one.append(new_asteroid)
 
         # Rocket ONE collisions
-        if self.rocket_one_invulnerable == False:
+        if ROCKET_ONE_INVULNERABLE == False:
             for asteroid in self.asteroids_neutral:
                 if collides(asteroid, self.RocketOne):
                     # if asteroid.collision_rect.colliderect(self.RocketOne.collision_rect):
+                    self.reward_one += ASTEROID_ROCKET_COLLISION_PENALTY
                     self.asteroids_neutral.remove(asteroid)
                     self.RocketOne.health = self.RocketOne.health - 10
 
             for asteroid_two in self.asteroids_two:
                 if collides(asteroid_two, self.RocketOne):
                     # if asteroid_two.collision_rect.colliderect(self.RocketOne.collision_rect):
+                    self.reward_one += ASTEROID_ROCKET_COLLISION_PENALTY
+                    self.reward_two += ASTEROID_ROCKET_COLLISION_REWARD
                     self.asteroids_two.remove(asteroid_two)
                     self.RocketOne.health = self.RocketOne.health - 30
 
@@ -281,6 +280,7 @@ class Enviroment():
             for asteroid_one in self.asteroids_one:
                 if collides(bullet_two, asteroid_one):
                     # if bullet_two.collision_rect.colliderect(asteroid_one.collision_rect):
+                    self.reward_two += BULLET_ASTEROID_COLLISION_REWARD
                     self.asteroids_one.remove(asteroid_one)
 
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
@@ -307,6 +307,7 @@ class Enviroment():
             for asteroid in self.asteroids_neutral:
                 if collides(bullet_two, asteroid):
                     # if bullet_two.collision_rect.colliderect(asteroid.collision_rect):
+                    self.reward_two += BULLET_ASTEROID_COLLISION_REWARD
                     self.asteroids_neutral.remove(asteroid)
 
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
@@ -331,16 +332,18 @@ class Enviroment():
                     continue
 
         # Rocket TWO collisions
-        if self.rocket_two_invlunerable == False:
+        if ROCKET_TWO_INVULNERABLE == False:
             for asteroid in self.asteroids_neutral:
                 if collides(asteroid, self.RocketTwo):
                     # if asteroid.collision_rect.colliderect(self.RocketTwo.collision_rect):
+                    self.reward_two += ASTEROID_ROCKET_COLLISION_PENALTY
                     self.asteroids_neutral.remove(asteroid)
                     self.RocketTwo.health = self.RocketTwo.health - 10
 
             for asteroid_one in self.asteroids_one:
                 if collides(asteroid_one, self.RocketTwo):
-                    self.reward += 20
+                    self.reward_two += ASTEROID_ROCKET_COLLISION_PENALTY
+                    self.reward_one += ASTEROID_ROCKET_COLLISION_REWARD
                     # if asteroid_one.collision_rect.colliderect(self.RocketTwo.collision_rect):
                     self.asteroids_one.remove(asteroid_one)
                     self.RocketTwo.health = self.RocketTwo.health - 30
@@ -425,44 +428,44 @@ class Enviroment():
         pass
 
 
-    def get_actions_from_keyboard_input(self):
-        actions_one = []
-        actions_two = []
-        actions = []
-        events = pygame.event.get(pygame.KEYDOWN)
-        for event in events:
-            if(event.key == pygame.K_SPACE):
-                actions.append(Rocket_action.ROCKET_ONE_SHOOT)
-                actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
-            if(event.key == pygame.K_LCTRL):
-                actions.append(Rocket_action.ROCKET_TWO_SHOOT)
-                actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
-
-
-        all_keys = pygame.key.get_pressed()
-        if all_keys[pygame.K_UP]:
-            actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-            actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-        if all_keys[pygame.K_LEFT]:
-            actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-            actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-        if all_keys[pygame.K_RIGHT]:
-            actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-            actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-
-
-        if all_keys[pygame.K_a]:
-            actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-            actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-        if all_keys[pygame.K_d]:
-            actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-            actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-        if all_keys[pygame.K_w]:
-            actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-            actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-
-
-
-        # clearing it apparently prevents from stucking
-        pygame.event.clear()
-        return actions_one, actions_two
+    # def get_actions_from_keyboard_input(self):
+    #     actions_one = []
+    #     actions_two = []
+    #     actions = []
+    #     events = pygame.event.get(pygame.KEYDOWN)
+    #     for event in events:
+    #         if(event.key == pygame.K_SPACE):
+    #             actions.append(Rocket_action.ROCKET_ONE_SHOOT)
+    #             actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
+    #         if(event.key == pygame.K_LCTRL):
+    #             actions.append(Rocket_action.ROCKET_TWO_SHOOT)
+    #             actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
+    #
+    #
+    #     all_keys = pygame.key.get_pressed()
+    #     if all_keys[pygame.K_UP]:
+    #         actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
+    #         actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
+    #     if all_keys[pygame.K_LEFT]:
+    #         actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
+    #         actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
+    #     if all_keys[pygame.K_RIGHT]:
+    #         actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
+    #         actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
+    #
+    #
+    #     if all_keys[pygame.K_a]:
+    #         actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
+    #         actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
+    #     if all_keys[pygame.K_d]:
+    #         actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+    #         actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+    #     if all_keys[pygame.K_w]:
+    #         actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+    #         actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+    #
+    #
+    #
+    #     # clearing it apparently prevents from stucking
+    #     pygame.event.clear()
+    #     return actions_one, actions_two

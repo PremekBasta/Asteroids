@@ -1,11 +1,7 @@
-from typing import OrderedDict
-
-import pygame, math
-import numpy as np
+import math
 from constants import *
 
 
-# @numba.jitclass(spec)
 class SpaceObjectDTO():
     def __init__(self, radius, centerx, centery, speedx, speedy, angle, size_index = 0, player = 1, life_count = 0):
         self.radius = radius
@@ -90,9 +86,3 @@ def collides(objectA, objectB):
     #             objectA.radius + objectB.radius)
     return math.sqrt(math.pow(objectA.centerx - objectB.centerx, 2) + math.pow(objectA.centery - objectB.centery, 2)) < (
             objectA.radius + objectB.radius)
-
-# @numba.jit(nopython=True)
-def collides_numba(objectA_centerx, objectA_centery, objectB_centerx, objectB_centery, objectA_radius, objectB_radius):
-    return math.sqrt(
-        math.pow(objectA_centerx - objectB_centerx, 2) + math.pow(objectA_centery - objectB_centery, 2)) < (
-                   objectA_radius + objectB_radius)

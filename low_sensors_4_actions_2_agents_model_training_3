@@ -1,0 +1,24 @@
+(episode_num, reward) one: 0 3100
+(history: left, right, accelerate, shoot, split_shoot, empty) one: 
+ [0, 978, 29, 10, 1, 82] 
+
+(episode_num, reward) two: 0 99
+(history: left, right, accelerate, shoot, split_shoot, empty) two: 
+ [237, 286, 237, 0, 0, 340] 
+
+(episode_num, reward) one: 1 2729
+(history: left, right, accelerate, shoot, split_shoot, empty) one: 
+ [0, 500, 0, 3, 0, 206] 
+
+(episode_num, reward) two: 1 -292
+(history: left, right, accelerate, shoot, split_shoot, empty) two: 
+ [152, 225, 135, 0, 0, 197] 
+
+(episode_num, reward) one: 2 2786
+(history: left, right, accelerate, shoot, split_shoot, empty) one: 
+ [0, 478, 3, 11, 51, 222] 
+
+(episode_num, reward) two: 2 -234
+(history: left, right, accelerate, shoot, split_shoot, empty) two: 
+ [130, 165, 214, 27, 0, 229] 
+

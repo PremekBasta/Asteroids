@@ -1,9 +1,10 @@
-import pygame, random
 import math
 from enum import Enum
 from constants import *
+import random
 
 
+random.seed(RANDOM_SEED)
 
 class Rocket():
     rocket_angle_rotation = ROCKET_ANGLE_ROTATION
@@ -219,7 +220,7 @@ class Bullet():
     def is_alive(self):
         return self.life_count > 0
 
-random.seed(RANDOM_SEED)
+
 
 class Asteroid():
     # asteroid_images =  [
