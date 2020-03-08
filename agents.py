@@ -71,13 +71,7 @@ class Agent():
         return actions
 
 
-    def reevaluate_plan(self, opposite_player_actions):
-        if (Rocket_base_action.ACCELERATE in opposite_player_actions or
-                Rocket_base_action.SHOT in opposite_player_actions or
-                Rocket_base_action.SPLIT_SHOOT in opposite_player_actions):
-            self.inactiv_ticks = 0
-            return True
-
+    def reevaluate_plan(self):
         if (self.inactiv_ticks > INACTIV_TIME_LIMIT):
             self.inactiv_ticks = 0
             return True
@@ -87,9 +81,6 @@ class Agent():
             self.inactiv_ticks = 0
             return True
 
-        # if self.active_ticks > 0:
-        #     self.active_ticks = 0
-        #     return False
 
         self.inactiv_ticks = self.inactiv_ticks + 1
 
@@ -1181,11 +1172,11 @@ class Stable_defensive_agent(Agent):
         self.inactive_steps = 0
         self.active_steps = 0
 
-    def choose_actions(self, state, opposite_agent_actions):
+    def choose_actions(self, state):
 
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
 
-        if super().reevaluate_plan(opposite_agent_actions):
+        if super().reevaluate_plan():
             self.active_steps = self.active_steps + 1
             self.active_ticks = 1
 
@@ -1275,8 +1266,6 @@ class Smart_agent(Agent):
         self.odd = 0
 
 
-#TODO: evoluce pravidel jedince je mnozina pravidel, neurnka s vectorem vstupu
-
     def choose_actions(self, state, opposite_agent_actions):
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
         if self.reevaluate_plan(opposite_agent_actions):
@@ -1334,14 +1323,6 @@ class Smart_agent(Agent):
                 # return super().convert_actions(actions[0])
         return super().convert_actions(super().choose_action_from_plan())
 
-            # if impact:
-            #     print(f"evade steps count: {evade_steps_count}")
-            #     print(f"defense steps count: {defense_steps_count}")
-            # else:
-            #     print(f"evade steps count: {NOT_FOUND_STEPS_COUNT}")
-            #     print(f"defense steps count: {NOT_FOUND_STEPS_COUNT}")
-            #
-            # print(f"attack steps count: {attack_steps_count}")
 
 
 
@@ -1355,6 +1336,90 @@ class Smart_agent(Agent):
 
         self.inactiv_ticks = self.inactiv_ticks + 1
         return False
+
+class Neat_agent(Agent):
+    def __init__(self, player_number, net):
+        super().__init__(player_number)
+        self.net = net
+        self.inactiv_ticks = 0
+        self.attack_count = 0
+        self.defense_count = 0
+        self.evasion_count = 0
+        self.stop_count = 0
+        self.odd = 0
+        self.penalty = 0
+
+    def choose_actions(self, state):
+        actions = []
+        if self.reevaluate_plan([]):
+            (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (
+            evade_actions, evade_steps_count), (stop_actions, stop_steps_count) = self.get_state_stats(state)
+
+            output = self.net.activate((attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count))
+            actions_index = output[0]
+
+            if actions_index == ActionPlanEnum.ATTACK:
+                actions = attack_actions
+                self.attack_count += 1
+            elif actions_index == ActionPlanEnum.DEFFENSE:
+                actions = defense_shoot_actions
+                self.defense_count += 1
+            elif actions_index == ActionPlanEnum.EVASION:
+                actions = evade_actions
+                self.evasion_count += 1
+            elif actions_index == ActionPlanEnum.STOP:
+                actions = stop_actions
+                self.stop_count += 1
+            else:
+                self.penalty = self.penalty + 1
+
+            super().store_plan(actions)
+
+        return super().convert_actions(super().choose_action_from_plan())
+
+    def reevaluate_plan(self, opposite_player_actions):
+        if self.inactiv_ticks > INACTIVE_SMART_TIME_LIMIT:
+            self.inactiv_ticks = 0
+            return True
+
+        self.inactiv_ticks = self.inactiv_ticks + 1
+        return False
+
+
+    def get_state_stats(self, state):
+        own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
+        impact, impact_asteroid, impact_steps_count = super().first_impact_asteroid(own_rocket, neutral_asteroids,
+                                                                                    own_bullets, enemy_asteroids)
+
+        attack_actions = []
+        attack_steps_count = NOT_FOUND_STEPS_COUNT
+
+        evade_actions = []
+        evade_steps_count = NOT_FOUND_STEPS_COUNT
+
+        defense_shoot_actions = []
+        defense_steps_count = NOT_FOUND_STEPS_COUNT
+
+        stop_actions = []
+        stop_steps_count = NOT_FOUND_STEPS_COUNT
+
+        _, stop_actions, stop_steps_count = super().stop_moving(own_rocket)
+
+        if impact:
+            evade_actions, evade_steps_count = super().evade_asteroid(own_rocket, impact_asteroid)
+            defense_shoot_actions, defense_steps_count = super().defense_shoot_asteroid_actions(own_rocket,
+                                                                                                impact_asteroid)
+        if self.odd < 1:
+            self.odd = self.odd + 1
+        else:
+            self.odd = 0
+            hit, attack_actions, attack_steps_count = super().shoot_in_all_directions_to_hit_enemy(own_rocket,
+                                                                                                   enemy_rocket,
+                                                                                                   state.neutral_asteroids,
+                                                                                                   enemy_asteroids,
+                                                                                                   own_bullets,
+                                                                                                   enemy_bullets)
+        return (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count)
 
 class Genetic_agent(Agent):
     def __init__(self, player_number, decision_function):
@@ -1437,10 +1502,6 @@ class Genetic_agent(Agent):
                                                                                                    enemy_bullets)
         return (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count)
 
-    def foo(attack_steps_count, defense_steps_count, evade_steps_count):
-        if defense_steps_count < NOT_FOUND_STEPS_COUNT:
-            return 2
-        return 1
 
 class DQAgent(Agent):
     def __init__(self, player_number, num_inputs, num_outputs, batch_size = 32, num_batches = 64, model = None):
@@ -1646,7 +1707,7 @@ class Low_level_sensor_DQAgent(Agent):
         self.num_batches = num_batches
         self.buffer_size = 3000
         self.eps = 1.0
-        self.eps_decay = 0.9985
+        self.eps_decay = 0.9998
         self.gamma = 0.95
         self.exp_buffer = []
         self.inactiv_ticks = 0
@@ -1656,10 +1717,12 @@ class Low_level_sensor_DQAgent(Agent):
         self.stop_count = 0
         self.penalty = 0
         self.odd = 0
+        self.history = [0, 0, 0, 0, 0, 0]
         if model is None:
             self.build_model()
         else:
             self.model = model
+
 
     # vytvari model Q-site
     def build_model(self):
@@ -1669,6 +1732,7 @@ class Low_level_sensor_DQAgent(Agent):
                                                  tf.keras.layers.Dense(24, activation=tf.nn.relu
                                                                        #, name = 'dense_02'
                                                                        ),
+                                                 #tf.keras.layers.Dense(24, activation=tf.nn.relu),
                                                  tf.keras.layers.Dense(self.num_outputs, activation='linear')])
         opt = tf.keras.optimizers.Adam(lr=0.001)
         self.model.compile(optimizer=opt, loss='mse')
@@ -1702,7 +1766,7 @@ class Low_level_sensor_DQAgent(Agent):
         if len(self.exp_buffer) > self.buffer_size:
             self.exp_buffer = self.exp_buffer[-self.buffer_size:]
 
-    def get_simple_action_from_action_value(self, value):
+    def get_simple_actions_from_action_value(self, value):
         if value == 0:
             actions = [Rocket_base_action.ROTATE_LEFT]
         if value == 1:
@@ -1721,22 +1785,24 @@ class Low_level_sensor_DQAgent(Agent):
     def choose_action_index(self, state, train=False):
         if train and np.random.uniform() < self.eps:
             val = np.random.randint(self.num_outputs)
-            action = self.get_simple_action_from_action_value(val)
+            actions = self.get_simple_actions_from_action_value(val)
 
             if not self.can_shoot():
-                while action == Rocket_base_action.SHOT or action == Rocket_base_action.SPLIT_SHOOT:
+                while actions == [Rocket_base_action.SHOT] or actions == [Rocket_base_action.SPLIT_SHOOT]:
                     val = np.random.randint(self.num_outputs)
-                    action = self.get_simple_action_from_action_value(val)
+                    actions = self.get_simple_actions_from_action_value(val)
 
             self.history[val] += 1
         else:
             predictions = self.model.predict(state)[0]
             best_args = predictions.argsort()[-3:][::-1]
+            val = best_args[0]
+            ticks = self.shoot_reload_ticks
             if not self.can_shoot():
                 for i in range(3):
                     val = best_args[i]
-                    action = self.get_simple_action_from_action_value(val)
-                    if action != Rocket_base_action.SHOT and action != Rocket_base_action.SPLIT_SHOOT:
+                    actions = self.get_simple_actions_from_action_value(val)
+                    if actions != [Rocket_base_action.SHOT] and actions != [Rocket_base_action.SPLIT_SHOOT]:
                         break
 
 
@@ -1745,6 +1811,14 @@ class Low_level_sensor_DQAgent(Agent):
             self.history[val] +=1
 
         return val
+
+    def choose_actions(self, state):
+        state = self.low_level_state_info(state)
+        action_index = self.choose_action_index(state, train=False)
+        actions = self.get_simple_actions_from_action_value(action_index)
+        actions = super().convert_actions(actions)
+        return actions
+
 
 
 

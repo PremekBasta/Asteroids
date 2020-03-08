@@ -56,9 +56,9 @@ agents_one = [None for i in range(6)]
 agents_two = [Stable_defensive_agent(2) for i in range(6)]
 funcs = [None for i in range(6)]
 
-env1 = Enviroment(VISUAL, ROCKET_ONE_INVULNERABLE, ROCKET_TWO_INVULNERABLE)
-env2 = Enviroment(VISUAL, ROCKET_ONE_INVULNERABLE, ROCKET_TWO_INVULNERABLE)
-env3 = Enviroment(VISUAL, ROCKET_ONE_INVULNERABLE, ROCKET_TWO_INVULNERABLE)
+env1 = Enviroment()
+env2 = Enviroment()
+env3 = Enviroment()
 agent1_two = Stable_defensive_agent(2)
 agent2_two = Stable_defensive_agent(2)
 agent3_two = Stable_defensive_agent(2)
@@ -188,6 +188,7 @@ def paralel_fitness(ind):
         processes[i].join()
     result = sum(return_vals.values()) // 6
     return result,
+
 
 
 

@@ -149,7 +149,7 @@ class draw_module(object):
 
 
     def clear_display(self):
-        self.clock.tick(60)
+        self.clock.tick(30)
         self.screen.fill((0,0,0))
 
     def draw_rocket(self, rocket):
@@ -160,7 +160,7 @@ class draw_module(object):
         self.screen.blit(self.asteroid_images[asteroid.player][asteroid.size_index][asteroid.random_image_index], (asteroid.centerx - asteroid.image_width / 2, asteroid.centery - asteroid.image_height / 2))
 
     def draw_bullet(self, bullet):
-        self.screen.blit(self.bullet_angle_images[bullet.split][bullet.rocket.player][bullet.rocket.angle // 12], (bullet.centerx - BULLET_IMAGE_WIDTH / 2, bullet.centery - BULLET_IMAGE_HEIGHT / 2))
+        self.screen.blit(self.bullet_angle_images[bullet.split][bullet.rocket.player][bullet.angle // 12], (bullet.centerx - BULLET_IMAGE_WIDTH / 2, bullet.centery - BULLET_IMAGE_HEIGHT / 2))
 
     def draw_line(self, pointA, pointB):
         pygame.draw.line(self.screen, PLAYER_ONE_COLOR, pointA, pointB)

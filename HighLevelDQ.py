@@ -193,7 +193,7 @@ def train_single_thread(num_episodes):
     with open("model_training_2000", "w+") as f:
         agent_one = DQAgent(player_number=1, num_inputs=4, num_outputs=4)
         agent_two = Stable_defensive_agent(2)
-        env = Enviroment(VISUAL, ROCKET_ONE_INVULNERABLE, ROCKET_TWO_INVULNERABLE)
+        env = Enviroment()
         for i in range(num_episodes):
             rewards = []
             agent_one.history = [0, 0, 0, 0]

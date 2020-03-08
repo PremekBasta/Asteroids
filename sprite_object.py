@@ -185,7 +185,7 @@ class Bullet():
     def __init__(self, rocket, split = 0):
         super().__init__()
         self.rocket = rocket
-        self.angle = rocket.angle
+        self.angle = int(rocket.angle)
         if split:
             self.split = 1
         else:
