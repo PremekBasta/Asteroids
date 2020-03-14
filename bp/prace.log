@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  8 MAR 2020 15:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  14 MAR 2020 17:56
 entering extended mode
 **/home/premek/Asteroids/bp/prace.tex
 (/home/premek/Asteroids/bp/prace.tex
@@ -559,12 +559,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ]
 \openout2 = `uvod.aux'.
 
- (/home/premek/Asteroids/bp/uvod.tex)
-Overfull \hbox (15.85245pt too wide) in paragraph at lines 4--128
-[]\T1/lmr/m/n/12 Následuje n¥kolik ukázkových kapitol, které doporu£ují, jak by se m¥la bakalá°ská|
- []
-
-[2
+ (/home/premek/Asteroids/bp/uvod.tex) [2
 
 
 ]
@@ -572,11 +567,39 @@ Overfull \hbox (15.85245pt too wide) in paragraph at lines 4--128
 
  (/home/premek/Asteroids/bp/kap01.tex
 Kapitola 1.
+
+Overfull \hbox (1.23958pt too wide) in paragraph at lines 4--8
+[]\T1/lmr/m/n/12 Jedná se o hru dvou hrá£·. Kaºdý z hrá£· ovládá svou vesmírnou lo¤. Prost°edí|
+ []
+
+
+Overfull \hbox (2.01138pt too wide) in paragraph at lines 17--21
+\T1/lmr/m/n/12 Kaºdým rozst°elením daného asteroidu vznikají asteroidy o stupe¬ men²í velikosti.|
+ []
+
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 23.
+(/home/premek/.miktex/texmfs/install/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+Overfull \hbox (12.39563pt too wide) in paragraph at lines 22--26
+\T1/lmr/m/n/12 který letí stejným sm¥rem jako st°ela, která ho zasáhla. V p°ípad¥ st°ely rozdvojovací|
+ []
+
+<./Obrazky/UkazkaHry.png, id=179, 895.345pt x 590.205pt>
+File: ./Obrazky/UkazkaHry.png Graphic file (type png)
+<use ./Obrazky/UkazkaHry.png>
+Package pdftex.def Info: ./Obrazky/UkazkaHry.png  used on input line 36.
+(pdftex.def)             Requested size: 426.7961pt x 284.52898pt.
+
+Overfull \hbox (14.23114pt too wide) in paragraph at lines 36--37
+ [][] |
+ []
+
 ) [3
 
 
 
-]
+] [4 <./Obrazky/UkazkaHry.png>]
 \openout2 = `kap02.aux'.
 
  (/home/premek/Asteroids/bp/kap02.tex
@@ -586,18 +609,18 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7.
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 
-Package natbib Warning: Citation `KaplanMeier58' on page 4 undefined on input line 19.
+Package natbib Warning: Citation `KaplanMeier58' on page 5 undefined on input line 19.
 
 
-Package natbib Warning: Citation `Cox72' on page 4 undefined on input line 19.
+Package natbib Warning: Citation `Cox72' on page 5 undefined on input line 19.
 
 
-Package natbib Warning: Citation `Student08' on page 4 undefined on input line 19.
+Package natbib Warning: Citation `Student08' on page 5 undefined on input line 19.
 
 
-Package natbib Warning: Citation `Genberget08' on page 4 undefined on input line 21.
+Package natbib Warning: Citation `Genberget08' on page 5 undefined on input line 21.
 
-) [4
+) [5
 
 
 
@@ -606,7 +629,7 @@ Package natbib Warning: Citation `Genberget08' on page 4 undefined on input line
 
  (/home/premek/Asteroids/bp/kap03.tex
 Kapitola 3.
-) [5
+) [6
 
 
 
@@ -615,21 +638,21 @@ Kapitola 3.
 
  (/home/premek/Asteroids/bp/kap04.tex
 Kapitola 4.
-<./agent_enviroment.png, id=195, 392.46625pt x 264.99pt>
+<./agent_enviroment.png, id=204, 392.46625pt x 264.99pt>
 File: ./agent_enviroment.png Graphic file (type png)
 <use ./agent_enviroment.png>
 Package pdftex.def Info: ./agent_enviroment.png  used on input line 16.
 (pdftex.def)             Requested size: 398.36398pt x 398.36952pt.
-) [6
+) [7
 
 
 
-] [7 <./agent_enviroment.png>]
+] [8 <./agent_enviroment.png>]
 \openout2 = `kap05.aux'.
 
  (/home/premek/Asteroids/bp/kap05.tex
 Kapitola 5.
-) [8
+) [9
 
 
 
@@ -638,7 +661,7 @@ Kapitola 5.
 
  (/home/premek/Asteroids/bp/kap06.tex
 Kapitola 6.
-) [9
+) [10
 
 
 
@@ -646,7 +669,7 @@ Kapitola 6.
 \tf@lof=\write7
 \openout7 = `prace.lof'.
 
- [10
+ [11
 
 
 ]
@@ -663,17 +686,17 @@ Package rerunfilecheck Info: File `prace.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 159.
  ) 
 Here is how much of TeX's memory you used:
- 15450 strings out of 483220
- 218574 string characters out of 2960823
- 461363 words of memory out of 3000000
- 30313 multiletter control sequences out of 15000+200000
- 586049 words of font info for 61 fonts, out of 3000000 for 9000
+ 15499 strings out of 483220
+ 219691 string characters out of 2960823
+ 461407 words of memory out of 3000000
+ 30354 multiletter control sequences out of 15000+200000
+ 586424 words of font info for 62 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
  44i,6n,41p,554b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb>
-Output written on /home/premek/Asteroids/bp/prace.pdf (14 pages, 159080 bytes).
+{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb>
+Output written on /home/premek/Asteroids/bp/prace.pdf (15 pages, 173855 bytes).
 PDF statistics:
- 252 PDF objects out of 1000 (max. 8388607)
- 45 named destinations out of 1000 (max. 500000)
- 250 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 265 PDF objects out of 1000 (max. 8388607)
+ 47 named destinations out of 1000 (max. 500000)
+ 255 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -14,7 +14,7 @@ if __name__ == "__main__":
         print(len(rewards))
         averaged_rewards = []
 
-        average_batch_count = 200
+        average_batch_count = 500
         for i in range(0, len(rewards), average_batch_count):
             averaged_rewards.append(np.average(rewards[i:i+average_batch_count]))
         #print(averaged_rewards)

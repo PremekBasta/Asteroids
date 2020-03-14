@@ -22,8 +22,9 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
         agent_two_actions = []
         start = time.time()
         while game_over == False:
-            actions_two = agent_two.choose_actions(state)
             actions_one = agent_one.choose_actions(state)
+            actions_two = agent_two.choose_actions(state)
+
 
             step_count, (game_over, rocket_one_won), state, agent_one_actions, agent_two_actions, _ = env.next_step(actions_one, actions_two)
 
@@ -49,6 +50,7 @@ if __name__ == "__main__":
     model_two = tf.keras.models.load_model("LL_DQ_2_players/20000_LL_DQ_2_players_model_two")
 
     agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
+    agent_one = Evasion_agent(player_number=1)
     agent_two = Stable_defensive_agent(2)
     #agent_two = Low_level_sensor_DQAgent(2, num_inputs=14, num_outputs=6, model=model_two)
     draw_module = draw_module()

@@ -149,7 +149,7 @@ class draw_module(object):
 
 
     def clear_display(self):
-        self.clock.tick(30)
+        self.clock.tick(10)
         self.screen.fill((0,0,0))
 
     def draw_rocket(self, rocket):

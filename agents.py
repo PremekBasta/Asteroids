@@ -1111,7 +1111,7 @@ class Evasion_agent(Agent):
         self.draw_modul = draw_modul
 
 
-    def choose_actions(self, state, opposite_actions):
+    def choose_actions(self, state):
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
         #COOL
         #closest_asteroids = super().find_N_closest_asteroids(own_rocket, neutral_asteroids, enemy_asteroids, 3)
@@ -1126,7 +1126,7 @@ class Evasion_agent(Agent):
         #self.draw_modul.render()
 
 
-        if self.reevaluate_plan(opposite_actions):
+        if self.reevaluate_plan():
             impact, impact_asteroid, impact_steps = super().first_impact_asteroid(own_rocket, state.neutral_asteroids, own_bullets, enemy_asteroids)
             #with stopping agent it looks less chaotic, but shows similar results
             stop_found, stop_actions, stop_actions_count = super().stop_moving(own_rocket)
@@ -1147,7 +1147,7 @@ class Evasion_agent(Agent):
 
         return super().convert_actions(actions)
 
-    def reevaluate_plan(self, opposite_actions):
+    def reevaluate_plan(self):
         if self.inactiv_ticks > INACTIVE_EVASION_TIME_LIMIT:
             self.inactiv_ticks = 0
             return True
@@ -1732,7 +1732,7 @@ class Low_level_sensor_DQAgent(Agent):
                                                  tf.keras.layers.Dense(24, activation=tf.nn.relu
                                                                        #, name = 'dense_02'
                                                                        ),
-                                                 #tf.keras.layers.Dense(24, activation=tf.nn.relu),
+                                                 tf.keras.layers.Dense(24, activation=tf.nn.relu),
                                                  tf.keras.layers.Dense(self.num_outputs, activation='linear')])
         opt = tf.keras.optimizers.Adam(lr=0.001)
         self.model.compile(optimizer=opt, loss='mse')
