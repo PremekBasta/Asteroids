@@ -15,7 +15,7 @@ def simulate_one_game(index, env, agent_one, agent_two, return_vals):
         actions_two = agent_two.choose_actions(state)
 
 
-        step_count, (game_over, rocket_one_won), state, agent_one_actions, agent_two_actions, (reward_one, reward_two) = env.next_step(actions_one, actions_two)
+        step_count, (game_over, rocket_one_won), state, (reward_one, reward_two) = env.next_step(actions_one, actions_two)
 
 
 

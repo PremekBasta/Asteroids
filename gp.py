@@ -77,7 +77,7 @@ def simulate_one_game(index, env, agent_one, agent_two, return_vals):
         actions_two = agent_two.choose_actions(state, agent_one_actions)
         actions_one = agent_one.choose_actions(state, agent_two_actions)
 
-        step_count, (game_over, rocket_one_won), state, agent_one_actions, agent_two_actions = env.next_step(actions_one, actions_two)
+        step_count, (game_over, rocket_one_won), state = env.next_step(actions_one, actions_two)
 
 
     print(step_count)
@@ -207,7 +207,7 @@ def fitness(ind):
             actions_two = agent1_two.choose_actions(state, agent_one_actions)
             actions_one = agent_one.choose_actions(state, agent_two_actions)
 
-            step_count, (game_over, agent_one_won), state, agent_one_actions, agent_two_actions = env1.next_step(actions_one, actions_two)
+            step_count, (game_over, agent_one_won), state = env1.next_step(actions_one, actions_two)
 
         result = result + step_count
 

@@ -34,7 +34,7 @@ def train_single_thread_2_agents(num_episodes, model_one=None, model_two=None, f
             actions_two = agent_two.get_simple_actions_from_action_value(actions_index_two)
             actions_two = agent_two.convert_actions(actions_two)
 
-            step_count, (game_over, rocket_one_won), state, _, _, (reward_one, reward_two) = env.next_step(actions_one, actions_two)
+            step_count, (game_over, rocket_one_won), state, (reward_one, reward_two) = env.next_step(actions_one, actions_two)
 
             if game_over:
                 if rocket_one_won:
@@ -102,7 +102,7 @@ def train_single_thread_stable_deffensive_agent(num_episodes, model = None, f = 
 
             actions_two = agent_two.choose_actions(state)
 
-            step_count, (game_over, rocket_one_won), state, _, _, (reward_one, reward_two) = env.next_step(actions_one, actions_two)
+            step_count, (game_over, rocket_one_won), state, (reward_one, reward_two) = env.next_step(actions_one, actions_two)
 
 
             if game_over:

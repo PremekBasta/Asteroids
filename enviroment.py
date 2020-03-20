@@ -1,18 +1,12 @@
-
-#import pygame
-from sprite_object import Rocket, Rocket_action, Rocket_base_action, Bullet, Asteroid, collides
+# import pygame
+from sprite_object import Rocket, RocketBaseAction, Bullet, Asteroid, collides
 from state import State
 from constants import *
 
 
-
-
-
-
-class Enviroment():
-    def __init__(self, draw_modul = None):
+class Enviroment:
+    def __init__(self, draw_modul=None):
         super().__init__()
-        # pygame.init()
         self.draw_modul = draw_modul
         # self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         # pygame.display.init()
@@ -21,186 +15,99 @@ class Enviroment():
         self.asteroids_neutral = []
         self.asteroids_one = []
         self.asteroids_two = []
-        # Asteroid.initialize_images()
-        # Bullet.initialize_images()
         self.rockets = []
-        self.RocketOne = Rocket(0)
-        self.RocketOne.speedx = 10
-        self.RocketOne.speedy = 10
-        self.RocketTwo = Rocket(1)
-        self.rockets.append(self.RocketOne)
-        self.rockets.append(self.RocketTwo)
+        self.rocket_one = Rocket(0)
+        self.rocket_one.speedx = 10
+        self.rocket_one.speedy = 10
+        self.rocket_two = Rocket(1)
+        self.rockets.append(self.rocket_one)
+        self.rockets.append(self.rocket_two)
+        self.reward_one = 0
+        self.reward_two = 0
 
         self.ticks_elapsed_since_last_asteroid = 0
-        self.ticks_amount_to_create_asteroid = 50
+        self.ticks_to_create_asteroid = TICKS_TO_GENERATE_ASTEROID
         self.step_count = 0
         self.game_over = False
-        self.generate_asteroid = True
-
 
     def reset(self):
         self.asteroids_neutral = []
-
-        self.RocketOne = Rocket(0)
-        self.RocketOne.speedx = 0
-        self.RocketOne.speedy = 0
-        self.RocketOne.angle = 0
+        self.rocket_one = Rocket(0)
+        self.rocket_two = Rocket(1)
         self.asteroids_one = []
-        self.bullets_one = []
-
-        self.RocketTwo = Rocket(1)
         self.asteroids_two = []
+        self.bullets_one = []
         self.bullets_two = []
-
         self.game_over = False
         self.step_count = 0
         self.ticks_elapsed_since_last_asteroid = 0
-        self.ticks_amount_to_create_asteroid = 50
+        self.ticks_to_create_asteroid = TICKS_TO_GENERATE_ASTEROID
 
-        return State(self.asteroids_neutral, self.RocketOne, self.asteroids_one, self.bullets_one,
-                     self.RocketTwo, self.asteroids_two, self.bullets_two)
-
+        return State(self.asteroids_neutral, self.rocket_one, self.asteroids_one, self.bullets_one,
+                     self.rocket_two, self.asteroids_two, self.bullets_two)
 
     def next_step(self, actions_one, actions_two):
         self.step_count = self.step_count + 1
         self.reward_one = 0
         self.reward_two = 0
 
-        self._handle_actions_(actions_one, actions_two)
-
-
-        self._generate_asteroid_()
-
-
-        self._check_collisions_()
-
-
-        self._move_sprites_()
-
+        self.handle_actions(actions_one, actions_two)
+        self.generate_asteroid()
+        self.check_collisions()
+        self.move_objects()
 
         if self.draw_modul is not None:
-            self.draw_modul.clear_display()
+            self.render()
 
-
-            self.draw_modul.draw_rocket(self.RocketOne)
-            self.draw_modul.draw_rocket(self.RocketTwo)
-
-            for bullet in self.bullets_one:
-                self.draw_modul.draw_bullet(bullet)
-            for bullet in self.bullets_two:
-                self.draw_modul.draw_bullet(bullet)
-
-            for asteroid in self.asteroids_neutral:
-                self.draw_modul.draw_asteroid(asteroid)
-            for asteroid in self.asteroids_one:
-                self.draw_modul.draw_asteroid(asteroid)
-            for asteroid in self.asteroids_two:
-                self.draw_modul.draw_asteroid(asteroid)
-
-            self.draw_modul.render()
-
-        (game_over, player_one_won) = self._check_end_()
+        (game_over, player_one_won) = self.check_end()
         if not game_over:
             self.reward_one += 1
             self.reward_two += 1
 
-        current_state = State(self.asteroids_neutral, self.RocketOne, self.asteroids_one, self.bullets_one,
-                              self.RocketTwo, self.asteroids_two, self.bullets_two)
+        current_state = State(self.asteroids_neutral,
+                              self.rocket_one,
+                              self.asteroids_one,
+                              self.bullets_one,
+                              self.rocket_two,
+                              self.asteroids_two,
+                              self.bullets_two)
 
-        return self.step_count, (game_over, player_one_won), current_state, actions_one, actions_two, (self.reward_one, self.reward_two)
+        return self.step_count, \
+               (game_over, player_one_won), \
+               current_state, \
+               (self.reward_one, self.reward_two)
 
+    def handle_actions(self, actions_one, actions_two):
+        if RocketBaseAction.ROTATE_LEFT in actions_one:
+            self.rocket_one.rotate_left()
+        if RocketBaseAction.ROTATE_RIGHT in actions_one:
+            self.rocket_one.rotate_right()
+        if RocketBaseAction.ACCELERATE in actions_one:
+            self.rocket_one.accelerate()
+        if RocketBaseAction.SHOT in actions_one:
+            self.bullets_one.append(Bullet(self.rocket_one, split=0))
+        if RocketBaseAction.SPLIT_SHOOT in actions_one:
+            self.bullets_one.append(Bullet(self.rocket_one, split=1))
 
-    def _handle_actions_(self, actions_one, actions_two):
-        if Rocket_base_action.ROTATE_LEFT in actions_one:
-            self.RocketOne.rotate_left()
-        if Rocket_base_action.ROTATE_RIGHT in actions_one:
-            self.RocketOne.rotate_right()
-        if Rocket_base_action.ACCELERATE in actions_one:
-            self.RocketOne.accelerate()
-        if Rocket_base_action.SHOT in actions_one:
-            self.bullets_one.append(Bullet(self.RocketOne, split=0))
-        if Rocket_base_action.SPLIT_SHOOT in actions_one:
-            self.bullets_one.append(Bullet(self.RocketOne, split=1))
+        if RocketBaseAction.ROTATE_LEFT in actions_two:
+            self.rocket_two.rotate_left()
+        if RocketBaseAction.ROTATE_RIGHT in actions_two:
+            self.rocket_two.rotate_right()
+        if RocketBaseAction.ACCELERATE in actions_two:
+            self.rocket_two.accelerate()
+        if RocketBaseAction.SHOT in actions_two:
+            self.bullets_two.append(Bullet(self.rocket_two, split=0))
+        if RocketBaseAction.SPLIT_SHOOT in actions_two:
+            self.bullets_two.append(Bullet(self.rocket_two, split=1))
 
-        if Rocket_base_action.ROTATE_LEFT in actions_two:
-            self.RocketTwo.rotate_left()
-        if Rocket_base_action.ROTATE_RIGHT in actions_two:
-            self.RocketTwo.rotate_right()
-        if Rocket_base_action.ACCELERATE in actions_two:
-            self.RocketTwo.accelerate()
-        if Rocket_base_action.SHOT in actions_two:
-            self.bullets_two.append(Bullet(self.RocketTwo, split=0))
-        if Rocket_base_action.SPLIT_SHOOT in actions_two:
-            self.bullets_two.append(Bullet(self.RocketTwo, split=1))
-
-        ################
-
-
-
-        # if Rocket_action.ROCKET_ONE_ROTATE_LEFT in actions_one:
-        #     self.RocketOne.rotate_left()
-        # if Rocket_action.ROCKET_ONE_ROTATE_RIGHT in actions_one:
-        #     self.RocketOne.rotate_right()
-        # if Rocket_action.ROCKET_ONE_ACCELERATE in actions_one:
-        #     self.RocketOne.accelerate()
-        # if Rocket_action.ROCKET_ONE_SHOOT in actions_one:
-        #     self.bullets_one.append(Bullet(self.screen, self.RocketOne, split=0))
-        # if Rocket_action.ROCKET_ONE_SPLIT_SHOOT in actions_one:
-        #     self.bullets_one.append(Bullet(self.screen, self.RocketOne, split=1))
-        #
-        # if Rocket_action.ROCKET_TWO_ROTATE_LEFT in actions_two:
-        #     self.RocketTwo.rotate_left()
-        # if Rocket_action.ROCKET_TWO_ROTATE_RIGHT in actions_two:
-        #     self.RocketTwo.rotate_right()
-        # if Rocket_action.ROCKET_TWO_ACCELERATE in actions_two:
-        #     self.RocketTwo.accelerate()
-        # if Rocket_action.ROCKET_TWO_SHOOT in actions_two:
-        #     self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=0))
-        # if Rocket_action.ROCKET_TWO_SPLIT_SHOOT in actions_two:
-        #     self.bullets_two.append(Bullet(self.screen, self.RocketTwo, split=1))
-
-    def _generate_asteroid_(self):
-        # if self.generate_asteroid:
-        #     ast = Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None)
-        #
-        #     # ast.collision_rect.center = (self.RocketTwo.centerx + 600, self.RocketTwo.centery)
-        #     ast.centerx = self.RocketOne.centerx - 100
-        #     ast.centery = self.RocketOne.centery + 200
-        #     # ast.centerx = ast.centerx
-        #     # ast.centery = ast.centery
-        #     ast.speedx = 2
-        #     ast.speedy = 2
-        #     bullet = Bullet(self.screen, self.RocketOne, split=0)
-        #
-        #     ast = Asteroid(self.screen, None, None, ast, self.RocketOne, bullet)
-        #     self.asteroids_neutral.append(ast)
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.asteroids_neutral.append(Asteroid(self.screen, self.RocketOne, self.RocketTwo, None, None, None))
-        #     self.generate_asteroid = False
-        # return
-
-        if self.ticks_elapsed_since_last_asteroid > self.ticks_amount_to_create_asteroid:
-            self.asteroids_neutral.append(Asteroid(self.RocketOne, self.RocketTwo, None, None, None))
+    def generate_asteroid(self):
+        if self.ticks_elapsed_since_last_asteroid > self.ticks_to_create_asteroid:
+            self.asteroids_neutral.append(Asteroid(self.rocket_one, self.rocket_two, None, None, None))
             self.ticks_elapsed_since_last_asteroid = 0
-            if self.ticks_amount_to_create_asteroid > 5:
-                self.ticks_amount_to_create_asteroid = self.ticks_amount_to_create_asteroid - 1
+            if self.ticks_to_create_asteroid > 5:
+                self.ticks_to_create_asteroid = self.ticks_to_create_asteroid - 1
         else:
             self.ticks_elapsed_since_last_asteroid = self.ticks_elapsed_since_last_asteroid + 1
-
 
     def check_collisions_objects_one(self):
         # Bullets ONE with NEUTRAL asteroids
@@ -208,7 +115,6 @@ class Enviroment():
             for asteroid in self.asteroids_neutral:
                 # if collides(bullet_one, asteroid):
                 if collides(bullet_one, asteroid):
-                    # if bullet_one.collision_rect.colliderect(asteroid.collision_rect):
                     self.reward_one += BULLET_ASTEROID_COLLISION_REWARD
                     self.asteroids_neutral.remove(asteroid)
                     new_asteroid, new_asteroid_one, new_asteroid_two = None, None, None
@@ -234,7 +140,6 @@ class Enviroment():
         for bullet_one in self.bullets_one:
             for asteroid_two in self.asteroids_two:
                 if collides(bullet_one, asteroid_two):
-                    # if bullet_one.collision_rect.colliderect(asteroid_two.collision_rect):
                     self.reward_one += BULLET_ASTEROID_COLLISION_REWARD
                     self.asteroids_two.remove(asteroid_two)
 
@@ -258,28 +163,25 @@ class Enviroment():
                         self.asteroids_one.append(new_asteroid)
 
         # Rocket ONE collisions
-        if ROCKET_ONE_INVULNERABLE == False:
+        if not ROCKET_ONE_INVULNERABLE:
             for asteroid in self.asteroids_neutral:
-                if collides(asteroid, self.RocketOne):
-                    # if asteroid.collision_rect.colliderect(self.RocketOne.collision_rect):
+                if collides(asteroid, self.rocket_one):
                     self.reward_one += ASTEROID_ROCKET_COLLISION_PENALTY
                     self.asteroids_neutral.remove(asteroid)
-                    self.RocketOne.health = self.RocketOne.health - 10
+                    self.rocket_one.health = self.rocket_one.health - 10
 
             for asteroid_two in self.asteroids_two:
-                if collides(asteroid_two, self.RocketOne):
-                    # if asteroid_two.collision_rect.colliderect(self.RocketOne.collision_rect):
+                if collides(asteroid_two, self.rocket_one):
                     self.reward_one += ASTEROID_ROCKET_COLLISION_PENALTY
                     self.reward_two += ASTEROID_ROCKET_COLLISION_REWARD
                     self.asteroids_two.remove(asteroid_two)
-                    self.RocketOne.health = self.RocketOne.health - 30
+                    self.rocket_one.health = self.rocket_one.health - 30
 
     def check_collisions_objects_two(self):
         # Bullets TWO with ONE' asteroids
         for bullet_two in self.bullets_two:
             for asteroid_one in self.asteroids_one:
                 if collides(bullet_two, asteroid_one):
-                    # if bullet_two.collision_rect.colliderect(asteroid_one.collision_rect):
                     self.reward_two += BULLET_ASTEROID_COLLISION_REWARD
                     self.asteroids_one.remove(asteroid_one)
 
@@ -306,7 +208,6 @@ class Enviroment():
         for bullet_two in self.bullets_two:
             for asteroid in self.asteroids_neutral:
                 if collides(bullet_two, asteroid):
-                    # if bullet_two.collision_rect.colliderect(asteroid.collision_rect):
                     self.reward_two += BULLET_ASTEROID_COLLISION_REWARD
                     self.asteroids_neutral.remove(asteroid)
 
@@ -316,7 +217,7 @@ class Enviroment():
                                                                                      asteroid,
                                                                                      bullet_two)
                     else:
-                        new_asteroid = Asteroid(self.RocketOne, self.RocketTwo, asteroid,
+                        new_asteroid = Asteroid(self.rocket_one, self.rocket_two, asteroid,
                                                 bullet_two.rocket,
                                                 bullet_two)
 
@@ -332,23 +233,21 @@ class Enviroment():
                     continue
 
         # Rocket TWO collisions
-        if ROCKET_TWO_INVULNERABLE == False:
+        if not ROCKET_TWO_INVULNERABLE:
             for asteroid in self.asteroids_neutral:
-                if collides(asteroid, self.RocketTwo):
-                    # if asteroid.collision_rect.colliderect(self.RocketTwo.collision_rect):
+                if collides(asteroid, self.rocket_two):
                     self.reward_two += ASTEROID_ROCKET_COLLISION_PENALTY
                     self.asteroids_neutral.remove(asteroid)
-                    self.RocketTwo.health = self.RocketTwo.health - 10
+                    self.rocket_two.health = self.rocket_two.health - 10
 
             for asteroid_one in self.asteroids_one:
-                if collides(asteroid_one, self.RocketTwo):
+                if collides(asteroid_one, self.rocket_two):
                     self.reward_two += ASTEROID_ROCKET_COLLISION_PENALTY
                     self.reward_one += ASTEROID_ROCKET_COLLISION_REWARD
-                    # if asteroid_one.collision_rect.colliderect(self.RocketTwo.collision_rect):
                     self.asteroids_one.remove(asteroid_one)
-                    self.RocketTwo.health = self.RocketTwo.health - 30
+                    self.rocket_two.health = self.rocket_two.health - 30
 
-    def  _check_collisions_(self):
+    def check_collisions(self):
         if self.step_count % 2 == 0:
             self.check_collisions_objects_one()
             self.check_collisions_objects_two()
@@ -356,11 +255,9 @@ class Enviroment():
             self.check_collisions_objects_two()
             self.check_collisions_objects_one()
 
-
-    def _move_sprites_(self):
-        self.RocketOne.move()
-        self.RocketTwo.move()
-
+    def move_objects(self):
+        self.rocket_one.move()
+        self.rocket_two.move()
 
         for bullet_one in self.bullets_one:
             if bullet_one.is_alive():
@@ -374,7 +271,6 @@ class Enviroment():
             else:
                 self.bullets_two.remove(bullet_two)
 
-
         for asteroid in self.asteroids_neutral:
             asteroid.move()
 
@@ -384,49 +280,33 @@ class Enviroment():
         for asteroid_two in self.asteroids_two:
             asteroid_two.move()
 
+    def render(self):
+        self.draw_modul.clear_display()
 
+        self.draw_modul.draw_rocket(self.rocket_one)
+        self.draw_modul.draw_rocket(self.rocket_two)
 
-    # def _draw_sprites_(self):
-    #     self.screen.fill((0,0,0))
-    #
-    #     # Rockets
-    #     self.RocketOne.draw()
-    #     self.RocketTwo.draw()
-    #
-    #     # Bullets
-    #     for bullet_one in self.bullets_one:
-    #         bullet_one.draw()
-    #
-    #     for bullet_two in self.bullets_two:
-    #         bullet_two.draw()
-    #
-    #     # Asteroids
-    #     for asteroid in self.asteroids_neutral:
-    #         asteroid.draw()
-    #     for asteroid_one in self.asteroids_one:
-    #         asteroid_one.draw()
-    #     for asteroid_two in self.asteroids_two:
-    #         asteroid_two.draw()
-    #
-    #
-    #     pygame.display.update()
+        for bullet in self.bullets_one:
+            self.draw_modul.draw_bullet(bullet)
+        for bullet in self.bullets_two:
+            self.draw_modul.draw_bullet(bullet)
 
-    def _check_end_(self):
+        for asteroid in self.asteroids_neutral:
+            self.draw_modul.draw_asteroid(asteroid)
+        for asteroid in self.asteroids_one:
+            self.draw_modul.draw_asteroid(asteroid)
+        for asteroid in self.asteroids_two:
+            self.draw_modul.draw_asteroid(asteroid)
+
+        self.draw_modul.render()
+
+    def check_end(self):
         # Returns (game_is_over, player_one_won)
-        if self.RocketOne.health <= 0:
-            return (True, False)
-        if self.RocketTwo.health <= 0:
-            return (True, True)
-        return (False, False)
-
-        if self.RocketOne.health <= 0 or self.RocketTwo.health <= 0:
-            return (True, self.RocketOne.health, self.RocketTwo.health)
-        return (False, self.RocketOne.health, self.RocketTwo.health)
-
-
-    def _update_(self):
-        pass
-
+        if self.rocket_one.health <= 0:
+            return True, False
+        if self.rocket_two.health <= 0:
+            return True, True
+        return False, False
 
     # def get_actions_from_keyboard_input(self):
     #     actions_one = []

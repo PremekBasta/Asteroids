@@ -19,21 +19,23 @@ Střely nejsou určeny k přímému zasažení lodě protihráče, vesmírné lo
 Střely jsou určený k sestřelování letících asteroidů. Asteroidy mohou mít tři velikosti. Náhodně vytvořený asteroid je vždy největší. Každým rozstřelením daného asteroidu vznikají asteroidy o stupeň menší velikosti.
 Nově vytvořené asteroidy vznikají na místě původního asteroidu. Asteroid se může rozstřelit různými způsoby. Zde záleží na tom, jakou střelou byl asteroid setřelen. 
 \par
-V případě střely obyčejné vnikne namísto původního asteroidu jeden menší, který letí stejným směrem jako střela, která ho zasáhla.
+V případě střely obyčejné vznikne namísto původního asteroidu jeden menší, který letí stejným směrem jako střela, která ho zasáhla.
 V případě střely rozdvojovací se původní asteroid rozstřelí na dva menší, kde každý z nich je oproti směru střely vychýlen o 15\textdegree po a proti směru hodinnových ručiček.
 Pokud je zasažen asteroid nejmenší velikosti, tak již žádné další asteroidy nevznikají. 
 Rychlost asteroidů je nepřímo závislá na jejich velikosti, čím je asteroid menší, tim vyšší rychlost má.
 \par
+Asteroidy vzniklé rozstřelením se stávají projektily daného hráče. Hráč nemůže být zasažen asteroidem, který sám vytvořil
 
+\begin{figure}[p]
 
-
-\section{Cíl hry}
-Během hry vzniká postupně více a více asteroidů, čímž je postupně stále více obtížné se všem asteroidům vyhnout, nebo je sestřelit.
-Hráč nemůže zranit nepřítele střelou přímo, může se ale snažit rozstřelit nějaký z kolem letících asteroidů tak, aby pomocí nově vzniklých asteroidů trefil nepřítele.
-Cílem hráče je ovládat svou loď takovým způsobem, aby vydržel ve hře déle. Hra končí a hráč vítězí, když nepříteli nezbydou žádné další životy.
-
-\begin{figure}[p]\centering
 \includegraphics[width=150mm, height=100mm]{./Obrazky/UkazkaHry.png}
 \caption{Screenshot ze hry}
 \label{obr01:}
 \end{figure}
+
+
+\section{Cíl hry}
+Během hry vzniká postupně více a více asteroidů, čímž je postupně stále obtížnější se všem asteroidům vyhnout, nebo je sestřelit.
+Hráč nemůže zranit nepřítele střelou přímo, může se ale snažit rozstřelit nějaký z kolem letících asteroidů tak, aby pomocí nově vzniklých asteroidů trefil nepřítele.
+Cílem hráče je ovládat svou loď takovým způsobem, aby vydržel ve hře déle. Hra končí a hráč vítězí, když nepříteli nezbydou žádné další životy.
+

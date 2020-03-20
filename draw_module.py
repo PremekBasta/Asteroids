@@ -149,15 +149,15 @@ class draw_module(object):
 
 
     def clear_display(self):
-        self.clock.tick(10)
-        self.screen.fill((0,0,0))
+        self.clock.tick(FRAME_RATE)
+        self.screen.fill(COLOR_BLACK)
 
     def draw_rocket(self, rocket):
         pygame.draw.rect(self.screen, rocket.health_bar_color, pygame.Rect(0.85*SCREEN_WIDTH - rocket.player * 0.82*SCREEN_WIDTH, 0.95*SCREEN_HEIGHT, rocket.health, 10))
         self.screen.blit(self.rocket_rotation_images[rocket.player][rocket.angle // 12], (rocket.centerx - ROCKET_IMAGE_WIDTH / 2, rocket.centery - ROCKET_IMAGE_HEIGHT / 2))
 
     def draw_asteroid(self, asteroid):
-        self.screen.blit(self.asteroid_images[asteroid.player][asteroid.size_index][asteroid.random_image_index], (asteroid.centerx - asteroid.image_width / 2, asteroid.centery - asteroid.image_height / 2))
+        self.screen.blit(self.asteroid_images[asteroid.player][int(asteroid.size_index)][asteroid.random_image_index], (asteroid.centerx - asteroid.image_width / 2, asteroid.centery - asteroid.image_height / 2))
 
     def draw_bullet(self, bullet):
         self.screen.blit(self.bullet_angle_images[bullet.split][bullet.rocket.player][bullet.angle // 12], (bullet.centerx - BULLET_IMAGE_WIDTH / 2, bullet.centery - BULLET_IMAGE_HEIGHT / 2))

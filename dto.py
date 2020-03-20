@@ -1,9 +1,10 @@
 import math
 from constants import *
+from sprite_object import AsteroidSize
 
 
 class SpaceObjectDTO():
-    def __init__(self, radius, centerx, centery, speedx, speedy, angle, size_index = 0, player = 1, life_count = 0):
+    def __init__(self, radius, centerx, centery, speedx, speedy, angle, size_index = AsteroidSize.SMALL, player = 1, life_count = 0):
         self.radius = radius
         self.centerx = centerx
         self.centery = centery

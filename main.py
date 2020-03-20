@@ -26,7 +26,7 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
             actions_two = agent_two.choose_actions(state)
 
 
-            step_count, (game_over, rocket_one_won), state, agent_one_actions, agent_two_actions, _ = env.next_step(actions_one, actions_two)
+            step_count, (game_over, rocket_one_won), state, _ = env.next_step(actions_one, actions_two)
 
         end = time.time()
         total_time = total_time + (end - start)
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     model_one = tf.keras.models.load_model("LL_DQ_stable_deffensive_opponent/20000_LL_DQ_stable_defensive_opponent_model")
     model_two = tf.keras.models.load_model("LL_DQ_2_players/20000_LL_DQ_2_players_model_two")
 
-    agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
+    #agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
     agent_one = Evasion_agent(player_number=1)
     agent_two = Stable_defensive_agent(2)
     #agent_two = Low_level_sensor_DQAgent(2, num_inputs=14, num_outputs=6, model=model_two)
@@ -107,7 +107,7 @@ if __name__ == "__main__":
             # # _, actions_two = env.get_actions_from_keyboard_input()
             #
             # # start = time.time()
-            step_count, (game_over, rocket_one_won), state, agent_one_actions, agent_two_actions, _ = env.next_step(actions_one, actions_two)
+            step_count, (game_over, rocket_one_won), state, _ = env.next_step(actions_one, actions_two)
 
         end = time.time()
         total_time = total_time + (end - start)

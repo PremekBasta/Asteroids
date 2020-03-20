@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  14 MAR 2020 17:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  20 MAR 2020 18:38
 entering extended mode
 **/home/premek/Asteroids/bp/prace.tex
 (/home/premek/Asteroids/bp/prace.tex
@@ -431,60 +431,165 @@ Package: paralist 2017/01/22 v2.7 Extended list environments
 \plitemsep=\skip62
 \plparsep=\skip63
 \pl@lab=\toks32
+) (/home/premek/.miktex/texmfs/install/tex/latex/pythontex/pythontex.sty
+Package: pythontex 2019/09/22 v0.17 execute and typeset Python code and other languages
+ (/home/premek/.miktex/texmfs/install/tex/latex/fvextra/fvextra.sty
+Package: fvextra 2019/02/04 v1.4 fvextra - extensions and patches for fancyvrb
+ (/home/premek/.miktex/texmfs/install/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count276
+) (/home/premek/.miktex/texmfs/install/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verbatim
+) (/home/premek/.miktex/texmfs/install/tex/latex/lineno/lineno.sty
+Package: lineno 2005/11/02 line numbers on paragraphs v4.41
+\linenopenalty=\count277
+\output=\toks33
+\linenoprevgraf=\count278
+\linenumbersep=\dimen166
+\linenumberwidth=\dimen167
+\c@linenumber=\count279
+\c@pagewiselinenumber=\count280
+\c@LN@truepage=\count281
+\c@internallinenumber=\count282
+\c@internallinenumbers=\count283
+\quotelinenumbersep=\dimen168
+\bframerule=\dimen169
+\bframesep=\dimen170
+\bframebox=\box50
+LaTeX Info: Redefining \\ on input line 3056.
 )
-Package hyperref Info: Option `unicode' set `true' on input line 113.
-Package hyperref Info: Option `breaklinks' set `true' on input line 114.
+\c@FV@TrueTabGroupLevel=\count284
+\c@FV@TrueTabCounter=\count285
+\FV@TabBox@Group=\box51
+\FV@TmpLength=\skip64
+\c@FV@HighlightLinesStart=\count286
+\c@FV@HighlightLinesStop=\count287
+\FV@LoopCount=\count288
+\FV@NCharsBox=\box52
+\FV@BreakIndent=\dimen171
+\FV@BreakIndentNChars=\count289
+\FV@BreakSymbolSepLeft=\dimen172
+\FV@BreakSymbolSepLeftNChars=\count290
+\FV@BreakSymbolSepRight=\dimen173
+\FV@BreakSymbolSepRightNChars=\count291
+\FV@BreakSymbolIndentLeft=\dimen174
+\FV@BreakSymbolIndentLeftNChars=\count292
+\FV@BreakSymbolIndentRight=\dimen175
+\FV@BreakSymbolIndentRightNChars=\count293
+\c@FancyVerbLineBreakLast=\count294
+\FV@LineBox=\box53
+\FV@LineIndentBox=\box54
+\FV@LineWidth=\dimen176
+) (/home/premek/.miktex/texmfs/install/tex/latex/xstring/xstring.sty (/home/premek/.miktex/texmfs/install/tex/generic/xstring/xstring.tex
+\integerpart=\count295
+\decimalpart=\count296
+)
+Package: xstring 2019/02/06 v1.83 String manipulations (CT)
+) (/home/premek/.miktex/texmfs/install/tex/latex/pgfopts/pgfopts.sty
+Package: pgfopts 2014/07/10 v2.1a LaTeX package options with pgfkeys
+ (/home/premek/.miktex/texmfs/install/tex/latex/pgf/utilities/pgfkeys.sty (/home/premek/.miktex/texmfs/install/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks34
+\pgfkeys@temptoks=\toks35
+ (/home/premek/.miktex/texmfs/install/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
+\pgfkeys@tmptoks=\toks36
+)))
+\pgfopts@list@add@a@toks=\toks37
+\pgfopts@list@add@b@toks=\toks38
+) (/home/premek/.miktex/texmfs/install/tex/latex/newfloat/newfloat.sty
+Package: newfloat 2019/09/02 v1.1l Defining new floating environments (AR)
+Package newfloat Info: Document class `report' detected (Hy).
+) (/home/premek/.miktex/texmfs/install/tex/latex/currfile/currfile.sty
+Package: currfile 2015/04/23 v0.7c Provides the file path elements of the current input file
+ (/home/premek/.miktex/texmfs/install/tex/latex/filehook/filehook.sty
+Package: filehook 2020/02/03 v0.7 Hooks for input files
+)
+\c@currfiledepth=\count297
+)
+\pytx@codefile=\write5
+\openout5 = `prace.pytxcode'.
+
+\c@pytx@FancyVerbLineTemp=\count298
+\c@pytx@py@default@default=\count299
+\c@pytx@pycon@default@default=\count300
+\c@pytx@sympy@default@default=\count301
+\c@pytx@sympycon@default@default=\count302
+\c@pytx@pylab@default@default=\count303
+\c@pytx@pylabcon@default@default=\count304
+) (/home/premek/.miktex/texmfs/install/tex/latex/listings/listings.sty
+\lst@mode=\count305
+\lst@gtempboxa=\box55
+\lst@token=\toks39
+\lst@length=\count306
+\lst@currlwidth=\dimen177
+\lst@column=\count307
+\lst@pos=\count308
+\lst@lostspace=\dimen178
+\lst@width=\dimen179
+\lst@newlines=\count309
+\lst@lineno=\count310
+\lst@maxwidth=\dimen180
+ (/home/premek/.miktex/texmfs/install/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2019/09/10 1.8c (Carsten Heinz)
+\c@lstnumber=\count311
+\lst@skipnumbers=\count312
+\lst@framebox=\box56
+) (/home/premek/.miktex/texmfs/install/tex/latex/listings/listings.cfg
+File: listings.cfg 2019/09/10 1.8c listings configuration
+))
+Package: listings 2019/09/10 1.8c (Carsten Heinz)
+Package hyperref Info: Option `unicode' set `true' on input line 116.
+Package hyperref Info: Option `breaklinks' set `true' on input line 117.
 
 \@input{makra.aux}
 \openout2 = `makra.aux'.
 
 (/home/premek/Asteroids/bp/makra.tex
-\c@veta=\count276
-\c@definice=\count277
+\c@veta=\count313
+\c@definice=\count314
 ) (/home/premek/.miktex/texmfs/install/tex/latex/l3backend/l3backend-pdfmode.def
 File: l3backend-pdfmode.def 2020-02-23 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count278
-\l__pdf_internal_box=\box50
+\l__kernel_color_stack_int=\count315
+\l__pdf_internal_box=\box57
 ) (/home/premek/Asteroids/bp/prace.aux (/home/premek/Asteroids/bp/titulka.aux) (/home/premek/Asteroids/bp/uvod.aux) (/home/premek/Asteroids/bp/kap01.aux) (/home/premek/Asteroids/bp/kap02.aux) (/home/premek/Asteroids/bp/kap03.aux) (/home/premek/Asteroids/bp/kap04.aux) (/home/premek/Asteroids/bp/kap05.aux) (/home/premek/Asteroids/bp/kap06.aux))
 \openout1 = `prace.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 128.
+LaTeX Font Info:    ... okay on input line 128.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 128.
+LaTeX Font Info:    ... okay on input line 128.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 128.
+LaTeX Font Info:    ... okay on input line 128.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 128.
+LaTeX Font Info:    ... okay on input line 128.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 128.
+LaTeX Font Info:    ... okay on input line 128.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 128.
+LaTeX Font Info:    ... okay on input line 128.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 128.
+LaTeX Font Info:    ... okay on input line 128.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 128.
+LaTeX Font Info:    ... okay on input line 128.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 128.
+LaTeX Font Info:    ... okay on input line 128.
  ABD: EveryShipout initializing macros (/home/premek/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count279
-\scratchdimen=\dimen166
-\scratchbox=\box51
-\nofMPsegments=\count280
-\nofMParguments=\count281
-\everyMPshowfont=\toks33
-\MPscratchCnt=\count282
-\MPscratchDim=\dimen167
-\MPnumerator=\count283
-\makeMPintoPDFobject=\count284
-\everyMPtoPDFconversion=\toks34
+\scratchcounter=\count316
+\scratchdimen=\dimen181
+\scratchbox=\box58
+\nofMPsegments=\count317
+\nofMParguments=\count318
+\everyMPshowfont=\toks40
+\MPscratchCnt=\count319
+\MPscratchDim=\dimen182
+\MPnumerator=\count320
+\makeMPintoPDFobject=\count321
+\everyMPtoPDFconversion=\toks41
 ) (/home/premek/.miktex/texmfs/install/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
 )
-\AtBeginShipoutBox=\box52
-Package hyperref Info: Link coloring OFF on input line 120.
+\AtBeginShipoutBox=\box59
+Package hyperref Info: Link coloring OFF on input line 128.
  (/home/premek/.miktex/texmfs/install/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
  (/home/premek/.miktex/texmfs/install/tex/latex/refcount/refcount.sty
@@ -492,18 +597,26 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/home/premek/.miktex/texmfs/install/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count285
+\c@section@level=\count322
 )
-LaTeX Info: Redefining \ref on input line 120.
-LaTeX Info: Redefining \pageref on input line 120.
-LaTeX Info: Redefining \nameref on input line 120.
+LaTeX Info: Redefining \ref on input line 128.
+LaTeX Info: Redefining \pageref on input line 128.
+LaTeX Info: Redefining \nameref on input line 128.
  (/home/premek/Asteroids/bp/prace.out) (/home/premek/Asteroids/bp/prace.out)
-\@outlinefile=\write5
-\openout5 = `prace.out'.
+\@outlinefile=\write6
+\openout6 = `prace.out'.
 
+
+No file pythontex-files-prace/prace.pytxmcr.
+Run PythonTeX to create it.
+Package newfloat Info: New float `listing' with options `fileext=lopytx' on input line 128.
+\c@listing=\count323
+\newfloat@ftype=\count324
+Package newfloat Info: float type `listing'=8 on input line 128.
+\c@lstlisting=\count325
 \openout2 = `titulka.aux'.
 
- (/home/premek/Asteroids/bp/titulka.tex
+(/home/premek/Asteroids/bp/titulka.tex
 Package hyperref Info: Option `pageanchor' set `false' on input line 6.
  [1
 
@@ -549,8 +662,8 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 4.
  (/home/premek/.miktex/texmfs/install/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ))
-\tf@toc=\write6
-\openout6 = `prace.toc'.
+\tf@toc=\write7
+\openout7 = `prace.toc'.
 
  [1
 
@@ -585,14 +698,14 @@ Overfull \hbox (12.39563pt too wide) in paragraph at lines 22--26
 \T1/lmr/m/n/12 který letí stejným sm¥rem jako st°ela, která ho zasáhla. V p°ípad¥ st°ely rozdvojovací|
  []
 
-<./Obrazky/UkazkaHry.png, id=179, 895.345pt x 590.205pt>
+<./Obrazky/UkazkaHry.png, id=199, 895.345pt x 590.205pt>
 File: ./Obrazky/UkazkaHry.png Graphic file (type png)
 <use ./Obrazky/UkazkaHry.png>
-Package pdftex.def Info: ./Obrazky/UkazkaHry.png  used on input line 36.
+Package pdftex.def Info: ./Obrazky/UkazkaHry.png  used on input line 31.
 (pdftex.def)             Requested size: 426.7961pt x 284.52898pt.
 
-Overfull \hbox (14.23114pt too wide) in paragraph at lines 36--37
- [][] |
+Overfull \hbox (14.23114pt too wide) in paragraph at lines 31--32
+[][] |
  []
 
 ) [3
@@ -604,32 +717,45 @@ Overfull \hbox (14.23114pt too wide) in paragraph at lines 36--37
 
  (/home/premek/Asteroids/bp/kap02.tex
 Kapitola 2.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7.
-(/home/premek/.miktex/texmfs/install/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
 
-Package natbib Warning: Citation `KaplanMeier58' on page 5 undefined on input line 19.
+Overfull \hbox (10.04056pt too wide) in paragraph at lines 8--10
+[]\T1/lmr/m/n/12 Asteroidy nesou navíc informace o tom, jaké jsou velikosti a zda-li byly vytvo°ené|
+ []
 
-
-Package natbib Warning: Citation `Cox72' on page 5 undefined on input line 19.
-
-
-Package natbib Warning: Citation `Student08' on page 5 undefined on input line 19.
-
-
-Package natbib Warning: Citation `Genberget08' on page 5 undefined on input line 21.
-
-) [5
+[5
 
 
 
 ]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 33.
+ (/home/premek/.miktex/texmfs/install/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+Overfull \hbox (6.26118pt too wide) in paragraph at lines 31--37
+\T1/lmr/m/n/12 zobrazovat, p°edáváme v kontruktoru prost°edí grafický modul, který implementuje|
+ []
+
+[6] (/home/premek/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2019/09/10 1.8c listings language file
+) [7]
+
+Package natbib Warning: Citation `KaplanMeier58' on page 8 undefined on input line 110.
+
+
+Package natbib Warning: Citation `Cox72' on page 8 undefined on input line 110.
+
+
+Package natbib Warning: Citation `Student08' on page 8 undefined on input line 110.
+
+
+Package natbib Warning: Citation `Genberget08' on page 8 undefined on input line 112.
+
+) [8]
 \openout2 = `kap03.aux'.
 
  (/home/premek/Asteroids/bp/kap03.tex
 Kapitola 3.
-) [6
+) [9
 
 
 
@@ -638,21 +764,21 @@ Kapitola 3.
 
  (/home/premek/Asteroids/bp/kap04.tex
 Kapitola 4.
-<./agent_enviroment.png, id=204, 392.46625pt x 264.99pt>
+<./agent_enviroment.png, id=268, 392.46625pt x 264.99pt>
 File: ./agent_enviroment.png Graphic file (type png)
 <use ./agent_enviroment.png>
 Package pdftex.def Info: ./agent_enviroment.png  used on input line 16.
 (pdftex.def)             Requested size: 398.36398pt x 398.36952pt.
-) [7
+) [10
 
 
 
-] [8 <./agent_enviroment.png>]
+] [11 <./agent_enviroment.png>]
 \openout2 = `kap05.aux'.
 
  (/home/premek/Asteroids/bp/kap05.tex
 Kapitola 5.
-) [9
+) [12
 
 
 
@@ -661,42 +787,42 @@ Kapitola 5.
 
  (/home/premek/Asteroids/bp/kap06.tex
 Kapitola 6.
-) [10
+) [13
 
 
 
 ] (/home/premek/Asteroids/bp/prace.lof)
-\tf@lof=\write7
-\openout7 = `prace.lof'.
+\tf@lof=\write8
+\openout8 = `prace.lof'.
 
- [11
+ [14
 
 
 ]
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 159.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 159.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 167.
 (/home/premek/Asteroids/bp/prace.aux (/home/premek/Asteroids/bp/titulka.aux) (/home/premek/Asteroids/bp/uvod.aux) (/home/premek/Asteroids/bp/kap01.aux) (/home/premek/Asteroids/bp/kap02.aux) (/home/premek/Asteroids/bp/kap03.aux) (/home/premek/Asteroids/bp/kap04.aux) (/home/premek/Asteroids/bp/kap05.aux) (/home/premek/Asteroids/bp/kap06.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 159.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 159.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 167.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 167.
 Package rerunfilecheck Info: File `prace.out' has not changed.
-(rerunfilecheck)             Checksum: 35B9238098A8F07D2DB98257D782BC11;3421.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 159.
+(rerunfilecheck)             Checksum: C01839748A79F019B09EF235D587A700;3901.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 167.
  ) 
 Here is how much of TeX's memory you used:
- 15499 strings out of 483220
- 219691 string characters out of 2960823
- 461407 words of memory out of 3000000
- 30354 multiletter control sequences out of 15000+200000
- 586424 words of font info for 62 fonts, out of 3000000 for 9000
+ 20158 strings out of 483220
+ 303131 string characters out of 2960823
+ 755802 words of memory out of 3000000
+ 34902 multiletter control sequences out of 15000+200000
+ 590686 words of font info for 63 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
- 44i,6n,41p,554b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb>
-Output written on /home/premek/Asteroids/bp/prace.pdf (15 pages, 173855 bytes).
+ 51i,6n,50p,985b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb>
+Output written on /home/premek/Asteroids/bp/prace.pdf (18 pages, 207264 bytes).
 PDF statistics:
- 265 PDF objects out of 1000 (max. 8388607)
- 47 named destinations out of 1000 (max. 500000)
- 255 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 339 PDF objects out of 1000 (max. 8388607)
+ 84 named destinations out of 1000 (max. 500000)
+ 287 words of extra memory for PDF output out of 10000 (max. 10000000)
 

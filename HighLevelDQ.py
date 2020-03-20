@@ -103,7 +103,7 @@ def simulate_one_game(index, env, agent_one, agent_two, episode_num, exp_buffers
 
         actions_two = agent_two.choose_actions(state, [])
 
-        step_count, (game_over, rocket_one_won), state, _, _, (reward_one, reward_two) = env.next_step(actions_one, actions_two)
+        step_count, (game_over, rocket_one_won), state, (reward_one, reward_two) = env.next_step(actions_one, actions_two)
         if game_over:
             if rocket_one_won:
                 reward_one += 2000
@@ -209,7 +209,7 @@ def train_single_thread(num_episodes):
 
                 actions_two = agent_two.choose_actions(state, [])
 
-                step_count, (game_over, rocket_one_won), state, _, _, reward = env.next_step(actions_one, actions_two)
+                step_count, (game_over, rocket_one_won), state, reward = env.next_step(actions_one, actions_two)
                 if not game_over:
                     reward += 1
 

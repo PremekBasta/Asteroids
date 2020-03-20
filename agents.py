@@ -1,5 +1,5 @@
 import random, copy
-from sprite_object import Rocket_action, Bullet, Rocket_base_action, Asteroid,Rocket
+from sprite_object import Bullet, RocketBaseAction, Asteroid,Rocket, AsteroidSize
 from constants import *
 #import pygame
 import time
@@ -8,7 +8,6 @@ from dto import collides, SpaceObjectDTO, copy_object
 from enum import Enum
 import tensorflow as tf
 import numpy as np
-#import gc
 
 
 
@@ -183,20 +182,20 @@ class Agent():
             evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy)
             if evaded:
                 if left_turns == 0:
-                    plan = [[Rocket_base_action.ACCELERATE] for i in range(accelerate_steps)]
+                    plan = [[RocketBaseAction.ACCELERATE] for i in range(accelerate_steps)]
                     return plan, accelerate_steps
                 elif left_turns < 15:
-                    plan = [[Rocket_base_action.ROTATE_LEFT] for i in range(left_turns)]
-                    plan.extend([[Rocket_base_action.ACCELERATE] for i in range(accelerate_steps)])
+                    plan = [[RocketBaseAction.ROTATE_LEFT] for i in range(left_turns)]
+                    plan.extend([[RocketBaseAction.ACCELERATE] for i in range(accelerate_steps)])
                     return plan, left_turns + accelerate_steps
 
             #if self.evade_by_accelerating(rocket_copy, asteroid_copy):
             #    if left_turns == 0:
-            #        plan = [[Rocket_base_action.ACCELERATE] for i in range(10)]
+            #        plan = [[RocketBaseAction.ACCELERATE] for i in range(10)]
             #        return plan, 5
             #    elif left_turns < 15:
-            #        plan = [[Rocket_base_action.ROTATE_LEFT] for i in range(left_turns)]
-            #        plan.extend([[Rocket_base_action.ACCELERATE, Rocket_base_action.ROTATE_LEFT] for i in range(10)])
+            #        plan = [[RocketBaseAction.ROTATE_LEFT] for i in range(left_turns)]
+            #        plan.extend([[RocketBaseAction.ACCELERATE, RocketBaseAction.ROTATE_LEFT] for i in range(10)])
             #        return plan, left_turns + 5
 
             rocket_copy.rotate_left()
@@ -209,16 +208,16 @@ class Agent():
             evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy)
             if evaded:
                 if right_turns == 0:
-                    plan = [[Rocket_base_action.ACCELERATE] for i in range(accelerate_steps)]
+                    plan = [[RocketBaseAction.ACCELERATE] for i in range(accelerate_steps)]
                     return plan, accelerate_steps
                 elif right_turns < 15:
-                    plan = [[Rocket_base_action.ROTATE_RIGHT] for i in range(right_turns)]
-                    plan.extend([[Rocket_base_action.ACCELERATE] for i in range(accelerate_steps)])
+                    plan = [[RocketBaseAction.ROTATE_RIGHT] for i in range(right_turns)]
+                    plan.extend([[RocketBaseAction.ACCELERATE] for i in range(accelerate_steps)])
                     return plan, right_turns + accelerate_steps
 
             #if self.evade_by_accelerating(rocket_copy, asteroid_copy):
-            #    plan = [[Rocket_base_action.ROTATE_RIGHT] for i in range(right_turns)]
-            #    plan.extend([[Rocket_base_action.ACCELERATE, Rocket_base_action.ROTATE_RIGHT] for i in range(10)])
+            #    plan = [[RocketBaseAction.ROTATE_RIGHT] for i in range(right_turns)]
+            #    plan.extend([[RocketBaseAction.ACCELERATE, RocketBaseAction.ROTATE_RIGHT] for i in range(10)])
             #    return plan, right_turns + 5
 
             rocket_copy.rotate_right()
@@ -266,12 +265,12 @@ class Agent():
         actions = []
 
         if left_turns > 0:
-            actions = [[Rocket_base_action.ROTATE_LEFT] for i in range(left_turns)]
+            actions = [[RocketBaseAction.ROTATE_LEFT] for i in range(left_turns)]
         if right_turns > 0:
-            actions = [[Rocket_base_action.ROTATE_RIGHT] for i in range(right_turns)]
+            actions = [[RocketBaseAction.ROTATE_RIGHT] for i in range(right_turns)]
 
         for i in range(accelerate_count):
-            actions.append([Rocket_base_action.ACCELERATE])
+            actions.append([RocketBaseAction.ACCELERATE])
         return True, actions, left_turns + right_turns + accelerate_count
 
 
@@ -549,11 +548,11 @@ class Agent():
         enemy_rocket_copy = copy_object(enemy_rocket)
         neutral_asteroids_copy = [copy_object(neutral_asteroid) for neutral_asteroid in neutral_asteroids]
         # enemy_asteroids_copy = [copy_object(enemy_asteroid) for enemy_asteroid in enemy_asteroids]
-        enemy_asteroids_copy = [copy_object(enemy_asteroid) for enemy_asteroid in enemy_asteroids if enemy_asteroid.size_index != 0]
+        enemy_asteroids_copy = [copy_object(enemy_asteroid) for enemy_asteroid in enemy_asteroids if enemy_asteroid.size_index != AsteroidSize.SMALL]
         own_bullets_copy = [copy_object(own_bullet) for own_bullet in own_bullets]
         enemy_bullets_copy = [copy_object(enemy_bullet) for enemy_bullet in enemy_bullets]
 
-        shoot_type = Rocket_base_action.SHOT
+        shoot_type = RocketBaseAction.SHOT
 
 
         left_found = False
@@ -585,12 +584,12 @@ class Agent():
                 return True, [[shoot_type]], 1
             if left_steps < 15:
                 for i in range(left_steps):
-                    plan.append([Rocket_base_action.ROTATE_LEFT])
+                    plan.append([RocketBaseAction.ROTATE_LEFT])
                 plan.append([shoot_type])
                 return True, plan, left_steps + 1
             else:
                 for i in range(30 - left_steps):
-                    plan.append([Rocket_base_action.ROTATE_RIGHT])
+                    plan.append([RocketBaseAction.ROTATE_RIGHT])
                 plan.append([shoot_type])
                 return True, plan, 30 - left_steps + 1
         else:
@@ -612,20 +611,20 @@ class Agent():
             if created_asteroid_single.valid:
                 hit, steps_count = self.asteroid_will_hit_rocket(enemy_rocket, created_asteroid_single)
                 if hit:
-                    return True, Rocket_base_action.SHOT
+                    return True, RocketBaseAction.SHOT
 
             created_asteroid_split_one, created_asteroid_split_two = Asteroid.split_asteroid(own_rocket, impact_asteroid, bullet)
             if created_asteroid_split_one is not None:
                 hit, steps_count = self.asteroid_will_hit_rocket(enemy_rocket, created_asteroid_split_one)
                 if hit:
-                    return True, Rocket_base_action.SPLIT_SHOOT
+                    return True, RocketBaseAction.SPLIT_SHOOT
 
             if created_asteroid_split_two is not None:
                 hit, steps_count = self.asteroid_will_hit_rocket(enemy_rocket, created_asteroid_split_two)
                 if hit:
-                    return True, Rocket_base_action.SPLIT_SHOOT
+                    return True, RocketBaseAction.SPLIT_SHOOT
 
-        return False, Rocket_base_action.SHOT
+        return False, RocketBaseAction.SHOT
 
 
     def asteroid_will_hit_rocket(self, enemy_rocket, shot_asteroid):
@@ -768,43 +767,6 @@ class Agent():
 
         return True, impact_asteroid, impact_steps
 
-    def shoot_impact_asteroid(self, rocket, asteroid):
-        moved_steps = 0
-        for steps_count in range(30):
-            bullet = Bullet(self.screen, rocket, split=0)
-
-            while bullet.is_alive() and collides(rocket, asteroid) == False:
-                    # rocket.collision_rect.colliderect(asteroid.collision_rect) == False:
-                # Asteroid was shot down
-                if collides(bullet, asteroid):
-                # if bullet.collision_rect.colliderect(asteroid.collision_rect):
-                    if steps_count == 0:
-                        if rocket.player == 1:
-                            return [Rocket_action.ROCKET_ONE_SHOOT]
-                        else:
-                            return [Rocket_action.ROCKET_TWO_SHOOT]
-                    if steps_count < 15:
-                        if rocket.player == 1:
-                            return [Rocket_action.ROCKET_ONE_ROTATE_LEFT]
-                        else:
-                            return [Rocket_action.ROCKET_TWO_ROTATE_LEFT]
-                    else:
-                        if rocket.player == 1:
-                            return [Rocket_action.ROCKET_ONE_ROTATE_RIGHT]
-                        else:
-                            return [Rocket_action.ROCKET_TWO_ROTATE_RIGHT]
-
-                asteroid.move()
-                rocket.move()
-                bullet.move()
-                moved_steps = moved_steps + 1
-
-            del bullet
-            asteroid.reverse_move(moved_steps)
-            rocket.reverse_move(moved_steps)
-
-            rocket.rotate_left()
-
     def recalculate_target_position(self, rocket, asteroid):
         a1 = [rocket.centerx, rocket.centery]
         a2 = [rocket.centerx + rocket.speedx, rocket.centery + rocket.speedy]
@@ -915,7 +877,7 @@ class Agent():
 
     def defense_shoot_asteroid_actions(self, rocket, asteroid):
         if self.shoot_will_hit_explicit_asteroid(rocket, asteroid):
-            return [[Rocket_base_action.SHOT]], 1
+            return [[RocketBaseAction.SHOT]], 1
         else:
             return self.face_asteroid(rocket, asteroid)
 
@@ -946,9 +908,9 @@ class Agent():
                 number_of_rotation = number_of_rotation + 1
 
             for i in range(number_of_rotation):
-                actions.append([Rocket_base_action.ROTATE_RIGHT])
+                actions.append([RocketBaseAction.ROTATE_RIGHT])
 
-            actions.append([Rocket_base_action.SHOT])
+            actions.append([RocketBaseAction.SHOT])
 
             rocket.angle = temp_rocket_angle
 
@@ -959,16 +921,16 @@ class Agent():
                 number_of_rotation = number_of_rotation + 1
 
             for i in range(number_of_rotation):
-                actions.append([Rocket_base_action.ROTATE_LEFT])
+                actions.append([RocketBaseAction.ROTATE_LEFT])
 
-            actions.append([Rocket_base_action.SHOT])
+            actions.append([RocketBaseAction.SHOT])
 
             rocket.angle = temp_rocket_angle
 
             return actions, number_of_rotation + 1
 
     def simple_shot(self):
-        return [Rocket_base_action.SHOT]
+        return [RocketBaseAction.SHOT]
 
     def can_shoot(self):
         return self.shoot_reload_ticks >= 5
@@ -977,15 +939,15 @@ class Agent():
         self.shoot_reload_ticks = self.shoot_reload_ticks + 1
 
         # Automatic agents cannot shoot all the time
-        if(Rocket_base_action.SHOT in actions):
+        if(RocketBaseAction.SHOT in actions):
             if self.shoot_reload_ticks < 5:
-                actions.remove(Rocket_base_action.SHOT)
+                actions.remove(RocketBaseAction.SHOT)
             else:
                 self.shoot_reload_ticks = 0
 
-        if (Rocket_base_action.SPLIT_SHOOT in actions):
+        if (RocketBaseAction.SPLIT_SHOOT in actions):
             if self.shoot_reload_ticks < 5:
-                actions.remove(Rocket_base_action.SPLIT_SHOOT)
+                actions.remove(RocketBaseAction.SPLIT_SHOOT)
             else:
                 self.shoot_reload_ticks = 0
 
@@ -1098,7 +1060,7 @@ class Random_agent(Agent):
         actions = []
 
         for action_number in actions_numbers:
-            actions.append(Rocket_action(int(action_number)))
+            actions.append(RocketBaseAction(int(action_number)))
 
         return actions
 
@@ -1693,7 +1655,6 @@ class DQAgent(Agent):
                     pred[i][a] = r + self.gamma*np.amax(next_pred[i])
 
             self.model.fit(states, pred, epochs=1, verbose=0)
-            #gc.collect()
         # snizime epsilon pro epsilon-greedy strategii
         if self.eps > 0.01:
             self.eps = self.eps*self.eps_decay
@@ -1768,15 +1729,15 @@ class Low_level_sensor_DQAgent(Agent):
 
     def get_simple_actions_from_action_value(self, value):
         if value == 0:
-            actions = [Rocket_base_action.ROTATE_LEFT]
+            actions = [RocketBaseAction.ROTATE_LEFT]
         if value == 1:
-            actions = [Rocket_base_action.ROTATE_RIGHT]
+            actions = [RocketBaseAction.ROTATE_RIGHT]
         if value == 2:
-            actions = [Rocket_base_action.ACCELERATE]
+            actions = [RocketBaseAction.ACCELERATE]
         if value == 3:
-            actions = [Rocket_base_action.SHOT]
+            actions = [RocketBaseAction.SHOT]
         if value == 4:
-            actions = [Rocket_base_action.SPLIT_SHOOT]
+            actions = [RocketBaseAction.SPLIT_SHOOT]
         if value == 5:
             actions = []
         return actions
@@ -1788,7 +1749,7 @@ class Low_level_sensor_DQAgent(Agent):
             actions = self.get_simple_actions_from_action_value(val)
 
             if not self.can_shoot():
-                while actions == [Rocket_base_action.SHOT] or actions == [Rocket_base_action.SPLIT_SHOOT]:
+                while actions == [RocketBaseAction.SHOT] or actions == [RocketBaseAction.SPLIT_SHOOT]:
                     val = np.random.randint(self.num_outputs)
                     actions = self.get_simple_actions_from_action_value(val)
 
@@ -1802,7 +1763,7 @@ class Low_level_sensor_DQAgent(Agent):
                 for i in range(3):
                     val = best_args[i]
                     actions = self.get_simple_actions_from_action_value(val)
-                    if actions != [Rocket_base_action.SHOT] and actions != [Rocket_base_action.SPLIT_SHOOT]:
+                    if actions != [RocketBaseAction.SHOT] and actions != [RocketBaseAction.SPLIT_SHOOT]:
                         break
 
 
@@ -1840,47 +1801,47 @@ class Low_level_sensor_DQAgent(Agent):
 #             if(event.key == pygame.K_KP5):
 #                 actions.append(Rocket_action.ROCKET_ONE_SHOOT)
 #                 # actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
-#                 actions_one.append(Rocket_base_action.SHOT)
+#                 actions_one.append(RocketBaseAction.SHOT)
 #             if(event.key == pygame.K_KP6):
 #                 actions.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
 #                 # actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
-#                 actions_one.append(Rocket_base_action.SPLIT_SHOOT)
+#                 actions_one.append(RocketBaseAction.SPLIT_SHOOT)
 #             if(event.key == pygame.K_g):
 #                 actions.append(Rocket_action.ROCKET_TWO_SHOOT)
 #                 # actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
-#                 actions_two.append(Rocket_base_action.SHOT)
+#                 actions_two.append(RocketBaseAction.SHOT)
 #             if(event.key == pygame.K_h):
 #                 actions.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
 #                 # actions_two.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
-#                 actions_two.append(Rocket_base_action.SPLIT_SHOOT)
+#                 actions_two.append(RocketBaseAction.SPLIT_SHOOT)
 #
 #
 #         all_keys = pygame.key.get_pressed()
 #         if all_keys[pygame.K_UP]:
 #             actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
 #             # actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-#             actions_one.append(Rocket_base_action.ACCELERATE)
+#             actions_one.append(RocketBaseAction.ACCELERATE)
 #         if all_keys[pygame.K_LEFT]:
 #             actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
 #             # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-#             actions_one.append(Rocket_base_action.ROTATE_LEFT)
+#             actions_one.append(RocketBaseAction.ROTATE_LEFT)
 #         if all_keys[pygame.K_RIGHT]:
 #             actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
 #             # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-#             actions_one.append(Rocket_base_action.ROTATE_RIGHT)
+#             actions_one.append(RocketBaseAction.ROTATE_RIGHT)
 #
 #         if all_keys[pygame.K_a]:
 #             actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
 #             # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-#             actions_two.append(Rocket_base_action.ROTATE_LEFT)
+#             actions_two.append(RocketBaseAction.ROTATE_LEFT)
 #         if all_keys[pygame.K_d]:
 #             actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
 #             # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-#             actions_two.append(Rocket_base_action.ROTATE_RIGHT)
+#             actions_two.append(RocketBaseAction.ROTATE_RIGHT)
 #         if all_keys[pygame.K_w]:
 #             actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
 #             # actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-#             actions_two.append(Rocket_base_action.ACCELERATE)
+#             actions_two.append(RocketBaseAction.ACCELERATE)
 #
 #
 #
