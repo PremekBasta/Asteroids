@@ -4,7 +4,7 @@ from constants import *
 #import pygame
 import time
 import math
-from dto import collides, SpaceObjectDTO, copy_object
+from dto import collides, Space_object_DTO, copy_object
 from enum import Enum
 import tensorflow as tf
 import numpy as np
@@ -681,7 +681,7 @@ class Agent():
 
 
 
-        # own_rocket_copy = SpaceObjectDTO(own_rocket.radius, own_rocket.centerx, own_rocket.centery, own_rocket.speedx,
+        # own_rocket_copy = Space_object_DTO(own_rocket.radius, own_rocket.centerx, own_rocket.centery, own_rocket.speedx,
         #                                  own_rocket.speedy, own_rocket.angle, own_rocket.size_index, own_rocket.player)
         own_rocket_copy = copy_object(own_rocket)
         neutral_asteroids_copy = [copy_object(neutral_asteroid) for neutral_asteroid in neutral_asteroids]

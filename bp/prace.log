@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  20 MAR 2020 18:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  21 MAR 2020 19:57
 entering extended mode
 **/home/premek/Asteroids/bp/prace.tex
 (/home/premek/Asteroids/bp/prace.tex
@@ -686,25 +686,25 @@ Overfull \hbox (1.23958pt too wide) in paragraph at lines 4--8
  []
 
 
-Overfull \hbox (2.01138pt too wide) in paragraph at lines 17--21
+Overfull \hbox (2.01138pt too wide) in paragraph at lines 18--22
 \T1/lmr/m/n/12 Kaºdým rozst°elením daného asteroidu vznikají asteroidy o stupe¬ men²í velikosti.|
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 23.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 24.
 (/home/premek/.miktex/texmfs/install/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Overfull \hbox (12.39563pt too wide) in paragraph at lines 22--26
+Overfull \hbox (12.39563pt too wide) in paragraph at lines 23--27
 \T1/lmr/m/n/12 který letí stejným sm¥rem jako st°ela, která ho zasáhla. V p°ípad¥ st°ely rozdvojovací|
  []
 
-<./Obrazky/UkazkaHry.png, id=199, 895.345pt x 590.205pt>
+<./Obrazky/UkazkaHry.png, id=214, 895.345pt x 590.205pt>
 File: ./Obrazky/UkazkaHry.png Graphic file (type png)
 <use ./Obrazky/UkazkaHry.png>
-Package pdftex.def Info: ./Obrazky/UkazkaHry.png  used on input line 31.
+Package pdftex.def Info: ./Obrazky/UkazkaHry.png  used on input line 32.
 (pdftex.def)             Requested size: 426.7961pt x 284.52898pt.
 
-Overfull \hbox (14.23114pt too wide) in paragraph at lines 31--32
+Overfull \hbox (14.23114pt too wide) in paragraph at lines 32--33
 [][] |
  []
 
@@ -735,27 +735,69 @@ Overfull \hbox (6.26118pt too wide) in paragraph at lines 31--37
 \T1/lmr/m/n/12 zobrazovat, p°edáváme v kontruktoru prost°edí grafický modul, který implementuje|
  []
 
-[6] (/home/premek/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+
+Overfull \hbox (7.99348pt too wide) in paragraph at lines 59--62
+\T1/lmr/m/n/12 jsou prostorov¥ reprezentovány jako kruhy s danými polom¥ry. Postupn¥ se prochází|
+ []
+
+
+Overfull \hbox (19.08623pt too wide) in paragraph at lines 59--62
+\T1/lmr/m/n/12 v²echny objekty, u kterých nás zajímají sráºky, a Euklidovskou metrikou se kontroluje,|
+ []
+
+
+Overfull \hbox (9.26317pt too wide) in paragraph at lines 64--69
+[]\T1/lmr/m/n/12 V rámci sráºek se upravují také odm¥ny jednotlivých hrá£·. Odm¥na je hodnota,|
+ []
+
+
+Overfull \hbox (1.42993pt too wide) in paragraph at lines 64--69
+\T1/lmr/m/n/12 nep°átelský asteroid, nebo svým asteroidem srazil nep°átelovu lo¤, se vý²e odm¥ny|
+ []
+
+[6]
+Overfull \hbox (1.6205pt too wide) in paragraph at lines 71--75
+[]\T1/lmr/m/n/12 Nezmínili jsme zatím pohyb objekt·. I o to se samoz°ejm¥ stará herní prost°edí.|
+ []
+
+
+Overfull \hbox (1.81746pt too wide) in paragraph at lines 71--75
+\T1/lmr/m/n/12 Zde se prochází seznamy v²ech vesmírných objekt· a jednodu²e se k jejich sou£asné|
+ []
+
+
+Overfull \hbox (14.57977pt too wide) in paragraph at lines 82--83
+[]\T1/lmr/m/n/12 Poslední v¥cí, kterou má prost°edí je²t¥ na starosti je kontrola, zda hra neskon£ila.|
+ []
+
+[7] (/home/premek/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2019/09/10 1.8c listings language file
-) [7]
-
-Package natbib Warning: Citation `KaplanMeier58' on page 8 undefined on input line 110.
-
-
-Package natbib Warning: Citation `Cox72' on page 8 undefined on input line 110.
-
-
-Package natbib Warning: Citation `Student08' on page 8 undefined on input line 110.
-
-
-Package natbib Warning: Citation `Genberget08' on page 8 undefined on input line 112.
-
 ) [8]
+Overfull \hbox (31.03749pt too wide) in paragraph at lines 133--137
+\T1/lmr/m/n/12 seznam· v²ech vesmírných objekt· v£etn¥ kompletních informací o nich. Pravd¥podobn¥|
+ []
+
+
+Overfull \hbox (13.43604pt too wide) in paragraph at lines 146--148
+[]\T1/lmr/m/n/12 Kaºdý agent musí implementovat jedinou metodu \T1/lmr/m/it/12 choose_actions(state)\T1/lmr/m/n/12 . Úkolem|
+ []
+
+
+Overfull \hbox (6.97954pt too wide) in paragraph at lines 162--168
+\T1/lmr/m/n/12 prost°edí, tomu m·ºeme p°edat grafický modul, pokud chceme graficky vykreslovat,|
+ []
+
+[9]) [10]
 \openout2 = `kap03.aux'.
 
  (/home/premek/Asteroids/bp/kap03.tex
 Kapitola 3.
-) [9
+
+Overfull \hbox (8.44495pt too wide) in paragraph at lines 4--7
+\T1/lmr/m/n/12 Bylo by proto dobré vymyslet nad detailními informacemi o stavu n¥jakou informaci|
+ []
+
+) [11
 
 
 
@@ -764,21 +806,21 @@ Kapitola 3.
 
  (/home/premek/Asteroids/bp/kap04.tex
 Kapitola 4.
-<./agent_enviroment.png, id=268, 392.46625pt x 264.99pt>
+<./agent_enviroment.png, id=308, 392.46625pt x 264.99pt>
 File: ./agent_enviroment.png Graphic file (type png)
 <use ./agent_enviroment.png>
 Package pdftex.def Info: ./agent_enviroment.png  used on input line 16.
 (pdftex.def)             Requested size: 398.36398pt x 398.36952pt.
-) [10
+) [12
 
 
 
-] [11 <./agent_enviroment.png>]
+] [13 <./agent_enviroment.png>]
 \openout2 = `kap05.aux'.
 
  (/home/premek/Asteroids/bp/kap05.tex
 Kapitola 5.
-) [12
+) [14
 
 
 
@@ -787,7 +829,7 @@ Kapitola 5.
 
  (/home/premek/Asteroids/bp/kap06.tex
 Kapitola 6.
-) [13
+) [15
 
 
 
@@ -795,34 +837,31 @@ Kapitola 6.
 \tf@lof=\write8
 \openout8 = `prace.lof'.
 
- [14
+ [16
 
 
 ]
-
-Package natbib Warning: There were undefined citations.
-
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 167.
-(/home/premek/Asteroids/bp/prace.aux (/home/premek/Asteroids/bp/titulka.aux) (/home/premek/Asteroids/bp/uvod.aux) (/home/premek/Asteroids/bp/kap01.aux) (/home/premek/Asteroids/bp/kap02.aux) (/home/premek/Asteroids/bp/kap03.aux) (/home/premek/Asteroids/bp/kap04.aux) (/home/premek/Asteroids/bp/kap05.aux) (/home/premek/Asteroids/bp/kap06.aux))
+ (/home/premek/Asteroids/bp/prace.aux (/home/premek/Asteroids/bp/titulka.aux) (/home/premek/Asteroids/bp/uvod.aux) (/home/premek/Asteroids/bp/kap01.aux) (/home/premek/Asteroids/bp/kap02.aux) (/home/premek/Asteroids/bp/kap03.aux) (/home/premek/Asteroids/bp/kap04.aux) (/home/premek/Asteroids/bp/kap05.aux) (/home/premek/Asteroids/bp/kap06.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 167.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 167.
 Package rerunfilecheck Info: File `prace.out' has not changed.
-(rerunfilecheck)             Checksum: C01839748A79F019B09EF235D587A700;3901.
+(rerunfilecheck)             Checksum: 512EA4088C5FACC9D96852AC2E35070C;4333.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 167.
  ) 
 Here is how much of TeX's memory you used:
- 20158 strings out of 483220
- 303131 string characters out of 2960823
- 755802 words of memory out of 3000000
- 34902 multiletter control sequences out of 15000+200000
+ 20192 strings out of 483220
+ 303582 string characters out of 2960823
+ 755866 words of memory out of 3000000
+ 34917 multiletter control sequences out of 15000+200000
  590686 words of font info for 63 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
  51i,6n,50p,985b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb>
-Output written on /home/premek/Asteroids/bp/prace.pdf (18 pages, 207264 bytes).
+Output written on /home/premek/Asteroids/bp/prace.pdf (20 pages, 220276 bytes).
 PDF statistics:
- 339 PDF objects out of 1000 (max. 8388607)
- 84 named destinations out of 1000 (max. 500000)
- 287 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 384 PDF objects out of 1000 (max. 8388607)
+ 103 named destinations out of 1000 (max. 500000)
+ 311 words of extra memory for PDF output out of 10000 (max. 10000000)
 

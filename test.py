@@ -1,4 +1,4 @@
-from dto import SpaceObjectDTO, collides, copy_object
+from dto import Space_object_DTO, collides, copy_object
 import constants
 import time
 import numpy as np
@@ -18,7 +18,7 @@ for i in range(5):
     size_index = 1
     player = 0
     life_count = 100
-    ast = SpaceObjectDTO(radius, centerx, centery, speedx, speedy, angle, size_index, player, life_count)
+    ast = Space_object_DTO(radius, centerx, centery, speedx, speedy, angle, size_index, player, life_count)
     asteroids.append(ast)
 
     radius = random.randint(3,10)
@@ -32,7 +32,7 @@ for i in range(5):
     life_count = 100
 
 rocket_radius = 10
-rocket = SpaceObjectDTO(rocket_radius, 818, 396, speedx, speedy, angle, size_index, player, life_count)
+rocket = Space_object_DTO(rocket_radius, 818, 396, speedx, speedy, angle, size_index, player, life_count)
 
 bullets = []
 for i in range(3):
@@ -45,7 +45,7 @@ for i in range(3):
     size_index = 1
     player = 0
     life_count = 50
-    bullet = SpaceObjectDTO(radius, centerx, centery, speedx, speedy, angle, size_index, player, life_count)
+    bullet = Space_object_DTO(radius, centerx, centery, speedx, speedy, angle, size_index, player, life_count)
     bullets.append(bullet)
 
 

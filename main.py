@@ -107,7 +107,8 @@ if __name__ == "__main__":
             # # _, actions_two = env.get_actions_from_keyboard_input()
             #
             # # start = time.time()
-            step_count, (game_over, rocket_one_won), state, _ = env.next_step(actions_one, actions_two)
+            step_count, (game_over, rocket_one_won), state, _ = \
+                env.next_step(actions_one, actions_two)
 
         end = time.time()
         total_time = total_time + (end - start)
