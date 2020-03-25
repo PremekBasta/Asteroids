@@ -165,5 +165,8 @@ class draw_module(object):
     def draw_line(self, pointA, pointB):
         pygame.draw.line(self.screen, PLAYER_ONE_COLOR, pointA, pointB)
 
+    def save_image(self):
+        pygame.image.save(self.screen, "bp/Obrazky/N_nearest_asteroids.png")
+
     def render(self):
         pygame.display.update()

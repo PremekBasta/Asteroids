@@ -1,7 +1,7 @@
 import random, copy
 from sprite_object import Bullet, RocketBaseAction, Asteroid,Rocket, AsteroidSize
 from constants import *
-#import pygame
+import pygame
 import time
 import math
 from dto import collides, Space_object_DTO, copy_object
@@ -394,10 +394,6 @@ class Agent():
     def first_impact_neutral_asteroid(self, rocket, neutral_asteroids, own_bullets):
         steps_limit = IMPACT_RADIUS
 
-        # if len(neutral_asteroids)>12:
-        #     steps_limit = 35
-
-        # own_bullets = [copy_object(own_bullet) for own_bullet in own_bullets]
         own_bullets_copy = [copy_object(own_bullet) for own_bullet in own_bullets]
         neutral_asteroids_copy = [copy_object(neutral_asteroid) for neutral_asteroid in neutral_asteroids]
         neutral_asteroids_copy2 = [copy_object(neutral_asteroid) for neutral_asteroid in neutral_asteroids]
@@ -418,21 +414,13 @@ class Agent():
                     for neutral_asteroid_reverse in neutral_asteroids_copy:
                         neutral_asteroid_reverse.reverse_move(steps_count)
 
-                    # ast2 = neutral_asteroids[neutral_asteroids_copy.index(neutral_asteroid)]
-                    # ast3 = neutral_asteroids_copy2[neutral_asteroids_copy.index(neutral_asteroid)]
-                    # ast4 = neutral_asteroid
-                    # neutral_asteroids_copy.index(neutral_asteroid)
-                    # rocket.reverse_move(steps_count)
-                    # return (copy_object(neutral_asteroids[neutral_asteroids_copy.index(neutral_asteroid)]), steps_count)
                     return (neutral_asteroid, steps_count)
 
             for neutral_asteroid in neutral_asteroids_copy:
-                # if neutral_asteroid.valid:
                     for bullet in own_bullets_copy:
                         if collides(neutral_asteroid, bullet):
                             own_bullets_copy.remove(bullet)
                             neutral_asteroids_copy.remove(neutral_asteroid)
-                            # neutral_asteroid.valid = False
                             break
 
             for neutral_asteroid in neutral_asteroids_copy:
@@ -445,16 +433,10 @@ class Agent():
 
             rocket_copy.move()
 
-        # rocket.reverse_move(steps_limit - 1)
-        # for neutral_asteroid in neutral_asteroids_copy:
-        #     neutral_asteroid.reverse_move(steps_limit - 1)
         return (None, steps_limit + 1)
 
     def first_impact_enemy_asteroid(self, rocket, enemy_asteroids, own_bullets):
         steps_limit = IMPACT_RADIUS
-
-        # if len(enemy_asteroids)>12:
-        #     steps_limit = 35
 
 
         own_bullets_copy = [copy_object(own_bullet) for own_bullet in own_bullets]
@@ -692,12 +674,6 @@ class Agent():
         # neutral_asteroids_copy = [copy_object(neutral_asteroid) for neutral_asteroid in neutral_asteroids if self.risk_of_collision(neutral_asteroid, bullet)]
         # enemy_asteroids_copy = [copy_object(enemy_asteroid) for enemy_asteroid in enemy_asteroids if self.risk_of_collision(enemy_asteroid, bullet)]
 
-        # if len(neutral_asteroids_copy) != len(neutral_asteroids):
-        #     print(len(neutral_asteroids) - len(neutral_asteroids_copy))
-        # if len(enemy_asteroids_copy) != len(enemy_asteroids):
-        #     print(len(enemy_asteroids) - len(enemy_asteroids_copy))
-
-
 
 
 
@@ -705,7 +681,6 @@ class Agent():
         for step_count in range(BULLET_LIFE_COUNT):
             for neutral_asteroid in neutral_asteroids_copy:
                 if collides(bullet, neutral_asteroid):
-                    # return (True, Asteroid(self.screen, None, None, neutral_asteroid, own_rocket_copy, bullet), step_count)
                     return (True, bullet, neutral_asteroid, step_count)
 
                 for own_bullet in own_bullets_copy:
@@ -717,8 +692,6 @@ class Agent():
 
 
             for enemy_asteroid in enemy_asteroids_copy:
-                # if collides_numba(bullet.centerx, bullet.centery, enemy_asteroid.centerx, enemy_asteroid.centery,
-                #                   bullet.radius, enemy_asteroid.radius):
                 if collides(bullet, enemy_asteroid):
                     # return(True, Asteroid(self.screen, None, None, enemy_asteroid, own_rocket_copy, bullet), step_count)
                     return(True, bullet, enemy_asteroid, step_count)
@@ -1085,6 +1058,7 @@ class Evasion_agent(Agent):
         #self.draw_modul.draw_line((own_rocket.centerx, own_rocket.centery),
         #                          (own_rocket.centerx + enemy_vector[0], own_rocket.centery + enemy_vector[1]))
 
+        #self.draw_modul.save_image()
         #self.draw_modul.render()
 
 

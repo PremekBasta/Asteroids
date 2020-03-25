@@ -49,11 +49,12 @@ if __name__ == "__main__":
     model_one = tf.keras.models.load_model("LL_DQ_stable_deffensive_opponent/20000_LL_DQ_stable_defensive_opponent_model")
     model_two = tf.keras.models.load_model("LL_DQ_2_players/20000_LL_DQ_2_players_model_two")
 
+    draw_module = draw_module()
     #agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
-    agent_one = Evasion_agent(player_number=1)
+    agent_one = Evasion_agent(player_number=1, draw_modul = draw_module)
     agent_two = Stable_defensive_agent(2)
     #agent_two = Low_level_sensor_DQAgent(2, num_inputs=14, num_outputs=6, model=model_two)
-    draw_module = draw_module()
+
     #draw_module = None
 
     play_games(10, agent_one, agent_two, draw_module)
