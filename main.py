@@ -46,18 +46,20 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
 
 
 if __name__ == "__main__":
-    model_one = tf.keras.models.load_model("LL_DQ_stable_deffensive_opponent/20000_LL_DQ_stable_defensive_opponent_model")
-    model_two = tf.keras.models.load_model("LL_DQ_2_players/20000_LL_DQ_2_players_model_two")
+    #model_one = tf.keras.models.load_model("LL_DQ_stable_deffensive_opponent/20000_LL_DQ_stable_defensive_opponent_model")
+    #model_two = tf.keras.models.load_model("LL_DQ_2_players/20000_LL_DQ_2_players_model_two")
 
     draw_module = draw_module()
+    draw_module = None
     #agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
-    agent_one = Evasion_agent(player_number=1, draw_modul = draw_module)
-    agent_two = Stable_defensive_agent(2)
+    #agent_one = Evasion_agent(player_number=1, draw_modul = draw_module)
+    #agent_one = Stable_defensive_agent(1)
+    #agent_two = Stable_defensive_agent(2)
     #agent_two = Low_level_sensor_DQAgent(2, num_inputs=14, num_outputs=6, model=model_two)
 
     #draw_module = None
 
-    play_games(10, agent_one, agent_two, draw_module)
+    #play_games(10, agent_one, agent_two, draw_module)
 
 
 
@@ -66,22 +68,23 @@ if __name__ == "__main__":
     state = env.reset()
 
     #agent_one = Genetic_agent(1, return_individual())
-    agent_one = Evasion_agent(1, draw_module)
+    #agent_one = Evasion_agent(1, draw_module)
+    agent_one = Stable_defensive_agent(1)
     agent_two = Stable_defensive_agent(2)
-    agent_two = Evasion_agent(2, draw_module)
+    #agent_two = Evasion_agent(2, draw_module)
     # agent_two = Stable_defensive_agent(env.screen, 2)
 
     game_over = False
-    longest_step = 0
-    shortest_step = 1
-    incremental_time = 0
+    #longest_step = 0
+    #shortest_step = 1
+    #incremental_time = 0
 
     RocketOne_wins = 0
     RocketTwo_wins = 0
     total_steps = 0
     total_time = 0
 
-    for i in range(1000):
+    for i in range(40):
         game_over = False
         state = env.reset()
         agent_one_actions = []
@@ -100,9 +103,9 @@ if __name__ == "__main__":
 
             # events = pygame.event.get(pygame.KEYDOWN)
             # all_keys = pygame.key.get_pressed()
-            actions_two = agent_two.choose_actions(state, agent_one_actions)
+            actions_two = agent_two.choose_actions(state)
 
-            actions_one = agent_one.choose_actions(state, agent_two_actions)
+            actions_one = agent_one.choose_actions(state)
 
             #
             # # _, actions_two = env.get_actions_from_keyboard_input()

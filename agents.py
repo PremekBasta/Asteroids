@@ -71,7 +71,7 @@ class Agent():
 
 
     def reevaluate_plan(self):
-        if (self.inactiv_ticks > INACTIV_TIME_LIMIT):
+        if (self.inactiv_ticks > INACTIV_STEPS_LIMIT):
             self.inactiv_ticks = 0
             return True
 
@@ -538,7 +538,7 @@ class Agent():
 
 
         left_found = False
-        # zkusim kruh doleva, lepsi by byly polokruhy pro kratsi action plan vpravo
+        # zkouším postupně všechny rotace vlevo
         for rotation_count in range(int(360 / 12)):
             # if self.try_shoot_some_asteroid_to_enemy_rocket(own_rocket, enemy_rocket, neutral_asteroids, enemy_asteroids, own_bullets, enemy_bullets):
             #     left_found, left_steps = True, rotation_count
@@ -715,7 +715,6 @@ class Agent():
             for enemy_bullet in enemy_bullets_copy:
                 enemy_bullet.move()
 
-        # return(False, None, BULLET_LIFE_COUNT + 1)
         return(False, None, None, BULLET_LIFE_COUNT + 1)
 
 
@@ -857,9 +856,7 @@ class Agent():
     def face_asteroid(self, rocket, asteroid):
         asteroid_angle = asteroid.angle
 
-        # target_angle = int(math.atan2(-(asteroid.collision_rect.centery - rocket.collision_rect.centery), (asteroid.collision_rect.centerx - rocket.collision_rect.centerx)) * 180 / math.pi - 90) % 360
         target_angle = int(math.atan2(-(asteroid.centery - rocket.centery), (asteroid.centerx - rocket.centerx)) * 180 / math.pi - 90) % 360
-        # target_angle = (asteroid_angle + 180) % 360
 
 
         # Difference in angles is small enough to shoot
