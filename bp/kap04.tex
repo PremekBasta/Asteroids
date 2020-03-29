@@ -2,6 +2,53 @@
 \chapter{Genetické programování}
 
 \section{Základní princip}
+Genetické programování je evoluční technika, která vytváří počítačové programy. Cílem genetického programování je vyřešit co nejlépe zadaný problém.
+Nespecifikujeme jak je potřeba ho vyřešit, ale víme, co je potřeba vyřešit.
+\par
+Každý program budeme nazývat jedincem a množině jedinců budeme říkat populace. Algoritmus pak běží iterativně v generacích. 
+V každé iteraci se provede výběr nějakých jedinců z populace, ti se pomocí genetických operátorů upraví a nakonec se rozhoduje, kteří z nich přežijí do další generace.
+Populaci na začátku iterace nazýváme rodiče a populaci, která bylo nakonci iterace pro další generaci, nazýváme potomky.
+Každý program představuje jedno řešení daného problému. Kvalitu tohoto řešení ohodnocujeme takzvanou fitness funkcí. Čím vyšší hodnotu této funkce jedinec získá, tím lépe řeší daný problém.
+\subsection{Reprezentace}
+
+Program je obvykle reprezentovaný syntaktickým stromem. Stromy ve vnitřních uzlech obsahují funkce (neterminály) a v listech terminály.
+Vyhodnocení stromu probíhá od listů ke kořeni a výsledek programu je pak hodnota kořenu.
+
+\subsection{Inicializace populace}
+Na začátku evoluce potřebujeme inicializovat populaci. Na počátku jsou jedinci vytvořeni náhodně. Obvykle se k vytvoření jedinců používají dvě metody.
+První z nich je vytváření jedinců s pevně danou hloubkou stromu, kde v listech jsou vždy už jen terminály. Druhou metodou je stavět strom náhodně z předem daného počtu neterminálů.
+Po vyčerpání počtu neterminálů se již opět přidají terminály jako listy. Tato metoda vytváří jedince různých velikostí a tvarů.
+Častou praxí je prvotní populaci vytvořit tak, že každá z metod vytvoří polovinu jedinců. 
+
+\subsection{Selekce}
+V každé iteraci chceme vybrat několik jedinců, nad kterými budeme provádět různé genetické operátory. Snahou je vybírat jedince s vyšší hodnotou fitness funkce.
+Asi nejpoužívanější metodou selekce je turnajová selekce. Náhodně se zvolí daný počet jedinců, ti se porovnají mezi sebou na základě jejich hodnoty fitness funkce a nejlepší z nich je pak zvolen do výběru.
+Dalším z mnoha metod selekce je ruletová selekce. Zde je pravděpodobnost zvolení jedince do výběru přímo úměrná jeho hodnotě fitness funkce.
+Pravděpodobnost výběru i-tého jedince je 
+\newline $p(i) = \frac{f(i)}{\sum_{j=1}^{n} f(j)} $. \newline
+Ruletová selekce má jednoduchou implementaci a zároveň je rychlá na výpočet. 
+Jejím problémem je ale předčasná konvergence k lokálnímu optimu.
+\par
+Genetické operátory mohou občas upravit nejlepšího jedince tak, že se jeho hodnota fitness funkce výrazně zhorší.
+Z tohoto důvodu se často používá technika zvaná elitismus, která automaticky do další generace vybere několik nejlepších současných jedinců. 
+Tímto způsobem máme zajištěno, že neztratíme nejlepší jedince.
+
+
+
+\url{https://www.researchgate.net/publication/259461147_Selection_Methods_for_Genetic_Algorithms}
+
+\subsection{Genetické operátory}
+Genetické operátory jsou dvojího druhu, křížení a mutace. Myšlenkou křížení je vzít dva jedince, nazývejme je rodiče, a pomocí křížení informací každého z nich vytvořit nového potomka.
+V genetickém programování pracujeme s jedinci reprezentovanými stromy, proto křížení jedinců představuje křížení jejich stromů. V každém z rodičů se zvolí jeden uzel. 
+Výsledný potomek vypadá jako první rodič, jen na původním místě vybraného uzlu bude nyní podstrom, který je zavěšený pod vybraným uzlem druhého rodiče.
+\par
+Druhým genetickým operátorem je mutace, ta již nepotřebuje mít dva rodiče, ale úprava se provede nad jedincem samotným.
+Mutovat můžeme v jedinci buď jediný bod, nebo celý nějaký podstrom. V případě mutace podstromu se namísto vybraného podstromu vygeneruje zcela nový podstrom. 
+Toto v zásadě představuje křížení s novým náhodně vytvořeným jedincem.
+\newline
+Mutace jediného bodu změní náhodně jediný uzel ve stromě. V případě terminálu se může vybrat libovolný jiný terminál. A v případě vnitřního uzlu může být vybraný libovolný jiný neterminál, který je stejné arity.
+
+\subsection{Typované x netypované}
 
 
 \section{Využití}

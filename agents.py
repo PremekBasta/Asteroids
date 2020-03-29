@@ -172,14 +172,14 @@ class Agent():
 
 
 
-    def evade_asteroid(self, rocket, asteroid):
+    def evade_asteroid(self, rocket, asteroid, draw_module):
 
         rocket_copy = copy_object(rocket)
         asteroid_copy = copy_object(asteroid)
 
         rotation_limit = 15
         for left_turns in range(0, rotation_limit):
-            evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy)
+            evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy, draw_module)
             if evaded:
                 if left_turns == 0:
                     plan = [[RocketBaseAction.ACCELERATE] for i in range(accelerate_steps)]
@@ -205,7 +205,7 @@ class Agent():
         rocket_copy = copy_object(rocket)
         asteroid_copy = copy_object(asteroid)
         for right_turns in range(0, rotation_limit):
-            evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy)
+            evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy, draw_module)
             if evaded:
                 if right_turns == 0:
                     plan = [[RocketBaseAction.ACCELERATE] for i in range(accelerate_steps)]
@@ -274,7 +274,7 @@ class Agent():
         return True, actions, left_turns + right_turns + accelerate_count
 
 
-    def evade_by_continual_accelerating(self, rocket, asteroid):
+    def evade_by_continual_accelerating(self, rocket, asteroid, draw_module):
         # how many maximal times can rocket accelerate in attemp to avoid asteroid
         accelerate_limit = 20
         # how many steps it is checking whether they collided or rocket escaped
@@ -289,6 +289,14 @@ class Agent():
                     break
                 if step_number < accelerate_count:
                     rocket_copy.accelerate()
+                #rocket_copy.health_bar_color = PLAYER_TWO_COLOR
+                #draw_module.draw_rocket_only(rocket_copy)
+                #draw_module.draw_circle((rocket_copy.centerx, rocket_copy.centery))
+                #draw_module.draw_circle((asteroid_copy.centerx, asteroid_copy.centery))
+                #draw_module.render()
+                #pygame.draw.circle(self.screen, (0, 0, 0, 0), (rocket_copy.centerx, rocket_copy.centery), 10)
+                #pygame.draw.circle(self.screen, (0, 0, 0, 0), (asteroid_copy.centerx, asteroid_copy.centery), 10)
+                #pygame.display.update()
                 rocket_copy.move()
                 asteroid_copy.move()
             if not collided:
@@ -1071,7 +1079,7 @@ class Evasion_agent(Agent):
                     return super().convert_actions([])
 
             if impact_asteroid is not None and impact_steps < 25:
-                actions, steps_count = super().evade_asteroid(own_rocket, impact_asteroid)
+                actions, steps_count = super().evade_asteroid(own_rocket, impact_asteroid, self.draw_modul)
                 super().store_plan(actions)
         else:
             self.inactive_steps = self.inactive_steps + 1

@@ -92,8 +92,8 @@ Podobně jako u senzorických metod i zde hledání většiny akčních plánů 
         Zastavovací plán ve výsledku obsahuje jistý počet akcí rotace následovaný potřebným počtem akcí akcelerace. 
 
         \par
-        Tento akční plán mi připadal takový více lidský. V kombinaci s úhybným plánem se pak agent choval více přirozeně.
-        Namísto zběsilého letu napříč prostorem se vesmírná loď po vyhnutí uvede do klidu.            
+        Tento akční plán mi připadal takový více lidský. V kombinaci s úhybným plánem se pak agent chová více přirozeně.
+        Namísto zběsilého letu napříč prostorem se vesmírná loď po vyhnutí asteroidu zastaví.            
         
 \end{itemize}
 
@@ -106,7 +106,7 @@ Plán se přepočítává, pokud uplynul daný počet pasivních kroků, ve kter
 Počet neaktivních kroků se rovná konstaně \emph{\uppercase{inactive\_steps\_limit}}. 
 S vyšším počtem pasivních kroků se velmi výrazně snižuje celkový čas odehrátí hry, ale počet kroků během hry se sníží jen minimálně (viz obr03).
 Je zde vidět, že kvalita hráčů se mírně snižuje, ale v poměru kolik ušetříme času, je tato ztráta kvality zanedbatelná.
-V pozdějších kapitolách se nám bude hodit odehrát velké množství her, proto si dovolíme nastavit vyšší počet pasivních kroků.
+V příštích kapitolách se nám bude pro učení hodit odehrát velké množství her, proto si dovolíme nastavit vyšší počet pasivních kroků.
 
 
 \begin{figure}[hp]
@@ -117,6 +117,8 @@ V pozdějších kapitolách se nám bude hodit odehrát velké množství her, p
 \end{figure}
 
 \subsection{Použití akčních plánů}
-
+Metody, které vypočítávají akční plán vracejí kromě plánů samotných i jejich délku. 
+V případě, že akční plán není nalezen, tak se místo jeho délky vrací konstanta \emph{\uppercase{not\_found\_steps\_count}} vysoké hodnoty, reprezentující, že akční plán neexistuje.
+Díky tomu lze tyto metody použí také jako senzorické metody. 
 
 

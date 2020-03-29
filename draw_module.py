@@ -152,6 +152,11 @@ class draw_module(object):
         self.clock.tick(FRAME_RATE)
         self.screen.fill(COLOR_BLACK)
 
+
+    def draw_rocket_only(self, rocket):
+        self.screen.blit(self.rocket_rotation_images[rocket.player][rocket.angle // 12],
+                         (rocket.centerx - ROCKET_IMAGE_WIDTH / 2, rocket.centery - ROCKET_IMAGE_HEIGHT / 2))
+
     def draw_rocket(self, rocket):
         pygame.draw.rect(self.screen, rocket.health_bar_color, pygame.Rect(0.85*SCREEN_WIDTH - rocket.player * 0.82*SCREEN_WIDTH, 0.95*SCREEN_HEIGHT, rocket.health, 10))
         self.screen.blit(self.rocket_rotation_images[rocket.player][rocket.angle // 12], (rocket.centerx - ROCKET_IMAGE_WIDTH / 2, rocket.centery - ROCKET_IMAGE_HEIGHT / 2))
@@ -167,6 +172,9 @@ class draw_module(object):
 
     def save_image(self):
         pygame.image.save(self.screen, "bp/Obrazky/N_nearest_asteroids.png")
+
+    def draw_circle(self, point):
+        pygame.draw.circle(self.screen, (100, 100, 100), point, 10)
 
     def render(self):
         pygame.display.update()
