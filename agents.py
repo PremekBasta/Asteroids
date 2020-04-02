@@ -172,14 +172,14 @@ class Agent():
 
 
 
-    def evade_asteroid(self, rocket, asteroid, draw_module):
+    def evade_asteroid(self, rocket, asteroid):
 
         rocket_copy = copy_object(rocket)
         asteroid_copy = copy_object(asteroid)
 
         rotation_limit = 15
         for left_turns in range(0, rotation_limit):
-            evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy, draw_module)
+            evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy)
             if evaded:
                 if left_turns == 0:
                     plan = [[RocketBaseAction.ACCELERATE] for i in range(accelerate_steps)]
@@ -205,7 +205,7 @@ class Agent():
         rocket_copy = copy_object(rocket)
         asteroid_copy = copy_object(asteroid)
         for right_turns in range(0, rotation_limit):
-            evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy, draw_module)
+            evaded, accelerate_steps = self.evade_by_continual_accelerating(rocket_copy, asteroid_copy)
             if evaded:
                 if right_turns == 0:
                     plan = [[RocketBaseAction.ACCELERATE] for i in range(accelerate_steps)]
@@ -274,7 +274,7 @@ class Agent():
         return True, actions, left_turns + right_turns + accelerate_count
 
 
-    def evade_by_continual_accelerating(self, rocket, asteroid, draw_module):
+    def evade_by_continual_accelerating(self, rocket, asteroid):
         # how many maximal times can rocket accelerate in attemp to avoid asteroid
         accelerate_limit = 20
         # how many steps it is checking whether they collided or rocket escaped
@@ -1375,11 +1375,11 @@ class Genetic_agent(Agent):
         self.decision_function = decision_function
         self.penalty = 0
 
-    def choose_actions(self, state, opposite_agent_actions):
+    def choose_actions(self, state):
         actions = []
-        if self.reevaluate_plan(opposite_agent_actions):
-            (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count) = self.get_state_stats(state)
-            actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count)
+        if self.reevaluate_plan():
+            (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count), impact_steps_count = self.get_state_stats(state)
+            actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count, impact_steps_count)
             if actions_index() == ActionPlanEnum.ATTACK:
                 actions = attack_actions
                 self.attack_count+=1
@@ -1400,7 +1400,7 @@ class Genetic_agent(Agent):
         return super().convert_actions(super().choose_action_from_plan())
 
 
-    def reevaluate_plan(self, opposite_player_actions):
+    def reevaluate_plan(self):
         if self.inactiv_ticks > INACTIVE_SMART_TIME_LIMIT:
             self.inactiv_ticks = 0
             return True
@@ -1441,7 +1441,7 @@ class Genetic_agent(Agent):
                                                                                                    enemy_asteroids,
                                                                                                    own_bullets,
                                                                                                    enemy_bullets)
-        return (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count)
+        return (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count), impact_steps_count
 
 
 class DQAgent(Agent):

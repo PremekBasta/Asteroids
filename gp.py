@@ -45,7 +45,7 @@ def ret_stop():
 
 
 def return_individual():
-    func = toolbox.compile(expr = "if_then_else(compare(mul(add(mul(mul(add(1, 5), mul(-1, 3)), mul(mul(1, 5), add(ARG1, 5))), mul(add(add(ARG1, ARG1), add(ARG0, ARG1)), add(add(5, ARG2), mul(ARG2, ARG1)))), mul(add(add(add(-1, -1), mul(5, ARG1)), add(add(0, 100), add(3, 5))), add(add(mul(ARG2, 3), add(5, 5)), add(mul(100, 5), add(1, 3))))), mul(add(add(mul(add(ARG1, -1), mul(ARG2, -1)), mul(add(ARG1, 100), mul(ARG1, ARG0))), add(add(add(1, ARG2), add(100, 1)), mul(add(ARG1, ARG2), mul(ARG1, 10)))), add(add(add(add(100, ARG2), add(0, 5)), mul(add(5, 3), mul(100, 10))), mul(add(mul(100, ARG0), mul(-1, ARG0)), add(add(100, 5), add(ARG2, 3)))))), if_then_else(compare(mul(mul(add(mul(ARG1, -1), add(5, 10)), mul(add(0, ARG0), mul(ARG2, -1))), add(add(mul(ARG2, 100), mul(1, ARG1)), add(mul(-1, -1), add(5, 100)))), mul(add(add(add(ARG2, ARG2), add(3, 3)), mul(add(1, 10), mul(3, ARG0))), add(add(add(10, 1), add(ARG0, ARG0)), mul(mul(100, 1), add(100, 5))))), if_then_else(compare(mul(add(add(ARG0, 3), add(1, ARG0)), mul(mul(0, 10), add(5, 3))), mul(mul(mul(0, ARG2), mul(ARG0, 1)), add(add(0, 10), mul(1, 3)))), if_then_else(compare(mul(mul(100, 1), add(1, 10)), add(add(10, 0), add(ARG1, ARG1))), if_then_else(compare(mul(ARG1, ARG1), mul(ARG1, ARG2)), if_then_else(compare(ARG1, -1), if_then_else(False, ret_attack, ret_attack), if_then_else(False, ret_deffense, ret_stop)), if_then_else(compare(-1, ARG1), if_then_else(False, ret_attack, ret_deffense), if_then_else(False, ret_attack, ret_stop))), if_then_else(compare(add(0, ARG2), add(100, 0)), if_then_else(compare(5, ARG0), if_then_else(False, ret_stop, ret_deffense), if_then_else(False, ret_stop, ret_deffense)), if_then_else(compare(ARG0, 5), if_then_else(False, ret_stop, ret_evade), if_then_else(False, ret_deffense, ret_evade)))), ret_attack), if_then_else(compare(add(add(add(ARG2, 10), mul(1, 1)), add(mul(ARG2, 5), add(100, 5))), add(mul(add(ARG0, ARG0), mul(1, 3)), mul(mul(5, 3), add(-1, 5)))), if_then_else(compare(mul(mul(1, 5), add(0, 3)), mul(mul(0, 1), add(1, 3))), if_then_else(compare(add(ARG0, ARG0), mul(0, 0)), if_then_else(False, if_then_else(False, ret_stop, ret_evade), if_then_else(False, ret_attack, ret_deffense)), if_then_else(compare(0, 0), if_then_else(False, ret_attack, ret_deffense), if_then_else(False, ret_evade, ret_evade))), if_then_else(compare(mul(100, 3), add(100, 3)), if_then_else(compare(100, -1), if_then_else(False, ret_stop, ret_deffense), if_then_else(False, ret_attack, ret_evade)), if_then_else(compare(100, ARG2), if_then_else(False, ret_evade, ret_deffense), if_then_else(False, ret_evade, ret_evade)))), if_then_else(compare(mul(add(ARG0, 10), add(10, 1)), mul(add(add(ARG2, ARG2), mul(1, 10)), mul(ARG0, 1))), if_then_else(compare(mul(ARG1, 0), mul(1, 10)), if_then_else(compare(10, ARG2), if_then_else(False, ret_stop, ret_deffense), if_then_else(False, ret_evade, ret_evade)), if_then_else(compare(100, -1), if_then_else(False, ret_attack, ret_attack), if_then_else(False, ret_stop, ret_attack))), if_then_else(compare(mul(5, ARG2), mul(10, 1)), if_then_else(compare(ARG2, 0), if_then_else(False, ret_stop, ret_stop), if_then_else(False, ret_evade, ret_deffense)), if_then_else(compare(5, 100), if_then_else(False, ret_evade, ret_evade), if_then_else(False, ret_stop, ret_deffense)))))), if_then_else(compare(add(mul(mul(mul(5, ARG2), add(10, ARG1)), mul(add(-1, ARG1), add(ARG1, -1))), add(add(mul(1, 1), mul(ARG2, 100)), add(add(100, 10), mul(5, 1)))), mul(mul(add(mul(ARG1, ARG2), mul(0, 1)), add(add(0, 5), mul(ARG1, ARG0))), add(add(mul(5, 0), mul(1, 3)), mul(mul(ARG2, 5), add(ARG0, 0))))), if_then_else(compare(add(mul(add(ARG2, 10), add(ARG0, 1)), mul(add(100, 100), mul(ARG2, ARG1))), mul(mul(add(ARG1, -1), add(10, -1)), add(mul(1, 5), add(10, 10)))), if_then_else(compare(add(add(0, 10), add(ARG1, 100)), add(mul(ARG2, 100), mul(-1, 1))), if_then_else(compare(add(-1, ARG1), mul(10, ARG2)), if_then_else(compare(5, 0), ret_stop, if_then_else(False, ret_attack, ret_stop)), if_then_else(compare(ARG1, 10), if_then_else(False, ret_evade, ret_attack), if_then_else(False, ret_attack, ret_deffense))), if_then_else(compare(ARG1, 100), if_then_else(False, ret_evade, ret_deffense), if_then_else(False, ret_evade, ret_stop))), if_then_else(compare(mul(add(1, ARG0), add(ARG0, 100)), add(add(10, ARG0), add(ARG1, 5))), if_then_else(compare(mul(ARG1, -1), mul(100, -1)), if_then_else(compare(5, ARG2), if_then_else(False, ret_evade, ret_evade), if_then_else(False, ret_deffense, ret_deffense)), if_then_else(compare(3, ARG1), if_then_else(False, ret_evade, ret_evade), if_then_else(False, ret_stop, ret_deffense))), if_then_else(compare(add(3, 1), mul(ARG0, 1)), if_then_else(compare(1, 10), if_then_else(False, ret_evade, ret_evade), if_then_else(False, ret_stop, ret_deffense)), if_then_else(compare(ARG2, 100), if_then_else(False, if_then_else(compare(mul(ARG0, ARG1), mul(0, 10)), if_then_else(compare(ARG1, ARG1), if_then_else(False, ret_stop, ret_evade), if_then_else(False, ret_deffense, ret_attack)), if_then_else(compare(ARG1, 10), if_then_else(False, ret_stop, ret_stop), if_then_else(False, ret_evade, ret_evade))), ret_attack), if_then_else(False, ret_evade, ret_evade))))), if_then_else(compare(add(add(add(100, 3), add(3, ARG1)), mul(add(ARG2, ARG1), mul(100, 1))), mul(mul(mul(10, ARG2), mul(-1, ARG2)), mul(mul(-1, ARG1), add(1, 5)))), if_then_else(compare(mul(mul(1, 100), mul(0, ARG1)), add(mul(1, ARG0), mul(0, ARG0))), if_then_else(compare(mul(5, 0), add(3, 10)), if_then_else(compare(5, 5), if_then_else(False, ret_deffense, ret_evade), if_then_else(False, ret_attack, ret_stop)), if_then_else(compare(ARG0, ARG1), if_then_else(False, ret_evade, ret_attack), if_then_else(False, ret_attack, ret_deffense))), if_then_else(compare(add(ARG2, 10), mul(3, 5)), if_then_else(compare(-1, ARG1), if_then_else(False, ret_evade, ret_stop), if_then_else(False, ret_evade, ret_stop)), if_then_else(compare(-1, 3), if_then_else(False, ret_attack, ret_evade), if_then_else(False, ret_deffense, ret_attack)))), if_then_else(compare(mul(add(0, 10), mul(-1, 10)), mul(mul(5, 0), mul(100, 5))), if_then_else(compare(mul(ARG0, ARG1), mul(0, 10)), if_then_else(compare(ARG1, ARG1), if_then_else(False, ret_stop, ret_evade), if_then_else(False, ret_deffense, ret_attack)), if_then_else(compare(ARG1, 10), if_then_else(False, ret_stop, ret_stop), if_then_else(False, ret_evade, ret_evade))), if_then_else(compare(mul(100, -1), add(0, 100)), if_then_else(compare(ARG0, 3), if_then_else(False, ret_deffense, ret_attack), if_then_else(False, ret_attack, ret_deffense)), if_then_else(compare(100, 5), if_then_else(False, ret_attack, ret_deffense), if_then_else(False, ret_deffense, ret_stop)))))))")
+    func = toolbox.compile(expr = "if_then_else(compare(mul(add(mul(mul(add(1, 5), mul(-1, 3)), mul(mul(1, 5), add(ARG1, 5))), mul(add(add(ARG1, ARG1), add(ARG0, ARG1)), add(add(5, ARG2), mul(ARG2, ARG1)))), mul(add(add(add(-1, -1), mul(5, ARG1)), add(add(0, 100), add(3, 5))), add(add(mul(ARG2, 3), add(5, 5)), add(mul(100, 5), add(1, 3))))), mul(add(add(mul(add(ARG1, -1), mul(ARG2, -1)), mul(add(ARG1, 100), mul(ARG1, ARG0))), add(add(add(1, ARG2), add(100, 1)), mul(add(ARG1, ARG2), mul(ARG1, 10)))), add(add(add(add(100, ARG2), add(0, 5)), mul(add(5, 3), mul(100, 10))), mul(add(mul(100, ARG0), mul(-1, ARG0)), add(add(100, 5), add(ARG2, 3)))))), if_then_else(compare(mul(mul(add(mul(ARG1, -1), add(5, 10)), mul(add(0, ARG0), mul(ARG2, -1))), add(add(mul(ARG2, 100), mul(1, ARG1)), add(mul(-1, -1), add(5, 100)))), mul(add(add(add(ARG2, ARG2), add(3, 3)), mul(add(1, 10), mul(3, ARG0))), add(add(add(10, 1), add(ARG0, ARG0)), mul(mul(100, 1), add(100, 5))))), if_then_else(compare(mul(add(add(ARG0, 3), add(1, ARG0)), mul(mul(0, 10), add(5, 3))), mul(mul(mul(0, ARG2), mul(ARG0, 1)), add(add(0, 10), mul(1, 3)))), if_then_else(compare(mul(mul(100, 1), add(1, 10)), add(add(10, 0), add(ARG1, ARG1))), if_then_else(compare(mul(ARG1, ARG1), add(add(mul(3, 10), mul(ARG1, 3)), add(add(100, 0), add(100, ARG1)))), if_then_else(compare(ARG1, -1), if_then_else(False, ret_attack, ret_attack), if_then_else(False, ret_deffense, ret_stop)), if_then_else(compare(-1, 1), if_then_else(False, ret_attack, ret_deffense), if_then_else(False, ret_attack, ret_stop))), if_then_else(compare(add(0, ARG2), add(100, 0)), if_then_else(compare(5, ARG0), if_then_else(False, ret_stop, ret_deffense), if_then_else(False, ret_stop, ret_deffense)), if_then_else(compare(ARG0, 5), if_then_else(False, ret_stop, ret_evade), if_then_else(False, if_then_else(compare(add(0, 1), mul(ARG0, 3)), if_then_else(compare(1, 10), if_then_else(False, ret_stop, ret_stop), if_then_else(False, ret_evade, ret_stop)), if_then_else(compare(ARG0, 3), if_then_else(False, ret_attack, ret_deffense), if_then_else(False, ret_deffense, ret_stop))), ret_evade)))), ret_attack), if_then_else(compare(add(add(add(ARG2, 10), mul(1, 1)), add(mul(ARG2, 5), add(100, 5))), add(mul(add(ARG0, ARG0), mul(1, 3)), mul(mul(5, 3), add(-1, 5)))), if_then_else(compare(mul(mul(1, 5), add(0, 3)), mul(mul(0, 1), add(1, 3))), if_then_else(compare(add(ARG0, ARG0), mul(0, 0)), if_then_else(False, if_then_else(compare(mul(5, ARG2), mul(10, 1)), ret_stop, ret_evade), if_then_else(False, ret_attack, ret_deffense)), if_then_else(compare(0, 0), if_then_else(False, ret_deffense, ret_deffense), if_then_else(False, ret_evade, ret_evade))), if_then_else(compare(mul(100, 3), add(100, 3)), if_then_else(compare(1, 1), if_then_else(False, ret_stop, ret_deffense), if_then_else(False, ret_attack, ret_evade)), if_then_else(compare(100, ARG2), if_then_else(False, ret_evade, ret_deffense), if_then_else(False, ret_evade, ret_evade)))), if_then_else(compare(mul(add(ARG0, 10), add(10, 1)), mul(add(add(ARG2, ARG2), mul(1, 10)), mul(ARG0, 1))), if_then_else(compare(mul(ARG1, 0), mul(1, 10)), if_then_else(compare(10, ARG2), if_then_else(False, ret_stop, ret_deffense), if_then_else(False, ret_evade, ret_evade)), if_then_else(compare(100, -1), if_then_else(False, ret_attack, ret_attack), if_then_else(False, ret_stop, ret_attack))), if_then_else(compare(mul(5, ARG2), mul(10, 1)), if_then_else(compare(ARG2, 0), if_then_else(False, ret_stop, ret_stop), if_then_else(False, ret_evade, ret_deffense)), if_then_else(compare(5, 100), if_then_else(False, ret_evade, ret_evade), if_then_else(False, ret_stop, ret_deffense)))))), if_then_else(compare(add(mul(mul(mul(5, ARG2), add(10, ARG1)), mul(add(-1, ARG1), add(ARG1, -1))), add(add(mul(1, 1), mul(ARG2, 100)), add(add(100, 10), mul(5, 1)))), mul(mul(add(mul(ARG1, ARG2), mul(0, 1)), add(add(0, 5), mul(ARG1, ARG0))), add(add(mul(5, 0), mul(1, 3)), mul(mul(ARG2, 5), add(ARG0, 0))))), if_then_else(compare(add(mul(add(ARG2, 10), add(ARG0, 1)), mul(add(100, 100), mul(ARG2, ARG1))), mul(mul(add(ARG1, -1), add(10, -1)), add(mul(1, 5), add(10, 10)))), if_then_else(compare(add(add(0, 10), add(ARG1, 100)), add(mul(ARG2, 100), mul(-1, 1))), if_then_else(compare(add(-1, ARG1), mul(10, ARG2)), if_then_else(compare(5, 0), if_then_else(False, ret_attack, ret_deffense), if_then_else(False, ret_attack, ret_stop)), if_then_else(compare(ARG1, 10), if_then_else(False, ret_evade, ret_attack), if_then_else(False, ret_attack, ret_deffense))), if_then_else(compare(add(ARG1, 0), add(-1, 5)), if_then_else(compare(ARG0, -1), if_then_else(False, ret_evade, ret_stop), if_then_else(False, ret_stop, ret_attack)), if_then_else(compare(1, 10), if_then_else(False, ret_deffense, ret_deffense), if_then_else(False, ret_attack, ret_deffense)))), if_then_else(compare(mul(add(1, ARG0), add(ARG0, 100)), add(add(10, ARG0), add(ARG1, 5))), if_then_else(compare(mul(ARG1, -1), mul(100, -1)), if_then_else(compare(5, ARG2), if_then_else(False, ret_evade, ret_evade), ret_deffense), if_then_else(compare(3, ARG1), if_then_else(False, ret_evade, ret_evade), if_then_else(False, ret_stop, ret_deffense))), if_then_else(compare(add(3, 1), mul(ARG0, 1)), if_then_else(compare(1, 10), if_then_else(False, ret_evade, ret_evade), if_then_else(False, ret_stop, ret_deffense)), if_then_else(compare(ARG2, 100), if_then_else(False, if_then_else(compare(mul(ARG0, ARG1), mul(0, 10)), if_then_else(compare(ARG1, ARG1), if_then_else(False, ret_stop, ret_evade), if_then_else(False, ret_deffense, ret_attack)), if_then_else(compare(ARG1, 10), if_then_else(False, ret_stop, ret_stop), if_then_else(False, ret_evade, ret_evade))), ret_attack), if_then_else(False, ret_evade, ret_evade))))), if_then_else(compare(add(add(add(100, 3), add(3, ARG1)), mul(add(ARG2, ARG1), mul(100, 1))), mul(mul(mul(10, ARG2), mul(-1, ARG2)), mul(mul(-1, ARG1), add(1, 5)))), if_then_else(compare(mul(mul(1, 100), mul(0, ARG1)), add(mul(1, ARG0), mul(0, ARG0))), if_then_else(compare(mul(5, 0), add(3, 10)), if_then_else(compare(5, 5), if_then_else(False, ret_deffense, ret_evade), if_then_else(False, ret_attack, ret_stop)), if_then_else(compare(ARG0, ARG1), if_then_else(False, ret_evade, ret_attack), if_then_else(False, ret_attack, ret_deffense))), if_then_else(compare(add(ARG2, 10), mul(3, 5)), if_then_else(compare(-1, ARG1), if_then_else(False, ret_evade, ret_stop), if_then_else(False, ret_evade, ret_stop)), if_then_else(compare(-1, 3), if_then_else(False, ret_attack, ret_evade), if_then_else(False, ret_deffense, ret_attack)))), if_then_else(compare(mul(add(0, 10), mul(-1, 10)), mul(mul(5, 0), mul(100, 5))), if_then_else(compare(mul(ARG0, ARG1), mul(0, 10)), if_then_else(compare(ARG1, ARG1), if_then_else(False, ret_stop, ret_evade), if_then_else(False, ret_deffense, ret_attack)), if_then_else(compare(ARG1, 10), if_then_else(False, ret_stop, ret_stop), if_then_else(False, ret_evade, ret_evade))), if_then_else(compare(mul(100, -1), add(add(mul(3, -1), mul(1, 1)), 100)), if_then_else(compare(ARG0, 3), if_then_else(False, ret_deffense, ret_attack), if_then_else(False, ret_attack, ret_deffense)), if_then_else(compare(100, 5), if_then_else(False, ret_attack, ret_deffense), if_then_else(False, ret_deffense, ret_stop)))))))")
     return func
 
 
@@ -67,25 +67,14 @@ semi_result = [0,0,0,0,0,0,0]
 
 
 def simulate_one_game(index, env, agent_one, agent_two, return_vals):
-
     game_over = False
     state = env.reset()
-    agent_one_actions = []
-    agent_two_actions = []
     global semi_result
     while game_over == False:
-        actions_two = agent_two.choose_actions(state, agent_one_actions)
-        actions_one = agent_one.choose_actions(state, agent_two_actions)
+        actions_two = agent_two.choose_actions(state)
+        actions_one = agent_one.choose_actions(state)
 
-        step_count, (game_over, rocket_one_won), state = env.next_step(actions_one, actions_two)
-
-
-    print(step_count)
-
-    semi_result[index-1] = step_count - agent_one.penalty
-    print(semi_result)
-    return step_count
-
+        step_count, (game_over, rocket_one_won), state, _ = env.next_step(actions_one, actions_two)
 
     result = step_count
 
@@ -137,56 +126,11 @@ def paralel_fitness(ind):
         processes.append(Process(target=simulate_one_game, args=(i, envs[i], agents_one[i], agents_two[i], return_vals)))
 
 
-    func1 = toolbox.compile(expr=ind)
-    func2 = toolbox.compile(expr=ind)
-    func3 = toolbox.compile(expr=ind)
-    agent1_one = Genetic_agent(1, func1)
-    agent2_one = Genetic_agent(1, func2)
-    agent3_one = Genetic_agent(1, func3)
-
-
-
-    p1 = Process(target=simulate_one_game, args=(1, env1, agent1_one, agent1_two))
-    p2 = Process(target=simulate_one_game, args=(2, env2, agent2_one, agent2_two))
-    p3 = Process(target=simulate_one_game, args=(3, env3, agent3_one, agent3_two))
-    p1.start()
-    p2.start()
-    p3.start()
-    p1.join()
-    p2.join()
-    p3.join()
-
-    global semi_result
-
-    print(semi_result)
-    
-    print("finished")
-
-    # result = pool.amap(simulate_one_game, [1,2,3], [env1, env2, env3], [agent1_one, agent2_one, agent3_one], [agent1_two, agent2_two, agent3_two])
-    #while not result.ready():
-    #    print(result.ready())
-    #    time.sleep(0.01)
-    # a = 50
-    # a,b,c = result.get()
-
-# p1 = Process(target=simulate_one_game, args=(1, env1, agent1_one, agent1_two,))
-    # p2 = Process(target=simulate_one_game, args=(2, env2, agent2_one, agent2_two,))
-    # p3 = Process(target=simulate_one_game, args=(3, env3, agent3_one, agent3_two,))
-    # p1.start()
-    # p2.start()
-    # p3.start()
-    #
-    # p1.join()
-    # p2.join()
-    # p3.join()
-    #
-    # return sum(semi_result)
-
     for i in range(len(processes)):
         processes[i].start()
     for i in range(len(processes)):
         processes[i].join()
-    result = sum(return_vals.values()) // 6
+    result = sum(return_vals.values()) // len(processes)
     return result,
 
 
@@ -239,12 +183,11 @@ def fitness(ind):
 
 class Bool(object): pass
 
-pset = gp.PrimitiveSetTyped("main", [int, int, int], ActionPlanEnum)
+pset = gp.PrimitiveSetTyped("main", [int, int, int, int, int], ActionPlanEnum)
 pset.addPrimitive(if_then_else, [Bool, ActionPlanEnum, ActionPlanEnum], ActionPlanEnum)
 pset.addPrimitive(compare, [int, int], Bool)
 pset.addPrimitive(operator.mul, [int, int], int)
 pset.addPrimitive(operator.add, [int, int], int)
-# pset.addPrimitive(operator.and_,[bool,bool], bool)
 pset.addTerminal(100, int)
 pset.addTerminal(10, int)
 pset.addTerminal(5, int)
@@ -256,10 +199,6 @@ pset.addTerminal(ret_attack, ActionPlanEnum)
 pset.addTerminal(ret_deffense, ActionPlanEnum)
 pset.addTerminal(ret_evade, ActionPlanEnum)
 pset.addTerminal(ret_stop, ActionPlanEnum)
-# pset.addTerminal(ActionPlanEnum.ATTACK ,ActionPlanEnum)
-# pset.addTerminal(ActionPlanEnum.DEFFENSE,ActionPlanEnum)
-# pset.addTerminal(ActionPlanEnum.EVASION,ActionPlanEnum)
-# pset.addTerminal(True, bool)
 pset.addTerminal(False, Bool)
 
 
@@ -282,7 +221,7 @@ toolbox.decorate("mate", gp.staticLimit(key=operator.attrgetter("height"), max_v
 toolbox.decorate("mutate", gp.staticLimit(key=operator.attrgetter("height"), max_value=17))
 
 
-pop = toolbox.population(n=15)
+pop = toolbox.population(n=20)
 hof = tools.HallOfFame(5)
 
 stats_fit = tools.Statistics(lambda ind: ind.fitness.values[0])
@@ -295,14 +234,14 @@ mstats.register("max", np.max)
 
 if __name__ == "__main__":
     # pass
-    paralel_fitness(toolbox.individual())
+    #paralel_fitness(toolbox.individual())
     # print(toolbox.individual())
-    # pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 250, stats=mstats, halloffame=hof, verbose=True)
-    # print(f"hof[0]: {hof[0]}")
-    # print(f"hof[1]: {hof[1]}")
-    # print(f"hof[2]: {hof[2]}")
-    # print(f"hof[3]: {hof[3]}")
-    # print(f"hof[4]: {hof[4]}")
+    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 250, stats=mstats, halloffame=hof, verbose=True)
+    print(f"hof[0]: {hof[0]}")
+    print(f"hof[1]: {hof[1]}")
+    print(f"hof[2]: {hof[2]}")
+    print(f"hof[3]: {hof[3]}")
+    print(f"hof[4]: {hof[4]}")
 
     # pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 50, stats=mstats, halloffame=hof, verbose=True)
     # print(f"hof[0]: {hof[0]}")

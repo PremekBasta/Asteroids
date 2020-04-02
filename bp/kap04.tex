@@ -48,10 +48,15 @@ Toto v zásadě představuje křížení s novým náhodně vytvořeným jedince
 \newline
 Mutace jediného bodu změní náhodně jediný uzel ve stromě. V případě terminálu se může vybrat libovolný jiný terminál. A v případě vnitřního uzlu může být vybraný libovolný jiný neterminál, který je stejné arity.
 
-\subsection{Typované x netypované}
-
+\subsection{Silně a volně typované genetické programování}
+Ve volně typovaném genetickém programování nezadáváme typy funkcí ani terminálů. Jediné co musíme u funkcí určit je jejich arita a na základě toho se generují a mutují jedinci korektně.
+Obvykle se nám více bude hodit silně typované genetické programování, zde určujeme u všech funkcí nejen jejich aritu, ale také typ každého z argumentů dané funkce a také typ návratové hodnoty.
+Podobně musíme určit i hodnotové typy terminálů. Díky tomu máme zaručeno, že pokud máme například funkci, která vrací typ boolean, tak tato hodnota nebude vynásobena hodnotou typu float. 
+Pak jen určíme hodnotové typy celého problému a algoritmus už se postará o to, aby byly typové podmínky dodrženy.
+\url{https://deap.readthedocs.io/en/master/tutorials/advanced/gp.html}
 
 \section{Využití}
+symbolická regrese x\^2 + x + 1
 
 \section{Aplikace}
 

@@ -27,7 +27,7 @@
 \contentsline {subsection}{\numberline {4.1.2}Inicializace populace}{18}{subsection.4.1.2}%
 \contentsline {subsection}{\numberline {4.1.3}Selekce}{18}{subsection.4.1.3}%
 \contentsline {subsection}{\numberline {4.1.4}Genetické operátory}{19}{subsection.4.1.4}%
-\contentsline {subsection}{\numberline {4.1.5}Typované x netypované}{19}{subsection.4.1.5}%
+\contentsline {subsection}{\numberline {4.1.5}Silně a volně typované genetické programování}{19}{subsection.4.1.5}%
 \contentsline {section}{\numberline {4.2}Využití}{19}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Aplikace}{19}{section.4.3}%
 \contentsline {chapter}{\numberline {5}Hluboké Q-učení}{21}{chapter.5}%

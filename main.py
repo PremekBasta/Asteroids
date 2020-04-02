@@ -67,9 +67,9 @@ if __name__ == "__main__":
     env = Enviroment(draw_module)
     state = env.reset()
 
-    #agent_one = Genetic_agent(1, return_individual())
+    agent_one = Genetic_agent(1, return_individual())
     #agent_one = Evasion_agent(1, draw_module)
-    agent_one = Evasion_agent(1, draw_module)
+    #agent_one = Evasion_agent(1, draw_module)
     agent_two = Stable_defensive_agent(2)
     #agent_two = Evasion_agent(2, draw_module)
     # agent_two = Stable_defensive_agent(env.screen, 2)

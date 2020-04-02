@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  29 MAR 2020 17:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  2 APR 2020 15:49
 entering extended mode
 **/home/premek/Asteroids/bp/prace.tex
 (/home/premek/Asteroids/bp/prace.tex
@@ -910,10 +910,10 @@ Overfull \hbox (31.12106pt too wide) in paragraph at lines 38--39
 [][]$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 259461147 _ Selection _ Methods _|
  []
 
-<./agent_enviroment.png, id=370, 392.46625pt x 264.99pt>
+<./agent_enviroment.png, id=371, 392.46625pt x 264.99pt>
 File: ./agent_enviroment.png Graphic file (type png)
 <use ./agent_enviroment.png>
-Package pdftex.def Info: ./agent_enviroment.png  used on input line 63.
+Package pdftex.def Info: ./agent_enviroment.png  used on input line 68.
 (pdftex.def)             Requested size: 398.36398pt x 398.36952pt.
 ) [19] [20 <./agent_enviroment.png>]
 \openout2 = `kap05.aux'.
@@ -947,21 +947,21 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 168.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 168.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 168.
 Package rerunfilecheck Info: File `prace.out' has not changed.
-(rerunfilecheck)             Checksum: 45D7BFFD197AD5A1730978D845C5A227;5117.
+(rerunfilecheck)             Checksum: 30E7B0EE880E9B141B093CD40AEC604A;5258.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 168.
  ) 
 Here is how much of TeX's memory you used:
- 20223 strings out of 483220
- 304259 string characters out of 2960823
+ 20224 strings out of 483220
+ 304266 string characters out of 2960823
  756177 words of memory out of 3000000
- 34933 multiletter control sequences out of 15000+200000
+ 34934 multiletter control sequences out of 15000+200000
  590686 words of font info for 63 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
  51i,6n,50p,985b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-rm.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathit.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathex.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmex10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb>
-Output written on /home/premek/Asteroids/bp/prace.pdf (27 pages, 340741 bytes).
+Output written on /home/premek/Asteroids/bp/prace.pdf (27 pages, 342323 bytes).
 PDF statistics:
- 483 PDF objects out of 1000 (max. 8388607)
+ 484 PDF objects out of 1000 (max. 8388607)
  116 named destinations out of 1000 (max. 500000)
  353 words of extra memory for PDF output out of 10000 (max. 10000000)
 
