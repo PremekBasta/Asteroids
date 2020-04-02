@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  2 APR 2020 15:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  2 APR 2020 19:48
 entering extended mode
 **/home/premek/Asteroids/bp/prace.tex
 (/home/premek/Asteroids/bp/prace.tex
@@ -708,7 +708,7 @@ Overfull \hbox (12.39563pt too wide) in paragraph at lines 23--27
 \T1/lmr/m/n/12 kter˝ letÌ stejn˝m sm•rem jako st∞ela, kter· ho zas·hla. V p∞Ìpad• st∞ely rozdvojovacÌ|
  []
 
-<./Obrazky/UkazkaHry.png, id=239, 895.345pt x 590.205pt>
+<./Obrazky/UkazkaHry.png, id=244, 895.345pt x 590.205pt>
 File: ./Obrazky/UkazkaHry.png Graphic file (type png)
 <use ./Obrazky/UkazkaHry.png>
 Package pdftex.def Info: ./Obrazky/UkazkaHry.png  used on input line 32.
@@ -836,7 +836,7 @@ Overfull \hbox (0.97531pt too wide) in paragraph at lines 35--38
 \T1/lmr/m/n/12 nejkrat≤Ì. MusÌme vzÌt v ˙vahu v≤echny £ty∞i polohy asteroidu, kterÈ zÌsk·me|
  []
 
-<./Obrazky/N_nearest_asteroids.png, id=332, 903.375pt x 602.25pt>
+<./Obrazky/N_nearest_asteroids.png, id=337, 903.375pt x 602.25pt>
 File: ./Obrazky/N_nearest_asteroids.png Graphic file (type png)
 <use ./Obrazky/N_nearest_asteroids.png>
 Package pdftex.def Info: ./Obrazky/N_nearest_asteroids.png  used on input line 45.
@@ -866,7 +866,7 @@ Overfull \hbox (12.50723pt too wide) in paragraph at lines 102--110
 \T1/lmr/m/n/12 neaktivnÌch krok∑ se rovn· konstan• \T1/lmr/m/it/12 INACTIVE_STEPS_LIMIT\T1/lmr/m/n/12 . S vy≤≤Ìm po£tem|
  []
 
-<./Obrazky/Inactive_steps_comparison2.png, id=342, 462.528pt x 346.896pt>
+<./Obrazky/Inactive_steps_comparison2.png, id=347, 462.528pt x 346.896pt>
 File: ./Obrazky/Inactive_steps_comparison2.png Graphic file (type png)
 <use ./Obrazky/Inactive_steps_comparison2.png>
 Package pdftex.def Info: ./Obrazky/Inactive_steps_comparison2.png  used on input line 114.
@@ -910,17 +910,28 @@ Overfull \hbox (31.12106pt too wide) in paragraph at lines 38--39
 [][]$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 259461147 _ Selection _ Methods _|
  []
 
-<./agent_enviroment.png, id=371, 392.46625pt x 264.99pt>
+
+Overfull \hbox (20.36017pt too wide) in paragraph at lines 63--72
+\T1/lmr/m/n/12 funkce nem· stejnou strukturu, jako zadan· funkce, tak dobrÈ koeficienty nenalezneme|
+ []
+
+
+Overfull \hbox (6.75769pt too wide) in paragraph at lines 63--72
+\T1/lmr/m/n/12 o£ek·v·nÌ o struktu∞e danÈ funkce. Uvedeme trivi·lnÌ p∞Ìklad. êekn•me, ∫e hled·me|
+ []
+
+[19]
+<./agent_enviroment.png, id=381, 392.46625pt x 264.99pt>
 File: ./agent_enviroment.png Graphic file (type png)
 <use ./agent_enviroment.png>
-Package pdftex.def Info: ./agent_enviroment.png  used on input line 68.
+Package pdftex.def Info: ./agent_enviroment.png  used on input line 81.
 (pdftex.def)             Requested size: 398.36398pt x 398.36952pt.
-) [19] [20 <./agent_enviroment.png>]
+) [20] [21 <./agent_enviroment.png>]
 \openout2 = `kap05.aux'.
 
  (/home/premek/Asteroids/bp/kap05.tex
 Kapitola 5.
-) [21
+) [22
 
 
 
@@ -929,7 +940,7 @@ Kapitola 5.
 
  (/home/premek/Asteroids/bp/kap06.tex
 Kapitola 6.
-) [22
+) [23
 
 
 
@@ -937,7 +948,7 @@ Kapitola 6.
 \tf@lof=\write8
 \openout8 = `prace.lof'.
 
- [23
+ [24
 
 
 ]
@@ -947,21 +958,21 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 168.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 168.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 168.
 Package rerunfilecheck Info: File `prace.out' has not changed.
-(rerunfilecheck)             Checksum: 30E7B0EE880E9B141B093CD40AEC604A;5258.
+(rerunfilecheck)             Checksum: B0281E4AC179E270DBD2C58ADB33891D;5416.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 168.
  ) 
 Here is how much of TeX's memory you used:
- 20224 strings out of 483220
- 304266 string characters out of 2960823
- 756177 words of memory out of 3000000
+ 20226 strings out of 483220
+ 304300 string characters out of 2960823
+ 756180 words of memory out of 3000000
  34934 multiletter control sequences out of 15000+200000
  590686 words of font info for 63 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
  51i,6n,50p,985b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-rm.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathit.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathex.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmex10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb>
-Output written on /home/premek/Asteroids/bp/prace.pdf (27 pages, 342323 bytes).
+{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathsy.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-rm.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathit.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathex.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmex10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb>
+Output written on /home/premek/Asteroids/bp/prace.pdf (28 pages, 369415 bytes).
 PDF statistics:
- 484 PDF objects out of 1000 (max. 8388607)
- 116 named destinations out of 1000 (max. 500000)
- 353 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 499 PDF objects out of 1000 (max. 8388607)
+ 118 named destinations out of 1000 (max. 500000)
+ 361 words of extra memory for PDF output out of 10000 (max. 10000000)
 

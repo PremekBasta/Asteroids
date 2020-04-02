@@ -389,6 +389,7 @@ INPUT /home/premek/Asteroids/bp/kap06.aux
 INPUT /home/premek/Asteroids/bp/kap06.aux
 INPUT /home/premek/Asteroids/bp/prace.out
 INPUT /home/premek/Asteroids/bp/prace.out
+INPUT /home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathsy.enc
 INPUT /home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-rm.enc
 INPUT /home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathit.enc
 INPUT /home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathex.enc
@@ -414,5 +415,7 @@ INPUT /home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr8.pfb
 INPUT /home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr8.pfb
 INPUT /home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb
 INPUT /home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb
+INPUT /home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy10.pfb
+INPUT /home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy10.pfb
 INPUT /home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb
 INPUT /home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb

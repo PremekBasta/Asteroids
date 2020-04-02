@@ -29,13 +29,14 @@
 \contentsline {subsection}{\numberline {4.1.4}Genetické operátory}{19}{subsection.4.1.4}%
 \contentsline {subsection}{\numberline {4.1.5}Silně a volně typované genetické programování}{19}{subsection.4.1.5}%
 \contentsline {section}{\numberline {4.2}Využití}{19}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Aplikace}{19}{section.4.3}%
-\contentsline {chapter}{\numberline {5}Hluboké Q-učení}{21}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Základní princip}{21}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Využití}{21}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Aplikace}{21}{section.5.3}%
-\contentsline {chapter}{\numberline {6}NEAT}{22}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Základní princip}{22}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Využití}{22}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Aplikace}{22}{section.6.3}%
-\contentsline {chapter}{Seznam obr\'azk\r {u}}{23}{chapter*.3}%
+\contentsline {subsection}{\numberline {4.2.1}Symbolická regrese}{19}{subsection.4.2.1}%
+\contentsline {section}{\numberline {4.3}Aplikace}{20}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Hluboké Q-učení}{22}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Základní princip}{22}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Využití}{22}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Aplikace}{22}{section.5.3}%
+\contentsline {chapter}{\numberline {6}NEAT}{23}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Základní princip}{23}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Využití}{23}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Aplikace}{23}{section.6.3}%
+\contentsline {chapter}{Seznam obr\'azk\r {u}}{24}{chapter*.3}%

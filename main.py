@@ -50,7 +50,7 @@ if __name__ == "__main__":
     #model_two = tf.keras.models.load_model("LL_DQ_2_players/20000_LL_DQ_2_players_model_two")
 
     draw_module = draw_module()
-    #draw_module = None
+    draw_module = None
     #agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
     #agent_one = Evasion_agent(player_number=1, draw_modul = draw_module)
     #agent_one = Stable_defensive_agent(1)

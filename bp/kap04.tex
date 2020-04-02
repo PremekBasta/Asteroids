@@ -56,7 +56,20 @@ Pak jen určíme hodnotové typy celého problému a algoritmus už se postará 
 \url{https://deap.readthedocs.io/en/master/tutorials/advanced/gp.html}
 
 \section{Využití}
-symbolická regrese x\^2 + x + 1
+Genetické programování je využitelné ve všech problémech, kde jsme schopní vymyslet způsob jak reprezentovat jedince představujícího řešení problému a fitness funkci, díky které jsme schopni dané řešení ohodnotit.
+To tedy znamená, že možnosti využití jsou téměř nekonečné. Zmiňme ale pár konkrétních příkladů. 
+
+\subsection{Symbolická regrese}
+V mnoha problémech je naším cílem nalézt funkci, jejíž hodnota splňuje nějakou požadovanou vlastnost. Toto známe pod názvem symbolická regrese.
+Obyčejná regrese má obvykle za cíl nalézt koeficienty předem zadané funkce, tak aby co nejlépe odpovídala daným datům.
+Zde je problém, že pokud potřebná funkce nemá stejnou strukturu, jako zadaná funkce, tak dobré koeficienty nenalezneme nikdy a musíme zkusit hledat funkci jiné struktury.
+Tento problém může vyřešit právě symbolická regrese. Ta hledá vhodnou funkci aniž by na začátku měla očekávání o struktuře dané funkce.
+Uvedeme triviální příklad. Řekněme, že hledáme výraz, jehož hodnoty odpovídají polynomu $x^2+x+1$ na intervalu $[-1,1]$.
+Budeme hledat funkci jedné proměnné $x$, proto $x$ přidáme jako terminál. Dále přidáme jako terminály číselné konstanty (například -1,1,2,5,10), které budou sloužit pro hledání koeficientů.
+Pro náš případ bude stačit, když si jako aritmetické funkce přidáme ty základní, tedy sčítání, odečítání, násobení a dělení.
+Fitness funkci můžeme zvolit jako součet absolutních rozdílů hodnot daného výrazu a hledaného výrazu $x^2+x+1$.
+ZFORMULOVAT LEPE PREDCHOZI VETU
+
 
 \section{Aplikace}
 
