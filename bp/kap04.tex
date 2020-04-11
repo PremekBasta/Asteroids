@@ -59,19 +59,177 @@ Pak jen určíme hodnotové typy celého problému a algoritmus už se postará 
 Genetické programování je využitelné ve všech problémech, kde jsme schopní vymyslet způsob jak reprezentovat jedince představujícího řešení problému a fitness funkci, díky které jsme schopni dané řešení ohodnotit.
 To tedy znamená, že možnosti využití jsou téměř nekonečné. Zmiňme ale pár konkrétních příkladů. 
 
+\subsection{Obecné využití}
+\todo{volně přeloženo a zkráceno z původního textu str. 126}
+Obecně se genetické programování ukazuje být vhodné ve všech problémech, které splňují některou, z následujících podmínek:
+
+\begin{itemize}
+    \item Vzájemné vztahy zkoumaných proměnných nejsou dobře známy, nebo je podezření, že jejich současné porozumění může být mylné.
+    \item Nalezení velikosti a tvaru hledaného řešení je částí řešeného problému.
+    \item Existují simulátory pro testování vhodnosti zadaného řešení, ale neexistují metody pro přímé získání dobrých řešení.
+    \item Obvyklé metody matematické analýzy nedávají, nebo ani nemohou být použity pro získání analytického řešení.
+    \item Přibližné řešení je zcela postačující.
+    
+\end{itemize}
+
 \subsection{Symbolická regrese}
 V mnoha problémech je naším cílem nalézt funkci, jejíž hodnota splňuje nějakou požadovanou vlastnost. Toto známe pod názvem symbolická regrese.
 Obyčejná regrese má obvykle za cíl nalézt koeficienty předem zadané funkce, tak aby co nejlépe odpovídala daným datům.
 Zde je problém, že pokud potřebná funkce nemá stejnou strukturu, jako zadaná funkce, tak dobré koeficienty nenalezneme nikdy a musíme zkusit hledat funkci jiné struktury.
-Tento problém může vyřešit právě symbolická regrese. Ta hledá vhodnou funkci aniž by na začátku měla očekávání o struktuře dané funkce.
+Tento problém může vyřešit právě symbolická regrese. Ta hledá vhodnou funkci aniž by na začátku měla očekávání o její struktuře.
 Uvedeme triviální příklad. Řekněme, že hledáme výraz, jehož hodnoty odpovídají polynomu $x^2+x+1$ na intervalu $[-1,1]$.
 Budeme hledat funkci jedné proměnné $x$, proto $x$ přidáme jako terminál. Dále přidáme jako terminály číselné konstanty (například -1,1,2,5,10), které budou sloužit pro hledání koeficientů.
 Pro náš případ bude stačit, když si jako aritmetické funkce přidáme ty základní, tedy sčítání, odečítání, násobení a dělení.
-Fitness funkci můžeme zvolit jako součet absolutních rozdílů hodnot daného výrazu a hledaného výrazu $x^2+x+1$.
-ZFORMULOVAT LEPE PREDCHOZI VETU
+Fitness funkci můžeme zvolit jako součet absolutních hodnot rozdílů daného výrazu a hledaného výrazu $x^2+x+1$.
+Toto stačí pro spuštění evolučního algoritmu. 
+V takto triviálním případě se hledané řešení nalezne pravděpodobně vezmi brzo a bude mít jednu z podobu stromu reprezentujícího daný výraz (viz strom výrazu \ref{obr04:GrafFormule})
 
+
+\begin{figure}[p]\centering
+\includegraphics[width=70mm, height=70mm]{./Obrazky/formule_graph_2.png}
+\caption{Strom výrazu}
+\label{obr04:GrafFormule}
+\end{figure}
+
+
+\subsection{Další příklady použití}
+Symbolická regrese je jen jedním z mnoha problémů, které lze řešit pomocí genetického programování.
+\todo{Podobě jako ve field guide to genetic programming vyjmenovat konkrétní výsledky s odkazy na stejné články jako v knize? 
+Nebo zmínit jen oblasti bez vysvětlování konkrétních problémů? - (Bioinformatika, počítačové hry, Ekonomické modely, Umění)}
 
 \section{Aplikace}
+\subsection{Úvod}
+Genetické programování lze využít i v mém problému hledání inteligentního agenta. 
+Nezbytným požadavkem pro využití genetického programování je existence reprezentace jedince a fitness funkce, která mu přiřadí jeho hodnotu. 
+Jedinec bude představovat rozhodovací funkci, která se na základě vstupních argumentů rozhodne, který akční plán bude vybrán.
+
+V našem případě máme hru, kde spolu dva hráči soupeří a hra končí výhrou jednoho z hráčů.
+Přesně tohoto můžeme ve fitness funkci jedince využít. 
+Pokud chceme využít výsledku hry, jak jedinec ve hře dopadl, tak musíme ale nejprve zvolit proti jakému hráči bude jedinec, který je předmětem našeho zájmu, hrát.
+
+Genetické programování jsem využil ve dvou experimentech. 
+Reprezentace jedince je pro oba experimenty stejná, rozdíl je ale v přístupu k fitness funkcím, ty popíšu v každém experimentu separátně.
+
+Pro experimentování s genetickým programováním jsem zvolil knihovnu deap pro python. Zde lze jednoduše konfigurovat evoluční algoritmus na konkrétní řešený problém.
+Stačí popsat jak reprezentovat jedince a jaká je jeho fitness funkce a zbytek knihovna vyřeší za nás.
+
+
+\subsection{Reprezentace jedince}
+V předchozí kapitole jsme si vybudovali abstrakace v podobě senzorů a akčních plánů a těch zde budeme chtít využít.
+Jedinec, podobně jako u symbolické regrese, je funkce, tedy může být reprezentován stromem.
+
+\begin{itemize}
+\item{
+    Terminály:
+    \begin{itemize}
+        \item Vstupní argumenty rozhodovací funkce
+        \item Celočíselné konstanty -1, 1, 3, 5, 10, 100
+        \item Nulární funkce vracející výčtové hodnoty reprezentující zvolený akční plán  
+    \end{itemize}
+    Jako argumenty funkce jsem si zvolil následující hodnoty: délky všech čtyř akčních plánů a počet kroků před srážkou vesmírné lodi s asteroidem.
+    Délky akčních plánů se pohybují v intervalu $(1,100)$, proto jsou číselné konstanty zvoleny tak, aby se jejich sčítáním a násobením lehce dosáhlo dalších hodnot z tohoto intervalu.
+    }
+
+\item{
+    Neterminály:
+    \begin{itemize}
+        \item Aritmetické operace sčítání a násobení
+        \item Funkce \emph{compare}
+        \item Funkce \emph{if\_then\_else}
+    \end{itemize}
+    Z aritmetický operací nám stačí sčítání a násobení. Operaci odčítání získáme pomocí sčítání a násobení konstantou -1. 
+    Hodnoty z intervalu $(1,100)$ jednoduše získáme také pomocí sčítání a násobení potřebných konstant, proto pro operaci dělení není důvod.
+    Všechny aritmetické operace jsou typu $([int,int], int)$.
+    Funkce \emph{compare} je typu $([int,int], Bool)$, vrací zda první argument je větší než druhý argument.
+    Poslední použitá funkce \emph{if\_then\_else} je typu 
+    \newline
+    $([Bool, ActionPlanEnum, ActionPlanEnum], ActionPlanEnum)$. 
+    Tato funkce dostává jako argumenty výraz typu bool a následně dvě hodnoty reprezentující akční plány. 
+    Na základě pravdivosti výrazu vrací funkce první nebo druhou z hodnot akčních plánů.
+}
+\end{itemize}
+
+
+\subsection{Experiment 1: Soupeření s obranným agentem}
+Cílem tohoto experimentu bylo vyvinout agenta, který bude lepší než agent, který se řídí čistě obranným akčním plánem.
+Výpočet fitness funkce zahrnuje zahrání 6 her současného jedince s obranným agentem a výsledek je průměr z hodnot každé z her.
+Hra je pokaždé velmi náhodná, tedy zahrání jedné hry by mělo nízkou vypovídající hodnotu. Proto jsem pro přesnější informaci zvolit zahrání 6 her.
+Hodnota zahrané hry se skládá z více částí.
+\begin{itemize}
+    \item Počet kroků trvání hry
+        \newline
+        Myšlenkou je zde, obzvláště v počátku evoluce, upřednostňovat takové jedince, kteří dokážou vydržet ve hře co nejdéle, tedy nejsou ve hře okamžitě poraženi.
+        Délka hry se pohybuje pro představu v intervalu $(900,2900)$ kroků.
+    \item Penalizace za nevyužití některého z plánů
+        \newline
+        Během hry se udržuje historie, kolikrát se agent rozhodl pro každý z akčních plánů.
+        Za každý ze čtyř akčních plánů, který agent ani jednou během hry nezvolil získá penalizaci -500. Cílem těchto penalizací je upřednostňovat takové jedince, kteří používají všechny akční plány. 
+        Toto jsem se rozhodl udělat pro větší diverzifikaci jedinců.
+    \item Extra bonus za útočný a obranný plán 
+        \todo{Zkontrolovat zda je toto spravne}
+        \newline
+        Přestože chci od jedinců aby používali všechny akční plány, tak očekávám, že hledaný agent bude převážně používat útočný a obranný plán.
+        K výsledné hodnotě se přičte počet kroků, ve kterém agent zvolil útočný nebo obranný akční plán.    
+    \item Bonus/penalizace za výhru/prohru
+        \newline
+        Toto je asi nejdůležitější část. Pro zdůraznění rozdílu mezi vyhranými a prohranými hrami se v případě výhry přičtou k výsledku 2000 a v případě prohry se 2000 odečtou.
+        Motivací mohou být následující dvě situace. V jedné hře se podařilo jedinci dlouho bránit, řekněme, že vydržel 2500 kroků hry a poté prohrál. V druhé hře porazil soupeře v rychlých 1200 krocích. 
+        Bez bonusu za vyhranou hru, by prohraná hra získala jedinci daleko vyšší hodnotu, než hra, kterou vyhrál.        
+    
+\end{itemize}
+
+Algoritmus byl spuštěn s následujícími parametry:
+\begin{itemize}
+    \item Velikost populace: 30
+    \item Pravděpodobnost křížení: 60\%
+    \item Pravděpodobnost mutace: 20\%
+    \item Počet generací: 100
+    \item Metoda selekce: turnajová selekce
+\end{itemize}
+
+Výsledný nejlepší jedinec bohužel nesplnil naše očekávání. Zde předkládám data získané ze zahrání 20 her proti obrannému agentovi.
+
+\todo{doplnit reálná čísla}
+Náš nalezený agent nejen není lepší než obranný agent, ale ani nemá moc odlišný přístup k volbě akčních plánů. 
+V 97\% volil také obranný akční plán a ve zbylých procentech párkrát volil všechny ostatní akční plány, tohoto bylo zřejmě docíleno kvůli penalizaci nepoužívání některých z akčních plánů.
+
+
+
+
+
+
+\subsection{Experiment 2: Postupné zaměňování úspěšnějšího jedince}
+V tomto experimentu nebylo cílem porazit konkrétního, stálého agenta jako v předchozím případě.
+Cílem v tomto experimentu bylo postupně vybudovat nejzdatnějšího agenta.
+Stejně jako v předchozím případě i zde fitness funkce bude zahrnovat zahrání 6 her. 
+Avšak zde nebudeme počítat žádné speciální hodnoty, jak která z her dopadla, ale spokojíme se s jednoduchou informací, který z agentů danou hru vyhrál.
+\par
+Po celou dobu evoluce si budeme pamatovat současného nejlepšího jedince. 
+Na začátku zinicializujeme zcela náhodného jedince a označíme ho jako současného nejlepšího jedince.
+Pak vytvoříme populaci dalších jedinců a započneme evoluci.
+Fitness funkce jedince bude reprezentovat poměr, kolik ze 6 zahraných her jedinec vyhrál v souboji se současně nejlepším nalezeným řešením.
+Evoluce hledá řešení, která budou proti současnému nejlepšímu co nejlepší.
+Každou 3. generaci se kontroluje, zda již náhodou nebyl v populaci nalezen jedinec, který současně nejlepšího jedince porazil alespoň v 5 ze 6ti her.
+Pokud ano, tak takový jedinec bude nově zvolen jako nejlepší a celý proces bude pokračovat stejným způsobem.
+\par
+Po výměně nejlepšího jedince musíme nově přepočítat fitness funkci všech stávajících jedinců v populaci, protože jejich současná hodnota se vztahovala k původním jedinci.
+Rovněž musíme, ze stejného důvodu, smazat všechny jedince ze síně slávy (ang. Hall of fame), kde se průběžně ukládají nejlepší jedinci spolu s hodnotou jejich fitness funkce.
+\par
+Všechny tyto, výše zmíněné, změny už nelze nakonfigurovat přímočarým způsobem jako v předchozím experimentu. 
+Ale bylo zapotřebí upravit samotnou kostru evolučního algoritmus.
+
+
+
+
+2.) Zde postupné volení lepšího a lepšího jedince vzájemnými souboji.
+Na začátku zvolit náhodného jedince jakožto nejlepšího. Nechat ho zahrát s ostastními a ten, kdo ho nejvíckrát porazil, tak ho nahradí.
+Ten bude nahrazen až se najde protivník s 5 ze 6 výher proti němu.
+Zde bylo třeba mírně upravit kostru algoritmu. Smazání Hall of fame po smazání.
+každé 3 generace kontrola, zda už nebyl naleen nějaký lepší soupeř.
+Celkově jsem zahrál 500 generací.
+Výsledkem je dobrý jedinec, který poráží Stable Deffensive Agenta, ale pouze v nějakých random seedech. Při vysokém inactive steps začne prohrávat.
+Výsledný poměr vobly akčních plánů je 2/3 obrana, 1/3 útok
+
 
 
 

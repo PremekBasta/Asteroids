@@ -356,6 +356,11 @@ INPUT ./Obrazky/Inactive_steps_comparison2.png
 OUTPUT /home/premek/Asteroids/bp/kap04.aux
 INPUT /home/premek/Asteroids/bp/kap04.tex
 INPUT /home/premek/Asteroids/bp/kap04.tex
+INPUT Obrazky/formule_graph_2.png
+INPUT ./Obrazky/formule_graph_2.png
+INPUT ./Obrazky/formule_graph_2.png
+INPUT ./Obrazky/formule_graph_2.png
+INPUT ./Obrazky/formule_graph_2.png
 INPUT agent_enviroment.png
 INPUT ./agent_enviroment.png
 INPUT ./agent_enviroment.png

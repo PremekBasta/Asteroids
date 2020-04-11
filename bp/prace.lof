@@ -6,6 +6,7 @@
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Ukázka senzoru "N nejbližších asteroidů od vesmírné lodi" pro N=3}}{13}{figure.3.1}%
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Srovnání počtu neaktivních kroků k průměrné délce hry. Čísla byla získána průměrováním 40 her, kde proti sobě hráli agenti využívající pouze obranných plánů.}}{16}{figure.3.2}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Herní cyklus}}{21}{figure.4.1}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Strom výrazu}}{24}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Herní cyklus}}{24}{figure.4.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

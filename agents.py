@@ -1,7 +1,7 @@
 import random, copy
 from sprite_object import Bullet, RocketBaseAction, Asteroid,Rocket, AsteroidSize
 from constants import *
-import pygame
+#import pygame
 import time
 import math
 from dto import collides, Space_object_DTO, copy_object
@@ -58,6 +58,7 @@ class Agent():
         self.finished_plan = False
         self.finished_plan_attack = False
         self.finished_plan_evasion = False
+        self.finished_plan_gp = False
 
     def choose_action_from_plan(self):
         if len(self.plan) > 0:
@@ -67,6 +68,7 @@ class Agent():
             self.plan = []
             self.finished_plan_attack = True
             self.finished_plan_evasion = True
+            self.finished_plan_gp = True
         return actions
 
 
@@ -1374,6 +1376,7 @@ class Genetic_agent(Agent):
         self.odd = 0
         self.decision_function = decision_function
         self.penalty = 0
+        self.finished_plan_gp = False
 
     def choose_actions(self, state):
         actions = []
@@ -1404,6 +1407,7 @@ class Genetic_agent(Agent):
         if self.inactiv_ticks > INACTIVE_SMART_TIME_LIMIT:
             self.inactiv_ticks = 0
             return True
+
 
         self.inactiv_ticks = self.inactiv_ticks + 1
         return False
