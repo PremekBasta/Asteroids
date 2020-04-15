@@ -84,6 +84,11 @@ if __name__ == "__main__":
     total_steps = 0
     total_time = 0
 
+    average_def = 0
+    average_attack = 0
+    average_evasion = 0
+    average_stop = 0
+
     for i in range(40):
         game_over = False
         state = env.reset()
@@ -125,13 +130,25 @@ if __name__ == "__main__":
         total_steps = total_steps + step_count
         print(f"avg_steps_count: {total_steps / (i+1)}")
         print(f"attack_count: {agent_one.attack_count}")
+        average_attack = average_attack + agent_one.attack_count
         agent_one.attack_count = 0
+
+        print(f"average attack count: {average_attack / (i+1)}")
         print(f"deffense_count: {agent_one.defense_count}")
+        average_def = average_def + agent_one.defense_count
         agent_one.defense_count = 0
+
+        print(f"average deffense count: {average_def / (i+1)}")
         print(f"evasion_count: {agent_one.evasion_count}")
+        average_evasion = average_evasion + agent_one.evasion_count
         agent_one.evasion_count = 0
+
+        print(f"average evasion count: {average_evasion / (i+1)}")
         print(f"Stop count: {agent_one.stop_count}")
+        average_stop = average_stop + agent_one.stop_count
         agent_one.stop_count = 0
+
+        print(f"average stop count: {average_stop / (i+1)}")
 
 
         if rocket_one_won:

@@ -92,38 +92,16 @@ Metoda \emph{reset()} inicializuje hru do počátečního stavu a tento stav vr�
 \newline 
 A druhá metoda \emph{next\_step(actions\_one, actions\_two)}, která na na základě akcí hráčů, převede hru do následného stavu.
 Právě v této metodě je schovaná celá logika manipulace s vesmírnými objekty popsána výše.
-
-\newpage
+\newline
 \begin{lstlisting}[language=Python]
-def next_step(self, actions_one, actions_two):
-    self.step_count = self.step_count + 1
-    self.reward_one = 0
-    self.reward_two = 0
-
-    self.handle_actions(actions_one, actions_two)
-    self.generate_asteroid()
-    self.check_collisions()
-    self.move_objects()
-    if self.draw_modul is not None:
-        self.render()
-
-    (game_over, player_one_won) = self.check_end()
-    if not game_over:
-        self.reward_one += 1
-        self.reward_two += 1
-
-    current_state = State(self.asteroids_neutral, 
-                          self.rocket_one, 
-                          self.asteroids_one, 
-                          self.bullets_one,
-                          self.rocket_two, 
-                          self.asteroids_two, 
-                          self.bullets_two)
-
-    return self.step_count, \
-           (game_over, player_one_won), \
-           current_state, \
-           (self.reward_one, self.reward_two)
+def next_step(actions_one, actions_two):
+    handle_actions(actions_one, actions_two)
+    generate_asteroid()
+    check_collisions()
+    move_objects()
+    draw_objects()
+    check_end()
+    return step_count, game_over, state, reward    
 \end{lstlisting}
 \newpage
 
@@ -167,17 +145,15 @@ V každém kroku cyklu agenti na základě stavu, ve kterém se herní prostřed
 Kostra herní simulace tedy vypadá následovně:
 
 \begin{lstlisting}[language=Python]
-    env = Enviroment(draw_module())
-    agent_one = Some_agent(1)
-    agent_two = Some_agent(2)
-    
-
+    env = Enviroment()
+    agent_one = Some_agent()
+    agent_two = Some_agent()    
     state = env.reset()
     game_over = False
+
     while not game_over:
         actions_one = agent_one.choose_actions(state)    
         actions_two = agent_two.choose_actions(state)
         
-        _, (game_over, player_one_won), state, _ = \
-            env.next_step(actions_one, actions_two)
+        game_over, state = env.next_step(actions_one, actions_two)
 \end{lstlisting}

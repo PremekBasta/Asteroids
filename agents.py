@@ -965,7 +965,7 @@ class Agent():
                                                                                                enemy_asteroids,
                                                                                                own_bullets,
                                                                                                enemy_bullets)
-        return (attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count),(attack_actions, defense_shoot_actions, evade_actions, stop_actions)
+        return (attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count, impact_steps_count),(attack_actions, defense_shoot_actions, evade_actions, stop_actions)
 
 
 class Attacking_agent(Agent):
@@ -1382,7 +1382,7 @@ class Genetic_agent(Agent):
         actions = []
         if self.reevaluate_plan():
             (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count), impact_steps_count = self.get_state_stats(state)
-            actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count, impact_steps_count)
+            actions_index = self.decision_function(attack_steps_count, evade_steps_count, stop_steps_count, impact_steps_count)
             if actions_index() == ActionPlanEnum.ATTACK:
                 actions = attack_actions
                 self.attack_count+=1

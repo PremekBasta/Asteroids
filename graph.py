@@ -6,29 +6,33 @@ def plot_games_times():
     times = []
     lengths = []
     with open("Recalculaction_of_plans", mode="r") as f:
-        for count, line in enumerate(f, start=0):
-            splits = line.split()
-            times.append(float(splits[1]))
-            lengths.append(float(splits[2]))
+        #for count, line in enumerate(f, start=0):
+        #    splits = line.split()
+        #    times.append(float(splits[1]))
+        #    lengths.append(float(splits[2]))
 
         print(times)
         print(lengths)
 
-        fix, axs = plt.subplots(2)
-        axs[0].plot(times)
-        axs[0].set(ylabel = 'Čas hry v sekundách')
+        #fix, axs = plt.subplots(2)
+        #axs[0].plot(times)
+        #axs[0].set(ylabel = 'Čas hry v sekundách')
 
-        axs[1].plot(lengths)
-        axs[1].set(xlabel='Počet pasivních kroků', ylabel='Počet kroků hry')
+        #axs[1].plot(lengths)
+        #axs[1].set(xlabel='Počet pasivních kroků', ylabel='Počet kroků hry')
 
+        #plt.show()
 
-        plt.show()
+        averaged_plans = [264,680.2,0,2.4]
+        plans = ["Útok", "Obrana", "Úhyb", "Zastavení"]
 
+        plt.figure(figsize=(5, 4))
+        plt.title("Průměrný počet kroků hry: 1893")
+        plt.suptitle("Výsledek: 10:4")
+        plt.bar(plans,averaged_plans)
+        #plt.ylabel('Reward')
+        plt.xlabel('Akční plán')
 
-        plt.figure(figsize=(15, 12))
-        #plt.plot(averaged_rewards, "-")
-        plt.ylabel('Reward')
-        plt.xlabel('Episode')
         plt.show()
 
 

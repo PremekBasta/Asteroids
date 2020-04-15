@@ -189,9 +189,9 @@ def train_parallel(num_cores = 4, num_episodes = 200):
         #result = sum(return_vals.values()) // 6
         #return result,
 
-def train_single_thread(num_episodes):
-    with open("model_training_2000", "w+") as f:
-        agent_one = DQAgent(player_number=1, num_inputs=4, num_outputs=4)
+def train_single_thread(num_episodes, f):
+    with open("model_training_2000", "w+") as f2:
+        agent_one = DQAgent(player_number=1, num_inputs=5, num_outputs=4)
         agent_two = Stable_defensive_agent(2)
         env = Enviroment()
         for i in range(num_episodes):
@@ -207,9 +207,9 @@ def train_single_thread(num_episodes):
                 action_plan_index = agent_one.choose_action_plan_index(transformed_state)
                 actions_one = agent_one.get_action_from_action_plan(action_plan_index, action_plans)
 
-                actions_two = agent_two.choose_actions(state, [])
+                actions_two = agent_two.choose_actions(state)
 
-                step_count, (game_over, rocket_one_won), state, reward = env.next_step(actions_one, actions_two)
+                step_count, (game_over, rocket_one_won), state, (reward,_) = env.next_step(actions_one, actions_two)
                 if not game_over:
                     reward += 1
 
@@ -222,11 +222,13 @@ def train_single_thread(num_episodes):
                 transformed_state, action_plans = agent_one.get_state_info(state)
                 transformed_state = np.reshape(transformed_state, newshape=(1, -1))
 
-                R += reward
+                #R += reward
 
                 agent_one.record_experience(
                     (old_transformed_state, action_plan_index, reward, transformed_state, game_over))
             agent_one.train()
+
+            R = step_count + reward
 
             # rewards.append(R)
             print(i, R)
@@ -234,8 +236,9 @@ def train_single_thread(num_episodes):
             print(agent_one.history)
             f.write(str(agent_one.history))
             f.write('\n\n')
-    agent_one.model.save(os.path.dirname(os.path.realpath(__file__)) + "/model_single_2000")
+    #agent_one.model.save(os.path.dirname(os.path.realpath(__file__)) + "/model_single_2000")
     f.close()
+    return agent_one.model
 
 
 

@@ -1,4 +1,3 @@
-
 \chapter{Genetické programování}
 
 \section{Základní princip}
@@ -200,9 +199,9 @@ V 97\% volil také obranný akční plán a ve zbylých procentech párkrát vol
 
 \subsection{Experiment 2: Postupné zaměňování úspěšnějšího jedince}
 V tomto experimentu nebylo cílem porazit konkrétního, stálého agenta jako v předchozím případě.
-Cílem v tomto experimentu bylo postupně vybudovat nejzdatnějšího agenta.
-Stejně jako v předchozím případě i zde fitness funkce bude zahrnovat zahrání 6 her. 
-Avšak zde nebudeme počítat žádné speciální hodnoty, jak která z her dopadla, ale spokojíme se s jednoduchou informací, který z agentů danou hru vyhrál.
+Cílem bylo postupně vybudovat nejzdatnějšího jedince.
+Stejně jako v předchozím případě i zde fitness funkce bude zahrnovat zahrání 6 her,
+avšak zde nebudeme počítat žádné speciální hodnoty, jak která z her dopadla, ale spokojíme se s jednoduchou informací, který z agentů danou hru vyhrál.
 \par
 Po celou dobu evoluce si budeme pamatovat současného nejlepšího jedince. 
 Na začátku zinicializujeme zcela náhodného jedince a označíme ho jako současného nejlepšího jedince.
@@ -212,23 +211,42 @@ Evoluce hledá řešení, která budou proti současnému nejlepšímu co nejlep
 Každou 3. generaci se kontroluje, zda již náhodou nebyl v populaci nalezen jedinec, který současně nejlepšího jedince porazil alespoň v 5 ze 6ti her.
 Pokud ano, tak takový jedinec bude nově zvolen jako nejlepší a celý proces bude pokračovat stejným způsobem.
 \par
-Po výměně nejlepšího jedince musíme nově přepočítat fitness funkci všech stávajících jedinců v populaci, protože jejich současná hodnota se vztahovala k původním jedinci.
+Po výměně nejlepšího jedince musíme nově přepočítat fitness funkci všech stávajících jedinců v populaci, protože jejich současná hodnota se vztahovala k původnímu soupeři.
 Rovněž musíme, ze stejného důvodu, smazat všechny jedince ze síně slávy (ang. Hall of fame), kde se průběžně ukládají nejlepší jedinci spolu s hodnotou jejich fitness funkce.
+
 \par
-Všechny tyto, výše zmíněné, změny už nelze nakonfigurovat přímočarým způsobem jako v předchozím experimentu. 
-Ale bylo zapotřebí upravit samotnou kostru evolučního algoritmus.
+Všechny tyto změny už nelze nakonfigurovat přímočarým způsobem jako v předchozím experimentu, ale bylo zapotřebí upravit samotnou kostru evolučního algoritmu.
+\par
+Algoritmus byl spuštěn s následujícími parametry
+\begin{itemize}
+    \item Velikost populace: 10
+    \item Pravděpodobnost křížení: 60\%
+    \item Pravděpodobnost mutace: 20\%
+    \item Počet generací: 450
+    \item Metoda selekce: turnajová selekce
+\end{itemize}
+
+Tento experiment přinesl lepší výsledky. Jako v předchozím případě jsem nechal hrát nalezeného agenta proti obranému agentovi.
+Nalezený agent se oproti předchozímu agentu dokázal naučit lépe utočit, volil útočný akční plán ve 27.9\% případů. 
+Nicméně ani tentokrát se agent nenaučil nic jiného než obranu a útok (viz \ref{obr04:Výsledek experimentu 02}). 
+Zastavovací akční plán volil v méně než 1\% případů a úhybný plán nezvolil dokonce ani jednou. Volba zastavovacího akčního plánu bez použití úhybu mimo jiné znamená, že agent v rámci tohoto plánu neprováděl žádné akce.
+\par
+Výsledný souboj mezi agenty byl proveden s hodnotou \emph{\uppercase{inactive\_steps\_limit}} nastavenou na 1.
+S vyššími hodnotami zřejmě agent nestíhá včas reagovat na současnou situaci a útočí ve stavech, kdy by se měl bránit.
+Dalším nedostatkem tohoto experimentu se ukázala být citlivost na nastavení náhodného generátoru. Při nastavení některých jiných hodnot \emph{\uppercase{random\_seed}} souboj mezi nalezeným agentem a agentem obranným neskončil tak zřejmým vítězstvím nad obranným agentem a při některých hodnotách dokonce obranný agent porážel získaného agenta.
+
+ 
+
+
+\begin{figure}[p]\centering
+\includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment02Results.png}
+\caption{Výsledek experimentu 02}
+\label{obr04:Výsledek experimentu 02}
+\end{figure}
 
 
 
 
-2.) Zde postupné volení lepšího a lepšího jedince vzájemnými souboji.
-Na začátku zvolit náhodného jedince jakožto nejlepšího. Nechat ho zahrát s ostastními a ten, kdo ho nejvíckrát porazil, tak ho nahradí.
-Ten bude nahrazen až se najde protivník s 5 ze 6 výher proti němu.
-Zde bylo třeba mírně upravit kostru algoritmu. Smazání Hall of fame po smazání.
-každé 3 generace kontrola, zda už nebyl naleen nějaký lepší soupeř.
-Celkově jsem zahrál 500 generací.
-Výsledkem je dobrý jedinec, který poráží Stable Deffensive Agenta, ale pouze v nějakých random seedech. Při vysokém inactive steps začne prohrávat.
-Výsledný poměr vobly akčních plánů je 2/3 obrana, 1/3 útok
 
 
 
