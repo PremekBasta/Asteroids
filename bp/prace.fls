@@ -245,8 +245,6 @@ INPUT /home/premek/Asteroids/bp/kap04.aux
 INPUT /home/premek/Asteroids/bp/kap04.aux
 INPUT /home/premek/Asteroids/bp/kap05.aux
 INPUT /home/premek/Asteroids/bp/kap05.aux
-INPUT /home/premek/Asteroids/bp/kap06.aux
-INPUT /home/premek/Asteroids/bp/kap06.aux
 OUTPUT /home/premek/Asteroids/bp/prace.aux
 INPUT /home/premek/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
 INPUT /home/premek/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
@@ -366,17 +364,9 @@ INPUT ./Obrazky/Experiment02Results.png
 INPUT ./Obrazky/Experiment02Results.png
 INPUT ./Obrazky/Experiment02Results.png
 INPUT ./Obrazky/Experiment02Results.png
-INPUT agent_enviroment.png
-INPUT ./agent_enviroment.png
-INPUT ./agent_enviroment.png
-INPUT ./agent_enviroment.png
-INPUT ./agent_enviroment.png
 OUTPUT /home/premek/Asteroids/bp/kap05.aux
 INPUT /home/premek/Asteroids/bp/kap05.tex
 INPUT /home/premek/Asteroids/bp/kap05.tex
-OUTPUT /home/premek/Asteroids/bp/kap06.aux
-INPUT /home/premek/Asteroids/bp/kap06.tex
-INPUT /home/premek/Asteroids/bp/kap06.tex
 INPUT /home/premek/Asteroids/bp/prace.lof
 INPUT /home/premek/Asteroids/bp/prace.lof
 OUTPUT /home/premek/Asteroids/bp/prace.lof
@@ -395,8 +385,6 @@ INPUT /home/premek/Asteroids/bp/kap04.aux
 INPUT /home/premek/Asteroids/bp/kap04.aux
 INPUT /home/premek/Asteroids/bp/kap05.aux
 INPUT /home/premek/Asteroids/bp/kap05.aux
-INPUT /home/premek/Asteroids/bp/kap06.aux
-INPUT /home/premek/Asteroids/bp/kap06.aux
 INPUT /home/premek/Asteroids/bp/prace.out
 INPUT /home/premek/Asteroids/bp/prace.out
 INPUT /home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathsy.enc

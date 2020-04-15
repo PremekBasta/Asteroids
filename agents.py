@@ -1456,7 +1456,7 @@ class DQAgent(Agent):
         self.batch_size = batch_size
         self.num_batches = num_batches
         self.eps = 1.0
-        self.eps_decay = 0.9985
+        self.eps_decay = 0.997
         self.gamma = 0.95
         self.exp_buffer = []
         self.inactiv_ticks = 0
