@@ -1382,7 +1382,7 @@ class Genetic_agent(Agent):
         actions = []
         if self.reevaluate_plan():
             (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count), impact_steps_count = self.get_state_stats(state)
-            actions_index = self.decision_function(attack_steps_count, evade_steps_count, stop_steps_count, impact_steps_count)
+            actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count, impact_steps_count)
             if actions_index() == ActionPlanEnum.ATTACK:
                 actions = attack_actions
                 self.attack_count+=1
@@ -1456,7 +1456,7 @@ class DQAgent(Agent):
         self.batch_size = batch_size
         self.num_batches = num_batches
         self.eps = 1.0
-        self.eps_decay = 0.997
+        self.eps_decay = 0.998
         self.gamma = 0.95
         self.exp_buffer = []
         self.inactiv_ticks = 0
@@ -1475,7 +1475,7 @@ class DQAgent(Agent):
     def build_model(self):
         self.model = tf.keras.models.Sequential([tf.keras.layers.Dense(24, activation=tf.nn.relu, input_dim=self.num_inputs, name='dense_1'),
                                                  tf.keras.layers.Dense(24, activation=tf.nn.relu, name = 'dense_02'),
-                                                 tf.keras.layers.Dense(self.num_outputs, activation='linear')])
+                                                 tf.keras.layers.Dense(self.num_outputs, activation='linear', name='dense_03')])
         opt = tf.keras.optimizers.Adam(lr=0.001)
         self.model.compile(optimizer=opt, loss='mse')
 

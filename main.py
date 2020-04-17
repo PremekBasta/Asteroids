@@ -46,12 +46,12 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
 
 
 if __name__ == "__main__":
-    #model_one = tf.keras.models.load_model("LL_DQ_stable_deffensive_opponent/20000_LL_DQ_stable_defensive_opponent_model")
+    model_one = tf.keras.models.load_model("LL_DQ_stable_deffensive_opponent/10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_model_1")
     #model_two = tf.keras.models.load_model("LL_DQ_2_players/20000_LL_DQ_2_players_model_two")
 
     draw_module = draw_module()
     draw_module = None
-    #agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
+    agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
     #agent_one = Evasion_agent(player_number=1, draw_modul = draw_module)
     #agent_one = Stable_defensive_agent(1)
     #agent_two = Stable_defensive_agent(2)
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     env = Enviroment(draw_module)
     state = env.reset()
 
-    agent_one = Genetic_agent(1, return_individual())
+    #agent_one = Genetic_agent(1, return_individual())
     #agent_one = Evasion_agent(1, draw_module)
     #agent_one = Stable_defensive_agent(1)
     agent_two = Stable_defensive_agent(2)
@@ -88,6 +88,8 @@ if __name__ == "__main__":
     average_attack = 0
     average_evasion = 0
     average_stop = 0
+
+    memory = []
 
     for i in range(40):
         game_over = False
@@ -158,6 +160,13 @@ if __name__ == "__main__":
 
         print(f"Rocket one wins: {RocketOne_wins}")
         print(f"Rocket two wins: {RocketTwo_wins}")
+
+        print(agent_one.history)
+        memory.append(agent_one.history)
+        agent_one.history = [0,0,0,0,0,0]
+
+        if(RocketOne_wins == 10 or RocketTwo_wins == 10):
+            print(memory)
 
 
 

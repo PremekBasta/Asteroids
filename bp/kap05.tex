@@ -37,19 +37,25 @@ Vstupy neuronové sítě jsem si zvolil následující hodnoty:
 \end{itemize}
 
 Jako nepřátelského agenta v tomto experimentu jsem zvolil agenta obranného.
-Epsilon bylo nastaveno na 0.9985. Pro trénování bylo zahráno 2000 her.
+Epsilon bylo nastaveno na 0.9985. Pro trénování bylo zahráno 10000 her.
 
-\todo{Graf průběžných výher}
 
 
 % 10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_model_1
 % 10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_1.txt
 
-Výsledný agent proti obrannému agentovi nedopadl moc úspěšně. V souboji byl jednoznačně poražen se skórem 0:10.
+Výsledný agent proti obrannému agentovi nedopadl úspěšně. V souboji byl jednoznačně poražen se skóre 0:10.
 V přehledu používaných akcí během souboje vidíme, že elementární agent používal v drtivé většině rotaci a střely.
 To v praxi znamená, že se agent naučil točit dokola a kdykoliv může, tak vystřelit. Tato strategie skutečně přináší nějaké výsledky.
 Agent tak rozstřeluje kolem letící asteroidy do všech různých směrů, avšak rozhoduje se pro toto chování bezmyšlenkovitě. Nemíří na žádné konkrétní asteroidy, ani na nepřátelskou loď.
 Největší slabinou je, že agent se prakticky vůbec nenaučil bránit se. Zřejmě bylo v rámci trénování neuronové sítě nalezeno lokální optimum.
+
+\begin{figure}[p]\centering
+\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment04Results.png}
+\caption{Výsledek experimentu 4}
+\label{obr06:Výsledek experimentu 04}
+\end{figure}
+    
 
 
 
@@ -63,3 +69,4 @@ Parametry trénování: ...
 
 
 
+,

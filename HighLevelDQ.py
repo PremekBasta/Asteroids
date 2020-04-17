@@ -189,12 +189,13 @@ def train_parallel(num_cores = 4, num_episodes = 200):
         #result = sum(return_vals.values()) // 6
         #return result,
 
-def train_single_thread(num_episodes, f):
-    with open("model_training_2000", "w+") as f2:
-        agent_one = DQAgent(player_number=1, num_inputs=5, num_outputs=4)
+def train_single_thread(num_episodes, eps, model, offset=0):
+    with open("HL_DQ/model_training_1500", "a+") as f:
+        agent_one = DQAgent(player_number=1, num_inputs=5, num_outputs=4, model=model)
+        agent_one.eps = eps
         agent_two = Stable_defensive_agent(2)
         env = Enviroment()
-        for i in range(num_episodes):
+        for i in range(offset, num_episodes):
             rewards = []
             agent_one.history = [0, 0, 0, 0]
             state = env.reset()
@@ -228,6 +229,10 @@ def train_single_thread(num_episodes, f):
                     (old_transformed_state, action_plan_index, reward, transformed_state, game_over))
             agent_one.train()
 
+            if i % 50 == 0:
+                tf.keras.models.save_model(agent_one.model, "HL_DQ/DQ_stable_deffensive_opponent_model_auto_save")
+                print(f"model saved")
+
             R = step_count + reward
 
             # rewards.append(R)
@@ -246,6 +251,12 @@ def train_single_thread(num_episodes, f):
 
 if __name__ == '__main__':
     print(datetime.now())
-    #train_single_thread(2000)
-    train_parallel(4,100)
+    try:
+        model = tf.keras.models.load_model("HL_DQ/DQ_stable_deffensive_opponent_model_auto_save")
+    except:
+        model = None
+
+
+
+    train_single_thread(1500, 1.0, model, offset=0)
     print(datetime.now())

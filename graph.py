@@ -23,14 +23,15 @@ def plot_games_times():
 
         #plt.show()
 
-        averaged_plans = [264,680.2,0,2.4]
-        plans = ["Útok", "Obrana", "Úhyb", "Zastavení"]
+        averaged_plans = [1379.6,0.7,9.1,0.5,259.2,0.2]
+        plans = ["Rotace \nvlevlo", "Rotace \nvpravo", "Akcelerace", "Střela", "Rozdvojovací \nstřela", "Prázdná \nakce"]
 
-        plt.figure(figsize=(5, 4))
-        plt.title("Průměrný počet kroků hry: 1893")
-        plt.suptitle("Výsledek: 10:4")
+        plt.figure(figsize=(8,6))
+        plt.title("Průměrný počet kroků hry: 1649.3")
+        plt.suptitle("Výsledek: 0:10")
         plt.bar(plans,averaged_plans)
         #plt.ylabel('Reward')
+        #plt.xticks(rotation="vertical")
         plt.xlabel('Akční plán')
 
         plt.show()
