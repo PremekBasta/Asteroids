@@ -190,8 +190,9 @@ def train_parallel(num_cores = 4, num_episodes = 200):
         #return result,
 
 def train_single_thread(num_episodes, eps, model, offset=0):
-    with open("HL_DQ/model_training_1500", "a+") as f:
-        agent_one = DQAgent(player_number=1, num_inputs=5, num_outputs=4, model=model)
+    with open("HL_DQ/extended_model_training_3001asd", "a+") as f:
+        record_experience = True
+        agent_one = DQAgent(player_number=1, num_inputs=9, num_outputs=4, model=model)
         agent_one.eps = eps
         agent_two = Stable_defensive_agent(2)
         env = Enviroment()
@@ -203,10 +204,28 @@ def train_single_thread(num_episodes, eps, model, offset=0):
             transformed_state = np.reshape(transformed_state, newshape=(1, -1))
             game_over = False
             R = 0
+            print(datetime.now())
             while not game_over:
                 old_transformed_state = transformed_state
-                action_plan_index = agent_one.choose_action_plan_index(transformed_state)
-                actions_one = agent_one.get_action_from_action_plan(action_plan_index, action_plans)
+
+                if action_plans != ([],[],[],[]):
+                    not_empty = 0
+                    for index in range(4):
+                        if action_plans[index] != []:
+                            not_empty += 1
+                            action_plan_index = index
+
+                    if not_empty == 1:
+                        actions_one = agent_one.get_action_from_action_plan(action_plan_index, action_plans)
+                        agent_one.history[action_plan_index] +=1
+                    else:
+                        action_plan_index = agent_one.choose_action_plan_index(transformed_state)
+                        actions_one = agent_one.get_action_from_action_plan(action_plan_index, action_plans)
+                    record_experience = True
+                else:
+                    action_plan_index = agent_one.choose_random_action_plan()
+                    actions_one = []
+                    record_experience = False
 
                 actions_two = agent_two.choose_actions(state)
 
@@ -223,14 +242,14 @@ def train_single_thread(num_episodes, eps, model, offset=0):
                 transformed_state, action_plans = agent_one.get_state_info(state)
                 transformed_state = np.reshape(transformed_state, newshape=(1, -1))
 
-                #R += reward
+                if record_experience:
+                    agent_one.record_experience(
+                        (old_transformed_state, action_plan_index, reward, transformed_state, game_over))
 
-                agent_one.record_experience(
-                    (old_transformed_state, action_plan_index, reward, transformed_state, game_over))
             agent_one.train()
 
             if i % 50 == 0:
-                tf.keras.models.save_model(agent_one.model, "HL_DQ/DQ_stable_deffensive_opponent_model_auto_save")
+                tf.keras.models.save_model(agent_one.model, "HL_DQ/DQ_stable_deffensive_opponent_extended_model_auto_savegf")
                 print(f"model saved")
 
             R = step_count + reward
@@ -241,7 +260,6 @@ def train_single_thread(num_episodes, eps, model, offset=0):
             print(agent_one.history)
             f.write(str(agent_one.history))
             f.write('\n\n')
-    #agent_one.model.save(os.path.dirname(os.path.realpath(__file__)) + "/model_single_2000")
     f.close()
     return agent_one.model
 
@@ -252,11 +270,11 @@ def train_single_thread(num_episodes, eps, model, offset=0):
 if __name__ == '__main__':
     print(datetime.now())
     try:
-        model = tf.keras.models.load_model("HL_DQ/DQ_stable_deffensive_opponent_model_auto_save")
+        model = tf.keras.models.load_model("HL_DQ/DQ_stable_deffensive_opponent_extended_model_auto_save")
     except:
         model = None
 
 
 
-    train_single_thread(1500, 1.0, model, offset=0)
+    train_single_thread(3001, 1, model, offset=0)
     print(datetime.now())

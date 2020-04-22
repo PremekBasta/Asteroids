@@ -22,7 +22,7 @@ class State:
                                                   ,
                                                   player_one_rocket.speedy
                                                   # // 8
-                                                  , player_one_rocket.angle, player = player_one_rocket.player)
+                                                  , player_one_rocket.angle, player = player_one_rocket.player, health=player_two_rocket.health)
         # Asteroids ONE
         self.player_one_asteroids = []
         for player_one_asteroid in player_one_asteroids:
@@ -51,7 +51,7 @@ class State:
                                                   ,
                                                   player_two_rocket.speedy
                                                   # / 8
-                                                  , player_two_rocket.angle, player = player_two_rocket.player)
+                                                  , player_two_rocket.angle, player = player_two_rocket.player, health=player_two_rocket.health)
         #Asteroids TWO
         self.player_two_asteroids = []
         for player_two_asteroid in player_two_asteroids:

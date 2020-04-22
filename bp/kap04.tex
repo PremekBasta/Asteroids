@@ -152,28 +152,23 @@ Jedinec, podobně jako u symbolické regrese, je funkce, tedy může být reprez
 \subsection{Experiment 1: Soupeření s obranným agentem}
 Cílem tohoto experimentu bylo vyvinout agenta, který bude lepší než agent, který se řídí čistě obranným akčním plánem.
 Výpočet fitness funkce zahrnuje zahrání 6 her současného jedince s obranným agentem a výsledek je průměr z hodnot každé z her.
-Hra je pokaždé velmi náhodná, tedy zahrání jedné hry by mělo nízkou vypovídající hodnotu. Proto jsem pro přesnější informaci zvolit zahrání 6 her.
+Hra je pokaždé velmi náhodná, tedy zahrání jedné hry by mělo nízkou vypovídající hodnotu. Proto jsem pro přesnější informaci zvolil zahrání 6 her.
 Hodnota zahrané hry se skládá z více částí.
 \begin{itemize}
     \item Počet kroků trvání hry
         \newline
-        Myšlenkou je zde, obzvláště v počátku evoluce, upřednostňovat takové jedince, kteří dokážou vydržet ve hře co nejdéle, tedy nejsou ve hře okamžitě poraženi.
-        Délka hry se pohybuje pro představu v intervalu $(900,2900)$ kroků.
+        Myšlenkou je zde, obzvláště v počátku evoluce, upřednostňovat takové jedince, kteří dokáží vydržet ve hře co nejdéle, tedy nejsou ve hře okamžitě poraženi.
+        Pro představu, délky her se pohybují přibližně v intervalu $(900,2900)$ kroků.
     \item Penalizace za nevyužití některého z plánů
         \newline
         Během hry se udržuje historie, kolikrát se agent rozhodl pro každý z akčních plánů.
-        Za každý ze čtyř akčních plánů, který agent ani jednou během hry nezvolil získá penalizaci -500. Cílem těchto penalizací je upřednostňovat takové jedince, kteří používají všechny akční plány. 
-        Toto jsem se rozhodl udělat pro větší diverzifikaci jedinců.
-    \item Extra bonus za útočný a obranný plán 
-        \todo{Zkontrolovat zda je toto spravne}
-        \newline
-        Přestože chci od jedinců aby používali všechny akční plány, tak očekávám, že hledaný agent bude převážně používat útočný a obranný plán.
-        K výsledné hodnotě se přičte počet kroků, ve kterém agent zvolil útočný nebo obranný akční plán.    
+        Za každý ze čtyř akčních plánů, který agent ani jednou během hry nezvolil bude přičtena penalizace -500. Cílem těchto penalizací je upřednostňovat takové jedince, kteří používají všechny akční plány. 
+        Toto jsem se rozhodl udělat pro větší diverzifikaci herní strategie.
     \item Bonus/penalizace za výhru/prohru
         \newline
         Toto je asi nejdůležitější část. Pro zdůraznění rozdílu mezi vyhranými a prohranými hrami se v případě výhry přičtou k výsledku 2000 a v případě prohry se 2000 odečtou.
-        Motivací mohou být následující dvě situace. V jedné hře se podařilo jedinci dlouho bránit, řekněme, že vydržel 2500 kroků hry a poté prohrál. V druhé hře porazil soupeře v rychlých 1200 krocích. 
-        Bez bonusu za vyhranou hru, by prohraná hra získala jedinci daleko vyšší hodnotu, než hra, kterou vyhrál.        
+        Motivací mohou být následující dvě situace. V jedné hře se podařilo jedinci dlouho bránit, řekněme, že vydržel 2500 kroků hry a poté prohrál. A v další situaci jedinec porazil soupeře v rychlých 1200 krocích. 
+        Bez bonusu za vyhranou hru, by prohraná hra získala jedinci daleko vyšší hodnotu, než hra z druhé hry, kterou vyhrál.        
     
 \end{itemize}
 
@@ -186,13 +181,18 @@ Algoritmus byl spuštěn s následujícími parametry:
     \item Metoda selekce: turnajová selekce
 \end{itemize}
 
-Výsledný nejlepší jedinec bohužel nesplnil naše očekávání. Zde předkládám data získané ze zahrání 20 her proti obrannému agentovi.
+Výsledný nejlepší jedinec bohužel nesplnil naše očekávání a nedokázal obranného agenta porazit. 
+V souboji jedinec nejen nedokázal konkurovat obrannému agentovi, ale ani se neřídí moc rozlišnou strategií.
 
 \todo{doplnit reálná čísla}
 Náš nalezený agent nejen není lepší než obranný agent, ale ani nemá moc odlišný přístup k volbě akčních plánů. 
 V 97\% volil také obranný akční plán a ve zbylých procentech párkrát volil všechny ostatní akční plány, tohoto bylo zřejmě docíleno kvůli penalizaci nepoužívání některých z akčních plánů.
 
-
+\begin{figure}[p]\centering
+\includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment01Results.png}
+\caption{Výsledek experimentu 1}
+\label{Výsledek experimentu 01}
+\end{figure}
 
 
 

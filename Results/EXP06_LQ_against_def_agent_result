@@ -1,0 +1,12 @@
+LL_DQ_stable_deffensive_opponent/10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_model_1
+
+random seed 120
+INACTIV_STEPS_LIMIT = -1
+
+averaged_actions = [1260.3, 0.2,10.5,0.1, 221.6,0.3]
+plans = ["Rotace \nvlevlo", "Rotace \nvpravo", "Akcelerace", "Střela", "Rozdvojovací \nstřela", "Prázdná \nakce"]
+
+
+plt.figure(figsize=(8,6))
+plt.title("Průměrný počet kroků hry: 1493")
+plt.suptitle("Výsledek: 0:10")

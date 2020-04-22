@@ -1,7 +1,7 @@
 import random, copy
 from sprite_object import Bullet, RocketBaseAction, Asteroid,Rocket, AsteroidSize
 from constants import *
-#import pygame
+import pygame
 import time
 import math
 from dto import collides, Space_object_DTO, copy_object
@@ -66,6 +66,8 @@ class Agent():
         else:
             actions = []
             self.plan = []
+            # TODO: added, check
+            self.finished_plan = True
             self.finished_plan_attack = True
             self.finished_plan_evasion = True
             self.finished_plan_gp = True
@@ -123,7 +125,19 @@ class Agent():
     def object_object_vector(self, objA, objB):
         return [objA.centerx - objB.centerx, objA.centery - objB.centery]
 
-    def find_N_closest_asteroids(self, rocket, neutral_asteroids, enemy_asteroids, N):
+    def number_of_asteroids_in_range(self, rocket, neutral_asteroids, enemy_asteroids, range=ENEMY_ASTEROIDS_RADIUS):
+        range_squared = range * range
+        number_of_asteroids = 0
+        for neutral_asteroid in neutral_asteroids:
+            if self.rocket_asteroid_distance_squared(rocket, neutral_asteroid) < range_squared:
+                number_of_asteroids +=1
+
+        for enemy_asteroid in enemy_asteroids:
+            if self.rocket_asteroid_distance_squared(rocket, enemy_asteroid) < range_squared:
+                number_of_asteroids += 1
+        return number_of_asteroids
+
+    def find_N_closest_asteroids(self, rocket, neutral_asteroids, enemy_asteroids, N=3):
         arr = []
         for neutral_asteroid in neutral_asteroids:
             arr.append([self.object_object_vector(neutral_asteroid, rocket),
@@ -154,7 +168,7 @@ class Agent():
 
         enemy_rocket_vector = self.object_object_vector(own_rocket, enemy_rocket)
         enemy_speed = [enemy_rocket.speedx, enemy_rocket.speedy]
-        near_asteroids = self.find_N_closest_asteroids(own_rocket, neutral_asteroids, enemy_asteroids, N_nearest_asteroids)
+        near_asteroids = self.find_N_closest_asteroids(own_rocket, neutral_asteroids, enemy_asteroids, N=3)
 
         asteroids_positions = []
         for near_asteroid in near_asteroids:
@@ -940,6 +954,9 @@ class Agent():
         impact, impact_asteroid, impact_steps_count = self.first_impact_asteroid(own_rocket, neutral_asteroids,
                                                                                     own_bullets, enemy_asteroids)
 
+        number_of_close_asteroids = self.number_of_asteroids_in_range(own_rocket, neutral_asteroids, enemy_asteroids)
+        total_number_of_dangerous_asteroids = len(neutral_asteroids) + len(enemy_asteroids)
+
         attack_actions = []
         attack_steps_count = NOT_FOUND_STEPS_COUNT
 
@@ -965,7 +982,16 @@ class Agent():
                                                                                                enemy_asteroids,
                                                                                                own_bullets,
                                                                                                enemy_bullets)
-        return (attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count, impact_steps_count),(attack_actions, defense_shoot_actions, evade_actions, stop_actions)
+        return (attack_steps_count,
+                defense_steps_count,
+                evade_steps_count,
+                stop_steps_count,
+                impact_steps_count,
+                number_of_close_asteroids,
+                total_number_of_dangerous_asteroids,
+                own_rocket.health,
+                enemy_rocket.health),\
+               (attack_actions, defense_shoot_actions, evade_actions, stop_actions)
 
 
 class Attacking_agent(Agent):
@@ -1045,12 +1071,11 @@ class Random_agent(Agent):
         return actions
 
 class Evasion_agent(Agent):
-    def __init__(self, player_number, draw_modul = None):
+    def __init__(self, player_number):
         super().__init__(player_number)
         self.shoot_reload_ticks = 0
         self.inactive_steps = 0
         self.finished_plan_evasion = True
-        self.draw_modul = draw_modul
 
 
     def choose_actions(self, state):
@@ -1081,7 +1106,7 @@ class Evasion_agent(Agent):
                     return super().convert_actions([])
 
             if impact_asteroid is not None and impact_steps < 25:
-                actions, steps_count = super().evade_asteroid(own_rocket, impact_asteroid, self.draw_modul)
+                actions, steps_count = super().evade_asteroid(own_rocket, impact_asteroid)
                 super().store_plan(actions)
         else:
             self.inactive_steps = self.inactive_steps + 1
@@ -1377,28 +1402,40 @@ class Genetic_agent(Agent):
         self.decision_function = decision_function
         self.penalty = 0
         self.finished_plan_gp = False
+        self.history=[0,0,0,0]
 
     def choose_actions(self, state):
         actions = []
         if self.reevaluate_plan():
             (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count), impact_steps_count = self.get_state_stats(state)
-            actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count, impact_steps_count)
-            if actions_index() == ActionPlanEnum.ATTACK:
-                actions = attack_actions
-                self.attack_count+=1
-            elif actions_index() == ActionPlanEnum.DEFFENSE:
-                actions = defense_shoot_actions
-                self.defense_count+=1
-            elif actions_index() == ActionPlanEnum.EVASION:
-                actions = evade_actions
-                self.evasion_count+=1
-            elif actions_index() == ActionPlanEnum.STOP:
-                actions = stop_actions
-                self.stop_count+=1
-            else:
-                self.penalty = self.penalty + 1
+
+            ###
+            action_plans = (attack_actions, defense_shoot_actions, evade_actions, stop_actions)
+            if action_plans != ([],[],[],[]):
+                actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count,
+                                                       stop_steps_count, impact_steps_count)
+                if actions_index() == ActionPlanEnum.ATTACK:
+                    actions = attack_actions
+                    self.history[int(ActionPlanEnum.ATTACK.value)] += 1
+                    self.attack_count += 1
+                elif actions_index() == ActionPlanEnum.DEFFENSE:
+                    actions = defense_shoot_actions
+                    self.history[int(ActionPlanEnum.DEFFENSE.value)] += 1
+                    self.defense_count += 1
+                elif actions_index() == ActionPlanEnum.EVASION:
+                    actions = evade_actions
+                    self.history[int(ActionPlanEnum.EVASION.value)] += 1
+                    self.evasion_count += 1
+                elif actions_index() == ActionPlanEnum.STOP:
+                    actions = stop_actions
+                    self.history[int(ActionPlanEnum.STOP.value)] += 1
+                    self.stop_count += 1
+
+            ###
 
             super().store_plan(actions)
+
+
 
         return super().convert_actions(super().choose_action_from_plan())
 
@@ -1435,11 +1472,11 @@ class Genetic_agent(Agent):
             evade_actions, evade_steps_count = super().evade_asteroid(own_rocket, impact_asteroid)
             defense_shoot_actions, defense_steps_count = super().defense_shoot_asteroid_actions(own_rocket,
                                                                                                 impact_asteroid)
-        if self.odd < 1:
-            self.odd = self.odd + 1
-        else:
-            self.odd = 0
-            hit, attack_actions, attack_steps_count = super().shoot_in_all_directions_to_hit_enemy(own_rocket,
+        #if self.odd < 1:
+        #    self.odd = self.odd + 1
+        #else:
+        #    self.odd = 0
+        hit, attack_actions, attack_steps_count = super().shoot_in_all_directions_to_hit_enemy(own_rocket,
                                                                                                    enemy_rocket,
                                                                                                    state.neutral_asteroids,
                                                                                                    enemy_asteroids,
@@ -1449,14 +1486,14 @@ class Genetic_agent(Agent):
 
 
 class DQAgent(Agent):
-    def __init__(self, player_number, num_inputs, num_outputs, batch_size = 32, num_batches = 64, model = None):
+    def __init__(self, player_number, num_inputs, num_outputs, batch_size = 32, num_batches = 64, model = None, extended = False):
         super().__init__(player_number)
         self.num_inputs = num_inputs
         self.num_outputs = num_outputs
         self.batch_size = batch_size
         self.num_batches = num_batches
         self.eps = 1.0
-        self.eps_decay = 0.998
+        self.eps_decay = 0.9989
         self.gamma = 0.95
         self.exp_buffer = []
         self.inactiv_ticks = 0
@@ -1466,6 +1503,9 @@ class DQAgent(Agent):
         self.stop_count = 0
         self.penalty = 0
         self.odd = 0
+        self.history=[0,0,0,0]
+        self.previous_actions_empty = False
+        self.extended = extended
         if model is None:
             self.build_model()
         else:
@@ -1482,17 +1522,19 @@ class DQAgent(Agent):
     def reevaluate_plan(self, train):
         if train:
             return True
-        if self.inactiv_ticks > INACTIVE_SMART_TIME_LIMIT:
-            self.inactiv_ticks = 0
-            return True
-        self.inactiv_ticks = self.inactiv_ticks + 1
-        return False
+
+        return super().reevaluate_plan()
+
 
     # copied from GP and to ancestor
     def get_state_stats(self, state):
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
         impact, impact_asteroid, impact_steps_count = super().first_impact_asteroid(own_rocket, neutral_asteroids,
                                                                                     own_bullets, enemy_asteroids)
+
+        number_of_close_asteroids = self.number_of_asteroids_in_range(own_rocket, neutral_asteroids, enemy_asteroids)
+        total_number_of_dangerous_asteroids = len(neutral_asteroids) + len(enemy_asteroids)
+
 
         attack_actions = []
         attack_steps_count = NOT_FOUND_STEPS_COUNT
@@ -1512,7 +1554,8 @@ class DQAgent(Agent):
             evade_actions, evade_steps_count = super().evade_asteroid(own_rocket, impact_asteroid)
             defense_shoot_actions, defense_steps_count = super().defense_shoot_asteroid_actions(own_rocket,
                                                                                                 impact_asteroid)
-        if self.odd < 1:
+
+        if self.odd < 1 and not self.extended:
             self.odd = self.odd + 1
         else:
             self.odd = 0
@@ -1522,14 +1565,24 @@ class DQAgent(Agent):
                                                                                                    enemy_asteroids,
                                                                                                    own_bullets,
                                                                                                    enemy_bullets)
-        return (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count)
+        return  (attack_actions, attack_steps_count), \
+                (defense_shoot_actions, defense_steps_count), \
+                (evade_actions, evade_steps_count), \
+                (stop_actions, stop_steps_count), \
+                impact_steps_count, \
+                number_of_close_asteroids, \
+                total_number_of_dangerous_asteroids, \
+                own_rocket.health, \
+                enemy_rocket.health
 
+    def choose_random_action_plan(self):
+        val = np.random.randint(self.num_outputs)
+        self.history[val] += 1
+        return val
 
     def choose_action_plan_index(self, state):
         if np.random.uniform() < self.eps:
-            val = np.random.randint(self.num_outputs)
-            self.history[val] += 1
-            return val
+            return self.choose_random_action_plan()
         else:
             val = np.argmax(self.model.predict(state)[0])
             self.history[val] += 1
@@ -1546,60 +1599,58 @@ class DQAgent(Agent):
     def choose_actions(self, state, train=False):
         if train:
             (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (
-                evade_actions, evade_steps_count), (stop_actions, stop_steps_count) = self.get_state_stats(state)
-            transformed_state = (attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count)
+                evade_actions, evade_steps_count), (stop_actions, stop_steps_count), impact_steps_count = self.get_state_stats(state)
+            transformed_state = (attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count, impact_steps_count)
 
             if np.random.uniform() < self.eps:
                 actions_index = np.random.randint(self.num_outputs)
+            else:
+                actions_index = np.argmax(self.model.predict(transformed_state)[0])
 
-
-        if train and np.random.uniform() < self.eps:
-            actions_index = np.random.randint(self.num_outputs)
 
 
         else:
-            (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (
-            evade_actions, evade_steps_count), (stop_actions, stop_steps_count) = self.get_state_stats(state)
-            transformed_state = (attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count)
-
-            actions_index = np.argmax(self.model.predict(transformed_state)[0])
+            if self.reevaluate_plan(train=False):
 
 
-        if actions_index == ActionPlanEnum.ATTACK:
-            actions = attack_actions
-            self.attack_count+=1
-        elif actions_index == ActionPlanEnum.DEFFENSE:
-            actions = defense_shoot_actions
-            self.defense_count+=1
-        elif actions_index == ActionPlanEnum.EVASION:
-            actions = evade_actions
-            self.evasion_count+=1
-        elif actions_index == ActionPlanEnum.STOP:
-            actions = stop_actions
-            self.stop_count+=1
+                (attack_actions, attack_steps_count), \
+                (defense_shoot_actions, defense_steps_count), \
+                (evade_actions, evade_steps_count), \
+                (stop_actions, stop_steps_count), \
+                impact_steps_count, \
+                number_of_close_asteroids, \
+                total_number_of_dangerous_asteroids, \
+                own_rocket_health, \
+                enemy_rocket_health = self.get_state_stats(state)
 
 
 
-        actions = []
-        if self.reevaluate_plan():
-            (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count) = self.get_state_stats(state)
-            actions_index = self.decision_function(attack_steps_count, defense_steps_count, evade_steps_count)
-            if actions_index() == ActionPlanEnum.ATTACK:
-                actions = attack_actions
-                self.attack_count+=1
-            elif actions_index() == ActionPlanEnum.DEFFENSE:
-                actions = defense_shoot_actions
-                self.defense_count+=1
-            elif actions_index() == ActionPlanEnum.EVASION:
-                actions = evade_actions
-                self.evasion_count+=1
-            elif actions_index() == ActionPlanEnum.STOP:
-                actions = stop_actions
-                self.stop_count+=1
-            else:
-                self.penalty = self.penalty + 1
+                action_plans = [attack_actions, defense_shoot_actions, evade_actions, stop_actions]
 
-            super().store_plan(actions)
+                if self.extended:
+                    transformed_state = (attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count, impact_steps_count, number_of_close_asteroids, total_number_of_dangerous_asteroids, own_rocket_health, enemy_rocket_health)
+                else:
+                    transformed_state = (attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count, impact_steps_count)
+
+                transformed_state = np.array([transformed_state])
+
+                if action_plans != [[],[],[],[]]:
+                    not_empty = 0
+                    valid_index = 0
+                    for index in range(4):
+                        if action_plans[index] != []:
+                            not_empty += 1
+                            valid_index = index
+
+                    if not_empty == 1:
+                        actions = action_plans[valid_index]
+                        self.history[valid_index] +=1
+                    else:
+                        actions_index = np.argmax(self.model.predict(transformed_state)[0])
+                        actions = action_plans[actions_index]
+                        self.history[actions_index] += 1
+
+                    super().store_plan(actions)
 
         return super().convert_actions(super().choose_action_from_plan())
 
@@ -1643,7 +1694,7 @@ class DQAgent(Agent):
             self.eps = self.eps*self.eps_decay
 
 class Low_level_sensor_DQAgent(Agent):
-    def __init__(self, player_number, num_inputs, num_outputs, batch_size = 32, num_batches = 64, model = None):
+    def __init__(self, player_number, num_inputs, num_outputs, batch_size = 32, num_batches = 64, model = None, draw_module = None):
         super().__init__(player_number)
         self.num_inputs = num_inputs
         self.num_outputs = num_outputs
@@ -1662,6 +1713,7 @@ class Low_level_sensor_DQAgent(Agent):
         self.penalty = 0
         self.odd = 0
         self.history = [0, 0, 0, 0, 0, 0]
+        self.draw_module = draw_module
         if model is None:
             self.build_model()
         else:

@@ -4,7 +4,7 @@ from sprite_object import AsteroidSize
 
 
 class Space_object_DTO():
-    def __init__(self, radius, centerx, centery, speedx, speedy, angle, size_index = AsteroidSize.SMALL, player = 1, life_count = 0):
+    def __init__(self, radius, centerx, centery, speedx, speedy, angle, size_index = AsteroidSize.SMALL, player = 1, life_count = 0, health = ROCKET_HEALTH):
         self.radius = radius
         self.centerx = centerx
         self.centery = centery
@@ -14,6 +14,7 @@ class Space_object_DTO():
         self.size_index = size_index
         self.player = player
         self.life_count = life_count
+        self.health = health
 
 
     def move(self, steps_count = 1):

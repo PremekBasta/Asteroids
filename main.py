@@ -3,6 +3,7 @@ from enviroment import Enviroment
 from agents import *
 from gp import return_individual
 import time
+import numpy as np
 
 
 def play_games(num_games, agent_one, agent_two, draw_module = None):
@@ -46,12 +47,14 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
 
 
 if __name__ == "__main__":
-    model_one = tf.keras.models.load_model("LL_DQ_stable_deffensive_opponent/10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_model_1")
-    #model_two = tf.keras.models.load_model("LL_DQ_2_players/20000_LL_DQ_2_players_model_two")
+    model_one = tf.keras.models.load_model("HL_DQ/DQ_stable_deffensive_opponent_model_auto_save")
+    #model_two = tf.keras.models.load_model("DQ_stable_deffensive_opponent_model_auto_save")
 
     draw_module = draw_module()
-    draw_module = None
-    agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
+    #draw_module = None
+    #agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
+    agent_one = DQAgent(player_number=1,num_inputs=5,num_outputs=4,model=model_one,extended = False)
+    #agent_two = DQAgent(player_number=2, num_inputs=5, num_outputs=4, model=model_one, extended=False)
     #agent_one = Evasion_agent(player_number=1, draw_modul = draw_module)
     #agent_one = Stable_defensive_agent(1)
     #agent_two = Stable_defensive_agent(2)
@@ -67,10 +70,10 @@ if __name__ == "__main__":
     env = Enviroment(draw_module)
     state = env.reset()
 
-    #agent_one = Genetic_agent(1, return_individual())
+    agent_two = Genetic_agent(2, return_individual())
     #agent_one = Evasion_agent(1, draw_module)
     #agent_one = Stable_defensive_agent(1)
-    agent_two = Stable_defensive_agent(2)
+    #agent_two = Stable_defensive_agent(2)
     #agent_two = Evasion_agent(2, draw_module)
     # agent_two = Stable_defensive_agent(env.screen, 2)
 
@@ -90,8 +93,9 @@ if __name__ == "__main__":
     average_stop = 0
 
     memory = []
+    memory2 = []
 
-    for i in range(40):
+    for i in range(400):
         game_over = False
         state = env.reset()
         agent_one_actions = []
@@ -161,12 +165,20 @@ if __name__ == "__main__":
         print(f"Rocket one wins: {RocketOne_wins}")
         print(f"Rocket two wins: {RocketTwo_wins}")
 
+
         print(agent_one.history)
         memory.append(agent_one.history)
         agent_one.history = [0,0,0,0,0,0]
 
+        print(agent_two.history)
+        memory2.append(agent_two.history)
+        agent_two.history = [0,0,0,0,0,0]
+
         if(RocketOne_wins == 10 or RocketTwo_wins == 10):
             print(memory)
+            print(np.mean(memory,axis=0))
+            print(memory2)
+            print(np.mean(memory2,axis=0))
 
 
 

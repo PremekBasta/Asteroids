@@ -363,6 +363,11 @@ INPUT ./Obrazky/formule_graph_2.png
 INPUT ./Obrazky/formule_graph_2.png
 INPUT ./Obrazky/formule_graph_2.png
 INPUT ./Obrazky/formule_graph_2.png
+INPUT Obrazky/Experiment01Results.png
+INPUT ./Obrazky/Experiment01Results.png
+INPUT ./Obrazky/Experiment01Results.png
+INPUT ./Obrazky/Experiment01Results.png
+INPUT ./Obrazky/Experiment01Results.png
 INPUT Obrazky/Experiment02Results.png
 INPUT ./Obrazky/Experiment02Results.png
 INPUT ./Obrazky/Experiment02Results.png
@@ -381,6 +386,11 @@ INPUT ./Obrazky/Experiment04Results.png
 INPUT ./Obrazky/Experiment04Results.png
 INPUT ./Obrazky/Experiment04Results.png
 INPUT ./Obrazky/Experiment04Results.png
+INPUT Obrazky/Experiment05Results.png
+INPUT ./Obrazky/Experiment05Results.png
+INPUT ./Obrazky/Experiment05Results.png
+INPUT ./Obrazky/Experiment05Results.png
+INPUT ./Obrazky/Experiment05Results.png
 OUTPUT /home/premek/Asteroids/bp/zaver.aux
 INPUT /home/premek/Asteroids/bp/zaver.tex
 INPUT /home/premek/Asteroids/bp/zaver.tex

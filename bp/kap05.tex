@@ -14,8 +14,14 @@ Kde se používá v praxi.
 \subsection{Úvod}
 Herní prostředí nám v každém kroku vrací i odměnu, kterou oba z hráčů za jejich akci obdrželi. Tuto informaci jsme v experimentech, provedených v rámci genetického programování, nevyužili, ale zde budou hrát velkou roli.
 
+\subsection{Experiment 4: Soupeření s obranným agentem}
+\begin{figure}[p]\centering
+\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment04Results.png}
+\caption{Výsledek experimentu 4}
+\label{obr06:Výsledek experimentu 04}
+\end{figure}
 
-\subsection{Experiment 4: Elementární agent proti obrannému agentovi}
+\subsection{Experiment 5: Elementární agent proti obrannému agentovi}
 V tomto experimentu zkusíme sestoupit od abstrakcí v podobě akčních plánů k elementárním akcím a informacím o stavu.
 I zde bude naším cílem trénování zadané neuronové sítě.
 Tentokrát nebudeme neuronovou síť používat k volbě akčního plánu, ale přímo k volbě elementární akce.
@@ -51,15 +57,15 @@ Agent tak rozstřeluje kolem letící asteroidy do všech různých směrů, av�
 Největší slabinou je, že agent se prakticky vůbec nenaučil bránit se. Zřejmě bylo v rámci trénování neuronové sítě nalezeno lokální optimum.
 
 \begin{figure}[p]\centering
-\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment04Results.png}
-\caption{Výsledek experimentu 4}
-\label{obr06:Výsledek experimentu 04}
+\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment05Results.png}
+\caption{Výsledek experimentu 5}
+\label{obr06:Výsledek experimentu 05}
 \end{figure}
     
 
 
 
-\subsection{Experiment 5: Dva elementární agenti}
+\subsection{Experiment 6: Dva elementární agenti}
 Tento experiment rozšiřuje experiment předchozí. Budeme opět pracovat s elementárním agentem reprezentovaného neuronovou sítí stejného formátu jako v předhozím případě.
 Tentokrát ale ale nebudeme v trénování hrát hry proti obrannému agentovi, nýbrž proti dalšímu elementárnímu agentovi, který bude také zároveň trénován.
 Budeme tedy trénovat dvě neuronové sítě najednou. Teoreticky bychom měli dosáhnout vzájemného adaptivního učení, kde se každý z agentů snaží zlepšovat proti svému nepříteli a postupně se tak budou oba zlepšovat.
