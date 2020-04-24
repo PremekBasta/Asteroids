@@ -68,20 +68,20 @@ def plot_games_times():
         #averaged_plans = [60.5,1885,15.6,20.8]
         #plans = ["Útok", "Obrana", "Úhyb", "Zastavevní"]
 
-        averaged_actions = [1260.3, 0.2,10.5,0.1, 221.6,0.3]
-        plans = ["Rotace \nvlevlo", "Rotace \nvpravo", "Akcelerace", "Střela", "Rozdvojovací \nstřela", "Prázdná \nakce"]
+        averaged_plans = [503.8, 766.8, 0, 0]
+        # plans = ["Rotace \nvlevlo", "Rotace \nvpravo", "Akcelerace", "Střela", "Rozdvojovací \nstřela", "Prázdná \nakce"]
+        plans = ["Útok", "Obrana", "Úhyb", "Zastavevní"]
 
-
-        plt.figure(figsize=(8,6))
-        plt.title("Průměrný počet kroků hry: 1493")
-        plt.suptitle("Výsledek: 0:10")
-        plt.bar(plans,averaged_actions)
+        plt.figure(figsize=(8, 6))
+        plt.title("Průměrný počet kroků hry: 1778.3")
+        plt.suptitle("Výsledek: 10:0")
+        plt.bar(plans,averaged_plans)
         #plt.ylabel('Reward')
         plt.xticks(rotation="vertical")
-        plt.xlabel('Akce')
-        plt.ylabel("Počet vybrání akce")
+        plt.xlabel('Akční plán')
+        plt.ylabel("Počet vybrání plánu ")
 
-        #plt.show()
+        plt.show()
 
 
 def plot_results_of_games():
@@ -108,5 +108,5 @@ def plot_results_of_games():
         plt.show()
 
 if __name__ == "__main__":
-    plot_multi_bar()
+    plot_games_times()
 

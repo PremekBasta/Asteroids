@@ -184,9 +184,8 @@ Algoritmus byl spuštěn s následujícími parametry:
 Výsledný nejlepší jedinec bohužel nesplnil naše očekávání a nedokázal obranného agenta porazit. 
 V souboji jedinec nejen nedokázal konkurovat obrannému agentovi, ale ani se neřídí moc rozlišnou strategií.
 
-\todo{doplnit reálná čísla}
-Náš nalezený agent nejen není lepší než obranný agent, ale ani nemá moc odlišný přístup k volbě akčních plánů. 
-V 97\% volil také obranný akční plán a ve zbylých procentech párkrát volil všechny ostatní akční plány, tohoto bylo zřejmě docíleno kvůli penalizaci nepoužívání některých z akčních plánů.
+V 95\% volil, stejně jako obranný agent, obranný akční plán a ve zbylých pár procentech volil všechny zbylé akční plány (viz \ref{Výsledek experimentu 01}).
+Vyžívání všech akčních plánů bylo pravděpodobně dosaženo právě skrze vysokou penalizaci při nepoužití libovolného z nich, ale vidíme, že agent je volí spíš právě z tohoto důvodu, než že by je chtěl aktivně využívat ve svém rozhodování.
 
 \begin{figure}[p]\centering
 \includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment01Results.png}
@@ -200,16 +199,16 @@ V 97\% volil také obranný akční plán a ve zbylých procentech párkrát vol
 \subsection{Experiment 2: Postupné zaměňování úspěšnějšího jedince}
 V tomto experimentu nebylo cílem porazit konkrétního, stálého agenta jako v předchozím případě.
 Cílem bylo postupně vybudovat nejzdatnějšího jedince.
-Stejně jako v předchozím případě i zde fitness funkce spočívá v zahrání 6 her,
-avšak zde nebudeme počítat žádné speciální hodnoty, jak která z her dopadla, ale spokojíme se s jednoduchou informací, který z agentů danou hru vyhrál.
+Stejně jako v předchozím experimentu i zde fitness funkce spočívá v zahrání šesti her,
+avšak zde nebudeme hrám přiřazovat žádnou hodnotu, ale spokojíme se s jednoduchou informací, který z agentů v dané hře zvítězil.
 \par
 Po celou dobu evoluce si budeme pamatovat současného nejlepšího jedince. 
 Na začátku zinicializujeme zcela náhodného jedince a označíme ho jako současného nejlepšího jedince.
-Pak vytvoříme populaci dalších jedinců a započneme evoluci.
-Fitness funkce jedince bude počítat poměr, kolik ze 6 zahraných her jedinec vyhrál v souboji se současně nejlepším nalezeným řešením.
+Pak obvyklým způsobem vytvoříme populaci dalších jedinců a započneme evoluci.
+Fitness funkce jedince bude počítat poměr, kolik ze šesti zahraných her jedinec vyhrál v souboji se současně nejlepším nalezeným řešením.
 Evoluce hledá řešení, která budou proti současnému nejlepšímu jedinci co nejúspěšnější.
-Každou 3. generaci se kontroluje, zda již náhodou nebyl v populaci nalezen jedinec, který současně nejlepšího jedince porazil alespoň v 5 ze 6ti her.
-Pokud ano, tak takový jedinec bude nově zvolen jako nejlepší a celý proces bude pokračovat stejným způsobem.
+V každé 3. generaci se následně kontroluje, zda již náhodou nebyl v populaci nalezen jedinec, který, pro danou situaci, nejlepšího jedince porazil alespoň v pěti ze šesti hrách.
+Pokud ano, tak takový jedinec bude nově zvolen jako nejlepší a evoluce bude pokračovat stejným způsobem dál.
 \par
 Po výměně nejlepšího jedince musíme nově přepočítat fitness funkci všech stávajících jedinců v populaci, protože jejich současná hodnota se vztahovala k původnímu soupeři.
 Rovněž musíme, ze stejného důvodu, smazat všechny jedince ze síně slávy (ang. Hall of fame), kde se průběžně ukládají nejlepší jedinci spolu s hodnotou jejich fitness funkce.
@@ -227,13 +226,10 @@ Algoritmus byl spuštěn s následujícími parametry
 \end{itemize}
 
 Tento experiment přinesl lepší výsledky. Jako v předchozím případě jsem nechal hrát nalezeného agenta proti obranému agentovi.
-Nalezený agent se oproti předchozímu agentu dokázal naučit lépe utočit, volil útočný akční plán ve 27.9\% případech. 
-Nicméně ani tentokrát se agent nenaučil nic jiného než obranu a útok (viz \ref{obr04:Výsledek experimentu 02}). 
+Nalezený agent se oproti předchozímu agentu dokázal naučit lépe utočit, volil útočný akční plán téměř ve 40\% případech. 
+Nicméně ani tentokrát se agent nenaučil nic jiného než obranu a útok (viz \ref{Výsledek experimentu 02}). 
 Zastavovací akční plán volil v méně než 1\% případů a úhybný plán nezvolil dokonce ani jednou. Volba zastavovacího akčního plánu bez použití úhybu mimo jiné znamená, že agent v rámci tohoto plánu neprováděl žádné akce.
-\par
-Výsledný souboj mezi agenty byl proveden s hodnotou \emph{\uppercase{inactive\_steps\_limit}} nastavenou na 1.
-S vyššími hodnotami v souboji obranný agent více vítězí. Zřejmě agent nestíhá včas reagovat na současnou situaci a útočí ve stavech, kdy by se měl bránit.
-Dalším nedostatkem tohoto experimentu se ukázala být citlivost na nastavení náhodného generátoru. Při nastavení některých jiných hodnot \emph{\uppercase{random\_seed}} souboj mezi nalezeným agentem a agentem obranným neskončil tak zřejmým vítězstvím nad obranným agentem a při některých hodnotách dokonce obranný agent porážel získaného agenta.
+\newpage
 
  
 
@@ -241,21 +237,23 @@ Dalším nedostatkem tohoto experimentu se ukázala být citlivost na nastavení
 \begin{figure}[p]\centering
 \includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment02Results.png}
 \caption{Výsledek experimentu 2}
-\label{obr04:Výsledek experimentu 02}
+\label{Výsledek experimentu 02}
 \end{figure}
 
 \subsection{Experiment 3: Postupné zaměňování úspěšnějšího jedince bez obranného akčního plánu}
 
-V předchozích experimentech se nám podařilo vytvořit agenty, kteří byli schopni konkurovat obrannému agentovi, ale v obou případech se agenti v drtivé většině stavů rozhodují jen mezi obranným a útočným plánem.
-To má za následek, že se agenti po celou dobu hry pouze otáčejí a střílejí, ale zůstavají při tom na tom samém místě.
+V předchozích experimentech se nám v obou případech podařilo vytvořit agenty, kteří v drtivé většině stavů rozhodují jen mezi obranným a útočným plánem.
+To má za následek, že se agenti po celou dobu hry pouze otáčejí a střílejí, ale zůstavají při tom na jednom stejném místě.
 V tomto experimentu se tomuto problému zkusíme vyhnout, tím, že donutíme agenta bránit se uhýbáním namísto sestřelování nebezpečných asteroidů.
 
 \par
-Experiment bude probíhat stejným způsobem jako v předchozím případě, jen s tím rozdílem, že agent nesmí používat obranný plán.
-Z argumentů rozhodovací funkce odstraníme délku nalezeného obranného plánu. A z množiny terminálů používaných pro tvorbu programu odstraníme tu nulární funkci, která vrací hodnotu pro obranný akční plán.
+Experiment bude probíhat stejným způsobem jako v předchozím případě, jen s tím rozdílem, že agentovi zakážeme používání obranného plánu. 
+Z argumentů rozhodovací funkce odstraníme informaci o obranném plánu. 
+A z množiny terminálů používaných při tvorbě programů odstraníme nulární funkci reprezentující obranný akční plán.
 
 \par
 To je vše co je potřeba změnit a zbylá logika zůstává stejná. Opět se snažíme nalézat lepší jedince pomocí vzájemných soubojů.
+
 Algoritmus byl spuštěn s následujícími parametry
 \begin{itemize}
     \item Velikost populace: 10
@@ -265,21 +263,24 @@ Algoritmus byl spuštěn s následujícími parametry
     \item Metoda selekce: turnajová selekce
 \end{itemize}
 
-S výsledným agentem jsme opět provedli souboj s obranným agentem, abychom měli dobré srovnání. 
-První čeho si můžeme všimnout je, že náš agent v souboji prohrál se skóre 1:10, tedy jednoznačně můžeme říct, že nalezený agent není schopný konkurovat obrannému agentovi.
-Druhá skutečnost, která stojí za povšimnutí je průměrná délka hry. Délka hry byla v průměru přibližně o 600 kroků kratší než v případě předchozího experimentu.
+S výsledným agentem jsme opět provedli souboj s obranným agentem.
+První čeho si můžeme všimnout je, že náš agent v souboji prohrál s výsledkem 2:10, tedy bez obranného akčního plánu nebyl schopný tak úspěšně konkurovat obrannému agentovi.
+Druhá skutečnost, která stojí za povšimnutí je průměrná délka hry, ta byla v průměru přibližně o 500 kroků kratší než v předchozím experimentu. 
+Z toho vyplývá, že využívání úhybného akčního plánu k přežívání není tak účinné, jako bránění se pomocí obranného akčního plánu. 
+To ale není nijak překvapivé. Pro agenta je prostředí tím víc nebezepečné, čím více je v něm nebezpečných asteroidů. 
+Používání úhybného akčního plánu vede k uhnutí vesmírné lodi před nebezepčným asteroidem, né před jeho zníčením, jako je to u obranného akčního plánu. To má za následek, že v případě úhybného akčního plánu agent neredukuje počet nebezepčných asteroidů a mnohem dříve se dostane do stavu, kdy nemá šanci se roji asteroidů vyhnout. 
 
 \par
-Zajímavým výsledkem experimentu je také to, že, přestože agent používá akceleraci pro obranu velmi často, ani tentokrát nepoužívá zastavovací akční plán (viz \ref{obr05:Výsledek experimentu 03}).
-
+Zajímavým výsledkem experimentu je také to, že, přestože agent používá, v rámci úhybného akčního plánu, akceleraci pro obranu velmi často, ani tentokrát nepoužívá zastavovací akční plán (viz \ref{Výsledek experimentu 03}).
+To ukazuje, že zastavování letu není pro získání lepších výsledků stěžejní.
 \par
-Výsledný agent v souboji jednoznačně dosáhl špatných výsledků, ale pokud se na hru podíváme vizuálně, tak oproti agentům, kteří zůstávají po celou dobu hry na místě, působí agentovo chování mnohem zajímavěji a lidštěji.
+Výsledný agent v souboji jednoznačně dosáhl špatných výsledků, ale pokud se na hru podíváme vizuálně, tak oproti agentům, kteří zůstávají po celou dobu hry na místě, působí agentovo chování z lidského pohledu mnohem zajímavěji.
 
 
 \begin{figure}[p]\centering
 \includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment03Results.png}
 \caption{Výsledek experimentu 3}
-\label{obr05:Výsledek experimentu 03}
+\label{Výsledek experimentu 03}
 \end{figure}
 
 

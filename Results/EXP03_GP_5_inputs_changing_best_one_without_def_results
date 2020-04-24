@@ -4,9 +4,5 @@ RANDOM_SEED = 120
 INACTIV_STEPS_LIMIT = -1
 
 averaged_plans = [254.8,0,781.6,0]
-#plans = ["Rotace \nvlevlo", "Rotace \nvpravo", "Akcelerace", "Střela", "Rozdvojovací \nstřela", "Prázdná \nakce"]
-plans = ["Útok", "Obrana", "Úhyb", "Zastavevní"]
-
-plt.figure(figsize=(8,6))
-plt.title("Průměrný počet kroků hry: 1266.3")
-plt.suptitle("Výsledek: 2:10")
+"Průměrný počet kroků hry: 1266.3"
+"Výsledek: 2:10"

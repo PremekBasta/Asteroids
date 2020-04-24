@@ -3,7 +3,7 @@ if_then_else(compare(add(add(add(add(add(add(10, 0), add(ARG4, ARG3)), add(mul(1
 RANDOM_SEED = 120
 INACTIV_STEPS_LIMIT = -1
 
-averaged_plans = [60.5,1885,15.6,20.8]
+averaged_plans = [60.5,1885,15.6,20.8] (total 1981.9)
 #plans = ["Rotace \nvlevlo", "Rotace \nvpravo", "Akcelerace", "Střela", "Rozdvojovací \nstřela", "Prázdná \nakce"]
 plans = ["Útok", "Obrana", "Úhyb", "Zastavevní"]
 
