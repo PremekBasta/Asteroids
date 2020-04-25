@@ -68,18 +68,18 @@ def plot_games_times():
         #averaged_plans = [60.5,1885,15.6,20.8]
         #plans = ["Útok", "Obrana", "Úhyb", "Zastavevní"]
 
-        averaged_plans = [503.8, 766.8, 0, 0]
-        # plans = ["Rotace \nvlevlo", "Rotace \nvpravo", "Akcelerace", "Střela", "Rozdvojovací \nstřela", "Prázdná \nakce"]
-        plans = ["Útok", "Obrana", "Úhyb", "Zastavevní"]
+        averaged_actions = [1260.3, 0.2, 10.5, 0.1, 221.6, 0.3]
+        plans = ["Rotace \nvlevlo", "Rotace \nvpravo", "Akcelerace", "Střela", "Rozdvojovací \nstřela",
+                 "Prázdná \nakce"]
 
         plt.figure(figsize=(8, 6))
-        plt.title("Průměrný počet kroků hry: 1778.3")
-        plt.suptitle("Výsledek: 10:0")
-        plt.bar(plans,averaged_plans)
+        plt.title("Průměrný počet kroků hry: 1493")
+        plt.suptitle("Výsledek: 0:10")
+        plt.bar(plans,averaged_actions)
         #plt.ylabel('Reward')
-        plt.xticks(rotation="vertical")
-        plt.xlabel('Akční plán')
-        plt.ylabel("Počet vybrání plánu ")
+        #plt.xticks(rotation="vertical")
+        plt.xlabel('Elementární akce')
+        plt.ylabel("Počet vybrání akce ")
 
         plt.show()
 
@@ -96,15 +96,17 @@ def plot_results_of_games():
         print(len(rewards))
         averaged_rewards = []
 
-        average_batch_count = 50
+        average_batch_count = 1
         for i in range(0, len(rewards), average_batch_count):
             averaged_rewards.append(np.average(rewards[i:i + average_batch_count]))
         # print(averaged_rewards)
 
         plt.figure(figsize=(12, 8))
-        plt.plot(averaged_rewards, "-")
-        plt.ylabel('Reward')
-        plt.xlabel('Episode')
+        plt.plot(averaged_rewards, "o")
+        plt.title("Průběh trénování")
+        plt.ylabel('Výsledná odměna')
+        plt.xlabel('Zahraná hra')
+        #plt.xticks(range(0,3000,500))
         plt.show()
 
 if __name__ == "__main__":

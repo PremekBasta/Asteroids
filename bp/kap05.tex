@@ -48,18 +48,18 @@ Po konci zahrání hry následně náhodně vybíráme tyto pětice z paměti a 
 
 
 \subsection{Experiment 4: Soupeření s obranným agentem}
-V 1. experimentu jsme za pomocí genetického programování hledali agenta, který je úspěšný v souboji s obranným jedincem a využívali jsme k tomu fitness funkci pro určení jak agent v souboji obstál.
+V 1. experimentu jsme za pomocí genetického programování hledali agenta, který je úspěšný v souboji s obranným jedincem. Pro určení jak agent v souboji obstál jsme využívali fitness funkci.
 Zde, pomocí hlubokého q učení, budeme také učit agenta vzájemnými souboji s obranným agentem, ale budeme namísto fitness funkce používat pro trénování odměny.
 
 S 1. experimentem zde bude také stejný přístup ke vstupům a výstupům. 
 Na vstupu budou opět délky všech čtyř akčních plánů a počet kroků před srážkou vesmírné lodi s asteroidem.
 A na výstupu čtyři hodnoty reprezentující výběr konkrétního akčního plánu.
 
-Q učení spočívá v učení rozhodování se o akcích. Akce zde v tomto pojetí však nebudou elementární akce, nýbrž akční plány. 
+Q učení spočívá v učení se rozhodování akcí. Akce zde v tomto pojetí však nebudou elementární akce, nýbrž akční plány. 
 Q-síť bude tedy volit akční plány a proto zde budeme muset provádět mezikrok pro přechod od akčních plánů k akcím.
-Vždy nejprve zvolíme akční plán a následně pro pokračování v simulaci hry z vybraného akčního plánu zvolíme první akci.
+Nejprve vždy zvolíme akční plán a následně pro pokračování v simulaci hry z vybraného akčního plánu vybereme první akci.
 V tomto experimentu budeme využívat přehrávání zkušeností, tj. budeme průběžně ukládat informace o přechodech do dalších stavů. 
-I Zde, pro zapamatování si zkušenosti, platí, že akcí budeme chápat akční plán.
+I Zde, pro zapamatování si zkušenosti, platí, že akcí budeme rozumět akční plán.
 
 
 Parametry experimentu:
@@ -73,8 +73,8 @@ Parametry experimentu:
 \par
 V souboji s obranným agentem se výslednému agentovi podařilo zvítězil pouze ve čtyřech hrách. 
 Nepodařilo se nám tedy sice nalézt agenta, který by porážel obranného agenta, ale dosáhli jsme jiného zajímavého výsledku.
-Velkým přínosem tohoto experimentu je pestrá strategie nalezeného agenta. Výlsedný agent ve velkém zastoupení používá všechny akční plány (viz \ref{Výsledek experimentu 04}). 
-Získali jsme tak agenta, který se brání nejen sestřelováním nepřátelských asteroidů, ale i vyhýbáním se. A díky tomu se agent také pohybuje a nezůstává staticky stát na stejném místě po celou dobu hry.
+Velkým přínosem tohoto experimentu je pestrá strategie nalezeného agenta. Výsledný agent ve velkém zastoupení používá všechny akční plány (viz \ref{Výsledek experimentu 04}). 
+Výsledkem je agent, který se brání nejen sestřelováním nepřátelskqých asteroidů, ale i vyhýbáním se. A díky tomu se agent také pohybuje a nezůstává staticky stát na stejném místě po celou dobu hry.
 Toho se nám také podařilo dosáhnout ve 3. experimentu, ale srovnání s agentem získaným ze 3. experimentu je tento agent daleko více obranyschopný.
 
 
@@ -87,9 +87,9 @@ Toho se nám také podařilo dosáhnout ve 3. experimentu, ale srovnání s agen
 \end{figure}
 
 \subsection{Experiment 5: Soupeření s obranným agentem - Rozšířeno}
-V předchozím experimentu jsme dosáhli zajímavého chování agenta, ale nepodařilo se nám vyhrávat nad obranným agentem.
+V předchozím experimentu jsme dosáhli zajímavého chování agenta, ale nepodařilo se nám stabilně vyhrávat nad obranným agentem.
 Zkusíme proto předchozí experiment rozšířit. 
-V tomto experimentu zkusíme rozšířit vstupní argumenty o další, které by mohli agentovi pomoct v rozhodování.
+V tomto experimentu zkusíme přidat další vstupní argumenty, které by mohli agentovi pomoct v rozhodování.
 
 Přidané parametry:
 \begin{itemize}
@@ -107,9 +107,37 @@ Parametry experimentu:
     \item Adekvátně ke zvýšení počtu zahraných her také zvětšíme konstantu pro snižování epsilon z hodnoty 0.998 na 0.9989. Díky tomu bude stejné pravděpodobnosti 6\% pro volbu náhodné akce dosaženo přibližně po zahrání 2550 her.
 \end{itemize}
 
+\begin{figure}[p]\centering
+\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment05Training.png}
+\caption{Průběh trénování v experimentu 5 - Výsledné odměny jsou součtem počtu kroků hry a odměny (resp. penalizace) za výhru (resp. prohru). Samotné tyto odměny tvoří rozdíl v hodnotě 3000, díky tomu je z obrázku zřetelné, ve kterých hrách agent vyhrál.}
+\label{Průběh trénování experimentu 06}
+\end{figure}
 
-\todo{obrázek s průběžnými výhrami}\newline
-\todo{graf s akčními plány}\newline
+
+
+
+\begin{figure}[p]\centering
+\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment05Results.png}
+\caption{Výsledek experimentu 5}
+\label{Průběh trénování experimentu 06}
+\end{figure}
+
+
+Výsledný agent dopadlo velmi úspěšně. Z průběhu trénování vidíme, že agent se velmi dobře učil a od přibližně 2300. hry (viz \ref{Průběh trénování experimentu 06}) už začal vyhrávat ve větší části her.
+Rozšířením vstupních argumentů a přidání trénovacích her se nám podařilo zlepšit výsledek z předchozícho experimentu.
+Agent sice ztratil pestrost akčních plánů, ale za to se významně zlepšil ve vyhrávání. Z výsledku 4:10 z předchozícho experimentu se zlepšil na 10:3.
+Zajímavé na nalezeném agentovi je také jeho agresivita. Agent používá útočný akční plán přibližně dvakrát tak často jako obranný plán.
+
+Při testování výsledného agenta jsem si všimnul, že zahrání jedné hry je časově značně náročné, přičemž to co při simulaci trvalo netriviální objem času bylo samotné dotazování q-sítě na akční plán.
+Při snaze tento problém vyřešit jsem zjistil, že v některých stavech hry jsou všechny akční plány prázdné. 
+Toto může nastat v případě kdy agent stojí na místě, není ohrožený žádným asteroidem a zároveň nenalezl žádný asteroid, kterým by mohl přímo ohrozit nepřítele.
+V takovém stavu nemá velký smysl rozhodovat o volbě konkrétního akčního plánu. Proto jsem nastavil, že v takových případech agent rozhodování provádět nebude.
+
+Podobně jsem také vypozoroval, že během jedné hry často nastane situaci, že právě jeden z akčních plánů je neprázdný. Překvapením pro mě bylo, že q-síť v takovém případě někdy volila jiný prázdný plán před tímto.
+Proto jsem nastavil vyjímku i pro tyto případy a v současnou chvíli platí, že když agent má k dispozici právě jeden neprázdný akční plán, tak ho volí automaticky bez dotazování se q-sítě.
+Těmito opatřeními bylo dosaženo lepší časové náročnosti hraní hry a také byl agent v souboji úspěšnější. Zlepšení agenta si vysvětluji právě tím, že volba jakéhokoliv neprázdného plánu před prázdným je vždy výhodnější.
+
+
 \todo{Dokončit 7.Experiment}\newline
 \todo{Kapitola o Deep q}\newline
 \todo{Transponovat kapitoly o algoritmech a experimentech}\newline
@@ -122,42 +150,48 @@ Parametry experimentu:
 
 
 \subsection{Experiment 6: Elementární agent proti obrannému agentovi}
-V tomto experimentu zkusíme sestoupit od abstrakcí v podobě akčních plánů k elementárním akcím a informacím o stavu.
-I zde bude naším cílem trénování zadané neuronové sítě.
-Tentokrát nebudeme neuronovou síť používat k volbě akčního plánu, ale přímo k volbě elementární akce.
-Výsledný agent rozhodující se pomocí této neuronové sítě bude volit vždy jen jednu akci, proto nebudeme moci využít koncept přepočítávání akčních plánů a agent se bude rozhodovat v každém kroku.
+V tomto experimentu zkusíme sestoupit od abstrakcí v podobě akčních plánů k elementárním akcím.
+Tentokrát nebudeme q-síť používat k volbě akčního plánu, ale přímo k volbě elementární akce.
+Výsledný agent bude volit vždy jen jednu akci, proto nebudeme moci využít koncept přepočítávání akčních plánů a agent se bude muset rozhodovat v každém kroku.
+Opět budeme k trénování využívat soubojů s obranným agentem a učit se na základě odměn získaných od herního prostředí.
 
 \par
-K pěti elementárním akcím přidáme navíc také možnost prázdné akce. Celkem tedy šest možností, proto naše neuronová síť bude mít právě šest výstupů.
-Nebudeme volit akční plány, proto nemá ani dobrý smysl používat jejich délky jako vstupy, proto zde můžeme zvolit zcela jiný přístup.
-Samotné simulace pro výpočet akčních plánů jsou výpočetně velmi náročné, tedy díky tomu, že zde zvolíme jednodušší přístup, tak budeme schopni, oproti předchozímu experimentu, zahrát v rámci trénování větší množství her.
+K pěti elementárním akcím, pro které se bude agent rozhodovat, přidáme navíc také možnost prázdné akce. 
+Nebudeme zde volit akční plány, proto tedy ani nemá dobrý smysl používat jejich délky jako argumenty pro rozhodování. Proto zde můžeme zvolit zcela jiný přístup.
+Samotné simulace pro získání akčních plánů jsou výpočetně velmi náročné, a tedy díky tomu, že zde volíme jednodušší přístup, tak budeme schopni, oproti předchozím experimentům, zahrát v rámci trénování větší množství her.
 
 \par
-Vstupy neuronové sítě jsem si zvolil následující hodnoty:
+Jako vstupní argumenty jsem zvolil následující hodnoty:
 \begin{itemize}
-    \item Vektor pohybu vesmírné lodi
+    \item Vektor současného pohybu vesmírné lodi
     \item Úhel natočení vesmírné lodi
     \item Počet uplynulých kroků od posledního výstřelu
     \item Relativní poloha nepřátelské lodi
     \item Relativní polohy tří nejbližších nebezpečných asteroidů
 \end{itemize}
 
-Jako nepřátelského agenta v tomto experimentu jsem zvolil agenta obranného.
-Epsilon bylo nastaveno na 0.9985. Pro trénování bylo zahráno 10000 her.
+Parametry experimentu:
+\begin{itemize}
+    \item \todo{sjednotit odmeny a penalizaci}
+    \item Q-síť je hustá neuronová síť s dvěmi skrytými vstvami, čtrnácti vstupními a šesti výstupními hodnotami.
+    \item Díky nevyužívání akčních plánů bude hraní her rychlejší, proto pro trénování zahrajeme 10000 her.
+    \item Konstanta pro snižoání epsilon je nastavena na hodnotu \todo{0.9998}
+    \item V posledních 5\% her se nebude epsilon-hladový přístup používat a budou se volit nejlepší známé akce.
+\end{itemize}
 
-
-
-% 10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_model_1
-% 10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_1.txt
 
 Výsledný agent proti obrannému agentovi nedopadl úspěšně. V souboji byl jednoznačně poražen se skóre 0:10.
-V přehledu používaných akcí během souboje vidíme, že elementární agent používal v drtivé většině rotaci a střely.
+A z přehledu používaných akcí během souboje můžeme i vypozorovat proč takto dopadl. Z elementárních operací se rozhodoval v drtivé většině pro rotaci vlevo a rozdvojovací střelu.
 To v praxi znamená, že se agent naučil točit dokola a kdykoliv může, tak vystřelit. Tato strategie skutečně přináší nějaké výsledky.
-Agent tak rozstřeluje kolem letící asteroidy do všech různých směrů, avšak rozhoduje se pro toto chování bezmyšlenkovitě. Nemíří na žádné konkrétní asteroidy, ani na nepřátelskou loď.
-Největší slabinou je, že agent se prakticky vůbec nenaučil bránit se. Zřejmě bylo v rámci trénování neuronové sítě nalezeno lokální optimum.
+Touto kombinací rotace a střelby se agent dokáže ubránit před srážkou s některými asteroidy, které by ho jinak zasáhly. Zároveň tímto způsobem sestřeluje netriviální množství asteroidů, které se kolem něho nacházejí a tím potenciálně staví nepřítele do ohrožení.
+Avšak pro toto chování se agent rozhoduje bezmyšlenkovitě. 
+Nemíří na žádné konkrétní asteroidy, ani na nepřátelskou loď.
+Největší slabinou je, že agent se zde prakticky vůbec nenaučil bránit.
+Veškeré asteroidy, před kterými se agent ubrání, zasáhne vesměs náhodně.
+
 
 \begin{figure}[p]\centering
-\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment05Results.png}
+\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment06Results.png}
 \caption{Výsledek experimentu 6}
 \label{Výsledek experimentu 06}
 \end{figure}
@@ -167,12 +201,24 @@ Největší slabinou je, že agent se prakticky vůbec nenaučil bránit se. Zř
 
 \subsection{Experiment 7: Dva elementární agenti}
 Tento experiment rozšiřuje experiment předchozí. Budeme opět pracovat s elementárním agentem reprezentovaného neuronovou sítí stejného formátu jako v předhozím případě.
-Tentokrát ale ale nebudeme v trénování hrát hry proti obrannému agentovi, nýbrž proti dalšímu elementárnímu agentovi, který bude také zároveň trénován.
-Budeme tedy trénovat dvě neuronové sítě najednou. Teoreticky bychom měli dosáhnout vzájemného adaptivního učení, kde se každý z agentů snaží zlepšovat proti svému nepříteli a postupně se tak budou oba zlepšovat.
+Tentokrát ale nebudeme při trénování hrát hry proti obrannému agentovi, nýbrž proti dalšímu elementárnímu agentovi, který bude také zároveň trénován.
+Budeme tedy provádět dvojí q-učení simultánně. Teoreticky bychom měli dosáhnout vzájemného adaptivního učení, kde se každý z agentů snaží zlepšovat proti svému nepříteli a postupně se tak budou oba zlepšovat.
 \par
-Parametry trénování: ... 
 
 
+Parametry experimentu:
+\begin{itemize}
+    \item \todo{sjednotit odmeny a penalizaci}
+    \item Každý agent bude reprezentován vlastní q-sítí stejného formátu jako v předchozím experimentu.
+    \item Tím, že pro souboj nebudeme používat obranného agenta, ale dalšího elementárního agenta, ušetříme čas na výpočtu obranného agenta. V rámci trénování tedy zahrajeme 20000 her.  
+    \item Konstanta pro snižoání epsilon je nastavena na hodnotu 0.9998
+    \item V posledních 5\% her se nebude epsilon-hladový přístup používat a budou se volit nejlepší známé akce.
+\end{itemize}
 
 
-,
+\begin{figure}[p]\centering
+\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment07Results.png}
+\caption{Výsledek experimentu 7}
+\label{Výsledek experimentu 07}
+\end{figure}
+        
