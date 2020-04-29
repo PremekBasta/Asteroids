@@ -2,9 +2,78 @@
 
 \section{Základní princip}
 \subsection{Neuronová síť}
+Než se dostaneme k hlubokému q-učení, budeme se nejprve muset seznámit s pojmy neuronová síť a q-učení. Začněme tedy s neurovnovými sítěmi.
+Abychom si mohli říct, co neurovnové sítě jsou, musíme se nějdřív seznámit s její základní jednotku - perceptron.
+\par
+Perceptron je algoritmus, který má na vstupu několik hodnot $x_i$ a jeden výstup. S každou vstupní hodnotou je spojena jedna váha $w_i$.
+Kromě váh vstupů obsahuje perceptron ještě tzv. práh. Perceptron spočítá vážený součet vstupů a porovná výsledek s prahem. Pokud je výsledek větší než práh, tak perceptron vrací hodnotu 1, jinak 0.
+Můžeme zde ale využít triku pro zbavení se prahu. K práhu můžeme přistupovat jako k další váze s konstantním vstupem -1.
+V takovém případě pak perceptron provádí porovnání váženého součtu vstupů s hodnotou 0. 
+\newline
+Matematicky zapsáno:
+$f(\sum_{i=0}^{n} w_if_i)$, kde $f$ vrací 1 pro $x>0$ a 0 jinak.
 
-\subsection{Q-učení}
+Trénování daného perceptronu probíhá pomocí předkládání dvojic vstupů a výstupů $(x,y)$ z trénovací množiny a upravování váh následujícím způsobem:
+\newline
+$w_i = w_i + r(y-f(x_i)x_i$, kde $r$ je parametr učení.
+
+Rozhodovací hranice perceptronu představuje nadrovinu ve vstupním prostoru. Lze ukázat, že trénování perceptronu zkonverguje, pokud jsou třídy v datech lineárně separabilní.
+
+Většinou ale řešíme problémy, kde třídy v datech lineárně separabilní nejsou, v takových případech nám jeden perceptron nestačí a potřebujeme jich využít víc.
+Spojením více perceptronů získáváme dopřednou neuronovou síť. Ta se skládá z vrstev perceptronů, kde vstupy perceptronů první jsou samotná data $x$ a vstupy perceptronů v dalších vrstávch jsou rovny výstupům perceptronů z vrstvy předchozí.
+
+Pro trénování více vrstvých perceptronů se používá gradientní metoda. Z toho důvodů se využívají jiné funkce $f$, než ta zmíněná nahoře, ta má totiž gradient ve většíně případů roven 0.
+Typickým příkladem používané funkce je sigmoid $f(x) = \frac{1}{1+e^{-x}}$.
+
+Následně musíme zvolit chybovou funkci $L(x,y|w)$ neuronové sítě. Zde se typicky využívá střední kvadratická chyba (ang. Mean squared error).
+Chybová funkce se zderivuje podle vah v síti a následně se jednotlivé váhy upraví.
+\newline
+$w_i = w_i + \alpha\frac{\partial L(x,y|w)}{\partial w_i}$
+
+\url{https://ocw.mit.edu/courses/health-sciences-and-technology/hst-947-medical-artificial-intelligence-spring-2005/lecture-notes/ch7_mach3.pdf}
+\todo{strana 9 až 13}
+
+\subsection{Zpětnovazební učení}
+Podobně jako v předchozí sekci, i zde musíme nejprve zavést nové pojem a terminologii, než budeme moci říct, co je cílem zpětnovazebního učení.
+Popišme si nejprve, co je to markovský rozhodovací prostor.
+Markovský rozhodovací prostor popisuje prostředí a je definován čtveřicí $(S,A,P,R)$, kde $S$ je množina stavů, $A$ je množina všech akcí (případně $A_s$ představuje množinu akcí, které mohou být provedeny ve stavu $s$), 
+$P: S \times A \times S \rightarrow [0,1]$ představuje přechodovou funkci, 
+kde $P_a(s,s')$ vrací pravděpodobnost, že se aplikováním akce $a$ ve stavu $s$ dostaneme do stavu $s'$, 
+a $R: S \times A \times S \rightarrow \mathbb{R}$ představuje funkci odměn $R_a(s,s')$, která vrací odměnu, kterou agent obdrží, pokud ve stavu $s$ provede akci $a$ a dostane se tak do stavu $s'$.
+Přechodová funkce i funkce odměn musí navíc splňovat podmínku, že musí být jejich hodnoty nezávislé na předchozích stavech.
+
+\url{https://ocw.mit.edu/courses/aeronautics-and-astronautics/16-410-principles-of-autonomy-and-decision-making-fall-2010/lecture-notes/MIT16_410F10_lec22.pdf}
+
+Chování agenta v prostředí můžeme popsat pomocí strategie $\pi: S \times A \rightarrow [0,1]$, ta určuje pravděpodobnost, že se agent ve stavu $s$ rozhodne pro akci $a$.
+Pro agenta v prostředí ještě definujme jeho celkovou odměnu jako \[\sum_{t=0}^{\infty} \gamma^tR_{a_t}(s_t,s_{t+1})\], kde $\gamma<1$ je diskontní faktor, díky kterému je suma konečná a $a_t$ je akce agenta vybraná v kroku t.
+Cílem zpětnovazebního učení je nalézt optimální strategii $\pi^\star$, kde $a_t=\pi^\star(s_t)$, takovou, že její celková odměna je maximální.
+
+Hodnotu stavu $s$ při použití strategie $\pi$ lze definovat jako 
+\newline
+\[V^{\pi}(s)=[\sum_{t=o}^{\infty} \gamma^tr_t|s_0=s]\], kde $r_t$ značí odměnu získanou v kroku t.
+Podobně také můžeme definovat hodnotu $Q^{\pi}(s,a)$ akce $a$ provedené ve stavu $s$ při následování strategie $\pi$.
+\[Q^\pi(s,a)=\sum_{s'}P_a(s,s')[R_a(s,s') + \gamma\sum_{a'} \pi(s',a')Q^\pi(s',a')]\]
+Z Bellmanovy rovnice pro optimální strategie platí:
+\[Q^*(s,a)=R_a(s,s') + \gamma\max_{a'}Q_k(s',a')\]
+
+Agent ke zlepšování své strategie může využívat přechodové funkce a funkce odměn. Často ale agent hodnoty jednotlivých stavů předem nezná a musí se je učit za běhu.
+Zároveň musí volit mezi explorací tj. prohledávání prostoru a exploatací tj. využívání známého. Zde využijeme $\epsilon$-hladového (ang. $\epsilon$-greedy) přístupu, kdy s pravděpodobností $\epsilon$ vybere náhodou akci a s pravděpodobností $1-\epsilon$ vybere nejlepší známou akci.
+
+Nyní se už dostáváme ke Q-učení. $Q$ je reprezentována jako matice zpočátku inicializovaná samými nulami. Agent následně ve stavu $s_t$ vybírá například $\epsilon$-hladovým přístupem akci $a_t$, získá od prostředí odměnu $r_t$ a přesune se do stavu $s'$.
+Na základě těchto informací se provede aktualizace matice následovně:
+\newline
+\[Q(s_t,a_t) \leftarrow (1-\alpha)Q(s_t,a_t) + \alpha(r_t + \gamma(\max_a(Q(s_{t+1},a))))\]
+
+
 \subsection{Hluboké q-učení}
+Po seznámí se základy neuronových sítí a zpětnovazebního učení můžeme přejít k hlubokému Q-učení.
+Hluboké Q-učení následuje stejnou myšlenku jako obyčejné Q-učení, také chceme nalézt odměnu vybrané akce v současném stavu stavu.
+Hlavním rozdílem oproti normálnímu Q-učení je způsob jak se Q hodnoty reprezentují. V normálním Q-učení jsou Q hodnoty uložené v matici, ta může být v případě velkých prostorů příliš obrovská a Q-učení pak může probíhat velmi pomalu, nebo dokonce vůbec.
+V Hlubokém Q-učení bude Q reprezentováno pomocí neuronové sítě.
+
+Trénování se provádí pomocí porovnání rozdílu aktuální odměny $R_a(s,s')$ prostředí od odměny spočítané pomocí Bellmanovy rovnice z Q.
+Cílem je tedy minimalizovat rozdíl mezi \[Q(s,a) \hspace{5mm}\text{a}\hspace{5mm}  R_a(s,s') + \gamma\max_{a'}Q_{\theta}(s',a')\], kde $Q_{\theta}$ jsou parametry neurovnové sítě reprezentující matici Q.
+Chybovou funkcí pro trénování neuronové sítě pak může být střední čtvercová chyba tohoto rozdílu.
 
 \section{Využití}
 Kde se používá v praxi.
@@ -38,7 +107,7 @@ Epsilon-hladový přístup způsobuje, že z počátku učení se zkoušejí ná
 
 \todo{presunout do kapitoly o deep q}
 \par
-V Hlubokém učení se chceme při trénování vyvarovat závislostí na předchozích stavech. K tomu využijeme konceptu přehrávání zkušeností (ang. Experience replay).
+Při trénování se nám stává, že měníme funkci, která odhaduje Q a tím je ovlivněno i chování agenta a odhady. K zachování větší stability trénování využijeme konceptu přehrávání zkušeností (ang. Experience replay).
 Při hraní hry si v každém kroku ukládáme do paměti pětici současného stavu, provedené akce, obdržené odměny, stavu, do kterého jsme se dostali a informace zda hra neskončila.
 Po konci zahrání hry následně náhodně vybíráme tyto pětice z paměti a trénování provádíme na nich.
 
@@ -200,9 +269,9 @@ Veškeré asteroidy, před kterými se agent ubrání, zasáhne vesměs náhodn�
 
 
 \subsection{Experiment 7: Dva elementární agenti}
-Tento experiment rozšiřuje experiment předchozí. Budeme opět pracovat s elementárním agentem reprezentovaného neuronovou sítí stejného formátu jako v předhozím případě.
+Tento experiment rozšiřuje experiment předchozí. Budeme opět pracovat s elementárním agentem reprezentovaným neuronovou sítí stejného formátu jako v předhozím případě.
 Tentokrát ale nebudeme při trénování hrát hry proti obrannému agentovi, nýbrž proti dalšímu elementárnímu agentovi, který bude také zároveň trénován.
-Budeme tedy provádět dvojí q-učení simultánně. Teoreticky bychom měli dosáhnout vzájemného adaptivního učení, kde se každý z agentů snaží zlepšovat proti svému nepříteli a postupně se tak budou oba zlepšovat.
+Budeme tedy provádět dvojí q-učení simultánně. Cílem je zde dosáhnout vzájemného adaptivního učení, kde se každý z agentů snaží zlepšovat proti svému nepříteli a postupně tak oba agenty zlepšovat.
 \par
 
 
@@ -221,4 +290,10 @@ Parametry experimentu:
 \caption{Výsledek experimentu 7}
 \label{Výsledek experimentu 07}
 \end{figure}
-        
+
+
+Výsledný souboj jsme výjmečně neprovedli proti obrannému agentovi, ale mezi vzniklými agenty mezi sebou.
+Z přehledu souboje je vidět, že se agenti od předchozího experimentu nijak zásadně nezlepšili. Oba agenti se v drtivé většině stavů jen točí na jednu stranu.
+Vidíme, že každý agent volí exklusivně pouze jednu stranu, na kterou se rotuje. 
+Agent 1 se z přehledu souboje zdá být mírně pestřejší, kombinuje oba typy střel a navíc v téměř pětině stavů volil akceleraci.
+Když jsem však vizuálně sledoval souboj agentů, tak žádný z agentů nejevil známky komplexnějšího chování. 

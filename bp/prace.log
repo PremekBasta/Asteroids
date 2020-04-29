@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  25 APR 2020 16:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  29 APR 2020 19:44
 entering extended mode
 **/home/premek/Asteroids/bp/prace.tex
 (/home/premek/Asteroids/bp/prace.tex
@@ -537,8 +537,8 @@ File: lstmisc.sty 2019/09/10 1.8c (Carsten Heinz)
 File: listings.cfg 2019/09/10 1.8c listings configuration
 ))
 Package: listings 2019/09/10 1.8c (Carsten Heinz)
-Package hyperref Info: Option `unicode' set `true' on input line 118.
-Package hyperref Info: Option `breaklinks' set `true' on input line 119.
+Package hyperref Info: Option `unicode' set `true' on input line 119.
+Package hyperref Info: Option `breaklinks' set `true' on input line 120.
 
 \@input{makra.aux}
 \openout2 = `makra.aux'.
@@ -557,24 +557,24 @@ LaTeX Warning: Label `PrÅ¯bÄ›h trÃ©novÃ¡nÃ­ experimentu 06' multiply defined.
 ) (/home/premek/Asteroids/bp/zaver.aux) (/home/premek/Asteroids/bp/literatura.aux))
 \openout1 = `prace.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 130.
-LaTeX Font Info:    ... okay on input line 130.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 130.
-LaTeX Font Info:    ... okay on input line 130.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 130.
-LaTeX Font Info:    ... okay on input line 130.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 130.
-LaTeX Font Info:    ... okay on input line 130.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 130.
-LaTeX Font Info:    ... okay on input line 130.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 130.
-LaTeX Font Info:    ... okay on input line 130.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 130.
-LaTeX Font Info:    ... okay on input line 130.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 130.
-LaTeX Font Info:    ... okay on input line 130.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 130.
-LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
  ABD: EveryShipout initializing macros (/home/premek/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count316
@@ -593,7 +593,7 @@ Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
 )
 \AtBeginShipoutBox=\box59
-Package hyperref Info: Link coloring OFF on input line 130.
+Package hyperref Info: Link coloring OFF on input line 131.
  (/home/premek/.miktex/texmfs/install/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
  (/home/premek/.miktex/texmfs/install/tex/latex/refcount/refcount.sty
@@ -603,9 +603,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count322
 )
-LaTeX Info: Redefining \ref on input line 130.
-LaTeX Info: Redefining \pageref on input line 130.
-LaTeX Info: Redefining \nameref on input line 130.
+LaTeX Info: Redefining \ref on input line 131.
+LaTeX Info: Redefining \pageref on input line 131.
+LaTeX Info: Redefining \nameref on input line 131.
  (/home/premek/Asteroids/bp/prace.out) (/home/premek/Asteroids/bp/prace.out)
 \@outlinefile=\write6
 \openout6 = `prace.out'.
@@ -613,10 +613,10 @@ LaTeX Info: Redefining \nameref on input line 130.
 
 No file pythontex-files-prace/prace.pytxmcr.
 Run PythonTeX to create it.
-Package newfloat Info: New float `listing' with options `fileext=lopytx' on input line 130.
+Package newfloat Info: New float `listing' with options `fileext=lopytx' on input line 131.
 \c@listing=\count323
 \newfloat@ftype=\count324
-Package newfloat Info: float type `listing'=8 on input line 130.
+Package newfloat Info: float type `listing'=8 on input line 131.
 \c@lstlisting=\count325
 \openout2 = `titulka.aux'.
 
@@ -677,12 +677,12 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout2 = `uvod.aux'.
 
  (/home/premek/Asteroids/bp/uvod.tex)
-Overfull \hbox (1.91544pt too wide) in paragraph at lines 5--138
+Overfull \hbox (1.91544pt too wide) in paragraph at lines 5--139
 []\T1/lmr/m/n/12 Po£íta£ové hry mají krom¥ zábavního proºitku ze samotného hraní dal²í funkci.|
  []
 
 
-Overfull \hbox (20.48534pt too wide) in paragraph at lines 5--138
+Overfull \hbox (20.48534pt too wide) in paragraph at lines 5--139
 \T1/lmr/m/n/12 Herní prost°edí £asto tvo°í samostatný, uzav°ený sv¥t se svými vlastními zákonitostmi.|
  []
 
@@ -1015,80 +1015,121 @@ Package pdftex.def Info: ./Obrazky/Experiment03Results.png  used on input line 2
 
  (/home/premek/Asteroids/bp/kap05.tex
 Kapitola 5.
+
+Overfull \hbox (2.30673pt too wide) in paragraph at lines 20--21
+[]\T1/lmr/m/n/12 Rozhodovací hranice perceptronu p°edstavuje nadrovinu ve vstupním prostoru.|
+ []
+
+
+Overfull \hbox (10.10934pt too wide) in paragraph at lines 22--24
+\T1/lmr/m/n/12 perceptron· v dal²ích vrstávch jsou rovny výstup·m perceptron· z vrstvy p°edchozí. |
+ []
+
+
+Overfull \hbox (294.9782pt too wide) in paragraph at lines 33--35
+[][]$\T1/lmtt/m/n/12 https : / / ocw . mit . edu / courses / health-[]sciences-[]and-[]technology / hst-[]947-[]medical-[]artificial-[]intelligence-[]spring-[]2005 /|
+ []
+
 [26
 
 
 
 ]
-Overfull \hbox (14.16588pt too wide) in paragraph at lines 58--63
+Overfull \hbox (333.02821pt too wide) in paragraph at lines 45--46
+[][]$\T1/lmtt/m/n/12 https : / / ocw . mit . edu / courses / aeronautics-[]and-[]astronautics / 16-[]410-[]principles-[]of-[]autonomy-[]and-[]decision-[]making-[]fall-[]2010 /|
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--53
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 62--65
+
+ []
+
+[27] [28]
+Overfull \hbox (8.61145pt too wide) in paragraph at lines 110--113
+\T1/lmr/m/n/12 ovlivn¥no i chování agenta a odhady. K zachování v¥t²í stability trénování vyuºijeme|
+ []
+
+
+Overfull \hbox (1.62547pt too wide) in paragraph at lines 110--113
+\T1/lmr/m/n/12 obdrºené odm¥ny, stavu, do kterého jsme se dostali a informace zda hra neskon£ila.|
+ []
+
+
+Overfull \hbox (14.16588pt too wide) in paragraph at lines 127--132
 \T1/lmr/m/n/12 vyuºívat p°ehrávání zku²eností, tj. budeme pr·b¥ºn¥ ukládat informace o p°echodech|
  []
 
-<./Obrazky/Experiment04Results.png, id=471, 578.16pt x 433.62pt>
+[29]
+<./Obrazky/Experiment04Results.png, id=491, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment04Results.png Graphic file (type png)
 <use ./Obrazky/Experiment04Results.png>
-Package pdftex.def Info: ./Obrazky/Experiment04Results.png  used on input line 84.
+Package pdftex.def Info: ./Obrazky/Experiment04Results.png  used on input line 153.
 (pdftex.def)             Requested size: 412.56082pt x 312.99353pt.
 
-Overfull \hbox (39.54813pt too wide) in paragraph at lines 89--89
+Overfull \hbox (39.54813pt too wide) in paragraph at lines 158--158
 []\T1/lmr/bx/n/14.4 Experiment 5: Soupe°ení s obranným agentem - Roz²í°eno |
  []
 
 
-Overfull \hbox (19.37474pt too wide) in paragraph at lines 90--93
+Overfull \hbox (19.37474pt too wide) in paragraph at lines 159--162
 []\T1/lmr/m/n/12 V p°edchozím experimentu jsme dosáhli zajímavého chování agenta, ale nepoda°ilo|
  []
 
 
-Overfull \hbox (23.04338pt too wide) in paragraph at lines 90--93
+Overfull \hbox (23.04338pt too wide) in paragraph at lines 159--162
 \T1/lmr/m/n/12 se nám stabiln¥ vyhrávat nad obranným agentem. Zkusíme proto p°edchozí experiment|
  []
 
-[27]
-Overfull \hbox (46.77042pt too wide) in paragraph at lines 107--108
+
+Overfull \hbox (46.77042pt too wide) in paragraph at lines 176--177
 \T1/lmr/m/n/12 sniºování epsilon z hodnoty 0.998 na 0.9989. Díky tomu bude stejné pravd¥podobnosti|
  []
 
-<./Obrazky/Experiment05Training.png, id=478, 867.24pt x 578.16pt>
+<./Obrazky/Experiment05Training.png, id=492, 867.24pt x 578.16pt>
 File: ./Obrazky/Experiment05Training.png Graphic file (type png)
 <use ./Obrazky/Experiment05Training.png>
-Package pdftex.def Info: ./Obrazky/Experiment05Training.png  used on input line 111.
+Package pdftex.def Info: ./Obrazky/Experiment05Training.png  used on input line 180.
 (pdftex.def)             Requested size: 412.56525pt x 312.97809pt.
-<./Obrazky/Experiment05Results.png, id=479, 578.16pt x 433.62pt>
+<./Obrazky/Experiment05Results.png, id=493, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment05Results.png Graphic file (type png)
 <use ./Obrazky/Experiment05Results.png>
-Package pdftex.def Info: ./Obrazky/Experiment05Results.png  used on input line 120.
+Package pdftex.def Info: ./Obrazky/Experiment05Results.png  used on input line 189.
 (pdftex.def)             Requested size: 412.56082pt x 312.99353pt.
-[28]
-Underfull \hbox (badness 10000) in paragraph at lines 141--146
+[30]
+Underfull \hbox (badness 10000) in paragraph at lines 210--215
 
  []
 
-[29]
-<./Obrazky/Experiment06Results.png, id=490, 578.16pt x 433.62pt>
+[31]
+<./Obrazky/Experiment06Results.png, id=505, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment06Results.png Graphic file (type png)
 <use ./Obrazky/Experiment06Results.png>
-Package pdftex.def Info: ./Obrazky/Experiment06Results.png  used on input line 194.
+Package pdftex.def Info: ./Obrazky/Experiment06Results.png  used on input line 263.
 (pdftex.def)             Requested size: 412.56082pt x 312.99353pt.
 
-Overfull \hbox (8.15988pt too wide) in paragraph at lines 203--206
+Overfull \hbox (8.15988pt too wide) in paragraph at lines 272--275
 \T1/lmr/m/n/12 p°edhozím p°ípad¥. Tentokrát ale nebudeme p°i trénování hrát hry proti obrannému|
  []
 
 
-Overfull \hbox (37.00691pt too wide) in paragraph at lines 213--214
+Overfull \hbox (37.00691pt too wide) in paragraph at lines 282--283
 []\T1/lmr/m/n/12 Tím, ºe pro souboj nebudeme pouºívat obranného agenta, ale dal²ího elementárního|
  []
 
-<./Obrazky/Experiment07Results.png, id=491, 462.528pt x 399.6531pt>
+<./Obrazky/Experiment07Results.png, id=506, 462.528pt x 399.6531pt>
 File: ./Obrazky/Experiment07Results.png Graphic file (type png)
 <use ./Obrazky/Experiment07Results.png>
-Package pdftex.def Info: ./Obrazky/Experiment07Results.png  used on input line 220.
+Package pdftex.def Info: ./Obrazky/Experiment07Results.png  used on input line 289.
 (pdftex.def)             Requested size: 412.58727pt x 312.99658pt.
-) [30] [31 <./Obrazky/Experiment04Results.png>] [32 <./Obrazky/Experiment05Training.png>] [33 <./Obrazky/Experiment05Results.png> <./Obrazky/Experiment06Results.png>] [34 <./Obrazky/Experiment07Results.png>]
+) [32] [33] [34 <./Obrazky/Experiment04Results.png>] [35 <./Obrazky/Experiment05Training.png>] [36 <./Obrazky/Experiment05Results.png> <./Obrazky/Experiment06Results.png>] [37 <./Obrazky/Experiment07Results.png>]
 \openout2 = `zaver.aux'.
 
- (/home/premek/Asteroids/bp/zaver.tex) [35
+ (/home/premek/Asteroids/bp/zaver.tex) [38
 
 
 
@@ -1099,7 +1140,7 @@ Package pdftex.def Info: ./Obrazky/Experiment07Results.png  used on input line 2
 
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
-)) [36
+)) [39
 
 
 
@@ -1112,35 +1153,35 @@ Overfull \hbox (8.49185pt too wide) in paragraph at lines 15--15
 \tf@lof=\write8
 \openout8 = `prace.lof'.
 
- [37
+ [40
 
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 169.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 169.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 170.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 170.
  (/home/premek/Asteroids/bp/prace.aux (/home/premek/Asteroids/bp/titulka.aux) (/home/premek/Asteroids/bp/uvod.aux) (/home/premek/Asteroids/bp/kap01.aux) (/home/premek/Asteroids/bp/kap02.aux) (/home/premek/Asteroids/bp/kap03.aux) (/home/premek/Asteroids/bp/kap04.aux) (/home/premek/Asteroids/bp/kap05.aux) (/home/premek/Asteroids/bp/zaver.aux) (/home/premek/Asteroids/bp/literatura.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 169.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 169.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 170.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 170.
 Package rerunfilecheck Info: File `prace.out' has not changed.
-(rerunfilecheck)             Checksum: D8951E554DF09A1A6EDE1CCBE483A111;8857.
+(rerunfilecheck)             Checksum: 43EE7000F63F3A87A6E285D5BCB2DAAF;8926.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 169.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 170.
  ) 
 Here is how much of TeX's memory you used:
- 20305 strings out of 483220
- 306621 string characters out of 2960823
+ 20312 strings out of 483220
+ 306680 string characters out of 2960823
  751787 words of memory out of 3000000
- 34984 multiletter control sequences out of 15000+200000
- 590686 words of font info for 63 fonts, out of 3000000 for 9000
+ 34986 multiletter control sequences out of 15000+200000
+ 596666 words of font info for 65 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
  51i,6n,50p,985b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathsy.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-rm.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathit.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathex.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmex10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb>
-Output written on /home/premek/Asteroids/bp/prace.pdf (41 pages, 635737 bytes).
+{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathsy.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-rm.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathit.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathex.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmex10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on /home/premek/Asteroids/bp/prace.pdf (44 pages, 673497 bytes).
 PDF statistics:
- 641 PDF objects out of 1000 (max. 8388607)
- 129 named destinations out of 1000 (max. 500000)
+ 673 PDF objects out of 1000 (max. 8388607)
+ 132 named destinations out of 1000 (max. 500000)
  505 words of extra memory for PDF output out of 10000 (max. 10000000)
 
