@@ -11,11 +11,11 @@ Můžeme zde ale využít triku pro zbavení se prahu. K práhu můžeme přistu
 V takovém případě pak perceptron provádí porovnání váženého součtu vstupů s hodnotou 0. 
 \newline
 Matematicky zapsáno:
-$f(\sum_{i=0}^{n} w_if_i)$, kde $f$ vrací 1 pro $x>0$ a 0 jinak.
+\[f(\sum_{i=0}^{n} w_if_i)\], kde $f$ vrací 1 pro $x>0$ a 0 jinak.
 
 Trénování daného perceptronu probíhá pomocí předkládání dvojic vstupů a výstupů $(x,y)$ z trénovací množiny a upravování váh následujícím způsobem:
 \newline
-$w_i = w_i + r(y-f(x_i)x_i$, kde $r$ je parametr učení.
+\[w_i = w_i + r(y-f(x_i)x_i\], kde $r$ je parametr učení.
 
 Rozhodovací hranice perceptronu představuje nadrovinu ve vstupním prostoru. Lze ukázat, že trénování perceptronu zkonverguje, pokud jsou třídy v datech lineárně separabilní.
 
@@ -23,12 +23,12 @@ Většinou ale řešíme problémy, kde třídy v datech lineárně separabilní
 Spojením více perceptronů získáváme dopřednou neuronovou síť. Ta se skládá z vrstev perceptronů, kde vstupy perceptronů první jsou samotná data $x$ a vstupy perceptronů v dalších vrstávch jsou rovny výstupům perceptronů z vrstvy předchozí.
 
 Pro trénování více vrstvých perceptronů se používá gradientní metoda. Z toho důvodů se využívají jiné funkce $f$, než ta zmíněná nahoře, ta má totiž gradient ve většíně případů roven 0.
-Typickým příkladem používané funkce je sigmoid $f(x) = \frac{1}{1+e^{-x}}$.
+Typickým příkladem používané funkce je sigmoid \[f(x) = \frac{1}{1+e^{-x}}\].
 
 Následně musíme zvolit chybovou funkci $L(x,y|w)$ neuronové sítě. Zde se typicky využívá střední kvadratická chyba (ang. Mean squared error).
 Chybová funkce se zderivuje podle vah v síti a následně se jednotlivé váhy upraví.
 \newline
-$w_i = w_i + \alpha\frac{\partial L(x,y|w)}{\partial w_i}$
+\[w_i = w_i + \alpha\frac{\partial L(x,y|w)}{\partial w_i}\]
 
 \url{https://ocw.mit.edu/courses/health-sciences-and-technology/hst-947-medical-artificial-intelligence-spring-2005/lecture-notes/ch7_mach3.pdf}
 \todo{strana 9 až 13}
@@ -75,8 +75,16 @@ Trénování se provádí pomocí porovnání rozdílu aktuální odměny $R_a(s
 Cílem je tedy minimalizovat rozdíl mezi \[Q(s,a) \hspace{5mm}\text{a}\hspace{5mm}  R_a(s,s') + \gamma\max_{a'}Q_{\theta}(s',a')\], kde $Q_{\theta}$ jsou parametry neurovnové sítě reprezentující matici Q.
 Chybovou funkcí pro trénování neuronové sítě pak může být střední čtvercová chyba tohoto rozdílu.
 
-\section{Využití}
-Kde se používá v praxi.
+\section{Aplikace}
+V praxi bylo hluboké Q-učení použito například pro naučení se hraní atari her. 
+\url{https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf}
+
+Namísto ručně zpracovaných informacích o stavu hry zde byly jako vstupy využity přímo vizuální výstupy hry.
+Q-síť je proto reprezentována konvoluční neuronovou sítí, která na vstupu bere vektor pixelů obrázku hry a na výstupu vrací odhad budoucích odměn pro každou z možných akcí.
+Modelu nebylo řečeno nic o principu fungování hry. Model se učil pouze na základě vizuálního výstupu, odměn, které dostával od prostředí, konečných stavů a množiny možných akcí, tedy stejným přístupem, jak by ke hře přistupoval člověk.
+
+Stejná neuronová síť byla použitá na sedmi různých atari hrách. Na šesti z nich překonala všechny stávající přístupy, které využívaly algoritmy zpětnovazebního učení a na třech z nich překonala výsledky nejlepších lidských hráčů.
+
 
 
 \section{Aplikace}

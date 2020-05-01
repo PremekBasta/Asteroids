@@ -6,13 +6,14 @@
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Ukázka senzoru "N nejbližších asteroidů od vesmírné lodi" pro N=3}}{12}{figure.3.1}%
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Srovnání počtu neaktivních kroků k průměrné délce hry. Čísla byla získána průměrováním 40 her, kde proti sobě hráli agenti využívající pouze obranných plánů.}}{15}{figure.3.2}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Strom výrazu}}{22}{figure.4.1}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Výsledek experimentu 1}}{22}{figure.4.2}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Výsledek experimentu 2}}{25}{figure.4.3}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Výsledek experimentu 3}}{25}{figure.4.4}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Strom výrazu}}{20}{figure.4.1}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Výsledek experimentu 4}}{34}{figure.5.1}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Průběh trénování v experimentu 5 - Výsledné odměny jsou součtem počtu kroků hry a odměny (resp. penalizace) za výhru (resp. prohru). Samotné tyto odměny tvoří rozdíl v hodnotě 3000, díky tomu je z obrázku zřetelné, ve kterých hrách agent vyhrál.}}{35}{figure.5.2}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Výsledek experimentu 5}}{36}{figure.5.3}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Výsledek experimentu 6}}{36}{figure.5.4}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Výsledek experimentu 7}}{37}{figure.5.5}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Výsledek experimentu 1}}{26}{figure.5.1}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Výsledek experimentu 2}}{26}{figure.5.2}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Výsledek experimentu 3}}{27}{figure.5.3}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Výsledek experimentu 4}}{36}{figure.6.1}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Průběh trénování v experimentu 5 - Výsledné odměny jsou součtem počtu kroků hry a odměny (resp. penalizace) za výhru (resp. prohru). Samotné tyto odměny tvoří rozdíl v hodnotě 3000, díky tomu je z obrázku zřetelné, ve kterých hrách agent vyhrál.}}{37}{figure.6.2}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Výsledek experimentu 5}}{38}{figure.6.3}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Výsledek experimentu 6}}{38}{figure.6.4}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Výsledek experimentu 7}}{39}{figure.6.5}%
