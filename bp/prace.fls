@@ -363,6 +363,11 @@ INPUT ./Obrazky/formule_graph_2.png
 INPUT ./Obrazky/formule_graph_2.png
 INPUT ./Obrazky/formule_graph_2.png
 INPUT ./Obrazky/formule_graph_2.png
+INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmr8.tfm
+INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmr6.tfm
+OUTPUT /home/premek/Asteroids/bp/kap05.aux
+INPUT /home/premek/Asteroids/bp/kap05.tex
+INPUT /home/premek/Asteroids/bp/kap05.tex
 INPUT Obrazky/Experiment01Results.png
 INPUT ./Obrazky/Experiment01Results.png
 INPUT ./Obrazky/Experiment01Results.png
@@ -378,11 +383,6 @@ INPUT ./Obrazky/Experiment03Results.png
 INPUT ./Obrazky/Experiment03Results.png
 INPUT ./Obrazky/Experiment03Results.png
 INPUT ./Obrazky/Experiment03Results.png
-OUTPUT /home/premek/Asteroids/bp/kap05.aux
-INPUT /home/premek/Asteroids/bp/kap05.tex
-INPUT /home/premek/Asteroids/bp/kap05.tex
-INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmr8.tfm
-INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmr6.tfm
 INPUT Obrazky/Experiment04Results.png
 INPUT ./Obrazky/Experiment04Results.png
 INPUT ./Obrazky/Experiment04Results.png

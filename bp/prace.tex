@@ -62,36 +62,37 @@
 %%% Údaje o práci
 
 % Název práce v jazyce práce (přesně podle zadání)
-\def\NazevPrace{Název práce}
+\def\NazevPrace{Vesmírná hra s umělou inteligencí}
 
 % Název práce v angličtině
-\def\NazevPraceEN{Name of thesis}
+\def\NazevPraceEN{Space game with artificial intelligence}
 
 % Jméno autora
-\def\AutorPrace{Jméno Příjmení}
+\def\AutorPrace{Přemysl Bašta}
 
 % Rok odevzdání
-\def\RokOdevzdani{ROK}
+\def\RokOdevzdani{2020}
 
 % Název katedry nebo ústavu, kde byla práce oficiálně zadána
 % (dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF)
-\def\Katedra{Název katedry nebo ústavu}
-\def\KatedraEN{Name of the department}
+\def\Katedra{Katedra teoretické informatiky a matematické logiky}
+\def\KatedraEN{Department of Theoretical Computer Science and Mathematical Logic}
+
 
 % Jedná se o katedru (department) nebo o ústav (institute)?
 \def\TypPracoviste{Katedra}
 \def\TypPracovisteEN{Department}
 
 % Vedoucí práce: Jméno a příjmení s~tituly
-\def\Vedouci{Vedoucí práce}
+\def\Vedouci{Mgr. Martin Pilát, Ph.D.}
 
 % Pracoviště vedoucího (opět dle Organizační struktury MFF)
-\def\KatedraVedouciho{katedra}
-\def\KatedraVedoucihoEN{department}
+\def\KatedraVedouciho{Katedra teoretické informatiky a matematické logiky}
+\def\KatedraVedoucihoEN{Department of Theoretical Computer Science and Mathematical Logic}
 
 % Studijní program a obor
-\def\StudijniProgram{studijní program}
-\def\StudijniObor{studijní obor}
+\def\StudijniProgram{Informatika}
+\def\StudijniObor{Obecná informatika}
 
 % Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
 % zapůjčil software, literaturu apod.)
@@ -101,18 +102,29 @@ Poděkování.
 
 % Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
 \def\Abstrakt{%
-Abstrakt.
+Součástí této práce byla implementace mé vlastní, jednoduché, vesmírné hry, 
+která slouží jako experimentální prostředí pro testování různých přístupů umělé inteligence.
+Nad stavy a akcemi hry byly vytvořeny abstrakce ve formě senzorických metod a akčních plánů, 
+které umožňují jednoduše přecházet z informací nízké úrovně do informací vyšší úrovně a tak pomáhají algoritmům umělé inteligence jednodušeji manipulovat s agenty, kteří se ve hře pohybují.
+Jako algoritmy umělé inteligence byly pro hledání inteligentních agentů zvoleny Genetické programování a Hluboké Q-učení. 
+Závěrečná část se soustředí na popsání chování nalezených agentů a vzájemné porovnání výsledků z provedených experimentů.
 }
+
 \def\AbstraktEN{%
-Abstract.
+Part of this thesis consists of the implementation of my own simple space game which serves as an experimenting environment for testing different aproaches of artificial inteligence.
+There have been created abstractions in a form of sensoric methods and action plans as a transition between low level and high level information about game state and actions.
+These abstractions help algorithms of aritifical inteligence with game agent manipulation.
+As far as algorithms are considered I chose Genetic programming and Deep Q-learning as main aproachces for inteligent agent development.
+Final part contains description of behaviour of developed agents and comparison of performed experiments.
 }
 
 % 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
 \def\KlicovaSlova{%
-{klíčová} {slova}
+{Vesmírná hra} {Umělá inteligence} {Genetické programování} {Hluboké Q-učení}
 }
+
 \def\KlicovaSlovaEN{%
-{key} {words}
+{Space game} {Artificial Inteligence} {Genetic programming} {Deep Q-learning}
 }
 
 %% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,

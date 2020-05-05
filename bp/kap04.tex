@@ -102,290 +102,97 @@ V takto triviálním případě se hledané řešení nalezne pravděpodobně ve
 
 
 
-% \chapter{Genetické programování}
-
-% \section{Základní princip}
-% Genetické programování je evoluční technika, která vytváří počítačové programy. Cílem genetického programování je vyřešit co nejlépe zadaný problém.
-% Nespecifikujeme jak je potřeba ho vyřešit, ale víme, co je potřeba vyřešit.
-% \par
-% Každý program budeme nazývat jedincem a množině jedinců budeme říkat populace. Algoritmus pak běží iterativně v generacích. 
-% V každé iteraci se provede výběr nějakých jedinců z populace, ti se pomocí genetických operátorů upraví a nakonec se rozhoduje, kteří z nich přežijí do další generace.
-% Populaci na začátku iterace nazýváme rodiče a populaci, která bylo nakonci iterace pro další generaci, nazýváme potomky.
-% Každý program představuje jedno řešení daného problému. Kvalitu tohoto řešení ohodnocujeme takzvanou fitness funkcí. Čím vyšší hodnotu této funkce jedinec získá, tím lépe řeší daný problém.
-% \subsection{Reprezentace}
-
-% Program je obvykle reprezentovaný syntaktickým stromem. Stromy ve vnitřních uzlech obsahují funkce (neterminály) a v listech terminály.
-% Vyhodnocení stromu probíhá od listů ke kořeni a výsledek programu je pak hodnota kořenu.
-
-% \subsection{Inicializace populace}
-% Na začátku evoluce potřebujeme inicializovat populaci. Na počátku jsou jedinci vytvořeni náhodně. Obvykle se k vytvoření jedinců používají dvě metody.
-% První z nich je vytváření jedinců s pevně danou hloubkou stromu, kde v listech jsou vždy už jen terminály. Druhou metodou je stavět strom náhodně z předem daného počtu neterminálů.
-% Po vyčerpání počtu neterminálů se již opět přidají terminály jako listy. Tato metoda vytváří jedince různých velikostí a tvarů.
-% Častou praxí je prvotní populaci vytvořit tak, že každá z metod vytvoří polovinu jedinců. 
-
-% \subsection{Selekce}
-% V každé iteraci chceme vybrat několik jedinců, nad kterými budeme provádět různé genetické operátory. Snahou je vybírat jedince s vyšší hodnotou fitness funkce.
-% Asi nejpoužívanější metodou selekce je turnajová selekce. Náhodně se zvolí daný počet jedinců, ti se porovnají mezi sebou na základě jejich hodnoty fitness funkce a nejlepší z nich je pak zvolen do výběru.
-% Dalším z mnoha metod selekce je ruletová selekce. Zde je pravděpodobnost zvolení jedince do výběru přímo úměrná jeho hodnotě fitness funkce.
-% Pravděpodobnost výběru i-tého jedince je 
-% \[p(i) = \frac{f(i)}{\sum_{j=1}^{n} f(j)}. \]
-% Ruletová selekce má jednoduchou implementaci a zároveň je rychlá na výpočet. 
-% Jejím problémem je ale předčasná konvergence k lokálnímu optimu.
-% \par
-% Genetické operátory mohou občas upravit nejlepšího jedince tak, že se jeho hodnota fitness funkce výrazně zhorší.
-% Z tohoto důvodu se často používá technika zvaná elitismus, která automaticky do další generace vybere několik nejlepších současných jedinců. 
-% Tímto způsobem máme zajištěno, že neztratíme nejlepší jedince.
-
-
-
-% \url{https://www.researchgate.net/publication/259461147_Selection_Methods_for_Genetic_Algorithms}
-
-% \subsection{Genetické operátory}
-% Genetické operátory jsou dvojího druhu, křížení a mutace. Myšlenkou křížení je vzít dva jedince, nazývejme je rodiče, a pomocí křížení informací každého z nich vytvořit nového potomka.
-% V genetickém programování pracujeme s jedinci reprezentovanými stromy, proto křížení jedinců představuje křížení jejich stromů. V každém z rodičů se zvolí jeden uzel. 
-% Výsledný potomek vypadá jako první rodič, jen na původním místě vybraného uzlu bude nyní podstrom, který je zavěšený pod vybraným uzlem druhého rodiče.
-% \par
-% Druhým genetickým operátorem je mutace, ta již nepotřebuje mít dva rodiče, ale úprava se provede nad jedincem samotným.
-% Mutovat můžeme v jedinci buď jediný bod, nebo celý nějaký podstrom. V případě mutace podstromu se namísto vybraného podstromu vygeneruje zcela nový podstrom. 
-% Toto v zásadě představuje křížení s novým náhodně vytvořeným jedincem.
-% \newline
-% Mutace jediného bodu změní náhodně jediný uzel ve stromě. V případě terminálu se může vybrat libovolný jiný terminál. A v případě vnitřního uzlu může být vybraný libovolný jiný neterminál, který je stejné arity.
-
-% \subsection{Silně a volně typované genetické programování}
-% Ve volně typovaném genetickém programování nezadáváme typy funkcí ani terminálů. Jediné co musíme u funkcí určit je jejich arita a na základě toho se generují a mutují jedinci korektně.
-% Obvykle se nám více bude hodit silně typované genetické programování, zde určujeme u všech funkcí nejen jejich aritu, ale také typ každého z argumentů dané funkce a také typ návratové hodnoty.
-% Podobně musíme určit i hodnotové typy terminálů. Díky tomu máme zaručeno, že pokud máme například funkci, která vrací typ boolean, tak tato hodnota nebude vynásobena hodnotou typu float. 
-% Pak jen určíme hodnotové typy celého problému a algoritmus už se postará o to, aby byly typové podmínky dodrženy.
-% \url{https://deap.readthedocs.io/en/master/tutorials/advanced/gp.html}
-
-% \section{Využití}
-% Genetické programování je využitelné ve všech problémech, kde jsme schopní vymyslet způsob jak reprezentovat jedince představujícího řešení problému a fitness funkci, díky které jsme schopni dané řešení ohodnotit.
-% To tedy znamená, že možnosti využití jsou téměř nekonečné. Zmiňme ale pár konkrétních příkladů. 
-
-% \subsection{Obecné využití}
-% \todo{volně přeloženo a zkráceno z původního textu str. 126}
-% Obecně se genetické programování ukazuje být vhodné ve všech problémech, které splňují některou, z následujících podmínek:
-
-% \begin{itemize}
-%     \item Vzájemné vztahy zkoumaných proměnných nejsou dobře známy, nebo je podezření, že jejich současné porozumění může být mylné.
-%     \item Nalezení velikosti a tvaru hledaného řešení je částí řešeného problému.
-%     \item Existují simulátory pro testování vhodnosti zadaného řešení, ale neexistují metody pro přímé získání dobrých řešení.
-%     \item Obvyklé metody matematické analýzy nedávají, nebo ani nemohou být použity pro získání analytického řešení.
-%     \item Přibližné řešení je zcela postačující.
-    
-% \end{itemize}
-
-% \subsection{Symbolická regrese}
-% V mnoha problémech je naším cílem nalézt funkci, jejíž hodnota splňuje nějakou požadovanou vlastnost. Toto známe pod názvem symbolická regrese.
-% Obyčejná regrese má obvykle za cíl nalézt koeficienty předem zadané funkce, tak aby co nejlépe odpovídala daným datům.
-% Zde je problém, že pokud potřebná funkce nemá stejnou strukturu, jako zadaná funkce, tak dobré koeficienty nenalezneme nikdy a musíme zkusit hledat funkci jiné struktury.
-% Tento problém může vyřešit právě symbolická regrese. Ta hledá vhodnou funkci aniž by na začátku měla očekávání o její struktuře.
-% Uvedeme triviální příklad. Řekněme, že hledáme výraz, jehož hodnoty odpovídají polynomu $x^2+x+1$ na intervalu $[-1,1]$.
-% Budeme hledat funkci jedné proměnné $x$, proto $x$ přidáme jako terminál. Dále přidáme jako terminály číselné konstanty (například -1,1,2,5,10), které budou sloužit pro hledání koeficientů.
-% Pro náš případ bude stačit, když si jako aritmetické funkce přidáme ty základní, tedy sčítání, odečítání, násobení a dělení.
-% Fitness funkci můžeme zvolit jako součet absolutních hodnot rozdílů daného výrazu a hledaného výrazu $x^2+x+1$.
-% Toto stačí pro spuštění evolučního algoritmu. 
-% V takto triviálním případě se hledané řešení nalezne pravděpodobně vezmi brzo a bude mít jednu z podobu stromu reprezentujícího daný výraz (viz strom výrazu \ref{obr04:GrafFormule})
-
-
-% \begin{figure}[p]\centering
-% \includegraphics[width=70mm, height=70mm]{./Obrazky/formule_graph_2.png}
-% \caption{Strom výrazu}
-% \label{obr04:GrafFormule}
-% \end{figure}
-
-\chapter{Provedené experimenty}
-
-\section{Aplikace}
-\subsection{Úvod}
-Genetické programování lze využít i v mém problému hledání inteligentního agenta. 
-Nezbytným požadavkem pro využití genetického programování je existence reprezentace jedince a fitness funkce, která mu přiřadí jeho hodnotu. 
-Jedinec bude představovat rozhodovací funkci, která se na základě vstupních argumentů rozhodne, který akční plán bude vybrán.
-
-V našem případě máme hru, kde spolu dva hráči soupeří a hra končí výhrou jednoho z hráčů.
-Přesně tohoto můžeme ve fitness funkci jedince využít. 
-Pokud chceme využít výsledku hry, jak jedinec ve hře dopadl, tak musíme ale nejprve zvolit proti jakému hráči bude jedinec, který je předmětem našeho zájmu, hrát.
-
-Genetické programování jsem využil ve dvou experimentech. 
-Reprezentace jedince je pro oba experimenty stejná, rozdíl je ale v přístupu k fitness funkcím, ty popíšu v každém experimentu separátně.
-
-Pro experimentování s genetickým programováním jsem zvolil knihovnu deap pro python. Zde lze jednoduše konfigurovat evoluční algoritmus na konkrétní řešený problém.
-Stačí popsat jak reprezentovat jedince a jaká je jeho fitness funkce a zbytek knihovna vyřeší za nás.
-
-
-\subsection{Reprezentace jedince}
-V předchozí kapitole jsme si vybudovali abstrakace v podobě senzorů a akčních plánů a těch zde budeme chtít využít.
-Jedinec, podobně jako u symbolické regrese, je funkce, tedy může být reprezentován stromem.
-
-\begin{itemize}
-\item{
-    Terminály:
-    \begin{itemize}
-        \item Vstupní argumenty rozhodovací funkce
-        \item Celočíselné konstanty -1, 1, 3, 5, 10, 100
-        \item Nulární funkce vracející výčtové hodnoty reprezentující zvolený akční plán  
-    \end{itemize}
-    Jako argumenty funkce jsem si zvolil následující hodnoty: délky všech čtyř akčních plánů a počet kroků před srážkou vesmírné lodi s asteroidem.
-    Délky akčních plánů se pohybují v intervalu $(1,100)$, proto jsou číselné konstanty zvoleny tak, aby se jejich sčítáním a násobením lehce dosáhlo dalších hodnot z tohoto intervalu.
-    }
-
-\item{
-    Neterminály:
-    \begin{itemize}
-        \item Aritmetické operace sčítání a násobení
-        \item Funkce \emph{compare}
-        \item Funkce \emph{if\_then\_else}
-    \end{itemize}
-    Z aritmetický operací nám stačí sčítání a násobení. Operaci odčítání získáme pomocí sčítání a násobení konstantou -1. 
-    Hodnoty z intervalu $(1,100)$ jednoduše získáme také pomocí sčítání a násobení potřebných konstant, proto pro operaci dělení není důvod.
-    Všechny aritmetické operace jsou typu $([int,int], int)$.
-    Funkce \emph{compare} je typu $([int,int], Bool)$, vrací zda první argument je větší než druhý argument.
-    Poslední použitá funkce \emph{if\_then\_else} je typu 
-    \newline
-    $([Bool, ActionPlanEnum, ActionPlanEnum], ActionPlanEnum)$. 
-    Tato funkce dostává jako argumenty výraz typu bool a následně dvě hodnoty reprezentující akční plány. 
-    Na základě pravdivosti výrazu vrací funkce první nebo druhou z hodnot akčních plánů.
-}
-\end{itemize}
-
-
-\subsection{Experiment 1: Soupeření s obranným agentem}
-Cílem tohoto experimentu bylo vyvinout agenta, který bude lepší než agent, který se řídí čistě obranným akčním plánem.
-Výpočet fitness funkce zahrnuje zahrání 6 her současného jedince s obranným agentem a výsledek je průměr z hodnot každé z her.
-Hra je pokaždé velmi náhodná, tedy zahrání jedné hry by mělo nízkou vypovídající hodnotu. Proto jsem pro přesnější informaci zvolil zahrání 6 her.
-Hodnota zahrané hry se skládá z více částí.
-\begin{itemize}
-    \item Počet kroků trvání hry
-        \newline
-        Myšlenkou je zde, obzvláště v počátku evoluce, upřednostňovat takové jedince, kteří dokáží vydržet ve hře co nejdéle, tedy nejsou ve hře okamžitě poraženi.
-        Pro představu, délky her se pohybují přibližně v intervalu $(900,2900)$ kroků.
-    \item Penalizace za nevyužití některého z plánů
-        \newline
-        Během hry se udržuje historie, kolikrát se agent rozhodl pro každý z akčních plánů.
-        Za každý ze čtyř akčních plánů, který agent ani jednou během hry nezvolil bude přičtena penalizace -500. Cílem těchto penalizací je upřednostňovat takové jedince, kteří používají všechny akční plány. 
-        Toto jsem se rozhodl udělat pro větší diverzifikaci herní strategie.
-    \item Bonus/penalizace za výhru/prohru
-        \newline
-        Toto je asi nejdůležitější část. Pro zdůraznění rozdílu mezi vyhranými a prohranými hrami se v případě výhry přičtou k výsledku 2000 a v případě prohry se 2000 odečtou.
-        Motivací mohou být následující dvě situace. V jedné hře se podařilo jedinci dlouho bránit, řekněme, že vydržel 2500 kroků hry a poté prohrál. A v další situaci jedinec porazil soupeře v rychlých 1200 krocích. 
-        Bez bonusu za vyhranou hru, by prohraná hra získala jedinci daleko vyšší hodnotu, než hra z druhé hry, kterou vyhrál.        
-    
-\end{itemize}
-
-Algoritmus byl spuštěn s následujícími parametry:
-\begin{itemize}
-    \item Velikost populace: 30
-    \item Pravděpodobnost křížení: 60\%
-    \item Pravděpodobnost mutace: 20\%
-    \item Počet generací: 100
-    \item Metoda selekce: turnajová selekce
-\end{itemize}
-
-Výsledný nejlepší jedinec bohužel nesplnil naše očekávání a nedokázal obranného agenta porazit. 
-V souboji jedinec nejen nedokázal konkurovat obrannému agentovi, ale ani se neřídí moc rozlišnou strategií.
-
-V 95\% volil, stejně jako obranný agent, obranný akční plán a ve zbylých pár procentech volil všechny zbylé akční plány (viz \ref{Výsledek experimentu 01}).
-Vyžívání všech akčních plánů bylo pravděpodobně dosaženo právě skrze vysokou penalizaci při nepoužití libovolného z nich, ale vidíme, že agent je volí spíš právě z tohoto důvodu, než že by je chtěl aktivně využívat ve svém rozhodování.
-
-\begin{figure}[p]\centering
-\includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment01Results.png}
-\caption{Výsledek experimentu 1}
-\label{Výsledek experimentu 01}
-\end{figure}
-
-
-
-
-\subsection{Experiment 2: Postupné zaměňování úspěšnějšího jedince}
-V tomto experimentu nebylo cílem porazit konkrétního, stálého agenta jako v předchozím případě.
-Cílem bylo postupně vybudovat nejzdatnějšího jedince.
-Stejně jako v předchozím experimentu i zde fitness funkce spočívá v zahrání šesti her,
-avšak zde nebudeme hrám přiřazovat žádnou hodnotu, ale spokojíme se s jednoduchou informací, který z agentů v dané hře zvítězil.
-\par
-Po celou dobu evoluce si budeme pamatovat současného nejlepšího jedince. 
-Na začátku zinicializujeme zcela náhodného jedince a označíme ho jako současného nejlepšího jedince.
-Pak obvyklým způsobem vytvoříme populaci dalších jedinců a započneme evoluci.
-Fitness funkce jedince bude počítat poměr, kolik ze šesti zahraných her jedinec vyhrál v souboji se současně nejlepším nalezeným řešením.
-Evoluce hledá řešení, která budou proti současnému nejlepšímu jedinci co nejúspěšnější.
-V každé 3. generaci se následně kontroluje, zda již náhodou nebyl v populaci nalezen jedinec, který, pro danou situaci, nejlepšího jedince porazil alespoň v pěti ze šesti hrách.
-Pokud ano, tak takový jedinec bude nově zvolen jako nejlepší a evoluce bude pokračovat stejným způsobem dál.
-\par
-Po výměně nejlepšího jedince musíme nově přepočítat fitness funkci všech stávajících jedinců v populaci, protože jejich současná hodnota se vztahovala k původnímu soupeři.
-Rovněž musíme, ze stejného důvodu, smazat všechny jedince ze síně slávy (ang. Hall of fame), kde se průběžně ukládají nejlepší jedinci spolu s hodnotou jejich fitness funkce.
-
-\par
-Všechny tyto změny už nelze nakonfigurovat přímočarým způsobem jako v předchozím experimentu, ale je zapotřebí upravit samotnou kostru evolučního algoritmu.
-\par
-Algoritmus byl spuštěn s následujícími parametry
-\begin{itemize}
-    \item Velikost populace: 10
-    \item Pravděpodobnost křížení: 60\%
-    \item Pravděpodobnost mutace: 20\%
-    \item Počet generací: 450
-    \item Metoda selekce: turnajová selekce
-\end{itemize}
-
-Tento experiment přinesl lepší výsledky. Jako v předchozím případě jsem nechal hrát nalezeného agenta proti obranému agentovi.
-Nalezený agent se oproti předchozímu agentu dokázal naučit lépe utočit, volil útočný akční plán téměř ve 40\% případech. 
-Nicméně ani tentokrát se agent nenaučil nic jiného než obranu a útok (viz \ref{Výsledek experimentu 02}). 
-Zastavovací akční plán volil v méně než 1\% případů a úhybný plán nezvolil dokonce ani jednou. Volba zastavovacího akčního plánu bez použití úhybu mimo jiné znamená, že agent v rámci tohoto plánu neprováděl žádné akce.
 \newpage
+\section{Hluboké Q-učení}
 
- 
-
-
-\begin{figure}[p]\centering
-\includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment02Results.png}
-\caption{Výsledek experimentu 2}
-\label{Výsledek experimentu 02}
-\end{figure}
-
-\subsection{Experiment 3: Postupné zaměňování úspěšnějšího jedince bez obranného akčního plánu}
-
-V předchozích experimentech se nám v obou případech podařilo vytvořit agenty, kteří v drtivé většině stavů rozhodují jen mezi obranným a útočným plánem.
-To má za následek, že se agenti po celou dobu hry pouze otáčejí a střílejí, ale zůstavají při tom na jednom stejném místě.
-V tomto experimentu se tomuto problému zkusíme vyhnout, tím, že donutíme agenta bránit se uhýbáním namísto sestřelování nebezpečných asteroidů.
-
+% \subsection{Základní principy}
+\subsection{Neuronová síť}
+Než se dostaneme k hlubokému q-učení, budeme se nejprve muset seznámit s pojmy neuronová síť a q-učení. Začněme tedy s neurovnovými sítěmi.
+Abychom si mohli říct, co neurovnové sítě jsou, musíme se nějdřív seznámit s její základní jednotku - perceptron.
 \par
-Experiment bude probíhat stejným způsobem jako v předchozím případě, jen s tím rozdílem, že agentovi zakážeme používání obranného plánu. 
-Z argumentů rozhodovací funkce odstraníme informaci o obranném plánu. 
-A z množiny terminálů používaných při tvorbě programů odstraníme nulární funkci reprezentující obranný akční plán.
+Perceptron je algoritmus, který má na vstupu několik hodnot $x_i$ a jeden výstup. S každou vstupní hodnotou je spojena jedna váha $w_i$.
+Kromě váh vstupů obsahuje perceptron ještě tzv. práh. Perceptron spočítá vážený součet vstupů a porovná výsledek s prahem. Pokud je výsledek větší než práh, tak perceptron vrací hodnotu 1, jinak 0.
+Můžeme zde ale využít triku pro zbavení se prahu. K práhu můžeme přistupovat jako k další váze s konstantním vstupem -1.
+V takovém případě pak perceptron provádí porovnání váženého součtu vstupů s hodnotou 0. 
+\newline
+Matematicky zapsáno:
+\[f(\sum_{i=0}^{n} w_if_i)\], kde $f$ vrací 1 pro $x>0$ a 0 jinak.
 
-\par
-To je vše co je potřeba změnit a zbylá logika zůstává stejná. Opět se snažíme nalézat lepší jedince pomocí vzájemných soubojů.
+Trénování daného perceptronu probíhá pomocí předkládání dvojic vstupů a výstupů $(x,y)$ z trénovací množiny a upravování váh následujícím způsobem:
+\newline
+\[w_i = w_i + r(y-f(x_i)x_i\], kde $r$ je parametr učení.
 
-Algoritmus byl spuštěn s následujícími parametry
-\begin{itemize}
-    \item Velikost populace: 10
-    \item Pravděpodobnost křížení: 60\%
-    \item Pravděpodobnost mutace: 20\%
-    \item Počet generací: 2000
-    \item Metoda selekce: turnajová selekce
-\end{itemize}
+Rozhodovací hranice perceptronu představuje nadrovinu ve vstupním prostoru. Lze ukázat, že trénování perceptronu zkonverguje, pokud jsou třídy v datech lineárně separabilní.
 
-S výsledným agentem jsme opět provedli souboj s obranným agentem.
-První čeho si můžeme všimnout je, že náš agent v souboji prohrál s výsledkem 2:10, tedy bez obranného akčního plánu nebyl schopný tak úspěšně konkurovat obrannému agentovi.
-Druhá skutečnost, která stojí za povšimnutí je průměrná délka hry, ta byla v průměru přibližně o 500 kroků kratší než v předchozím experimentu. 
-Z toho vyplývá, že využívání úhybného akčního plánu k přežívání není tak účinné, jako bránění se pomocí obranného akčního plánu. 
-To ale není nijak překvapivé. Pro agenta je prostředí tím víc nebezepečné, čím více je v něm nebezpečných asteroidů. 
-Používání úhybného akčního plánu vede k uhnutí vesmírné lodi před nebezepčným asteroidem, né před jeho zníčením, jako je to u obranného akčního plánu. To má za následek, že v případě úhybného akčního plánu agent neredukuje počet nebezepčných asteroidů a mnohem dříve se dostane do stavu, kdy nemá šanci se roji asteroidů vyhnout. 
+Většinou ale řešíme problémy, kde třídy v datech lineárně separabilní nejsou, v takových případech nám jeden perceptron nestačí a potřebujeme jich využít víc.
+Spojením více perceptronů získáváme dopřednou neuronovou síť. Ta se skládá z vrstev perceptronů, kde vstupy perceptronů první jsou samotná data $x$ a vstupy perceptronů v dalších vrstávch jsou rovny výstupům perceptronů z vrstvy předchozí.
 
-\par
-Zajímavým výsledkem experimentu je také to, že, přestože agent používá, v rámci úhybného akčního plánu, akceleraci pro obranu velmi často, ani tentokrát nepoužívá zastavovací akční plán (viz \ref{Výsledek experimentu 03}).
-To ukazuje, že zastavování letu není pro získání lepších výsledků stěžejní.
-\par
-Výsledný agent v souboji jednoznačně dosáhl špatných výsledků, ale pokud se na hru podíváme vizuálně, tak oproti agentům, kteří zůstávají po celou dobu hry na místě, působí agentovo chování z lidského pohledu mnohem zajímavěji.
+Pro trénování více vrstvých perceptronů se používá gradientní metoda. Z toho důvodů se využívají jiné funkce $f$, než ta zmíněná nahoře, ta má totiž gradient ve většíně případů roven 0.
+Typickým příkladem používané funkce je sigmoid \[f(x) = \frac{1}{1+e^{-x}}\].
 
+Následně musíme zvolit chybovou funkci $L(x,y|w)$ neuronové sítě. Zde se typicky využívá střední kvadratická chyba (ang. Mean squared error).
+Chybová funkce se zderivuje podle vah v síti a následně se jednotlivé váhy upraví.
+\newline
+\[w_i = w_i + \alpha\frac{\partial L(x,y|w)}{\partial w_i}\]
 
-\begin{figure}[p]\centering
-\includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment03Results.png}
-\caption{Výsledek experimentu 3}
-\label{Výsledek experimentu 03}
-\end{figure}
+\url{https://ocw.mit.edu/courses/health-sciences-and-technology/hst-947-medical-artificial-intelligence-spring-2005/lecture-notes/ch7_mach3.pdf}
+\todo{strana 9 až 13}
 
 
+\subsection{Zpětnovazební učení}
+Podobně jako v předchozí sekci, i zde musíme nejprve zavést nové pojem a terminologii, než budeme moci říct, co je cílem zpětnovazebního učení.
+Popišme si nejprve, co je to markovský rozhodovací prostor.
+Markovský rozhodovací prostor popisuje prostředí a je definován čtveřicí $(S,A,P,R)$, kde $S$ je množina stavů, $A$ je množina všech akcí (případně $A_s$ představuje množinu akcí, které mohou být provedeny ve stavu $s$), 
+$P: S \times A \times S \rightarrow [0,1]$ představuje přechodovou funkci, 
+kde $P_a(s,s')$ vrací pravděpodobnost, že se aplikováním akce $a$ ve stavu $s$ dostaneme do stavu $s'$, 
+a $R: S \times A \times S \rightarrow \mathbb{R}$ představuje funkci odměn $R_a(s,s')$, která vrací odměnu, kterou agent obdrží, pokud ve stavu $s$ provede akci $a$ a dostane se tak do stavu $s'$.
+Přechodová funkce i funkce odměn musí navíc splňovat podmínku, že musí být jejich hodnoty nezávislé na předchozích stavech.
+
+\url{https://ocw.mit.edu/courses/aeronautics-and-astronautics/16-410-principles-of-autonomy-and-decision-making-fall-2010/lecture-notes/MIT16_410F10_lec22.pdf}
+
+Chování agenta v prostředí můžeme popsat pomocí strategie $\pi: S \times A \rightarrow [0,1]$, ta určuje pravděpodobnost, že se agent ve stavu $s$ rozhodne pro akci $a$.
+Pro agenta v prostředí ještě definujme jeho celkovou odměnu jako \[\sum_{t=0}^{\infty} \gamma^tR_{a_t}(s_t,s_{t+1})\], kde $\gamma<1$ je diskontní faktor, díky kterému je suma konečná a $a_t$ je akce agenta vybraná v kroku t.
+Cílem zpětnovazebního učení je nalézt optimální strategii $\pi^\star$, kde $a_t=\pi^\star(s_t)$, takovou, že její celková odměna je maximální.
+
+Hodnotu stavu $s$ při použití strategie $\pi$ lze definovat jako 
+\newline
+\[V^{\pi}(s)=[\sum_{t=o}^{\infty} \gamma^tr_t|s_0=s]\], kde $r_t$ značí odměnu získanou v kroku t.
+Podobně také můžeme definovat hodnotu $Q^{\pi}(s,a)$ akce $a$ provedené ve stavu $s$ při následování strategie $\pi$.
+\[Q^\pi(s,a)=\sum_{s'}P_a(s,s')[R_a(s,s') + \gamma\sum_{a'} \pi(s',a')Q^\pi(s',a')]\]
+Z Bellmanovy rovnice pro optimální strategie platí:
+\[Q^*(s,a)=R_a(s,s') + \gamma\max_{a'}Q_k(s',a')\]
+
+Agent ke zlepšování své strategie může využívat přechodové funkce a funkce odměn. Často ale agent hodnoty jednotlivých stavů předem nezná a musí se je učit za běhu.
+Zároveň musí volit mezi explorací tj. prohledávání prostoru a exploatací tj. využívání známého. Zde využijeme $\epsilon$-hladového (ang. $\epsilon$-greedy) přístupu, kdy s pravděpodobností $\epsilon$ vybere náhodou akci a s pravděpodobností $1-\epsilon$ vybere nejlepší známou akci.
+
+Nyní se už dostáváme ke Q-učení. $Q$ je reprezentována jako matice zpočátku inicializovaná samými nulami. Agent následně ve stavu $s_t$ vybírá například $\epsilon$-hladovým přístupem akci $a_t$, získá od prostředí odměnu $r_t$ a přesune se do stavu $s'$.
+Na základě těchto informací se provede aktualizace matice následovně:
+\newline
+\[Q(s_t,a_t) \leftarrow (1-\alpha)Q(s_t,a_t) + \alpha(r_t + \gamma(\max_a(Q(s_{t+1},a))))\]
 
 
 
+
+\subsection{Hluboké Q-učení}
+Po seznámí se základy neuronových sítí a zpětnovazebního učení můžeme přejít k hlubokému Q-učení.
+Hluboké Q-učení následuje stejnou myšlenku jako obyčejné Q-učení, také chceme nalézt odměnu vybrané akce v současném stavu stavu.
+Hlavním rozdílem oproti normálnímu Q-učení je způsob jak se Q hodnoty reprezentují. V normálním Q-učení jsou Q hodnoty uložené v matici, ta může být v případě velkých prostorů příliš obrovská a Q-učení pak může probíhat velmi pomalu, nebo dokonce vůbec.
+V Hlubokém Q-učení bude Q reprezentováno pomocí neuronové sítě.
+
+Trénování se provádí pomocí porovnání rozdílu aktuální odměny $R_a(s,s')$ prostředí od odměny spočítané pomocí Bellmanovy rovnice z Q.
+Cílem je tedy minimalizovat rozdíl mezi \[Q(s,a) \hspace{5mm}\text{a}\hspace{5mm}  R_a(s,s') + \gamma\max_{a'}Q_{\theta}(s',a')\], kde $Q_{\theta}$ jsou parametry neurovnové sítě reprezentující matici Q.
+Chybovou funkcí pro trénování neuronové sítě pak může být střední čtvercová chyba tohoto rozdílu.
+
+
+
+\subsection{Využití}
+V praxi bylo hluboké Q-učení použito například pro naučení se hraní atari her. 
+\url{https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf}
+
+Namísto ručně zpracovaných informacích o stavu hry zde byly jako vstupy využity přímo vizuální výstupy hry.
+Q-síť je proto reprezentována konvoluční neuronovou sítí, která na vstupu bere vektor pixelů obrázku hry a na výstupu vrací odhad budoucích odměn pro každou z možných akcí.
+Modelu nebylo řečeno nic o principu fungování hry. Model se učil pouze na základě vizuálního výstupu, odměn, které dostával od prostředí, konečných stavů a množiny možných akcí, tedy stejným přístupem, jak by ke hře přistupoval člověk.
+
+Stejná neuronová síť byla použitá na sedmi různých atari hrách. Na šesti z nich překonala všechny stávající přístupy, které využívaly algoritmy zpětnovazebního učení a na třech z nich překonala výsledky nejlepších lidských hráčů.
 
 

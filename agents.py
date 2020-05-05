@@ -1821,69 +1821,68 @@ class Low_level_sensor_DQAgent(Agent):
 # vytvorime agenta (4 vstupy, 2 akce)
 
 
-# class Input_agent(Agent):
-#     def __init__(self,  screen, player_number):
-#         super().__init__(player_number)
-#         self.screen = screen
-#
-#     def  choose_actions(self, state):
-#         actions_one = []
-#         actions_two = []
-#         actions = []
-#         events = pygame.event.get(pygame.KEYDOWN)
-#
-#         for event in events:
-#             if(event.key == pygame.K_KP5):
-#                 actions.append(Rocket_action.ROCKET_ONE_SHOOT)
-#                 # actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
-#                 actions_one.append(RocketBaseAction.SHOT)
-#             if(event.key == pygame.K_KP6):
-#                 actions.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
-#                 # actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
-#                 actions_one.append(RocketBaseAction.SPLIT_SHOOT)
-#             if(event.key == pygame.K_g):
-#                 actions.append(Rocket_action.ROCKET_TWO_SHOOT)
-#                 # actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
-#                 actions_two.append(RocketBaseAction.SHOT)
-#             if(event.key == pygame.K_h):
-#                 actions.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
-#                 # actions_two.append(Rocket_action.ROCKET_TWO_SPLIT_SHOOT)
-#                 actions_two.append(RocketBaseAction.SPLIT_SHOOT)
-#
-#
-#         all_keys = pygame.key.get_pressed()
-#         if all_keys[pygame.K_UP]:
-#             actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-#             # actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-#             actions_one.append(RocketBaseAction.ACCELERATE)
-#         if all_keys[pygame.K_LEFT]:
-#             actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-#             # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-#             actions_one.append(RocketBaseAction.ROTATE_LEFT)
-#         if all_keys[pygame.K_RIGHT]:
-#             actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-#             # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-#             actions_one.append(RocketBaseAction.ROTATE_RIGHT)
-#
-#         if all_keys[pygame.K_a]:
-#             actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-#             # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-#             actions_two.append(RocketBaseAction.ROTATE_LEFT)
-#         if all_keys[pygame.K_d]:
-#             actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-#             # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-#             actions_two.append(RocketBaseAction.ROTATE_RIGHT)
-#         if all_keys[pygame.K_w]:
-#             actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-#             # actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-#             actions_two.append(RocketBaseAction.ACCELERATE)
-#
-#
-#
-#         # clearing it apparently prevents from stucking
-#         pygame.event.clear()
-#
-#         return actions_one, actions_two
+class Input_agent(Agent):
+     def __init__(self,  screen, player_number):
+         super().__init__(player_number)
+         self.screen = screen
+
+     def  choose_actions(self, state):
+         actions_one = []
+         actions_two = []
+         actions = []
+         events = pygame.event.get(pygame.KEYDOWN)
+
+         for event in events:
+             if(event.key == pygame.K_KP5):
+                 #actions.append(Rocket_action.ROCKET_ONE_SHOOT)
+                 # actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
+                 actions_one.append(RocketBaseAction.SHOT)
+             if(event.key == pygame.K_KP6):
+                 #actions.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
+                 # actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
+                 actions_one.append(RocketBaseAction.SPLIT_SHOOT)
+             if(event.key == pygame.K_g):
+                 #for second player switch back to action_two
+                 actions_one.append(RocketBaseAction.SHOT)
+             if(event.key == pygame.K_h):
+                 # for second player switch back to action_two
+                 actions_one.append(RocketBaseAction.SPLIT_SHOOT)
+
+
+         all_keys = pygame.key.get_pressed()
+         if all_keys[pygame.K_UP]:
+             #actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
+             # actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
+             actions_one.append(RocketBaseAction.ACCELERATE)
+         if all_keys[pygame.K_LEFT]:
+             #actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
+             # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
+             actions_one.append(RocketBaseAction.ROTATE_LEFT)
+         if all_keys[pygame.K_RIGHT]:
+             #actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
+             # actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
+             actions_one.append(RocketBaseAction.ROTATE_RIGHT)
+
+         if all_keys[pygame.K_a]:
+             #actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
+             # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
+             actions_two.append(RocketBaseAction.ROTATE_LEFT)
+         if all_keys[pygame.K_d]:
+             #actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+             # actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
+             actions_two.append(RocketBaseAction.ROTATE_RIGHT)
+         if all_keys[pygame.K_w]:
+             #actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+             # actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
+             actions_two.append(RocketBaseAction.ACCELERATE)
+
+
+
+         # clearing it apparently prevents from stucking
+         pygame.event.clear()
+
+         return actions_one\
+             #, actions_two
 
 class ActionPlanEnum(Enum):
     ATTACK = 0

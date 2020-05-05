@@ -1,8 +1,3 @@
-import random
-
-import tensorflow as tf
-import numpy as np
-
 from enviroment import *
 from agents import *
 
@@ -64,30 +59,32 @@ class DQAgent:
         if self.eps > 0.01:
             self.eps = self.eps*self.eps_decay
 
-# vytvorime agenta (4 vstupy, 2 akce)
-agent = DQAgent(4, 2)
-env = Enviroment(VISUAL, ROCKET_ONE_INVULNERABLE, ROCKET_TWO_INVULNERABLE)
+
+if __name__ == "__main__":
+    # vytvorime agenta (4 vstupy, 2 akce)
+    agent = DQAgent(4, 2)
+    env = Enviroment(VISUAL, ROCKET_ONE_INVULNERABLE, ROCKET_TWO_INVULNERABLE)
 
 
 
-# spustime trenovani na 1000 epizodach prostredi
-rewards = []
-for i in range(1000):
-    obs = env.reset()
-    obs = np.reshape(obs, newshape=(1, -1))
-    done = False
-    R = 0
-    t = 0
-    while not done:
-        old_state = obs
-        action = agent.action(obs, train=True)
-        obs, r, done, _ = env.step(action)
-        R += r
-        t += 1
-        r = r if not done else 10
+    # spustime trenovani na 1000 epizodach prostredi
+    rewards = []
+    for i in range(1000):
+        obs = env.reset()
         obs = np.reshape(obs, newshape=(1, -1))
-        agent.record_experience((old_state, action, r, obs, done))
-    agent.train()
+        done = False
+        R = 0
+        t = 0
+        while not done:
+            old_state = obs
+            action = agent.action(obs, train=True)
+            obs, r, done, _ = env.step(action)
+            R += r
+            t += 1
+            r = r if not done else 10
+            obs = np.reshape(obs, newshape=(1, -1))
+            agent.record_experience((old_state, action, r, obs, done))
+        agent.train()
 
-    rewards.append(R)
-    print(i, R)
+        rewards.append(R)
+        print(i, R)

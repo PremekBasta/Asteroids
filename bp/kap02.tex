@@ -2,10 +2,10 @@
 
 
 \section{Vesmírné objekty}
-Všechny vesmírné objekty mají některá data společná. Každý vesmírný objekt má souřadnice své současné polohy a také vektor rychlosti.
+Všechny vesmírné objekty mají některá data společná. Každý vesmírný objekt má souřadnice své současné polohy a vektor rychlosti.
 
 \subsection{Asteroidy}
-Asteroidy nesou navíc informace o tom, jaké jsou velikosti a zda-li byly vytvořené nějakým z hráčů. 
+Asteroidy mají navíc informace o tom, jaké jsou velikosti a zda-li byly vytvořené nějakým z hráčů, tedy jsou projektily, anebo byly vytvořeny jako asteroidy neutrální.
 Na základě těchto dvou informací je asteroidu při vytvoření přiřazen obrázek, pomocí kterého je po dobu své existence vykreslován.
 
 \subsection{Střely}
@@ -13,14 +13,16 @@ Vystřelené střely neletí věčně, ale mají omezenou životnost kolik krok�
 Tato hodnota se nastavuje z konfiguračního souboru z položky \emph{\uppercase{bullet\_life\_count}}.
 V každém kroku hry se střele její živostnost sníží o jedna a pokud se dostane na nulu, tak střela bude zničena.
 Střele se při vytvoření nastaví úhel, pod kterým poletí. Tento úhel je roven úhlu natočení vesmírné lodi, který měla při vystřelení.
-Samozřejmě také u střely musíme evidovat, kterému z hráčů patří, toto je řešeno odkazem na objekt vesmírné lodi, která střelu vystřelila.
+Přirozeně, stejně jako u asteroidů, i u střely musíme evidovat, kterému z hráčů patří, toto je řešeno odkazem na objekt vesmírné lodi, která střelu vystřelila.
 Jak již bylo zmíněno v předchozí kapitole, střely jsou dvojího druhu. Příznakem \emph{split} se určuje zda se jedná o střelu obyčenou nebo rozdvojovací
 
 
 \subsection{Vesmírná loď}
 Vesmírná loď má základní polohové informace rozšířené o úhel. Ten se s každou rotací lodě zvětší nebo zmenší o 12\textdegree.
-Akcelerace funguje vektorovým sčítáním. K současnému vektoru rychlosti se přičte vektor odpovídající současnému úholu lodi.
-Maximální rychlost vesmírné lodi je omezená, v případě že akcelerací vznikne vektor rychlosti, jehož délka je větší než hodnota maximální rychlosti, se směr vektoru zachová, ale požadovaně se zkrátí.
+Akcelerace je realizována pomocí vektorového sčítání. K současnému vektoru rychlosti se přičte vektor odpovídající současnému natočení lodi.
+Maximální rychlost vesmírné lodi je omezená.
+V případě že akcelerací vznikne vektor rychlosti, jehož délka je větší než hodnota maximální rychlosti, tak dojde k jeho zkrácení.
+Směr vektoru se zachová, ale je délka bude zkrácena na maximální možnou délku.
 
 \newpage
 
@@ -29,57 +31,59 @@ Maximální rychlost vesmírné lodi je omezená, v případě že akcelerací v
 \section{Prostředí}
 
 Hra běží v cyklu diskrétních kroků, které dohromady simulují plynulý pohyb hry.
-Herní prostředí je insipirováno projektem open ai gym od google
-(viz \url{https://gym.openai.com/}). Jedním rozdílem je však přístup k vykreslování hry. V případě \emph{gym.openai} se prostředí vykresluje zavoláním metody \emph{render()} na instanci prostředí zvenku.
-Já jsem zvolil přístup jiný. V případě, že chceme hru graficky zobrazovat, předáváme v kontruktoru prostředí grafický modul, který implementuje vykreslování jednotlivých typů vesmírných objektů.
-A prostředí už poté objekty graficky vyresluje interně samo. Rozhodnutí, že se má grafický modul volitelně injektovat v konstruktoru a nemá být natvrdo svázán s prostředím, jsem učinil pro větší nezávislost modulů. 
-Při práci s různými knihovnami pro evoluční algoritmy se ukázalo být problematické, kdyby bylo herní prostředí svázáno s grafickým modulem.
+Herní prostředí je insipirováno projektem \emph{open ai gym} od google
+(viz \url{https://gym.openai.com/}). Jedním rozdílem je však přístup k vykreslování hry. V případě \emph{open ai gym} se prostředí vykresluje zavoláním metody \emph{render()} na instanci prostředí zvenku.
+Já jsem zvolil přístup jiný. V případě, že chceme hru graficky zobrazovat, předáme v kontruktoru prostředí grafický modul, který vykreslování vesmírných objektů implementuje.
+A prostředí už poté objekty graficky vyresluje interně samo. 
+Rozhodnutí, že se má grafický modul volitelně injektovat v konstruktoru a nemá být natvrdo svázán s prostředím, jsem učinil z důvodu větší nezávislosti modulů. 
+Při další práci s knihovnami pro evoluční algoritmy se ukázalo být pevné svázání herního prostředí s grafickým modulem problematické.
 \par
 
 Herní prostředí se stará o manipulaci všech vesmírných objektů a akcí s nimi spojenými. 
 V každém kroku dostává od hráčů akce, které chtějí provést, a prostředí na to odpovídajícím způsobem reaguje. 
-Akce každého hráče z hráčů jsou pole, které obsahuje elementární možné akce:
+Akce každého hráče jsou reprezentovány polem, které obsahuje elementární možné akce:
 \begin{itemize}
     \item Rotace vlevo
     \item Rotace vpravo
     \item Akcelerace
     \item Obyčejná střela
     \item Rozdvojovací střela
+    \item Prázdná akce
 \end{itemize} 
 Hráč může provádět více akcí najednou. Na základě přítomných elementárních akcí se provadí dané reakce.
 Prostředí se stará o vesmírné objekty přímo. V případě elementárních akcí, které mění rychlost nebo orientaci vesmírné lodi, prostědí zavolá funkce, které požadované změny na vesmírné lodi provede.
 A v případě elemntárních akcí střel se na základě polohy a orientace dané vesmírné lodi vytvoří nová střela, kterou opět bude mít ve správě právě prostředí.
 
 \par
-Hra, jak již bylo řečeno, má být konečná, toho je docíleno narůstajícím počtem asteroidů. O to se také stará herní prostředí.
-Pamatuje si počet kroků, které uběhly od posledního vytvořeného asteroidu. Pokud tento počet překročil danou mez, tak prostředí vytvoří nový asteroid.
+Hra, jak již bylo řečeno, má být konečná, toho je docíleno narůstajícím počtem asteroidů. Toto inkrementální generování asteroidů je také zodpovědností herního prostředí.
+Herní prostředí si pamatuje počet kroků, který uběhl od posledního vytvoření asteroidu. Pokud tento počet překročí danou mez, tak prostředí vytvoří nový asteroid.
 Postupného nárůstu nových asteroidů je docíleno incrementálním snižováním této meze.
 
 \par
 Další důležitou funkcí herního prostředí je kontrola srážek. Všechny objekty jsou prostorově reprezentovány jako kruhy s danými poloměry.
-Postupně se prochází všechny objekty, u kterých nás zajímají srážky, a Euklidovskou metrikou se kontroluje, zda od sebe nejsou vzdáleny méně než je součet jejich poloměrů.
+Postupně se prochází všechny objekty, u kterých nás zajímají srážky a Euklidovskou metrikou se kontroluje, zda od sebe nejsou vzdáleny méně než je součet jejich poloměrů.
 V případě srážky se prostředí postará o správnou reakci - zníčení nebo změnu sražených objektů a případně vytvoření nových objektů vzniklých srážkou.
 
 \par
 V rámci srážek se upravují také odměny jednotlivých hráčů. Odměna je hodnota, která vyjadřuje jak úspěšný byl tento krok pro každého z hráčů.
-V každém kroku, který hráč přežil, je hráč odměnen odměnou hodnoty 1. Jsou ale konkrétní srážky objektů, které hodnoty odměny mohou změnit.
-V případě, že hráč sestřelil nepřátelský asteroid, nebo svým asteroidem srazil nepřátelovu loď, se výše odměny zvýší. 
+V každém kroku, který hráč přežil, obdrží odměnu hodnoty 1. Existují ale konkrétní srážky objektů, které hodnotu odměny mohou změnit.
+V případě, že hráč sestřelil nepřátelský asteroid, nebo svým asteroidem srazil nepřátelskou loď, se výše odměny zvýší. 
 Naopak, pokud byla jeho vesmírná loď zasažena nepřátelským asteroidem, je hodnota odměny snížena. 
 Koncept odměn nijak neovlivňuje samotný běh hry, ale bude se nám hodit v dalších kapitolách v umělé inteligenci.
 
 \par
-Nezmínili jsme zatím pohyb objektů. I o to se samozřejmě stará herní prostředí. 
-Zde se prochází seznamy všech vesmírných objektů a jednoduše se k jejich současné poloze přičte vektor rychlosti.
-Jediné co se musí kontrolovat je, že se daný objekt nedostal mimo herní prostor. Pokud toto nastane, tak je vrácen zpět do prostoru na své odpovídající místo
-(viz \ref{HraniceProsotru})
+Nezmínili jsme zatím pohyb objektů. I ten přirozeně spadá do logiky herního prostředí. 
+Zde se prochází seznamy všech vesmírných objektů a pohyb se provede přičtením jejich vektoru rychlosti k současné poloze. Po provedení pohybu se u všech objektů provede kontrola, zda se náhodou nevyskytují mimo herné prostor. 
+Pokud toto nastane, tak jsou přílušné objekty vráceny zpět do prostoru na své odpovídající místo.
+
 
 \par
-Pokud byl při vytváření prostředí předán grafický modul, tak se prostředí postará i o vykreslení vesmírných objektů.
-Pro všechny vesmírné objekty se zavolá příslušná metoda pro jejich vykreslení. 
-Způsob implementace vykreslení jednotlivých objektů není zodpovědností herního prostředí.
+Pokud byl při vytvoření prostředí předán grafický modul, tak se prostředí postará i o vykreslení vesmírných objektů.
+Pro všechny vesmírné objekty se na grafickém modulu zavolá příslušná metoda pro jejich vykreslení. 
+Způsob implementace vykreslení jednotlivých objektů již není odpovědností herního prostředí, ale o to se stará grafický modul.
 
 \par
-Poslední věcí, kterou má prostředí ještě na starosti je kontrola, zda hra neskončila. Na konci kroku se zkontroluje, zda mají oba hráči kladný počet životů.
+Poslední zatím nezmíněnou funkcí herního prostředí je kontrola, zda hra neskončila. Na konci kroku herní prostředí kontroluje, zda mají oba hráči kladný počet životů a případě hru ukončí a informuje agenty o konečném stavu.
 
 \par
 
@@ -110,39 +114,39 @@ def next_step(actions_one, actions_two):
 \subsection{Stav prostředí}
 Herní prostředí vrací po každém kroku současný stav hry. Stav hry se skládá ze seznamů všech vesmírných objektů včetně kompletních informací o nich.
 Pravděpodobně by bylo možné vracet i méně obsáhlou informaci o současném stavu hry. 
-Avšak pro mě bylo motivací předat kompletní informaci o všech objektech a nechat následně až na agentech, na základě čeho všeho se budou chtít rozhodnout, jaké akce chtějí provést.
-Mou snahou bylo, aby herní prostředí poskytnulo všechny informace a neomezovalo tím agenty.
+Avšak motivací pro mě bylo předávat kompletní informace o všech objektech a následně až v jednotlivých experimentech volit pro rozhodování jen omezené, či z těchto kompletních informací vyextrahované, informace o stavu.
+Mou snahou bylo, aby herní prostředí neomezovalo agenty v jejich rozhodování a poskytovalo jim kompletní informace.
 
 
 \section{Agent}
 Agent je ústřední postavou celé hry a obzvláště v dalších kapitolách pro nás bude nejzajímavějším předmětem zájmu.
-Je to právě zde, kde budeme později mluvit o umělé inteligenci. 
+Je to právě toto místo, kde budeme později mluvit o umělé inteligenci. 
 V případě agenta, který je ovládán lidským hráčem, se agent, respektive člověk, který jej ovládá, neřídí datovou reprezentací stavu, tak jak jej obdržel od herního prostředí.
-Ale rozhoduje se na základě toho, jak hráč vizuálně vnímá co se děje ve hře. A příkaz k provedení jednotlivých akcí udává ovládáním kláves na klávesnici.
-Lidský hráč pro nás ale nebude tolik zajímavý k experimentování, my se budeme soustředit primárně na strojové agenty.
+Ale rozhoduje se na základě toho, jak hráč vizuálně vnímá herní průběh a příkazy k provedení jednotlivých akcí udává ovládáním kláves na klávesnici.
+Lidský hráč pro nás ale nebude primárním předmětem zájmu, my se budeme spíše soustředit na agenty strojové.
 \par
-Každý agent musí implementovat jedinou metodu \emph{choose\_actions(state)}. Úkolem agenta je, na základě obdrženého stavu, zvolit akci, kterou chce provést.
-A právě tento rozhodovací problém pro nás bude půdou pro experimentování s různými abstrakcemi a přístupy umělé inteligence. 
+Každý agent musí implementovat jedinou metodu \emph{choose\_actions(state)}, která musí vracet akce, které chce agent v současném stavu hry vykonat. Úkolem agenta je, na základě obdrženého stavu, zvolit akci, kterou chce provést.
+A právě tento rozhodovací problém pro nás bude v dalších kapitolách předmětem experimentování s různými abstrakcemi a přístupy umělé inteligence. 
 
 
 \section{Grafické prostředí}
-Pro grafické zobrazování hry jsem zvolil python knihovnu pygame (\url{https://www.pygame.org/news}), která jak sám název napovídá slouží k programování jednodušších her v pythnu.
-Tato knihovna nabízí kromě grafických funkcí, také podporu pro manipulaci s herními objekty. Například je zde zabudovaná podpora pro kontrolu srážek.
-Mou snahou bylo této funkcionality využít, ale později se to ukázalo být nevhodné.
-Prvním problémem bylo, že herní objekty jsou v rámci této knihovny reprezentovány jako čtverce a kontrola srážek je tedy realizována jako dotaz, zda se dva čtverce pronikají.
-Kontrola zda se dva čtverce pronikají je výpočetně náročnějí než průnik dvou kruhů.
-Jako větší problém se ale ukázala být integrace pygame modulu do herního prostředí. Při pokusu o paralelizaci více běhů her se objevily technické problémy, které se mi nepodařilo vyřešit.
-Proto jsem se rozhodl, že si kontrolu srážek implementuju separátně, nezávisle na modulu pygame a modul budu využívat pouze pro vykreslování hry.
-A pro toto použití je pro mě knihovna pygame zcela dostačující. Vytvořil jsem si sadu obrázků reprezentující jednotlivé vesmírné objekty. A knihovna pygame mi je umožňuje vykreslovat potřebným způsobem.
+Pro grafické zobrazování hry jsem zvolil python knihovnu pygame (\url{https://www.pygame.org/news}), která, jak si lze z názvu domyslet, slouží k programování jednodušších her v pythnu.
+Tato knihovna nabízí kromě různých grafických funkcí, také podporu pro manipulaci s herními objekty. Mimo jiné je v této knihovně zabudovaná podpora pro kontrolu srážek herních objektů.
+Mou přirozenou snahou bylo této funkcionality využít, ale toto se později ukázalo být nevhodné.
+Prvním problémem bylo, že herní objekty jsou v rámci této knihovny reprezentovány pomocí čtverce, nikoliv jako kruhy a kontrola srážek je tedy realizována jako dotaz, zda se dva odpovídající čtverce pronikají.
+Tato kontrola srážky je výpočetně náročnější než kontrola v případě objektů, které jsou reprezentovány kruhem.  
+Závažnějším problémem se ukázala být integrace pygame modulu do herního prostředí. Při pokusu o paralelizaci více běhů hry se objevily technické problémy, které se mi ani po značném úsilí nepodařilo vyřešit.
+Proto jsem se rozhodl, že pygame modul budu využívat pouze pro grafické vykreslování hry a kontrolu srážek si naimplementuju sám.
+V tomto rozsahu pro mě knihovna pygame byla zcela dostačující. Vytvořil jsem si sadu obrázků reprezentující jednotlivé vesmírné objekty a pomocí knihovny pygame je mohu vykreslovat potřebným způsobem.
 
 
 \section{Hlavní herní cyklus}
 Vysvětlili jsme tedy všechny základní prvky, které v této hře potřebujeme a nyní je propojíme dohromady.
-K běhu hry potřebujeme mít instanci herního prostředí, tomu můžeme předat grafický modul, pokud chceme graficky vykreslovat, anebo žádnou implementaci nedodáme a pak hra bude běžet bez obrazu,
-tohoto budeme naším hlavním zájmem později v rámci trénování umělé inteligence.
-Dále potřebujeme inicializovat dva agenty, kteří budou poředstavovat naše hráče. A po inicializaci herního prostředí budeme v cyklu simulovat hru, dokud prostředí neoznámmí, že daným krokem hra skončila.
-V každém kroku cyklu agenti na základě stavu, ve kterém se herní prostředí nachází, zvolí své akce a ty předají zpět hernímu prostředí.
-Kostra herní simulace tedy vypadá následovně:
+K běhu hry potřebujeme inicializovat instanci herního prostředí a dva agenty, kteří budou představovat naše hráče.
+a následně můžeme začít v cyklu simulovat hru.
+V každém kroku cyklu agenti na zvolí své akce a ty předají zpět hernímu prostředí.
+Takto hra běží, dokud herní prostředí neoznámmí, že daným krokem hra skončila.
+Kostra herní simulace pak vypadá následovně:
 
 \begin{lstlisting}[language=Python]
     env = Enviroment()

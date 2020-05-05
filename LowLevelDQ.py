@@ -90,7 +90,7 @@ def train_single_thread_stable_deffensive_agent(num_episodes, model = None, f = 
         state_one = agent_one.low_level_state_info(state)
         game_over = False
         R_one = 0
-        #last 10% tries to do the best
+        #last 5% tries to do the best
         if i > num_episodes * 0.95:
             train = False
         while not game_over:
@@ -107,9 +107,9 @@ def train_single_thread_stable_deffensive_agent(num_episodes, model = None, f = 
 
             if game_over:
                 if rocket_one_won:
-                    reward_one += 1000
+                    reward_one += 2000
                 else:
-                    reward_one += -1850
+                    reward_one += -1000
 
             state_one = agent_one.low_level_state_info(state)
 
