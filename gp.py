@@ -3,7 +3,7 @@ from enviroment import Enviroment
 from agents import *
 import operator
 import matplotlib.pyplot as plt
-import pydot
+#import pydot
 from IPython.display import Image
 from enum import Enum
 from multiprocessing import *
@@ -13,18 +13,18 @@ import BP_functions
 
 
 #zobrazeni jedince jako stromu
-def plot_tree(tree):
-    nodes, edges, labels = gp.graph(tree)
-    nodesDot = list(map(lambda x: pydot.Node(x, label=str(labels.get(x))),nodes))
-
-    g = pydot.Dot(graph_type='graph')
-    for node in nodesDot:
-        g.add_node(node)
-    for f,t in edges:
-        edge = pydot.Edge(nodesDot[f], nodesDot[t])
-        g.add_edge(edge)
-
-    return g.create_png()
+#def plot_tree(tree):
+#    nodes, edges, labels = gp.graph(tree)
+#    nodesDot = list(map(lambda x: pydot.Node(x, label=str(labels.get(x))),nodes))
+#
+#    g = pydot.Dot(graph_type='graph')
+#    for node in nodesDot:
+#        g.add_node(node)
+#    for f,t in edges:
+#        edge = pydot.Edge(nodesDot[f], nodesDot[t])
+#        g.add_edge(edge)
+#
+#   return g.create_png()
 
 def if_then_else(input, output1, output2):
     return output1 if input else output2
