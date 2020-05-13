@@ -1,4 +1,6 @@
 \chapter{Navržená hra - Asteroidy}
+V této úvodní kapitole se seznámíme se základním chováním a cílem hry. 
+Vysvětlíme zde základní zákonitosti, jaké objekty se ve hře vysktují, jaký mají význam a jak s nimi manipulovat.
 
 \section{Herní logika}
 Jedná se o hru dvou hráčů. 
@@ -16,14 +18,14 @@ V boji s asteroidy má hráč v zásadě dvě možnosti. Buď se může pokusit 
 Každý hráč má omezený počet životů a každá srážka lodě s asteroidem ubere hráči část jeho životů.
 \par
 Hráč má k dispozici dva typy střel, obyčejnou a rozdvojovací. Vystřelená střela má značně vyšší rychlost než vesmírné lodě i než kolem letící asteroidy.
-Střely nejsou primárně určeny k přímému zasažení lodě protihráče, vesmírné lodě jsou k nepřátelkým střelám imunní.
+Střely nejsou primárně určeny k přímému zasažení lodě protihráče, vesmírné lodě jsou k nepřátelským střelám imunní.
 Smyslem střel je sestřelování letících asteroidů, pomocí kterých teprve může k zásahu nepřítele dojít. Asteroidy mohou mít tři velikosti. Náhodně vytvořený asteroid je vždy největší. Každým rozstřelením asteroidu vznikají asteroidy o stupeň menší velikosti.
-Nově vytvořené asteroidy vznikají na základě typu rozstřelení na místě původního sestřeleného asteroidu. Typ rozstřelení závisí na druhu střely, jakou byl asteroid setřelen. 
+Nově vytvořené asteroidy vznikají na základě typu rozstřelení na místě původního sestřeleného asteroidu. Typ rozstřelení závisí na druhu střely, jakou byl asteroid sestřelen. 
 \par
 V případě střely obyčejné vznikne namísto původního asteroidu jeden menší, který letí stejným směrem jako střela, která ho zasáhla.
 V případě střely rozdvojovací se původní asteroid rozstřelí na dva menší, kde každý z nich je oproti směru střely vychýlen o 15\textdegree po a proti směru hodinových ručiček.
 Pokud je zasažen asteroid nejmenší velikosti, tak již žádné další asteroidy nevznikají. 
-Rychlost asteroidů je nepřímo závislá na jejich velikosti, čím je asteroid menší, tim vyšší rychlost má.
+Rychlost asteroidů je nepřímo závislá na jejich velikosti, čím je asteroid menší, tím vyšší rychlost má.
 \par
 Asteroidy vzniklé rozstřelením se v jistém pojetí stávají projektily daného hráče, přičemž hráč nemůže být zasažen takto vytvořenými vlastními projektily.
 

@@ -1,8 +1,33 @@
-\begin{thebibliography}{0}
+\begin{thebibliography}{4}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Brockman a~kol.(2016)Brockman, Cheung, Pettersson, Schneider,
+  Schulman, Tang a Zaremba]{openAiGym}
+{\sc Brockman, G., Cheung, V., Pettersson, L., Schneider, J., Schulman, J.,
+  Tang, J. {\rm a} Zaremba, W.} (2016).
+\newblock Openai gym.
+\newblock \url{https://arxiv.org/pdf/1606.01540.pdf}.
+
+\bibitem[Jebari(2013)]{selekcniMetody}
+{\sc Jebari, K.} (2013).
+\newblock Selection methods for genetic algorithms.
+\newblock \emph{International Journal of Emerging Sciences}, {\bf 3}, \penalty0
+  333--344.
+
+\bibitem[Poli a~kol.(2008)Poli, Langdon a McPhee]{fieldguide}
+{\sc Poli, R., Langdon, W.~B. {\rm a} McPhee, N.~F.} (2008).
+\newblock \emph{A field guide to genetic programming}.
+\newblock Published via \texttt{http://lulu.com} and freely available at
+  \texttt{http://www.gp-field-guide.org.uk}.
+\newblock (With contributions by J. R. Koza).
+
+\bibitem[Shinners(2011)]{pygame}
+{\sc Shinners, P.} (2011).
+\newblock Pygame.
+\newblock \url{http://pygame.org/}.
 
 \end{thebibliography}

@@ -2,14 +2,14 @@
 V předchozí kapitole jsme se seznámili s algoritmy, které můžeme aplikovat i v našem prostředí.
 V této kapitole se pomocí různých experimentů pokusíme nalézt agenty, kteří se budou chovat inteligentně.
 
-Abychom ale mohli výsledky experimentů vyhodnocovat, případně je mezi sebou porovnávat, potřebuje mít na výsledky konkrétní kritéria.
+Abychom mohli výsledky experimentů vyhodnocovat, případně je mezi sebou porovnávat, potřebuje mít na výsledky konkrétní kritéria.
 Při testování obranného akčního plánu se ukázalo, že agent, který využívá pouze obranného akčního plánu k sestřelení nejbližšího asteroidu, se kterým vesmírné lodi hrozí srážka, dokázal díky dobré obraně zdatně přežívat ve hře mnoho kroků.
 A zároveň je tento obranný agent kvůli využívání pouze jednoho akčního plánu dostatečně neinteligentní na to, abychom ho mohli použít jako referenčního agenta.
 
 Jako kritérium pro hodnocení výsledků experimentů tedy bude sloužit souboj mezi výsledným agentem experimentu a obranným agentem.
 A první, kterému se podaří zvítězit desetkrát, bude označen za vítěze. Výsledky těchto soubojů pak budou sloužit jako porovnání mezi jednotlivými výsledky provedených experimentů.
 
-Druhým naším cílem bude nalézt agenty, kteří se budou chovat zajímavě ve smyslu pestrosti akcí a akčních plánů, nebo také zajímavě ve smyslu, že bude jejich chování působit jako chování lidského hráče.
+Druhým naším cílem bude nalézt agenty, kteří se budou chovat zajímavě ve smyslu pestrosti akcí a akčních plánů, nebo také zajímavě v tom smyslu, že bude jejich chování působit jako chování lidského hráče.
 
 \section{Genetické programování}
 V prvních experimentech využijeme již zmíněného genetického programování. Nezbytným požadavkem je existence reprezentace jedince a fitness funkce, která mu přiřadí jeho hodnotu. 
@@ -26,7 +26,7 @@ Stačí popsat jak reprezentovat jedince a jaká je jeho fitness funkce a zbytek
 \subsubsection{Reprezentace jedince}
 
 Ve 3. kapitole jsme si vybudovali abstrakace v podobě senzorů a akčních plánů a těch zde budeme chtít využít.
-Jedinec, podobně jako u symbolické regrese, je funkce, tedy může být reprezentován stromem.
+Jedince budeme podobně jako u symbolické regrese reprezentovat stromem.
 Strom jedince budeme budovat prvkami z následující množiny terminálů a neterminálů.
 
 \begin{itemize}
@@ -39,7 +39,7 @@ Strom jedince budeme budovat prvkami z následující množiny terminálů a net
     \end{itemize}    
     }    
 \end{itemize}
-Jako argumenty funkce jsem si zvolil následující hodnoty: délky všech čtyř akčních plánů a počet kroků před srážkou vesmírné lodi s asteroidem.
+Jako argumenty funkce jsem zvolil následující hodnoty: délky všech čtyř akčních plánů a počet kroků před srážkou vesmírné lodi s asteroidem.
     Délky akčních plánů se pohybují v intervalu $(1,100)$, proto jsou číselné konstanty zvoleny tak, aby se jejich sčítáním a násobením lehce dosáhlo dalších hodnot z tohoto intervalu.
 
 
@@ -55,9 +55,9 @@ Jako argumenty funkce jsem si zvolil následující hodnoty: délky všech čty�
 }
 \end{itemize}
 Z aritmetický operací nám stačí sčítání a násobení. Operaci odčítání získáme pomocí sčítání a násobení konstantou -1. 
-Hodnoty z intervalu $(1,100)$ jednoduše získáme také pomocí sčítání a násobení potřebných konstant, proto pro operaci dělení není důvod.
+Hodnoty z intervalu $(1,100)$ jednoduše získáme také pomocí sčítáním a násobením potřebných konstant, proto pro operaci dělení není důvod.
 Všechny aritmetické operace jsou typu $([int,int], int)$.
-Funkce \emph{compare} je typu $([int,int], Bool)$, vrací zda první argument je větší než druhý argument.
+Funkce \emph{compare} je typu $([int,int], Bool)$, ta vrací zda je první argument větší než druhý.
 Poslední použitá funkce \emph{if\_then\_else} je typu 
 \newline
 $([Bool, ActionPlanEnum, ActionPlanEnum], ActionPlanEnum)$. 
@@ -68,9 +68,9 @@ Tato popsaná reprezentace jedince bude použitá ve všech následujících exp
 
 \newpage
 \subsection{Experiment 1: Soupeření s obranným agentem}
-Cílem tohoto experimentu bylo vyvinout agenta, který bude lepší než agent, který se řídí čistě obranným akčním plánem.
-Výpočet fitness funkce proto zahrnuje zahrání 6 her současného jedince s obranným agentem a výsledek je průměr z hodnot každé z her.
-Hra je pokaždé velmi náhodná, tedy zahrání jedné hry by mělo nízkou vypovídající hodnotu. Proto jsem pro přesnější informaci zvolil zahrání 6 her.
+Cílem tohoto experimentu bylo vyvinout agenta, který bude lepší než obranný agent.
+Výpočet fitness funkce proto zahrnuje zahrání šesti her současného jedince s obranným agentem a výsledek je průměr z hodnot každé z her.
+Hra je pokaždé velmi náhodná, tedy zahrání jedné hry by mělo nízkou vypovídající hodnotu. Proto jsem pro přesnější informaci zvolil zahrání šesti her.
 Hodnota zahrané hry se skládá z více částí.
 \begin{itemize}
     \item Počet kroků trvání hry
@@ -80,12 +80,12 @@ Hodnota zahrané hry se skládá z více částí.
     \item Penalizace za nevyužití některého z plánů
         \newline
         Během hry se udržuje historie, kolikrát se agent rozhodl pro každý z akčních plánů.
-        Za každý ze čtyř akčních plánů, který agent ani jednou během hry nezvolil bude přičtena penalizace -500. Cílem těchto penalizací je upřednostňovat takové jedince, kteří používají všechny akční plány a tím pádem mají pestřejší 
+        Za každý ze čtyř akčních plánů, který agent ani jednou během hry nezvolil bude přičtena penalizace -500. Cílem těchto penalizací je upřednostňovat takové jedince, kteří používají všechny akční plány a tím pádem mají pestřejší chování. 
     \item Bonus (penalizace) za výhru (prohru)
         \newline
-        Toto je asi nejdůležitější část. Pro zdůraznění rozdílu mezi vyhranými a prohranými hrami se v případě výhry přičtou k výsledku 2000 a v případě prohry se 2000 odečtou.
+        Toto je asi nejdůležitější část. Pro zdůraznění rozdílu mezi vyhranými a prohranými hrami se v případě výhry přičte k výsledku hodnota 2000 a v případě prohry se 2000 odečte.
         Motivací mohou být následující dvě situace. Řekněme, že v jedné hře se podařilo jedinci dlouho bránit a dokázal vydržet 2500 kroků hry a poté prohrál. A v další situaci jedinec porazil soupeře v rychlých 1200 krocích. 
-        Bez bonusu za vyhranou hru, by prohraná hra získala jedinci daleko vyšší hodnotu, než hra z druhé hry, kterou vyhrál.        
+        Bez bonusu za vyhranou hru, by prohraná hra získala jedinci daleko vyšší hodnotu, než situace z druhé hry, kterou vyhrál.        
     
 \end{itemize}
 
@@ -99,10 +99,10 @@ Algoritmus byl spuštěn s následujícími parametry:
 \end{itemize}
 
 Výsledný nejlepší jedinec bohužel nesplnil naše očekávání a nedokázal obranného agenta porazit. 
-V souboji jedinec nejen nedokázal konkurovat obrannému agentovi, ale ani se neřídí moc pestrou strategií.
+V souboji jedinec nejen nedokázal konkurovat obrannému agentovi, ale ani se neřídil příliš pestrou strategií.
 
 V 95\% volil, stejně jako obranný agent, obranný akční plán a ve zbylých pár procentech volil všechny zbylé akční plány (viz \ref{Výsledek experimentu 01}).
-Vyžívání všech akčních plánů bylo pravděpodobně dosaženo právě skrze vysokou penalizaci při nepoužití libovolného z nich, ale vidíme, že agent je volí spíš právě z tohoto důvodu, než že by je chtěl aktivně využívat v rámci své strategie.
+Vyžívání všech akčních plánů bylo pravděpodobně dosaženo právě skrze vysokou penalizaci při nepoužití libovolného z nich, ale vidíme, že agent je volil spíše právě z tohoto důvodu, než že by je chtěl aktivně využívat v rámci své strategie.
 
 \begin{figure}[p]\centering
 \includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment01Results.png}
@@ -124,7 +124,7 @@ Na začátku bude tento jedinec vybrán zcela náhodně.
 Pak obvyklým způsobem vytvoříme populaci dalších jedinců a započneme evoluci.
 Fitness funkce jedince bude počítat poměr, kolik ze šesti zahraných her jedinec vyhrál v souboji se současně nejlepším nalezeným jedincem.
 Evoluce hledá řešení, která budou proti současnému nejlepšímu jedinci co nejúspěšnější.
-V každé 3. generaci se následně kontroluje, zda již náhodou nebyl v populaci nalezen jedinec, který, pro danou situaci, nejlepšího jedince porazil alespoň v pěti ze šesti hrách.
+V každé 3. generaci se následně kontroluje, zda již náhodou nebyl v populaci nalezen jedinec, který, pro současnou situaci, nejlepšího jedince porazil alespoň v pěti ze šesti hrách.
 Pokud ano, tak takový jedinec bude nově zvolen jako nejlepší a evoluce bude pokračovat stejným způsobem dál.
 \par
 Po výměně nejlepšího jedince musíme nově přepočítat fitness funkci všech stávajících jedinců v populaci, protože jejich současná hodnota se vztahovala k původnímu soupeři.
@@ -143,7 +143,7 @@ Algoritmus byl spuštěn s následujícími parametry
     \item Metoda selekce: turnajová selekce
 \end{itemize}
 
-Nechali jsme výsledného agenta zahrát souboj s obranným agentem a tentokrát přinesl experiment daleko lepší výsledky.
+Výsledného agenta jsme nechali zahrát souboj s obranným agentem a tentokrát přinesl experiment daleko lepší výsledky.
 Nalezený agent se oproti předchozímu experimentu dokázal naučit lépe utočit, volil útočný akční plán téměř ve 40\% případech a díky tomu dosáhl našeho primárního cíle. V Souboji porazil obranného agenta se skóre 10:0.
 Nicméně ani tentokrát se agent nenaučil nic jiného než obranu a útok (viz \ref{Výsledek experimentu 02}). 
 
@@ -193,10 +193,10 @@ To ale není nijak překvapivé. Pro agenta je prostředí tím víc nebezepečn
 Používání úhybného akčního plánu vede k vyhnutí vesmírné lodi před nebezepčným asteroidem, né před jeho zníčením, jako je to u obranného akčního plánu. To má za následek, že v případě úhybného akčního plánu agent neredukuje počet nebezepčných asteroidů a mnohem dříve se dostane do stavu, kdy nemá šanci se roji asteroidů vyhnout. 
 
 \par
-Zajímavým výsledkem experimentu je také to, že, přestože agent používá, v rámci úhybného akčního plánu, akceleraci pro obranu velmi často, ani tentokrát nepoužívá zastavovací akční plán (viz \ref{Výsledek experimentu 03}).
+Zajímavým výsledkem experimentu je také to, že, přestože agent používá v rámci úhybného akčního plánu akceleraci pro obranu velmi často, ani tentokrát nepoužívá zastavovací akční plán (viz \ref{Výsledek experimentu 03}).
 To ukazuje, že zastavování letu není pro získání lepších výsledků stěžejní.
 \par
-Výsledný agent v souboji jednoznačně dosáhl špatných výsledků, ale pokud se na hru podíváme vizuálně, tak oproti agentům, kteří zůstávají po celou dobu hry na místě, působí agentovo chování z lidského pohledu mnohem zajímavěji.
+Výsledný agent v souboji jednoznačně dosáhl špatných výsledků, ale pokud se na hru podíváme z lidského pohledu, tak oproti agentům, kteří zůstávají po celou dobu hry na místě, působí agentovo chování mnohem zajímavěji.
 
 
 \begin{figure}[p]\centering
@@ -210,8 +210,8 @@ Výsledný agent v souboji jednoznačně dosáhl špatných výsledků, ale poku
 
 
 \section{Hluboké Q-učení}
-Herní prostředí nám v každém kroku vrací odměnu, kterou oba z hráčů za jejich akci obdrželi. Tuto informaci jsme v experimentech provedených v rámci genetického programování, nevyužili, ale zde budou hrát velkou roli.
-Za každý krok, kdy hra ještě neskončila získávají agenti automaticky odměnu 1. Na konci hry agent obdrží vysokou odměnu 2000 v případě výhry a v případě prohry naopak získá penalizaci v podobě odměny vysoké záporné hodnoty -1000.
+Herní prostředí nám v každém kroku vrací odměnu, kterou oba z hráčů za jejich akci obdrželi. Tuto informaci jsme v experimentech provedených v rámci genetického programování nevyužili, ale zde budou mít zásadní roli.
+Za každý krok, kdy hra ještě neskončila, získávají agenti automaticky odměnu 1. Na konci hry agent obdrží vysokou odměnu 2000 v případě výhry a v případě prohry naopak získá penalizaci v podobě odměny vysoké záporné hodnoty -1000.
 Odměnu za výhru, nebo prohru získá agent až na úplném konci hry, to může ztěžovat učící proces. Proto prostředí dává agentům i průběžné menší odměny, pro lepší možnost učení se.
 
 Konkrétně to jsou následující odměny:
@@ -222,50 +222,49 @@ Konkrétně to jsou následující odměny:
     \item Zasažení asteroidem nepřátelské vesmírné lodi
         \newline
         Zranění nepřítele je právě to, co agent potřebuje pro přiblížění se vítězství, proto za každé takové zasažení získává od prostředí odměnu v hodnotě 20.
-    \item Zasažení asteroidem vlastní vesmírné lodi
+    \item Zasažení vlastní vesmírné lodi asteroidem
         \newline
         Takový stav je pro agenta znevýhodňující a cílem je se mu vyvarovat, proto za takovýto stav agent od prostředí dostává penalizaci v hodnotě -10.
 \end{itemize}
 
 
-\todo{presunout do kapitoly o deep q}
-V rámci učení agentů budeme využívat epsilon-hladového (ang. epsilon-greedy) přístupu. V každém kroku q-učení volíme další akci a epsilon-hladový přístup nám v tom pomáhá následovně.
-Vygenerujeme náhodnou hodnotou z intervalu $(0,1)$ a pokud je tato hodnota menší než hodnota epsilon, tak provedeme volbu akce náhodně, v opačném případě volíme nejlepší akce dle q-sítě.
-Hodnota epsilon se na počátku inicializuje na hodnotu 1 a po každé zahrané hře se sníží vynásobením koeficientem menším než 1. 
-Epsilon-hladový přístup způsobuje, že z počátku učení se zkoušejí náhodné akce a v průběhu přechází ze zkoušení nových akcí do prohledávání již osvědčených akcí.
+V rámci učení agentů budeme využívat $\epsilon$-hladového (ang. $\epsilon$-greedy) přístupu.
+V každém kroku hry vygenerujeme náhodnou hodnotou z intervalu $(0,1)$ a pokud je tato hodnota menší než hodnota $\epsilon$, tak provedeme volbu akce náhodně, v opačném případě volíme nejlepší akce dle q-sítě.
+Hodnota $\epsilon$ se na počátku inicializuje na hodnotu 1 a po každé zahrané hře se sníží vynásobením koeficientem menším než 1. 
+Průběžným snižování hodnoty $\epsilon$ způsobíme, že z počátku učení se budou zkoušet náhodné akce a v průběhu přjde ze zkoušení nových akcí k prohledávání již osvědčených akcí.
 
-\todo{presunout do kapitoly o deep q}
+
 \par
 Při trénování se nám stává, že měníme funkci, která odhaduje Q a tím je ovlivněno i chování agenta a odhady. K zachování větší stability trénování využijeme konceptu přehrávání zkušeností (ang. Experience replay).
-Při hraní hry si v každém kroku ukládáme do paměti pětici současného stavu, provedené akce, obdržené odměny, stavu, do kterého jsme se dostali a informace zda hra neskončila.
-Po konci zahrání hry následně náhodně vybíráme tyto pětice z paměti a trénování provádíme na nich.
+Při hraní hry si v každém kroku uložíme do paměti pětici současného stavu, provedené akce, obdržené odměny, stavu, do kterého jsme se dostali a informace zda hra neskončila.
+Po konci zahrání hry následně náhodně vybereme tyto pětice z paměti a trénování provedeme na nich.
 
 
 \newpage
 \subsection{Experiment 4: Soupeření s obranným agentem}
 V 1. experimentu jsme za pomocí genetického programování hledali agenta, který je úspěšný v souboji s obranným jedincem. Pro určení jak agent v souboji obstál jsme využívali fitness funkci.
-Zde, pomocí hlubokého q učení, budeme také učit agenta vzájemnými souboji s obranným agentem, ale budeme namísto fitness funkce používat pro trénování odměny.
+Zde, pomocí hlubokého q učení, budeme také učit agenta vzájemnými souboji s obranným agentem, ale budeme namísto fitness funkce pro trénování využívat odměny.
 
 S 1. experimentem zde bude také stejný přístup ke vstupům a výstupům. 
 Na vstupu budou opět délky všech čtyř akčních plánů a počet kroků před srážkou vesmírné lodi s asteroidem.
 A na výstupu čtyři hodnoty reprezentující výběr konkrétního akčního plánu.
 
-Q učení spočívá v učení se rozhodování akcí. Akce zde v tomto pojetí však nebudou elementární akce, nýbrž akční plány. 
+Q učení spočívá v učení se rozhodování akcí. Akce zde v tomto pojetí však nebudou představovat elementární akce, nýbrž akční plány. 
 Q-síť bude tedy volit akční plány a proto zde budeme muset provádět mezikrok pro přechod od akčních plánů k akcím.
 Nejprve vždy zvolíme akční plán a následně pro pokračování v simulaci hry z vybraného akčního plánu vybereme první akci.
 V tomto experimentu budeme využívat přehrávání zkušeností, tj. budeme průběžně ukládat pětice informací o přechodech do dalších stavů. 
-I Zde pro zapamatování si zkušenosti platí, že akcí budeme rozumět akční plán.
+I zde pro pamatování si zkušenosti platí, že akcí budeme rozumět akční plán.
 
 
 Parametry experimentu:
 \begin{itemize}    
     \item Q-síť je hustá neuronová síť s pěti vstupy, čtyřmi výstupy a jednou skrytou vrstvou. 
     \item Během učení bude zahráno 1500 her.
-    \item Konstanta pro snižování epsilon je nastavena na 0.998. To znamená, že například po zahrání 1400 her se bude v další hře volit akce náhodně jen v 6\% případů. 
+    \item Konstanta pro snižování $\epsilon$ je nastavena na 0.998. To znamená, že například po zahrání 1400 her se bude v další hře volit akce náhodně jen v 6\% případů. 
 \end{itemize}
 
 \par
-V souboji s obranným agentem se výslednému agentovi podařilo zvítězil pouze ve čtyřech hrách. 
+V souboji s obranným agentem se výslednému agentovi podařilo zvítězit pouze ve čtyřech hrách. 
 Nepodařilo se nám tedy sice nalézt agenta, který by stabilně porážel obranného agenta, ale dosáhli jsme jiného zajímavého výsledku.
 Velkým přínosem tohoto experimentu je pestrá strategie nalezeného agenta. Výsledný agent ve velkém zastoupení používá všechny akční plány (viz \ref{Výsledek experimentu 04}). 
 Výsledkem je agent, který se brání nejen sestřelováním nepřátelských asteroidů, ale i vyhýbáním se. A díky tomu se agent také pohybuje a nezůstává jen staticky stát na stejném místě po celou dobu hry.
@@ -299,7 +298,7 @@ Parametry experimentu:
 \begin{itemize}
     \item Q-síť je stejná síť jako v předchozím případě, jen namísto pěti vstupních argumentů, bude nyní přijímat vstupů devět.
     \item V tomto experimentu zkusíme kvůli rozšíření vstupních argumentů také prodloužit trénování sítě, proto bude v rámci trénování zahráno 3000 her.
-    \item Adekvátně ke zvýšení počtu zahraných her také zvětšíme konstantu pro snižování epsilon z hodnoty 0.998 na 0.9989. Díky tomu bude stejné pravděpodobnosti 6\% pro volbu náhodné akce dosaženo přibližně po zahrání 2550 her.
+    \item Adekvátně ke zvýšení počtu zahraných her také zvětšíme konstantu pro snižování $\epsilon$ z hodnoty 0.998 na 0.9989. Díky tomu bude stejné pravděpodobnosti 6\% pro volbu náhodné akce dosaženo přibližně po zahrání 2550 her.
 \end{itemize}
 
 \begin{figure}[p]\centering
@@ -366,8 +365,8 @@ Parametry experimentu:
 \begin{itemize}
     \item Q-síť je hustá neuronová síť s dvěmi skrytými vstvami, čtrnácti vstupními a šesti výstupními hodnotami.
     \item Díky nevyužívání akčních plánů bude hraní her rychlejší, proto pro trénování zahrajeme 10000 her.
-    \item Konstanta pro snižoání epsilon je nastavena na hodnotu \todo{0.9998}
-    \item V posledních 5\% her se nebude epsilon-hladový přístup používat a budou se volit nejlepší známé akce.
+    \item Konstanta pro snižoání $\epsilon$ je nastavena na hodnotu \todo{0.9998}
+    \item V posledních 5\% her se nebude $\epsilon$-hladový přístup používat a budou se volit nejlepší známé akce.
 \end{itemize}
 
 
@@ -402,8 +401,8 @@ Parametry experimentu:
 \begin{itemize}
     \item Každý agent bude reprezentován vlastní q-sítí stejného formátu jako v předchozím experimentu.
     \item Tím, že pro souboj nebudeme používat obranného agenta, ale dalšího elementárního agenta, ušetříme čas na výpočtu obranného agenta. V rámci trénování tedy zahrajeme 20000 her.  
-    \item Konstanta pro snižoání epsilon je nastavena na hodnotu 0.9998
-    \item V posledních 5\% her se nebude epsilon-hladový přístup používat a budou se volit nejlepší známé akce.
+    \item Konstanta pro snižoání $\epsilon$ je nastavena na hodnotu 0.9998
+    \item V posledních 5\% her se nebude $\epsilon$-hladový přístup používat a budou se volit nejlepší známé akce.
 \end{itemize}
 
 

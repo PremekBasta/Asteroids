@@ -2,7 +2,7 @@
 \contentsline {chapter}{Úvod}{3}{chapter*.2}%
 \contentsline {chapter}{\numberline {1}Navržená hra - Asteroidy}{4}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Herní logika}{4}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Cíl hry}{4}{section.1.2}%
+\contentsline {section}{\numberline {1.2}Cíl hry}{5}{section.1.2}%
 \contentsline {chapter}{\numberline {2}Architektura hry}{7}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Vesmírné objekty}{7}{section.2.1}%
 \contentsline {subsection}{\numberline {2.1.1}Asteroidy}{7}{subsection.2.1.1}%
@@ -14,40 +14,39 @@
 \contentsline {section}{\numberline {2.4}Grafické prostředí}{10}{section.2.4}%
 \contentsline {section}{\numberline {2.5}Hlavní herní cyklus}{11}{section.2.5}%
 \contentsline {chapter}{\numberline {3}Senzory a akční plány}{12}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Motivace}{12}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Senzor}{12}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Příklady senzorů}{12}{subsection.3.2.1}%
-\contentsline {section}{\numberline {3.3}Akční plán}{14}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Jednotliv plány}{14}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Přepočítávání akčních plánů}{15}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Použití akčních plánů}{17}{subsection.3.3.3}%
-\contentsline {chapter}{\numberline {4}Algoritmy umělé inteligence}{18}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Genetické programování}{18}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Základní princip}{18}{subsection.4.1.1}%
-\contentsline {subsubsection}{Reprezentace}{18}{section*.3}%
-\contentsline {subsubsection}{Inicializace populace}{18}{section*.4}%
-\contentsline {subsubsection}{Selekce}{18}{section*.5}%
-\contentsline {subsubsection}{Genetické operátory}{19}{section*.6}%
-\contentsline {subsubsection}{Silná a volná typovanost}{19}{section*.7}%
+\contentsline {section}{\numberline {3.1}Senzor}{12}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Příklady senzorů}{12}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}Akční plán}{14}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Jednotlivé plány}{14}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Přepočítávání akčních plánů}{15}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Použití akčních plánů}{16}{subsection.3.2.3}%
+\contentsline {chapter}{\numberline {4}Algoritmy umělé inteligence}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Genetické programování}{17}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Základní princip}{17}{subsection.4.1.1}%
+\contentsline {subsubsection}{Reprezentace}{17}{section*.3}%
+\contentsline {subsubsection}{Inicializace populace}{17}{section*.4}%
+\contentsline {subsubsection}{Selekce}{17}{section*.5}%
+\contentsline {subsubsection}{Genetické operátory}{18}{section*.6}%
+\contentsline {subsubsection}{Silná a volná typovanost}{18}{section*.7}%
 \contentsline {subsection}{\numberline {4.1.2}Využití}{19}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Obecné využití}{20}{subsection.4.1.3}%
-\contentsline {subsubsection}{Symbolická regrese}{20}{section*.8}%
-\contentsline {section}{\numberline {4.2}Hluboké Q-učení}{21}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Neuronová síť}{21}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Zpětnovazební učení}{22}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Hluboké Q-učení}{23}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Využití}{23}{subsection.4.2.4}%
-\contentsline {chapter}{\numberline {5}Provedené experimenty}{25}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Genetické programování}{25}{section.5.1}%
-\contentsline {subsubsection}{Reprezentace jedince}{25}{section*.9}%
-\contentsline {subsection}{\numberline {5.1.1}Experiment 1: Soupeření s obranným agentem}{27}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Experiment 2: Postupné zaměňování úspěšnějšího jedince}{28}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Experiment 3: Postupné zaměňování úspěšnějšího jedince bez obranného akčního plánu}{29}{subsection.5.1.3}%
-\contentsline {section}{\numberline {5.2}Hluboké Q-učení}{31}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Experiment 4: Soupeření s obranným agentem}{32}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Experiment 5: Soupeření s obranným agentem - Rozšířeno}{34}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Experiment 6: Elementární agent proti obrannému agentovi}{37}{subsection.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Experiment 7: Dva elementární agenti}{39}{subsection.5.2.4}%
-\contentsline {chapter}{Závěr}{41}{chapter*.10}%
-\contentsline {chapter}{Seznam použité literatury}{42}{chapter*.11}%
-\contentsline {chapter}{Seznam obr\'azk\r {u}}{43}{chapter*.12}%
+\contentsline {subsection}{\numberline {4.1.3}Obecné využití}{19}{subsection.4.1.3}%
+\contentsline {subsubsection}{Symbolická regrese}{19}{section*.8}%
+\contentsline {section}{\numberline {4.2}Hluboké Q-učení}{20}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Neuronová síť}{20}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Zpětnovazební učení}{21}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Hluboké Q-učení}{22}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Využití}{22}{subsection.4.2.4}%
+\contentsline {chapter}{\numberline {5}Provedené experimenty}{24}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Genetické programování}{24}{section.5.1}%
+\contentsline {subsubsection}{Reprezentace jedince}{24}{section*.9}%
+\contentsline {subsection}{\numberline {5.1.1}Experiment 1: Soupeření s obranným agentem}{26}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Experiment 2: Postupné zaměňování úspěšnějšího jedince}{27}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Experiment 3: Postupné zaměňování úspěšnějšího jedince bez obranného akčního plánu}{28}{subsection.5.1.3}%
+\contentsline {section}{\numberline {5.2}Hluboké Q-učení}{30}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Experiment 4: Soupeření s obranným agentem}{31}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Experiment 5: Soupeření s obranným agentem - Rozšířeno}{33}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Experiment 6: Elementární agent proti obrannému agentovi}{36}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Experiment 7: Dva elementární agenti}{38}{subsection.5.2.4}%
+\contentsline {chapter}{Závěr}{40}{chapter*.10}%
+\contentsline {chapter}{Seznam použité literatury}{41}{chapter*.11}%
+\contentsline {chapter}{Seznam obr\'azk\r {u}}{42}{chapter*.12}%
