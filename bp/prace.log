@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  13 MAY 2020 15:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  13 MAY 2020 16:18
 entering extended mode
 **/home/premek/Asteroids/bp/prace.tex
 (/home/premek/Asteroids/bp/prace.tex
@@ -692,12 +692,9 @@ Overfull \hbox (3.45311pt too wide) in paragraph at lines 18--22
 \T1/lmr/m/n/12 vesmírnou hru, kterou vyuºijeme pro experimentování s p°ístupy um¥lé inteligence.|
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 25.
-(/home/premek/.miktex/texmfs/install/tex/latex/lm/ts1lmr.fd
-File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Underfull \hbox (badness 1142) in paragraph at lines 25--26
-[]\T1/lmr/m/n/12 Vyvinout jednoduchou vesmírnou hru za úmyslem vytvo°ení herního
+
+Underfull \hbox (badness 1348) in paragraph at lines 27--28
+[]\T1/lmr/m/n/12 Seznámení se s Genetickým programování a Hlubokým Q-u£ením a
  []
 
 ) [3
@@ -708,7 +705,11 @@ Underfull \hbox (badness 1142) in paragraph at lines 25--26
 
  (/home/premek/Asteroids/bp/kap01.tex
 Kapitola 1.
-<./Obrazky/UkazkaHry.png, id=261, 895.345pt x 590.205pt>
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 26.
+(/home/premek/.miktex/texmfs/install/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+<./Obrazky/UkazkaHry.png, id=264, 895.345pt x 590.205pt>
 File: ./Obrazky/UkazkaHry.png Graphic file (type png)
 <use ./Obrazky/UkazkaHry.png>
 Package pdftex.def Info: ./Obrazky/UkazkaHry.png  used on input line 34.
@@ -758,7 +759,7 @@ Underfull \hbox (badness 1552) in paragraph at lines 11--20
 
 
 ]
-<./Obrazky/N_nearest_asteroids.png, id=331, 903.375pt x 602.25pt>
+<./Obrazky/N_nearest_asteroids.png, id=335, 903.375pt x 602.25pt>
 File: ./Obrazky/N_nearest_asteroids.png Graphic file (type png)
 <use ./Obrazky/N_nearest_asteroids.png>
 Package pdftex.def Info: ./Obrazky/N_nearest_asteroids.png  used on input line 47.
@@ -774,7 +775,7 @@ Underfull \hbox (badness 1028) in paragraph at lines 74--82
  []
 
 [14] [15]
-<./Obrazky/Inactive_steps_comparison2.png, id=346, 462.528pt x 346.896pt>
+<./Obrazky/Inactive_steps_comparison2.png, id=350, 462.528pt x 346.896pt>
 File: ./Obrazky/Inactive_steps_comparison2.png Graphic file (type png)
 <use ./Obrazky/Inactive_steps_comparison2.png>
 Package pdftex.def Info: ./Obrazky/Inactive_steps_comparison2.png  used on input line 120.
@@ -803,7 +804,7 @@ Overfull \hbox (31.12106pt too wide) in paragraph at lines 43--44
  []
 
 [18]
-<./Obrazky/formule_graph_2.png, id=383, 276.03125pt x 348.30125pt>
+<./Obrazky/formule_graph_2.png, id=387, 276.03125pt x 348.30125pt>
 File: ./Obrazky/formule_graph_2.png Graphic file (type png)
 <use ./Obrazky/formule_graph_2.png>
 Package pdftex.def Info: ./Obrazky/formule_graph_2.png  used on input line 99.
@@ -862,13 +863,13 @@ Underfull \hbox (badness 1472) in paragraph at lines 101--103
 \T1/lmr/m/n/12 obranného agenta porazit. V souboji jedinec nejen nedokázal konkurovat
  []
 
-<./Obrazky/Experiment01Results.png, id=429, 578.16pt x 433.62pt>
+<./Obrazky/Experiment01Results.png, id=433, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment01Results.png Graphic file (type png)
 <use ./Obrazky/Experiment01Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment01Results.png  used on input line 108.
 (pdftex.def)             Requested size: 355.65892pt x 284.54257pt.
 [26] [27]
-<./Obrazky/Experiment02Results.png, id=442, 578.16pt x 433.62pt>
+<./Obrazky/Experiment02Results.png, id=446, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment02Results.png Graphic file (type png)
 <use ./Obrazky/Experiment02Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment02Results.png  used on input line 156.
@@ -878,7 +879,7 @@ Underfull \hbox (badness 1259) in paragraph at lines 172--175
 \T1/lmr/m/n/12 jen s tím rozdílem, ºe agentovi zakáºeme pouºívání obranného plánu. Z
  []
 
-<./Obrazky/Experiment03Results.png, id=444, 578.16pt x 433.62pt>
+<./Obrazky/Experiment03Results.png, id=448, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment03Results.png Graphic file (type png)
 <use ./Obrazky/Experiment03Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment03Results.png  used on input line 203.
@@ -889,7 +890,7 @@ Underfull \hbox (badness 1087) in paragraph at lines 231--235
  []
 
 [30]
-<./Obrazky/Experiment04Results.png, id=461, 578.16pt x 433.62pt>
+<./Obrazky/Experiment04Results.png, id=465, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment04Results.png Graphic file (type png)
 <use ./Obrazky/Experiment04Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment04Results.png  used on input line 277.
@@ -899,12 +900,12 @@ Underfull \hbox (badness 1184) in paragraph at lines 301--302
 []\T1/lmr/m/n/12 Adekvátn¥ ke zvý²ení po£tu zahraných her také zv¥t²íme konstantu
  []
 
-<./Obrazky/Experiment05Training.png, id=473, 867.24pt x 578.16pt>
+<./Obrazky/Experiment05Training.png, id=477, 867.24pt x 578.16pt>
 File: ./Obrazky/Experiment05Training.png Graphic file (type png)
 <use ./Obrazky/Experiment05Training.png>
 Package pdftex.def Info: ./Obrazky/Experiment05Training.png  used on input line 305.
 (pdftex.def)             Requested size: 412.56525pt x 312.97809pt.
-<./Obrazky/Experiment05Results.png, id=474, 578.16pt x 433.62pt>
+<./Obrazky/Experiment05Results.png, id=478, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment05Results.png Graphic file (type png)
 <use ./Obrazky/Experiment05Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment05Results.png  used on input line 314.
@@ -915,13 +916,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 335--337
  []
 
 [35]
-<./Obrazky/Experiment06Results.png, id=491, 578.16pt x 433.62pt>
+<./Obrazky/Experiment06Results.png, id=495, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment06Results.png Graphic file (type png)
 <use ./Obrazky/Experiment06Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment06Results.png  used on input line 384.
 (pdftex.def)             Requested size: 412.56082pt x 312.99353pt.
  [36] [37 <./Obrazky/Experiment05Results.png> <./Obrazky/Experiment06Results.png>]
-<./Obrazky/Experiment07Results.png, id=504, 462.528pt x 399.6531pt>
+<./Obrazky/Experiment07Results.png, id=508, 462.528pt x 399.6531pt>
 File: ./Obrazky/Experiment07Results.png Graphic file (type png)
 <use ./Obrazky/Experiment07Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment07Results.png  used on input line 410.
@@ -958,17 +959,17 @@ Package rerunfilecheck Info: File `prace.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 185.
  ) 
 Here is how much of TeX's memory you used:
- 20321 strings out of 483220
- 306808 string characters out of 2960823
+ 20325 strings out of 483220
+ 306832 string characters out of 2960823
  755684 words of memory out of 3000000
  34991 multiletter control sequences out of 15000+200000
  599461 words of font info for 66 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
  51i,6n,50p,985b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathsy.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-rm.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathit.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathex.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmcsc10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmex10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on /home/premek/Asteroids/bp/prace.pdf (46 pages, 687759 bytes).
+Output written on /home/premek/Asteroids/bp/prace.pdf (46 pages, 688278 bytes).
 PDF statistics:
- 655 PDF objects out of 1000 (max. 8388607)
- 135 named destinations out of 1000 (max. 500000)
+ 660 PDF objects out of 1000 (max. 8388607)
+ 139 named destinations out of 1000 (max. 500000)
  425 words of extra memory for PDF output out of 10000 (max. 10000000)
 

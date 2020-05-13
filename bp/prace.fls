@@ -319,13 +319,13 @@ OUTPUT /home/premek/Asteroids/bp/prace.toc
 OUTPUT /home/premek/Asteroids/bp/uvod.aux
 INPUT /home/premek/Asteroids/bp/uvod.tex
 INPUT /home/premek/Asteroids/bp/uvod.tex
-INPUT /home/premek/.miktex/texmfs/install/tex/latex/lm/ts1lmr.fd
-INPUT /home/premek/.miktex/texmfs/install/tex/latex/lm/ts1lmr.fd
-INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ts1-lmr12.tfm
 OUTPUT /home/premek/Asteroids/bp/kap01.aux
 INPUT /home/premek/Asteroids/bp/kap01.tex
 INPUT /home/premek/Asteroids/bp/kap01.tex
 INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmr17.tfm
+INPUT /home/premek/.miktex/texmfs/install/tex/latex/lm/ts1lmr.fd
+INPUT /home/premek/.miktex/texmfs/install/tex/latex/lm/ts1lmr.fd
+INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ts1-lmr12.tfm
 INPUT Obrazky/UkazkaHry.png
 INPUT ./Obrazky/UkazkaHry.png
 INPUT ./Obrazky/UkazkaHry.png
