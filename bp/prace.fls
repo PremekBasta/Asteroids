@@ -339,6 +339,9 @@ INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmbx12.tfm
 INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmri12.tfm
 INPUT /home/premek/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
 INPUT /home/premek/.miktex/texmfs/install/tex/latex/listings/lstlang1.sty
+INPUT /home/premek/.miktex/texmfs/install/tex/latex/lm/t1lmtt.fd
+INPUT /home/premek/.miktex/texmfs/install/tex/latex/lm/t1lmtt.fd
+INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmtt12.tfm
 OUTPUT /home/premek/Asteroids/bp/kap03.aux
 INPUT /home/premek/Asteroids/bp/kap03.tex
 INPUT /home/premek/Asteroids/bp/kap03.tex
@@ -355,9 +358,6 @@ INPUT ./Obrazky/Inactive_steps_comparison2.png
 OUTPUT /home/premek/Asteroids/bp/kap04.aux
 INPUT /home/premek/Asteroids/bp/kap04.tex
 INPUT /home/premek/Asteroids/bp/kap04.tex
-INPUT /home/premek/.miktex/texmfs/install/tex/latex/lm/t1lmtt.fd
-INPUT /home/premek/.miktex/texmfs/install/tex/latex/lm/t1lmtt.fd
-INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmtt12.tfm
 INPUT Obrazky/formule_graph_2.png
 INPUT ./Obrazky/formule_graph_2.png
 INPUT ./Obrazky/formule_graph_2.png
