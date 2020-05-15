@@ -40,7 +40,6 @@ Genetické operátory mohou občas upravit nejlepšího jedince tak, že se jeho
 Z tohoto důvodu se často používá technika zvaná elitismus, která automaticky do další generace vybere pár nejlepších současných jedinců. 
 Tímto způsobem máme garantováno, že neztracíme nejlepší současné jedince.
 
-\url{https://www.researchgate.net/publication/259461147_Selection_Methods_for_Genetic_Algorithms}
 
 
 \subsubsection{Genetické operátory}
@@ -60,14 +59,14 @@ Ve volně typovaném genetickém programování nezadáváme typy funkcí ani te
 Obvykle se nám ale více bude hodit silně typované genetické programování, zde určujeme u všech funkcí nejen jejich aritu, ale také typ každého z argumentů dané funkce a také typ návratové hodnoty.
 Podobně musíme určit i hodnotové typy terminálů.
 Na závěr určíme hodnotové typy celého problému a algoritmus už se postará o to, aby byly typové podmínky pro všechny jedince dodrženy.
-\url{https://deap.readthedocs.io/en/master/tutorials/advanced/gp.html}
+\cite{typedProgramming}
 
 
 \subsection{Využití}
 Genetické programování je využitelné ve všech problémech, kde jsme schopní vymyslet způsob, jak jedince představujícího řešení problému reprezentovat a jak počítat fitness funkci, která dané řešení ohodnotí.
 To tedy znamená, že možnosti využití jsou téměř nekonečné. 
 
-\todo{volně přeloženo a zkráceno z původního textu str. 126}
+\cite{fieldGuideUsage}
 Obecně se genetické programování ukazuje být vhodné ve všech problémech, které splňují některou, z následujících podmínek:
 
 \begin{itemize}
@@ -106,12 +105,11 @@ V takto triviálním případě se hledané řešení nalezne pravděpodobně ve
 \section{Hluboké Q-učení}
 Než se dostaneme k samotnému fungování algoritmu hlubokého Q-učení, musíme nejprve vybudovat jeho stavební kameny.
 
-% \subsection{Základní principy}
 \subsection{Neuronová síť}
 První důležitý koncept, který v rámci hlubokého Q-učení budeme potřebovat, jsou neuronové sítě. 
 I zde se nejprve budeme muset seznámit se základní jednotkou - perceptronem, než budeme schopni říct, co neuronové sítě jsou.
 \par
-Perceptron je algoritmus, který má na vstupu několik hodnot $x_i$ a jeden výstup. S každou vstupní hodnotou je spojena jedna váha $w_i$.
+Perceptron je algoritmus, který má na vstupu několik hodnot $x_i$ a jeden výstup (\cite{perceptronNeuralNetworks}). S každou vstupní hodnotou je spojena jedna váha $w_i$.
 Kromě vah vstupů obsahuje perceptron ještě tzv. práh. Perceptron spočítá vážený součet vstupů a porovná výsledek s prahem. Pokud je výsledek větší než práh, tak perceptron vrací hodnotu 1, jinak 0.
 Můžeme zde ale využít triku pro zbavení se prahu. K prahu můžeme přistupovat jako k další váze s konstantním vstupem -1.
 V takovém případě pak perceptron provádí porovnání váženého součtu vstupů s hodnotou 0. 
@@ -137,22 +135,20 @@ Chybová funkce se derivuje podle vah v síti a následně se jednotlivé váhy 
 \newline
 \[w_i = w_i + \alpha\frac{\partial L(x,y|w)}{\partial w_i}\]
 
-\url{https://ocw.mit.edu/courses/health-sciences-and-technology/hst-947-medical-artificial-intelligence-spring-2005/lecture-notes/ch7_mach3.pdf}
-\todo{strana 9 až 13}
+
 
 
 \subsection{Zpětnovazební učení}
 Podobně jako v předchozí sekci, také zde musíme nejprve zavést nové pojemy a terminologii.
-Popišme si nejprve, co je to markovský rozhodovací prostor.
+Popišme si nejprve, co je to markovský rozhodovací prostor (\cite{markovDecisionProcesses}).
 Markovský rozhodovací prostor popisuje prostředí a je definován čtveřicí $(S,A,P,R)$, kde $S$ je množina stavů, $A$ je množina všech akcí (případně $A_s$ představuje množinu akcí, které mohou být provedeny ve stavu $s$), 
 $P: S \times A \times S \rightarrow [0,1]$ představuje přechodovou funkci, 
 kde $P_a(s,s')$ vrací pravděpodobnost, že se aplikováním akce $a$ ve stavu $s$ dostaneme do stavu $s'$, 
 a $R: S \times A \times S \rightarrow \mathbb{R}$ představuje funkci odměn $R_a(s,s')$, která vrací odměnu, kterou agent obdrží, pokud ve stavu $s$ provede akci $a$ a dostane se tak do stavu $s'$.
 Přechodová funkce i funkce odměn musí navíc splňovat podmínku, že musí být jejich hodnoty nezávislé na předchozích stavech.
 
-\url{https://ocw.mit.edu/courses/aeronautics-and-astronautics/16-410-principles-of-autonomy-and-decision-making-fall-2010/lecture-notes/MIT16_410F10_lec22.pdf}
 
-Chování agenta v prostředí můžeme popsat pomocí strategie $\pi: S \times A \rightarrow [0,1]$, ta určuje pravděpodobnost, že se agent ve stavu $s$ rozhodne pro akci $a$.
+Chování agenta v prostředí můžeme popsat pomocí strategie $\pi: S \times A \rightarrow [0,1]$, ta určuje pravděpodobnost, že se agent ve stavu $s$ rozhodne pro akci $a$ (\cite{deepQ}).
 Pro agenta v prostředí ještě definujme jeho celkovou odměnu jako \[\sum_{t=0}^{\infty} \gamma^tR_{a_t}(s_t,s_{t+1})\], kde $\gamma<1$ je diskontní faktor, díky kterému je suma konečná a $a_t$ je akce agenta vybraná v kroku t.
 Cílem zpětnovazebního učení je nalézt optimální strategii $\pi^\star$, kde $a_t=\pi^\star(s_t)$, takovou, že její celková odměna je maximální.
 
@@ -179,7 +175,7 @@ Na základě těchto informací se provede aktualizace matice následovně:
 Po seznámí se se základy neuronových sítí a zpětnovazebního učení můžeme přejít k samotnému hlubokému Q-učení.
 Hluboké Q-učení následuje stejnou myšlenku jako obyčejné Q-učení, také chceme nalézt odměnu vybrané akce v současném stavu.
 Hlavním rozdílem oproti normálnímu Q-učení je způsob, jak se Q hodnoty reprezentují. V normálním Q-učení jsou Q hodnoty uložené v matici, ta může být v případě velkých prostorů příliš obrovská a Q-učení pak může probíhat velmi pomalu, nebo dokonce vůbec.
-V Hlubokém Q-učení bude Q reprezentováno pomocí neuronové sítě.
+V hlubokém Q-učení bude Q reprezentováno pomocí neuronové sítě.
 
 Trénování se provádí pomocí porovnávání rozdílu aktuální odměny $R_a(s,s')$ prostředí od odměny spočítané pomocí Bellmanovy rovnice z Q.
 Cílem je tedy minimalizovat rozdíl mezi \[Q(s,a) \hspace{5mm}\text{a}\hspace{5mm}  R_a(s,s') + \gamma\max_{a'}Q_{\theta}(s',a')\], kde $Q_{\theta}$ jsou parametry neuronové sítě reprezentující matici Q.
@@ -188,8 +184,8 @@ Chybovou funkcí pro trénování neuronové sítě pak může být střední č
 
 
 \subsection{Využití}
-V praxi bylo hluboké Q-učení použito například pro naučení se hraní atari her. 
-\url{https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf}
+V praxi bylo hluboké Q-učení použito například pro naučení se hraní atari her (\cite{atari}). 
+
 
 Namísto ručně zpracovaných informacích o stavu hry zde byly jako vstupy využity přímo vizuální výstupy hry.
 Q-síť je proto reprezentována konvoluční neuronovou sítí, která na vstupu bere vektor pixelů obrázku hry a na výstupu vrací odhad budoucích odměn pro každou z možných akcí.

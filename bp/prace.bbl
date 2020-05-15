@@ -1,9 +1,15 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{10}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Aeronautics a of~Technology(2010)]{markovDecisionProcesses}
+{\sc Aeronautics, E.~F. {\rm a} of~Technology, A.~I.} (2010).
+\newblock Markov decision processes.
+\newblock
+  \url{https://ocw.mit.edu/courses/aeronautics-and-astronautics/16-410-principles-of-autonomy-and-decision-making-fall-2010/lecture-notes/MIT16_410F10_lec22.pdf}.
 
 \bibitem[Brockman a~kol.(2016)Brockman, Cheung, Pettersson, Schneider,
   Schulman, Tang a Zaremba]{openAiGym}
@@ -18,12 +24,47 @@
 \newblock \emph{International Journal of Emerging Sciences}, {\bf 3}, \penalty0
   333--344.
 
-\bibitem[Poli a~kol.(2008)Poli, Langdon a McPhee]{fieldguide}
-{\sc Poli, R., Langdon, W.~B. {\rm a} McPhee, N.~F.} (2008).
+\bibitem[Mnih a~kol.(2013)Mnih, Kavukcuoglu, Silver, Graves, Antonoglou,
+  Wierstra a Riedmiller]{atari}
+{\sc Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I.,
+  Wierstra, D. {\rm a} Riedmiller, M.~A.} (2013).
+\newblock Playing atari with deep reinforcement learning.
+\newblock \emph{CoRR}, {\bf abs/1312.5602}.
+\newblock URL \url{http://arxiv.org/abs/1312.5602}.
+
+\bibitem[of~Technology(2004)]{perceptronNeuralNetworks}
+{\sc of~Technology, M.~I.} (2004).
+\newblock
+  \url{https://ocw.mit.edu/courses/health-sciences-and-technology/hst-947-medical-artificial-intelligence-spring-2005/lecture-notes/ch7_mach3.pdf}.
+
+\bibitem[Ph.D.(2019)]{deepQ}
+{\sc Ph.D., M. M.~P.} (2019).
+\newblock Hluboké zpětnovazební učení.
+\newblock
+  \url{https://martinpilat.com/cs/prirodou-inspirovane-algoritmy/hluboke-zpetnovazebni-uceni}.
+
+\bibitem[Poli a~kol.(2008{\natexlab{a}})Poli, Langdon a
+  McPhee]{fieldGuideUsage}
+{\sc Poli, R., Langdon, W.~B. {\rm a} McPhee, N.~F.} (2008{\natexlab{a}}).
+\newblock \emph{A field guide to genetic programming}, page 126.
+\newblock Published via \texttt{http://lulu.com} and freely available at
+  \texttt{http://www.gp-field-guide.org.uk}.
+\newblock (With contributions by J. R. Koza).
+
+\bibitem[Poli a~kol.(2008{\natexlab{b}})Poli, Langdon a McPhee]{fieldguide}
+{\sc Poli, R., Langdon, W.~B. {\rm a} McPhee, N.~F.} (2008{\natexlab{b}}).
 \newblock \emph{A field guide to genetic programming}.
 \newblock Published via \texttt{http://lulu.com} and freely available at
   \texttt{http://www.gp-field-guide.org.uk}.
 \newblock (With contributions by J. R. Koza).
+
+\bibitem[Rainville a~kol.(2009)Rainville, Fortin, Gardner, Parizeau a
+  Gagné]{typedProgramming}
+{\sc Rainville, F.-M.~D., Fortin, F.-A., Gardner, M.-A., Parizeau, M. {\rm a}
+  Gagné, C.} (2009).
+\newblock Genetic programming.
+\newblock
+  \url{https://deap.readthedocs.io/en/master/tutorials/advanced/gp.html}.
 
 \bibitem[Shinners(2011)]{pygame}
 {\sc Shinners, P.} (2011).

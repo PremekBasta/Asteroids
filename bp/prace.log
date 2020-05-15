@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  15 MAY 2020 16:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  15 MAY 2020 21:47
 entering extended mode
 **/home/premek/Asteroids/bp/prace.tex
 (/home/premek/Asteroids/bp/prace.tex
@@ -788,49 +788,34 @@ Overfull \hbox (13.99112pt too wide) in paragraph at lines 19--21
 
 
 
-]
-Overfull \hbox (31.12106pt too wide) in paragraph at lines 43--44
-[][]$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 259461147 _ Selection _ Methods _|
- []
-
-[18]
-<./Obrazky/formule_graph_2.png, id=389, 276.03125pt x 348.30125pt>
+] [18]
+<./Obrazky/formule_graph_2.png, id=390, 276.03125pt x 348.30125pt>
 File: ./Obrazky/formule_graph_2.png Graphic file (type png)
 <use ./Obrazky/formule_graph_2.png>
-Package pdftex.def Info: ./Obrazky/formule_graph_2.png  used on input line 98.
+Package pdftex.def Info: ./Obrazky/formule_graph_2.png  used on input line 97.
 (pdftex.def)             Requested size: 199.17616pt x 199.16621pt.
  [19]
-Underfull \hbox (badness 10000) in paragraph at lines 122--124
+Underfull \hbox (badness 10000) in paragraph at lines 120--122
 
  []
 
 
-Overfull \hbox (2.30673pt too wide) in paragraph at lines 126--127
+Overfull \hbox (2.30673pt too wide) in paragraph at lines 124--125
 []\T1/lmr/m/n/12 Rozhodovací hranice perceptronu p°edstavuje nadrovinu ve vstupním prostoru.|
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--138
+Underfull \hbox (badness 10000) in paragraph at lines 133--136
 
- []
-
-
-Overfull \hbox (294.9782pt too wide) in paragraph at lines 140--142
-[][]$\T1/lmtt/m/n/12 https : / / ocw . mit . edu / courses / health-[]sciences-[]and-[]technology / hst-[]947-[]medical-[]artificial-[]intelligence-[]spring-[]2005 /|
  []
 
 [20]
-Overfull \hbox (333.02821pt too wide) in paragraph at lines 153--154
-[][]$\T1/lmtt/m/n/12 https : / / ocw . mit . edu / courses / aeronautics-[]and-[]astronautics / 16-[]410-[]principles-[]of-[]autonomy-[]and-[]decision-[]making-[]fall-[]2010 /|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 159--161
+Underfull \hbox (badness 10000) in paragraph at lines 155--157
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 170--173
+Underfull \hbox (badness 10000) in paragraph at lines 166--169
 
  []
 
@@ -853,13 +838,13 @@ Underfull \hbox (badness 1472) in paragraph at lines 102--104
 \T1/lmr/m/n/12 obranného agenta porazit. V souboji jedinec nejen nedokázal konkurovat
  []
 
-<./Obrazky/Experiment01Results.png, id=435, 578.16pt x 433.62pt>
+<./Obrazky/Experiment01Results.png, id=444, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment01Results.png Graphic file (type png)
 <use ./Obrazky/Experiment01Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment01Results.png  used on input line 109.
 (pdftex.def)             Requested size: 355.65892pt x 284.54257pt.
 [26] [27]
-<./Obrazky/Experiment02Results.png, id=448, 578.16pt x 433.62pt>
+<./Obrazky/Experiment02Results.png, id=457, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment02Results.png Graphic file (type png)
 <use ./Obrazky/Experiment02Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment02Results.png  used on input line 156.
@@ -869,7 +854,7 @@ Overfull \hbox (11.155pt too wide) in paragraph at lines 172--175
 \T1/lmr/m/n/12 terminál· pouºívaných p°i tvorb¥ program· odstraníme nulární funkci reprezentující|
  []
 
-<./Obrazky/Experiment03Results.png, id=450, 578.16pt x 433.62pt>
+<./Obrazky/Experiment03Results.png, id=459, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment03Results.png Graphic file (type png)
 <use ./Obrazky/Experiment03Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment03Results.png  used on input line 203.
@@ -880,7 +865,7 @@ Underfull \hbox (badness 1087) in paragraph at lines 231--235
  []
 
 [30]
-<./Obrazky/Experiment04Results.png, id=467, 578.16pt x 433.62pt>
+<./Obrazky/Experiment04Results.png, id=476, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment04Results.png Graphic file (type png)
 <use ./Obrazky/Experiment04Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment04Results.png  used on input line 277.
@@ -890,24 +875,24 @@ Underfull \hbox (badness 1184) in paragraph at lines 301--302
 []\T1/lmr/m/n/12 Adekvátn¥ ke zvý²ení po£tu zahraných her také zv¥t²íme konstantu
  []
 
-<./Obrazky/Experiment05Training.png, id=479, 867.24pt x 578.16pt>
+<./Obrazky/Experiment05Training.png, id=488, 867.24pt x 578.16pt>
 File: ./Obrazky/Experiment05Training.png Graphic file (type png)
 <use ./Obrazky/Experiment05Training.png>
 Package pdftex.def Info: ./Obrazky/Experiment05Training.png  used on input line 305.
 (pdftex.def)             Requested size: 412.56525pt x 312.97809pt.
-<./Obrazky/Experiment05Results.png, id=480, 578.16pt x 433.62pt>
+<./Obrazky/Experiment05Results.png, id=489, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment05Results.png Graphic file (type png)
 <use ./Obrazky/Experiment05Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment05Results.png  used on input line 314.
 (pdftex.def)             Requested size: 412.56082pt x 312.99353pt.
 [33] [34 <./Obrazky/Experiment05Training.png>] [35]
-<./Obrazky/Experiment06Results.png, id=497, 578.16pt x 433.62pt>
+<./Obrazky/Experiment06Results.png, id=506, 578.16pt x 433.62pt>
 File: ./Obrazky/Experiment06Results.png Graphic file (type png)
 <use ./Obrazky/Experiment06Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment06Results.png  used on input line 376.
 (pdftex.def)             Requested size: 412.56082pt x 312.99353pt.
  [36] [37 <./Obrazky/Experiment05Results.png> <./Obrazky/Experiment06Results.png>]
-<./Obrazky/Experiment07Results.png, id=510, 462.528pt x 399.6531pt>
+<./Obrazky/Experiment07Results.png, id=519, 462.528pt x 399.6531pt>
 File: ./Obrazky/Experiment07Results.png Graphic file (type png)
 <use ./Obrazky/Experiment07Results.png>
 Package pdftex.def Info: ./Obrazky/Experiment07Results.png  used on input line 401.
@@ -922,7 +907,52 @@ Package pdftex.def Info: ./Obrazky/Experiment07Results.png  used on input line 4
 ]
 \openout2 = `literatura.aux'.
 
- (/home/premek/Asteroids/bp/literatura.tex (/home/premek/Asteroids/bp/prace.bbl)) [41
+ (/home/premek/Asteroids/bp/literatura.tex (/home/premek/Asteroids/bp/prace.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 9--13
+[]\T1/lmr/m/sc/12 Aeronautics, E. F. \T1/lmr/m/n/12 a \T1/lmr/m/sc/12 of Technology, A. I.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--13
+\T1/lmr/m/n/12 (2010).  Markov decision processes.  []$\T1/lmtt/m/n/12 https : / /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--13
+\T1/lmtt/m/n/12 ocw . mit . edu / courses / aeronautics-[]and-[]astronautics /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--13
+\T1/lmtt/m/n/12 16-[]410-[]principles-[]of-[]autonomy-[]and-[]decision-[]making-[]fall-[]2010 /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--39
+[]\T1/lmr/m/sc/12 of Technology, M. I. \T1/lmr/m/n/12 (2004).  []$\T1/lmtt/m/n/12 https : / / ocw .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--39
+\T1/lmtt/m/n/12 mit . edu / courses / health-[]sciences-[]and-[]technology /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--39
+\T1/lmtt/m/n/12 hst-[]947-[]medical-[]artificial-[]intelligence-[]spring-[]2005 /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--45
+[]\T1/lmr/m/sc/12 Ph.D., M. M. P. \T1/lmr/m/n/12 (2019).  Hluboké zp¥tnovazební u£ení.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--45
+[]$\T1/lmtt/m/n/12 https : / / martinpilat . com / cs / prirodou-[]inspirovane-[]algoritmy /
+ []
+
+)) [41
 
 
 
@@ -944,17 +974,17 @@ Package rerunfilecheck Info: File `prace.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 185.
  ) 
 Here is how much of TeX's memory you used:
- 20326 strings out of 483220
- 306837 string characters out of 2960823
- 755680 words of memory out of 3000000
- 34991 multiletter control sequences out of 15000+200000
+ 20350 strings out of 483220
+ 307363 string characters out of 2960823
+ 756020 words of memory out of 3000000
+ 35009 multiletter control sequences out of 15000+200000
  599461 words of font info for 66 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
  51i,6n,50p,985b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathsy.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-rm.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathit.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathex.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmcsc10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmex10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on /home/premek/Asteroids/bp/prace.pdf (46 pages, 690139 bytes).
+Output written on /home/premek/Asteroids/bp/prace.pdf (46 pages, 698198 bytes).
 PDF statistics:
- 662 PDF objects out of 1000 (max. 8388607)
- 140 named destinations out of 1000 (max. 500000)
+ 687 PDF objects out of 1000 (max. 8388607)
+ 146 named destinations out of 1000 (max. 500000)
  425 words of extra memory for PDF output out of 10000 (max. 10000000)
 
