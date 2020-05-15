@@ -65,9 +65,8 @@ Na závěr určíme hodnotové typy celého problému a algoritmus už se postar
 
 \subsection{Využití}
 Genetické programování je využitelné ve všech problémech, kde jsme schopní vymyslet způsob, jak jedince představujícího řešení problému reprezentovat a jak počítat fitness funkci, která dané řešení ohodnotí.
-To tedy znamená, že možnosti využití jsou téměř nekonečné. Zmiňme ale pár příkladů. 
+To tedy znamená, že možnosti využití jsou téměř nekonečné. 
 
-\subsection{Obecné využití}
 \todo{volně přeloženo a zkráceno z původního textu str. 126}
 Obecně se genetické programování ukazuje být vhodné ve všech problémech, které splňují některou, z následujících podmínek:
 
@@ -105,11 +104,12 @@ V takto triviálním případě se hledané řešení nalezne pravděpodobně ve
 
 \newpage
 \section{Hluboké Q-učení}
+Než se dostaneme k samotnému fungování algoritmu hlubokého Q-učení, musíme nejprve vybudovat jeho stavební kameny.
 
 % \subsection{Základní principy}
 \subsection{Neuronová síť}
-Než se dostaneme k hlubokému q-učení, budeme se nejprve muset seznámit s pojmy neuronová síť a q-učení. Začněme tedy s neuronovými sítěmi.
-Abychom si mohli říct, co neuronové sítě jsou, musíme se nejdřív seznámit s její základní jednotku – perceptron.
+První důležitý koncept, který v rámci hlubokého Q-učení budeme potřebovat, jsou neuronové sítě. 
+I zde se nejprve budeme muset seznámit se základní jednotkou - perceptronem, než budeme schopni říct, co neuronové sítě jsou.
 \par
 Perceptron je algoritmus, který má na vstupu několik hodnot $x_i$ a jeden výstup. S každou vstupní hodnotou je spojena jedna váha $w_i$.
 Kromě vah vstupů obsahuje perceptron ještě tzv. práh. Perceptron spočítá vážený součet vstupů a porovná výsledek s prahem. Pokud je výsledek větší než práh, tak perceptron vrací hodnotu 1, jinak 0.
@@ -126,10 +126,11 @@ Trénování daného perceptronu probíhá pomocí předkládání dvojic vstup�
 Rozhodovací hranice perceptronu představuje nadrovinu ve vstupním prostoru. Lze ukázat, že trénování perceptronu zkonverguje, pokud jsou třídy v datech lineárně separabilní.
 
 Většinou ale řešíme problémy, kde třídy v datech lineárně separabilní nejsou, v takových případech nám jeden perceptron nestačí a potřebujeme jich využít víc.
-Spojením více perceptronů získáváme dopřednou neuronovou síť. Ta se skládá z vrstev perceptronů, kde vstupy perceptronů první jsou samotná data $x$ a vstupy perceptronů v dalších vrstvách jsou rovny výstupům perceptronů z vrstvy předchozí.
+Spojením více perceptronů získáváme dopřednou neuronovou síť.
+Ta se skládá z vrstev perceptronů, kde vstupy perceptronů první vrstvy jsou samotná data $x$ a vstupy perceptronů v dalších vrstvách jsou rovny výstupům perceptronů z vrstvy předchozí.
 
 Pro trénování více vrstvých perceptronů se používá gradientní metoda. Z toho důvodů se využívají jiné funkce $f$, než ta zmíněná nahoře, ta má totiž gradient ve většině případů roven 0.
-Typickým příkladem používané funkce je sigmoid \[f(x) = \frac{1}{1+e^{-x}}\].
+Typickým příkladem používané funkce je sigmoid \[f(x) = \frac{1}{1+e^{-x}}.\]
 
 Následně musíme zvolit chybovou funkci $L(x,y|w)$ neuronové sítě. Zde se typicky využívá střední kvadratická chyba (ang. Mean squared error).
 Chybová funkce se derivuje podle vah v síti a následně se jednotlivé váhy upraví.
@@ -141,7 +142,7 @@ Chybová funkce se derivuje podle vah v síti a následně se jednotlivé váhy 
 
 
 \subsection{Zpětnovazební učení}
-Podobně jako v předchozí sekci, i zde musíme nejprve zavést nové pojem a terminologii, než budeme moci říct, co je cílem zpětnovazebního učení.
+Podobně jako v předchozí sekci, také zde musíme nejprve zavést nové pojemy a terminologii.
 Popišme si nejprve, co je to markovský rozhodovací prostor.
 Markovský rozhodovací prostor popisuje prostředí a je definován čtveřicí $(S,A,P,R)$, kde $S$ je množina stavů, $A$ je množina všech akcí (případně $A_s$ představuje množinu akcí, které mohou být provedeny ve stavu $s$), 
 $P: S \times A \times S \rightarrow [0,1]$ představuje přechodovou funkci, 
@@ -175,12 +176,12 @@ Na základě těchto informací se provede aktualizace matice následovně:
 
 
 \subsection{Hluboké Q-učení}
-Po seznámí se základy neuronových sítí a zpětnovazebního učení můžeme přejít k hlubokému Q-učení.
+Po seznámí se se základy neuronových sítí a zpětnovazebního učení můžeme přejít k samotnému hlubokému Q-učení.
 Hluboké Q-učení následuje stejnou myšlenku jako obyčejné Q-učení, také chceme nalézt odměnu vybrané akce v současném stavu.
 Hlavním rozdílem oproti normálnímu Q-učení je způsob, jak se Q hodnoty reprezentují. V normálním Q-učení jsou Q hodnoty uložené v matici, ta může být v případě velkých prostorů příliš obrovská a Q-učení pak může probíhat velmi pomalu, nebo dokonce vůbec.
 V Hlubokém Q-učení bude Q reprezentováno pomocí neuronové sítě.
 
-Trénování se provádí pomocí porovnání rozdílu aktuální odměny $R_a(s,s')$ prostředí od odměny spočítané pomocí Bellmanovy rovnice z Q.
+Trénování se provádí pomocí porovnávání rozdílu aktuální odměny $R_a(s,s')$ prostředí od odměny spočítané pomocí Bellmanovy rovnice z Q.
 Cílem je tedy minimalizovat rozdíl mezi \[Q(s,a) \hspace{5mm}\text{a}\hspace{5mm}  R_a(s,s') + \gamma\max_{a'}Q_{\theta}(s',a')\], kde $Q_{\theta}$ jsou parametry neuronové sítě reprezentující matici Q.
 Chybovou funkcí pro trénování neuronové sítě pak může být střední čtvercová chyba tohoto rozdílu.
 
@@ -192,7 +193,7 @@ V praxi bylo hluboké Q-učení použito například pro naučení se hraní ata
 
 Namísto ručně zpracovaných informacích o stavu hry zde byly jako vstupy využity přímo vizuální výstupy hry.
 Q-síť je proto reprezentována konvoluční neuronovou sítí, která na vstupu bere vektor pixelů obrázku hry a na výstupu vrací odhad budoucích odměn pro každou z možných akcí.
-Modelu nebylo řečeno nic o principu fungování hry. Model se učil pouze na základě vizuálního výstupu, odměn, které dostával od prostředí, konečných stavů a množiny možných akcí, tedy stejným přístupem, jak by ke hře přistupoval člověk.
+Modelu nebylo řečeno nic o principu fungování hry. Model se učil pouze na základě vizuálního výstupu, odměn, které dostával od prostředí, konečných stavů a množiny možných akcí, tedy podobně, jak by se hru učil hrát člověk.
 
 Stejná neuronová síť byla použitá na sedmi různých atari hrách. Na šesti z nich překonala všechny stávající přístupy, které využívaly algoritmy zpětnovazebního učení a na třech z nich překonala výsledky nejlepších lidských hráčů.
 
