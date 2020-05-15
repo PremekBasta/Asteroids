@@ -23,7 +23,7 @@ Vesmírná loď má základní polohové informace rozšířené o úhel. Ten se
 Akcelerace je realizována pomocí vektorového sčítání. K současnému vektoru rychlosti se přičte vektor odpovídající současnému natočení lodi.
 Maximální rychlost vesmírné lodi je omezená.
 V případě že akcelerací vznikne vektor rychlosti, jehož délka je větší než hodnota maximální rychlosti, tak dojde k jeho zkrácení.
-Směr vektoru se zachová, ale je délka bude zkrácena na maximální možnou délku.
+Směr vektoru se zachová, ale jeho délka bude zkrácena na maximální možnou délku.
 
 \newpage
 
@@ -95,7 +95,7 @@ Jedna instance prostředí odpovídá jedné hře. Herní prostředí má dvě z
 \newline 
 Metoda \emph{reset()} inicializuje hru do počátečního stavu a tento stav vrátí. Tato metoda se musí zavolat před začátkem hry.
 \newline 
-A druhá metoda \emph{next\_step(actions\_one, actions\_two)}, která na na základě akcí hráčů, převede hru do následného stavu.
+A druhou metodou je \emph{next\_step(actions\_one, actions\_two)}, ta na základě akcí hráčů, převede hru do následného stavu.
 Právě v této metodě je schovaná celá logika manipulace s vesmírnými objekty popsána výše.
 \newline
 \begin{lstlisting}[language=Python]
@@ -145,7 +145,7 @@ V tomto rozsahu pro mě knihovna pygame byla zcela dostačující. Vytvořil jse
 Vysvětlili jsme tedy všechny základní prvky, které v této hře potřebujeme a nyní je propojíme dohromady.
 K běhu hry potřebujeme inicializovat instanci herního prostředí a dva agenty, kteří budou představovat naše hráče.
 a následně můžeme začít v cyklu simulovat hru.
-V každém kroku cyklu agenti na zvolí své akce a ty předají zpět hernímu prostředí.
+V každém kroku cyklu agenti zvolí své akce a ty předají zpět hernímu prostředí.
 Takto hra běží, dokud herní prostředí neoznámí, že daným krokem hra skončila.
 Kostra herní simulace pak vypadá následovně:
 
@@ -160,7 +160,8 @@ Kostra herní simulace pak vypadá následovně:
         actions_one = agent_one.choose_actions(state)    
         actions_two = agent_two.choose_actions(state)
         
-        game_over, state = env.next_step(actions_one, actions_two)
+        game_over, state = 
+            env.next_step(actions_one, actions_two)
 \end{lstlisting}
 
 
