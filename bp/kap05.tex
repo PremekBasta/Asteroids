@@ -1,3 +1,4 @@
+\tolerance=1600
 \chapter{Provedené experimenty}
 V předchozí kapitole jsme se seznámili s algoritmy, které jsou aplikovatelné i v našem prostředí.
 V této kapitole se pomocí různých experimentů pokusíme nalézt agenty, kteří se budou v jistém pojetí chovat inteligentně.
@@ -105,7 +106,7 @@ V souboji jedinec nejen nedokázal konkurovat obrannému agentovi, ale ani se ne
 V 95\% volil, stejně jako obranný agent, obranný akční plán a ve zbylých pár procentech volil všechny zbylé akční plány (viz \ref{Výsledek experimentu 01}).
 Vyžívání všech akčních plánů bylo pravděpodobně dosaženo právě skrze vysokou penalizaci při nepoužití libovolného z nich, ale vidíme, že agent je volil spíše právě z tohoto důvodu, než že by je chtěl aktivně využívat v rámci své strategie.
 
-\begin{figure}[p]\centering
+\begin{figure}[H]\centering
 \includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment01Results.png}
 \caption{Výsledek experimentu 1}
 \label{Výsledek experimentu 01}
@@ -152,7 +153,7 @@ Nicméně ani tentokrát se agent nenaučil nic jiného než obranu a útok (viz
  
 
 
-\begin{figure}[p]\centering
+\begin{figure}[H]\centering
 \includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment02Results.png}
 \caption{Výsledek experimentu 2}
 \label{Výsledek experimentu 02}
@@ -169,11 +170,13 @@ To má za následek, že se agenti po celou dobu hry pouze otáčejí a stříle
 V tomto experimentu tomuto problému zkusíme předejít, tím, že donutíme agenta bránit se uhýbáním namísto sestřelování nebezpečných asteroidů.
 
 \par
+\tolerance=10000
 Experiment probíhá stejným způsobem jako v předchozím případě, jen s tím rozdílem, že agentovi zakážeme používání obranného plánu. 
 Z argumentů rozhodovací funkce odstraníme informaci o obranném plánu. 
 A z množiny terminálů používaných při tvorbě programů odstraníme nulární funkci reprezentující obranný akční plán.
 
 \par
+\tolerance=1600
 To je vše co je potřeba změnit a zbylá logika může zůstat stejná jako v předešlém experimentu.
 
 Algoritmus byl spuštěn s následujícími parametry
@@ -199,7 +202,7 @@ To ukazuje, že zastavování letu není pro získání lepších výsledků st�
 Výsledný agent v souboji jednoznačně dosáhl špatných výsledků, ale pokud se na hru podíváme z lidského pohledu, tak oproti agentům, kteří zůstávají po celou dobu hry na místě, působí agentovo chování mnohem zajímavěji.
 
 
-\begin{figure}[p]\centering
+\begin{figure}[H]\centering
 \includegraphics[width=125mm, height=100mm]{./Obrazky/Experiment03Results.png}
 \caption{Výsledek experimentu 3}
 \label{Výsledek experimentu 03}
@@ -208,7 +211,7 @@ Výsledný agent v souboji jednoznačně dosáhl špatných výsledků, ale poku
 
 
 
-
+\newpage
 \section{Hluboké Q-učení}
 Herní prostředí nám v každém kroku vrací odměnu, kterou oba z hráčů za jejich akci obdrželi. Tuto informaci jsme v experimentech provedených v rámci genetického programování nevyužili, ale zde budou mít zásadní roli.
 Za každý krok, kdy hra ještě neskončila, získávají agenti automaticky odměnu 1. Na konci hry agent obdrží vysokou odměnu 2000 v případě výhry a v případě prohry naopak získá penalizaci v podobě odměny vysoké záporné hodnoty -1000.
@@ -301,26 +304,21 @@ Parametry experimentu:
     \item Adekvátně ke zvýšení počtu zahraných her také zvětšíme konstantu pro snižování $\epsilon$ z hodnoty 0.998 na 0.9989. Díky tomu bude stejné pravděpodobnosti 6\% pro volbu náhodné akce dosaženo přibližně po zahrání 2550 her.
 \end{itemize}
 
-\begin{figure}[p]\centering
-\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment05Training.png}
-\caption{Průběh trénování v experimentu 5 - Výsledné odměny jsou součtem počtu kroků hry a odměny (resp. penalizace) za výhru (resp. prohru). Samotné tyto odměny tvoří rozdíl v hodnotě 3000, díky tomu je z obrázku zřetelné, ve kterých hrách agent vyhrál.}
-\label{Průběh trénování experimentu 06}
-\end{figure}
-
-
-
-
-\begin{figure}[p]\centering
-\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment05Results.png}
-\caption{Výsledek experimentu 5}
-\label{Průběh trénování experimentu 05}
-\end{figure}
 
 
 Výsledný agent dopadlo velmi úspěšně. Z průběhu trénování vidíme, že agent se velmi dobře učil a od přibližně 2300. hry (viz \ref{Průběh trénování experimentu 06}) už začal vyhrávat ve větší části her.
 Rozšířením vstupních argumentů a přidání trénovacích her se nám podařilo zlepšit výsledek z předchozícho experimentu.
 Agent sice ztratil pestrost akčních plánů, ale za to se významně zlepšil ve vyhrávání. Z výsledku 4:10 z předchozícho experimentu se zlepšil na 10:3.
 Zajímavé na nalezeném agentovi je také jeho agresivita. Agent používá útočný akční plán přibližně dvakrát tak často jako obranný plán.
+
+
+\begin{figure}[H]\centering
+    \includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment05Results.png}
+    \caption{Výsledek experimentu 5}
+    \label{Průběh trénování experimentu 05}
+    \end{figure}
+
+
 
 Při testování výsledného agenta jsem si všimnul, že zahrání jedné hry je časově značně náročné, přičemž to co při simulaci trvalo netriviální objem času bylo samotné dotazování Q-sítě na akční plán.
 Při snaze tento problém vyřešit jsem zjistil, že v některých stavech hry jsou všechny akční plány prázdné. 
@@ -330,6 +328,12 @@ V takovém stavu nemá velký smysl rozhodovat o volbě konkrétního akčního 
 Podobně jsem také vypozoroval, že během jedné hry často nastane situace, že právě jeden z akčních plánů je neprázdný. Překvapením pro mě bylo, že Q-síť někdy v takových případech volila jiný prázdný plán před tímto neprázdným.
 Proto jsem nastavil vyjímku i pro tyto případy a v současnou chvíli platí, že když agent má k dispozici právě jeden neprázdný akční plán, tak ho volí automaticky bez dotazování se Q-sítě.
 Těmito opatřeními bylo dosaženo lepší časové náročnosti hraní hry a také byl agent v souboji úspěšnější. Zlepšení agenta si vysvětluji právě tím, že volba jakéhokoliv neprázdného plánu před prázdným je vždy výhodnější.
+
+\begin{figure}[H]\centering
+    \includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment05Training.png}
+    \caption{Průběh trénování v experimentu 5 - Výsledné odměny jsou součtem počtu kroků hry a odměny (resp. penalizace) za výhru (resp. prohru). Samotné tyto odměny tvoří rozdíl v hodnotě 3000, díky tomu je z obrázku zřetelné, ve kterých hrách agent vyhrál.}
+    \label{Průběh trénování experimentu 06}
+    \end{figure}
 
 
 \newpage

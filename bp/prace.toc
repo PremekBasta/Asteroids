@@ -40,13 +40,13 @@
 \contentsline {section}{\numberline {5.1}Genetické programování}{24}{section.5.1}%
 \contentsline {subsubsection}{Reprezentace jedince}{24}{section*.9}%
 \contentsline {subsection}{\numberline {5.1.1}Experiment 1: Soupeření s obranným agentem}{26}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Experiment 2: Postupné zaměňování úspěšnějšího jedince}{27}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Experiment 3: Postupné zaměňování úspěšnějšího jedince bez obranného akčního plánu}{28}{subsection.5.1.3}%
-\contentsline {section}{\numberline {5.2}Hluboké Q-učení}{30}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Experiment 4: Soupeření s obranným agentem}{31}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Experiment 5: Soupeření s obranným agentem - Rozšířeno}{33}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Experiment 6: Elementární agent proti obrannému agentovi}{36}{subsection.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Experiment 7: Dva elementární agenti}{38}{subsection.5.2.4}%
-\contentsline {chapter}{Závěr}{40}{chapter*.10}%
-\contentsline {chapter}{Seznam použité literatury}{41}{chapter*.11}%
-\contentsline {chapter}{Seznam obr\'azk\r {u}}{42}{chapter*.12}%
+\contentsline {subsection}{\numberline {5.1.2}Experiment 2: Postupné zaměňování úspěšnějšího jedince}{28}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Experiment 3: Postupné zaměňování úspěšnějšího jedince bez obranného akčního plánu}{30}{subsection.5.1.3}%
+\contentsline {section}{\numberline {5.2}Hluboké Q-učení}{32}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Experiment 4: Soupeření s obranným agentem}{33}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Experiment 5: Soupeření s obranným agentem - Rozšířeno}{35}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Experiment 6: Elementární agent proti obrannému agentovi}{38}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Experiment 7: Dva elementární agenti}{40}{subsection.5.2.4}%
+\contentsline {chapter}{Závěr}{42}{chapter*.10}%
+\contentsline {chapter}{Seznam použité literatury}{43}{chapter*.11}%
+\contentsline {chapter}{Seznam obr\'azk\r {u}}{44}{chapter*.12}%

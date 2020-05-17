@@ -16,7 +16,8 @@ Každý program představuje jedno konkrétní řešení daného problému. Kval
 
 
 \subsubsection{Reprezentace}
-Programy jsou v genetickém programování obvykle reprezentované syntaktickými stromy. Stromy ve vnitřních uzlech obsahují funkce (neterminály) a v listech terminály.
+
+Programy bývají obvykle v genetickém programování reprezentované pomocí syntaktických stromů. Stromy ve vnitřních uzlech obsahují funkce (neterminály) a v listech terminály.
 Vyhodnocení stromu následně probíhá od listů ke kořeni a výsledek programu je roven hodnotě v kořeni.
 
 
@@ -116,7 +117,7 @@ V takovém případě pak perceptron provádí porovnání váženého součtu v
 \newline
 Matematicky zapsáno:
 \[f(\sum_{i=0}^{n} w_if_i)\], kde $f$ vrací 1 pro $x>0$ a 0 jinak.
-
+\tolerance=10000
 Trénování daného perceptronu probíhá pomocí předkládání dvojic vstupů a výstupů $(x,y)$ z trénovací množiny a upravování vah následujícím způsobem:
 \newline
 \[w_i = w_i + r(y-f(x_i)x_i\], kde $r$ je parametr učení.
