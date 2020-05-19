@@ -283,9 +283,6 @@ class Enviroment:
     def render(self):
         self.draw_modul.clear_display()
 
-        self.draw_modul.draw_rocket(self.rocket_one)
-        self.draw_modul.draw_rocket(self.rocket_two)
-
         for bullet in self.bullets_one:
             self.draw_modul.draw_bullet(bullet)
         for bullet in self.bullets_two:
@@ -297,6 +294,9 @@ class Enviroment:
             self.draw_modul.draw_asteroid(asteroid)
         for asteroid in self.asteroids_two:
             self.draw_modul.draw_asteroid(asteroid)
+
+        self.draw_modul.draw_rocket(self.rocket_one)
+        self.draw_modul.draw_rocket(self.rocket_two)
 
         self.draw_modul.render()
 

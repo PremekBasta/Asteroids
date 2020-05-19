@@ -14,6 +14,7 @@ import numpy as np
 class Agent():
     def __init__(self, player_number):
         super().__init__()
+        self.input=False
         self.player_number = player_number
         self.shoot_reload_ticks = 0
         self.plan = []
@@ -1071,11 +1072,12 @@ class Random_agent(Agent):
         return actions
 
 class Evasion_agent(Agent):
-    def __init__(self, player_number):
+    def __init__(self, player_number, draw_modul = None):
         super().__init__(player_number)
         self.shoot_reload_ticks = 0
         self.inactive_steps = 0
         self.finished_plan_evasion = True
+        self.draw_modul = draw_modul
 
 
     def choose_actions(self, state):
@@ -1824,6 +1826,7 @@ class Low_level_sensor_DQAgent(Agent):
 class Input_agent(Agent):
      def __init__(self,  screen, player_number):
          super().__init__(player_number)
+         self.input=True
          self.screen = screen
 
      def  choose_actions(self, state):
@@ -1833,18 +1836,18 @@ class Input_agent(Agent):
          events = pygame.event.get(pygame.KEYDOWN)
 
          for event in events:
-             if(event.key == pygame.K_KP5):
+             if(event.key == pygame.K_f):
                  #actions.append(Rocket_action.ROCKET_ONE_SHOOT)
                  # actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
-                 actions_one.append(RocketBaseAction.SHOT)
-             if(event.key == pygame.K_KP6):
+                 actions_two.append(RocketBaseAction.SHOT)
+             if(event.key == pygame.K_g):
                  #actions.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
                  # actions_one.append(Rocket_action.ROCKET_ONE_SPLIT_SHOOT)
-                 actions_one.append(RocketBaseAction.SPLIT_SHOOT)
-             if(event.key == pygame.K_g):
+                 actions_two.append(RocketBaseAction.SPLIT_SHOOT)
+             if(event.key == pygame.K_o):
                  #for second player switch back to action_two
                  actions_one.append(RocketBaseAction.SHOT)
-             if(event.key == pygame.K_h):
+             if(event.key == pygame.K_p):
                  # for second player switch back to action_two
                  actions_one.append(RocketBaseAction.SPLIT_SHOOT)
 
@@ -1882,7 +1885,7 @@ class Input_agent(Agent):
          pygame.event.clear()
 
          return actions_one\
-             #, actions_two
+             , actions_two
 
 class ActionPlanEnum(Enum):
     ATTACK = 0

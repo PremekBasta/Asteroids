@@ -26,7 +26,7 @@ Parametry spuštění:
 			"E01" = agent získaný z 1. Experimentu
 			...
 			"E07" = agent získaný z 7. Experimentu
-			"IN" = ovládání hráče přímo z klávesnice (klávesy šipky pro pohyb vesmírné lodi, G a H pro střílení)
+			"IN" = ovládání hráče přímo z klávesnice (1. hráč: A,W,D pro pohyb a F,G pro střelbu; 2. hráč:klávesy šipky pro pohyb, G,H pro střelbu)
 			"SD" = obranný agent, který se řídí pouze obranným akčním plánem (Default hodnota pro oba hráče)
 -ng X		Počet her k zahrání (Default = 10)
 -dv 		Hry se budou hrát bez vizuálního zobrazení

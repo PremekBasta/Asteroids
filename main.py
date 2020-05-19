@@ -2,7 +2,6 @@ from draw_module import draw_module
 from enviroment import Enviroment
 from agents import *
 from gp import return_individual, return_E01Function, return_E02Function, return_E03Function
-import BP_functions
 import time
 import numpy as np
 import argparse
@@ -11,9 +10,6 @@ import sys
 
 def play_games(num_games, agent_one, agent_two, draw_module = None):
     env = Enviroment(draw_module)
-    state = env.reset()
-
-    game_over = False
     RocketOne_wins = 0
     RocketTwo_wins = 0
     total_time = 0
@@ -22,12 +18,21 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
     for i in range(num_games):
         game_over = False
         state = env.reset()
-        agent_one_actions = []
-        agent_two_actions = []
         start = time.time()
         while game_over == False:
-            actions_one = agent_one.choose_actions(state)
-            actions_two = agent_two.choose_actions(state)
+            if agent_one.input and agent_two.input:
+                actions_one, actions_two = agent_one.choose_actions(state)
+            elif agent_one.input:
+                actions_one, _ = agent_one.choose_actions(state)
+                actions_two = agent_two.choose_actions(state)
+            elif agent_two.input:
+                actions_one = agent_one.choose_actions(state)
+                _,actions_two = agent_two.choose_actions(state)
+            else:
+                actions_one = agent_one.choose_actions(state)
+                actions_two = agent_two.choose_actions(state)
+
+            pygame.event.clear()
 
 
             step_count, (game_over, rocket_one_won), state, _ = env.next_step(actions_one, actions_two)
@@ -49,28 +54,30 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
         print(f"Rocket two wins: {RocketTwo_wins}")
 
 def assign_agent(player_number, chosen_agent, draw_module):
-    if chosen_agent is None or chosen_agent.upper() == "SD":
+    if chosen_agent is None or chosen_agent.upper() == AgentsEnums.StableDefense.value:
         return Stable_defensive_agent(player_number)
-    if chosen_agent.upper() == "IN":
+    if chosen_agent.upper() == AgentsEnums.Input.value:
         return Input_agent(draw_module.screen, player_number)
-    if chosen_agent.upper() == "E01":
+    if chosen_agent.upper() == AgentsEnums.Evase.value:
+        return Evasion_agent(player_number)
+    if chosen_agent.upper() == AgentsEnums.Experiment01.value:
         return Genetic_agent(player_number, return_E01Function())
-    if chosen_agent.upper() == "E02":
+    if chosen_agent.upper() == AgentsEnums.Experiment02.value:
         return Genetic_agent(player_number, return_E02Function())
-    if chosen_agent.upper() == "E03":
+    if chosen_agent.upper() == AgentsEnums.Experiment03.value:
         return Genetic_agent(player_number, return_E03Function())
 
-    if chosen_agent.upper() == "E04":
+    if chosen_agent.upper() == AgentsEnums.Experiment04.value:
         model = tf.keras.models.load_model("HL_DQ/DQ_stable_deffensive_opponent_model_auto_save")
         return DQAgent(player_number, num_inputs=5, num_outputs=4, model = model)
-    if chosen_agent.upper() == "E05":
+    if chosen_agent.upper() == AgentsEnums.Experiment05.value:
         model = tf.keras.models.load_model("HL_DQ/DQ_stable_deffensive_opponent_extended_model_auto_save")
         return DQAgent(player_number, num_inputs=9, num_outputs=4, model = model)
 
-    if chosen_agent.upper() == "E06":
+    if chosen_agent.upper() == AgentsEnums.Experiment06.value:
         model = tf.keras.models.load_model("LL_DQ_stable_deffensive_opponent/10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_model_1")
         return Low_level_sensor_DQAgent(player_number, num_inputs=14, num_outputs=6, model = model)
-    if chosen_agent.upper() == "E07":
+    if chosen_agent.upper() == AgentsEnums.Experiment07.value:
         if player_number == 1:
             model = tf.keras.models.load_model(
                 "LL_DQ_2_players/20000_LL_DQ_2_players_model_one")
@@ -82,6 +89,7 @@ def assign_agent(player_number, chosen_agent, draw_module):
 class AgentsEnums(Enum):
     StableDefense = "SD"
     Input = "IN"
+    Evase = "EV"
     Experiment01 = "E01"
     Experiment02 = "E02"
     Experiment03 = "E03"
@@ -96,6 +104,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='''Starts game of asteroids. Set players\' agents. Valid options are: 
     \"SD\" - Stable Defense agent\n
     \"IN\" - Keyboard controlled agent\n
+    \"EV\" - Evasion agent\n
     \"E0X\" - Multiple agents choice from results of experiments, replace \"X\" with corresponding number 1-7''')
     parser.add_argument('-dv', type=bool, default=False, help="disable visual game mode", nargs='?')
     parser.add_argument('-a1', type=str, default="SD", help="Agent choosen for player 1")
@@ -121,149 +130,3 @@ if __name__ == "__main__":
 
     play_games(args.ng, agent_one, agent_two, draw_module)
 
-
-
-
-
-
-
-
-    model_one = tf.keras.models.load_model("HL_DQ/DQ_stable_deffensive_opponent_model_auto_save")
-    #model_two = tf.keras.models.load_model("DQ_stable_deffensive_opponent_model_auto_save")
-
-    draw_module = draw_module()
-    #draw_module = None
-    #agent_one = Low_level_sensor_DQAgent(1, num_inputs=14, num_outputs=6, model=model_one)
-    agent_one = DQAgent(player_number=1,num_inputs=5,num_outputs=4,model=model_one,extended = False)
-    #agent_two = DQAgent(player_number=2, num_inputs=5, num_outputs=4, model=model_one, extended=False)
-    #agent_one = Evasion_agent(player_number=1, draw_modul = draw_module)
-    #agent_one = Stable_defensive_agent(1)
-    #agent_two = Stable_defensive_agent(2)
-    #agent_two = Low_level_sensor_DQAgent(2, num_inputs=14, num_outputs=6, model=model_two)
-
-    #draw_module = None
-
-    #play_games(10, agent_one, agent_two, draw_module)
-
-
-
-
-    env = Enviroment(draw_module)
-    state = env.reset()
-
-    agent_two = Genetic_agent(2, return_individual())
-    #agent_one = Evasion_agent(1, draw_module)
-    #agent_one = Stable_defensive_agent(1)
-    #agent_two = Stable_defensive_agent(2)
-    #agent_two = Evasion_agent(2, draw_module)
-    # agent_two = Stable_defensive_agent(env.screen, 2)
-
-    game_over = False
-    #longest_step = 0
-    #shortest_step = 1
-    #incremental_time = 0
-
-    RocketOne_wins = 0
-    RocketTwo_wins = 0
-    total_steps = 0
-    total_time = 0
-
-    average_def = 0
-    average_attack = 0
-    average_evasion = 0
-    average_stop = 0
-
-    memory = []
-    memory2 = []
-
-    for i in range(400):
-        game_over = False
-        state = env.reset()
-        agent_one_actions = []
-        agent_two_actions = []
-        agent_one.finished_plan = True
-        agent_two.finished_plan = True
-        start = time.time()
-        while game_over == False:
-            # if visual:
-            #     clock.tick(60)
-
-            # actions_one, actions_two = agent_one.choose_actions(state)
-            # actions_one, _ = agent_one.choose_actions(state)
-
-            # _, actions_two = agent_two.choose_actions(state)
-
-            # events = pygame.event.get(pygame.KEYDOWN)
-            # all_keys = pygame.key.get_pressed()
-            actions_two = agent_two.choose_actions(state)
-
-            actions_one = agent_one.choose_actions(state)
-
-            #
-            # # _, actions_two = env.get_actions_from_keyboard_input()
-            #
-            # # start = time.time()
-            step_count, (game_over, rocket_one_won), state, _ = \
-                env.next_step(actions_one, actions_two)
-
-        end = time.time()
-        total_time = total_time + (end - start)
-        # print(f"active steps: {agent_one.active_steps}")
-        agent_one.active_steps = 0
-
-        # print(f"inactive steps: {agent_one.inactive_steps}")
-        agent_one.inactive_steps = 0
-        print(f"avg_time: {total_time / (i+1)}")
-        total_steps = total_steps + step_count
-        print(f"avg_steps_count: {total_steps / (i+1)}")
-        print(f"attack_count: {agent_one.attack_count}")
-        average_attack = average_attack + agent_one.attack_count
-        agent_one.attack_count = 0
-
-        print(f"average attack count: {average_attack / (i+1)}")
-        print(f"deffense_count: {agent_one.defense_count}")
-        average_def = average_def + agent_one.defense_count
-        agent_one.defense_count = 0
-
-        print(f"average deffense count: {average_def / (i+1)}")
-        print(f"evasion_count: {agent_one.evasion_count}")
-        average_evasion = average_evasion + agent_one.evasion_count
-        agent_one.evasion_count = 0
-
-        print(f"average evasion count: {average_evasion / (i+1)}")
-        print(f"Stop count: {agent_one.stop_count}")
-        average_stop = average_stop + agent_one.stop_count
-        agent_one.stop_count = 0
-
-        print(f"average stop count: {average_stop / (i+1)}")
-
-
-        if rocket_one_won:
-            RocketOne_wins = RocketOne_wins + 1
-        else:
-            RocketTwo_wins = RocketTwo_wins + 1
-
-        print(f"Rocket one wins: {RocketOne_wins}")
-        print(f"Rocket two wins: {RocketTwo_wins}")
-
-
-        print(agent_one.history)
-        memory.append(agent_one.history)
-        agent_one.history = [0,0,0,0,0,0]
-
-        print(agent_two.history)
-        memory2.append(agent_two.history)
-        agent_two.history = [0,0,0,0,0,0]
-
-        if(RocketOne_wins == 10 or RocketTwo_wins == 10):
-            print(memory)
-            print(np.mean(memory,axis=0))
-            print(memory2)
-            print(np.mean(memory2,axis=0))
-
-
-
-
-    # print(f"longest tick: {longest_step}")
-    # print(f"shortest tick: {shortest_step}")
-    # print(f"average tick: {incremental_time / step_count}")

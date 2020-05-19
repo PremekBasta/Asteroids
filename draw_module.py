@@ -97,35 +97,38 @@ class draw_module(object):
           pygame.image.load('images/bullet_two_split_336.bmp'), pygame.image.load('images/bullet_two_split_348.bmp')]]]
     asteroid_images = [
         [
-            [pygame.image.load('images/asteroid_one_50x50_00.bmp'),
-             pygame.image.load('images/asteroid_one_50x50_01.bmp'),
-             pygame.image.load('images/asteroid_one_50x50_02.bmp')],
 
-            [pygame.image.load('images/asteroid_one_71x71_00.bmp'),
-             pygame.image.load('images/asteroid_one_71x71_01.bmp'),
-             pygame.image.load('images/asteroid_one_71x71_02.bmp')]],
+            [pygame.image.load('images/one_small_0.png'),
+             pygame.image.load('images/one_small_0.png'),
+             pygame.image.load('images/one_small_0.png')],
 
-        [
-            [pygame.image.load('images/asteroid_two_50x50_00.bmp'),
-             pygame.image.load('images/asteroid_two_50x50_01.bmp'),
-             pygame.image.load('images/asteroid_two_50x50_02.bmp')],
-
-            [pygame.image.load('images/asteroid_two_71x71_00.bmp'),
-             pygame.image.load('images/asteroid_two_71x71_01.bmp'),
-             pygame.image.load('images/asteroid_two_71x71_02.bmp')]],
+            [pygame.image.load('images/one_medium_0.png'),
+             pygame.image.load('images/one_medium_1.png'),
+             pygame.image.load('images/one_medium_2.png')]],
 
         [
-            [pygame.image.load('images/asteroid_40x40_00.bmp'),
-             pygame.image.load('images/asteroid_40x40_01.bmp'),
-             pygame.image.load('images/asteroid_40x40_02.bmp')],
 
-            [pygame.image.load('images/asteroid_71x71_00.bmp'),
-             pygame.image.load('images/asteroid_71x71_01.bmp'),
-             pygame.image.load('images/asteroid_71x71_02.bmp')],
+            [pygame.image.load('images/two_small_0.png'),
+             pygame.image.load('images/two_small_0.png'),
+             pygame.image.load('images/two_small_0.png')],
 
-            [pygame.image.load('images/asteroid_110x110_00.bmp'),
-             pygame.image.load('images/asteroid_110x110_01.bmp'),
-             pygame.image.load('images/asteroid_110x110_02.bmp')]]
+            [pygame.image.load('images/two_medium_0.png'),
+             pygame.image.load('images/two_medium_1.png'),
+             pygame.image.load('images/two_medium_2.png')]],
+
+        [
+            [pygame.image.load('images/neutral_large_0.png'),
+             pygame.image.load('images/neutral_large_1.png'),
+             pygame.image.load('images/neutral_large_2.png')],
+
+            [pygame.image.load('images/neutral_large_0.png'),
+             pygame.image.load('images/neutral_large_1.png'),
+             pygame.image.load('images/neutral_large_2.png')],
+
+            [pygame.image.load('images/neutral_large_0.png'),
+             pygame.image.load('images/neutral_large_1.png'),
+             pygame.image.load('images/neutral_large_2.png')]]
+
         ]
 
     def __init__(self):
@@ -164,14 +167,15 @@ class draw_module(object):
     def draw_asteroid(self, asteroid):
         self.screen.blit(self.asteroid_images[asteroid.player][int(asteroid.size_index)][asteroid.random_image_index], (asteroid.centerx - asteroid.image_width / 2, asteroid.centery - asteroid.image_height / 2))
 
+
     def draw_bullet(self, bullet):
         self.screen.blit(self.bullet_angle_images[bullet.split][bullet.rocket.player][bullet.angle // 12], (bullet.centerx - BULLET_IMAGE_WIDTH / 2, bullet.centery - BULLET_IMAGE_HEIGHT / 2))
 
     def draw_line(self, pointA, pointB):
         pygame.draw.line(self.screen, PLAYER_TWO_COLOR, pointA, pointB)
 
-    def save_image(self):
-        pygame.image.save(self.screen, "bp/Obrazky/N_nearest_asteroids.png")
+    def save_image(self, i):
+        pygame.image.save(self.screen, f"bp/Obrazky/N_nearest_asteroids{i}.png")
 
     def draw_circle(self, point, radius = 10):
         pygame.draw.circle(self.screen, (100, 100, 100), point, radius, 2)
