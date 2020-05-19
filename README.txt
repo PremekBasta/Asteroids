@@ -1,0 +1,37 @@
+Potřebná instalace ke spuštění hry Asteroids.
+
+1.) conda create env --name your_asteroids_game_environment
+(V případě starší verze pythnu:
+conda install python=3.7.4)
+2.) conda activate your_asteroids_game_environment
+3.) git clone https://github.com/PremekBasta/Asteroids.git
+4.) cd ./Asteroids
+5.) pip install -r freeze_requirements.txt
+
+Instalace vyzkoušena v následujícím prostředí:
+Ubuntu 18.04.4 LTS, Python 3.7.4, conda 4.8.1
+
+
+
+Spuštění hry:
+python main.py
+
+
+
+Parametry spuštění:
+-h		Zobrazí informaci o spouštění hry
+-a1 X		Který agent bude ovládat hráče 1	
+-a2 X		Který agent bude ovládat hráče 2
+		Společné možné hodnoty za X pro agenty jsou:
+			"E01" = agent získaný z 1. Experimentu
+			...
+			"E07" = agent získaný z 7. Experimentu
+			"IN" = ovládání hráče přímo z klávesnice (1. hráč: A,W,D pro pohyb a F,G pro střelbu; 2. hráč: klávesy šipky pro pohyb, G,H pro střelbu)
+			"SD" = obranný agent, který se řídí pouze obranným akčním plánem (Default hodnota pro oba hráče)
+			"EV" = úhybný agent, který se řídí pouze úhybným akčním plánem
+-ng X		Počet her k zahrání (Default = 10)
+-dv 		Hry se budou hrát bez vizuálního zobrazení
+
+
+Ve hře byly použity obrázky zakoupeny z adresy http://www.graphic-buffet.com/products-page/asteroids-2d-assets-pack/.
+K obrázkům se nevztahuje konkrétní licence. Autor jejich použití umožňuje pro osobní i komerční využití za podmínky, že nebudou dále přeprodávány.

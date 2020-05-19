@@ -53,7 +53,7 @@ def plot_multi_bar():
 def plot_games_times():
     times = []
     lengths = []
-    with open("Recalculaction_of_plans", mode="r") as f:
+    with open("Recalculaction_of_plans.txt", mode="r") as f:
         #for count, line in enumerate(f, start=0):
         #    splits = line.split()
         #    times.append(float(splits[1]))
@@ -86,7 +86,7 @@ def plot_games_times():
 
 def plot_results_of_games():
     rewards = []
-    with open("HL_DQ/extended_model_training_3001", mode="r") as f:
+    with open("HL_DQ/extended_model_training_3001.txt", mode="r") as f:
         for count, line in enumerate(f, start=0):
             if (count + 0) % 3 == 0:
                 splits = line.split()

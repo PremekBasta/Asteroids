@@ -577,7 +577,7 @@ if __name__ == "__main__":
     # pass
     #paralel_fitness(toolbox.individual())
     # print(toolbox.individual())
-    with open("GP/gp_chaning_best_with_def_auto_write_txt_16_04", "+w") as f:
+    with open("GP/gp_chaning_best_with_def_auto_write_txt_16_04.txt", "+w") as f:
 
         pop, log = eaSimple(pop, toolbox, 0.6, 0.2, 1000, stats=mstats, halloffame=hof, verbose=True, file=f)
         #pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 250, stats=mstats, halloffame=hof, verbose=True)
