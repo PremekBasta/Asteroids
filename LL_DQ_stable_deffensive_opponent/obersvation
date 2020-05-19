@@ -1,7 +1,0 @@
-Prohra -2500 bodů, výhra +2500. Jedna Dense hidden vrstva. Není vidět žádný růst v rewards viz Figure_001.png. 0.995 eps.
-Rewards for asteroid shooting/ damaging enemy rocket were 0.
-
-
-Figure_002.png. -1850 lose, +1000 win, 10000 games, last 10% only trying best.
-Figure_003 - vzal jsem model, z Figure_002, a znovu jsem trenoval dalsich 10000 her.
-

@@ -72,7 +72,8 @@ def assign_agent(player_number, chosen_agent, draw_module):
         return DQAgent(player_number, num_inputs=5, num_outputs=4, model = model)
     if chosen_agent.upper() == AgentsEnums.Experiment05.value:
         model = tf.keras.models.load_model("HL_DQ/DQ_stable_deffensive_opponent_extended_model_auto_save")
-        return DQAgent(player_number, num_inputs=9, num_outputs=4, model = model)
+        return DQAgent(player_number, num_inputs=9, num_outputs=4, model = model, extended=True
+                       )
 
     if chosen_agent.upper() == AgentsEnums.Experiment06.value:
         model = tf.keras.models.load_model("LL_DQ_stable_deffensive_opponent/10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_model_1")

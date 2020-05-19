@@ -1,5 +1,5 @@
 # import pygame
-from sprite_object import Rocket, RocketBaseAction, Bullet, Asteroid, collides
+from space_objects import Rocket, RocketBaseAction, Bullet, Asteroid, collides
 from state import State
 from constants import *
 

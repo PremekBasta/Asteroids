@@ -9,7 +9,7 @@ from enum import Enum
 from multiprocessing import *
 import dill
 from pathos.multiprocessing import ProcessingPool
-import BP_functions
+import GP_result_functions
 
 
 #zobrazeni jedince jako stromu
@@ -136,15 +136,15 @@ def return_individual():
     return func
 
 def return_E01Function():
-    func = toolbox.compile(expr = BP_functions.E01Function)
+    func = toolbox.compile(expr = GP_result_functions.E01Function)
     return func
 
 def return_E02Function():
-    func = toolbox.compile(expr = BP_functions.E02Function)
+    func = toolbox.compile(expr = GP_result_functions.E02Function)
     return func
 
 def return_E03Function():
-    func = toolbox.compile(expr = BP_functions.E03Function)
+    func = toolbox.compile(expr = GP_result_functions.E03Function)
     return func
 
 
@@ -497,6 +497,7 @@ def eaSimple(population, toolbox, cxpb, mutpb, ngen, file, stats=None,
         print(logbook.stream)
 
     # Begin the generational process
+    #Experiment 2 and 3
     for gen in range(1, ngen + 1):
         if halloffame is not None:
             if gen % 3 == 0:

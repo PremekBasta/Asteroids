@@ -1,6 +1,6 @@
 import math
 from constants import *
-from sprite_object import AsteroidSize
+from space_objects import AsteroidSize
 
 
 class Space_object_DTO():

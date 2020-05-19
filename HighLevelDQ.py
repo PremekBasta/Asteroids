@@ -189,6 +189,8 @@ def train_parallel(num_cores = 4, num_episodes = 200):
         #result = sum(return_vals.values()) // 6
         #return result,
 
+
+#Experiment 4 and 5
 def train_single_thread(num_episodes, eps, model, offset=0):
     with open("HL_DQ/extended_model_training_3001asd", "a+") as f:
         record_experience = True

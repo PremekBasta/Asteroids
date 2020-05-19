@@ -1,5 +1,5 @@
 import random, copy
-from sprite_object import Bullet, RocketBaseAction, Asteroid,Rocket, AsteroidSize
+from space_objects import Bullet, RocketBaseAction, Asteroid,Rocket, AsteroidSize
 from constants import *
 import pygame
 import time

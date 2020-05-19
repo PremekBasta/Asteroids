@@ -5,6 +5,7 @@ from datetime import datetime
 from enviroment import *
 from agents import *
 
+#Experiment 07
 def train_single_thread_2_agents(num_episodes, model_one=None, model_two=None, f=None):
     close_file_manually = False
     if f is None:
@@ -75,6 +76,7 @@ def train_single_thread_2_agents(num_episodes, model_one=None, model_two=None, f
 
     return model_one, model_two
 
+#Experiment 06
 def train_single_thread_stable_deffensive_agent(num_episodes, model = None, f = None):
     close_file_manually = False
     if f is None:
