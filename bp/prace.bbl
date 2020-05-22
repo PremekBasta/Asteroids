@@ -1,15 +1,9 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{11}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
-
-\bibitem[Aeronautics a of~Technology(2010)]{markovDecisionProcesses}
-{\sc Aeronautics, E.~F. {\rm a} of~Technology, A.~I.} (2010).
-\newblock Markov decision processes.
-\newblock
-  \url{https://ocw.mit.edu/courses/aeronautics-and-astronautics/16-410-principles-of-autonomy-and-decision-making-fall-2010/lecture-notes/MIT16_410F10_lec22.pdf}.
 
 \bibitem[Brockman a~kol.(2016)Brockman, Cheung, Pettersson, Schneider,
   Schulman, Tang a Zaremba]{openAiGym}
@@ -18,11 +12,26 @@
 \newblock Openai gym.
 \newblock \url{https://arxiv.org/pdf/1606.01540.pdf}.
 
-\bibitem[Jebari(2013)]{selekcniMetody}
-{\sc Jebari, K.} (2013).
-\newblock Selection methods for genetic algorithms.
-\newblock \emph{International Journal of Emerging Sciences}, {\bf 3}, \penalty0
-  333--344.
+\bibitem[Haykin(2009)]{perceptronNeuralNetworks}
+{\sc Haykin, S.~S.} (2009).
+\newblock \emph{Neural networks and learning machines}.
+\newblock Pearson Education, Upper Saddle River, NJ, third edition.
+\newblock ISBN 9780131293762.
+
+\bibitem[Lin(1992)]{experienceReplay}
+{\sc Lin, L.-J.} (1992).
+\newblock Self-improving reactive agents based on reinforcement learning,
+  planning and teaching.
+\newblock \emph{Mach. Learn.}, {\bf 8}\penalty0 (3–4), \penalty0 6--7.
+\newblock ISSN 0885-6125.
+\newblock \doi{10.1007/BF00992699}.
+\newblock URL \url{https://doi.org/10.1007/BF00992699}.
+
+\bibitem[Mitchell(1998)]{selekcniMetody}
+{\sc Mitchell, M.} (1998).
+\newblock \emph{An Introduction to Genetic Algorithms}.
+\newblock MIT Press, Cambridge, MA, USA.
+\newblock ISBN 0262631857.
 
 \bibitem[Mnih a~kol.(2013)Mnih, Kavukcuoglu, Silver, Graves, Antonoglou,
   Wierstra a Riedmiller]{atari}
@@ -32,13 +41,8 @@
 \newblock \emph{CoRR}, {\bf abs/1312.5602}.
 \newblock URL \url{http://arxiv.org/abs/1312.5602}.
 
-\bibitem[of~Technology(2004)]{perceptronNeuralNetworks}
-{\sc of~Technology, M.~I.} (2004).
-\newblock
-  \url{https://ocw.mit.edu/courses/health-sciences-and-technology/hst-947-medical-artificial-intelligence-spring-2005/lecture-notes/ch7_mach3.pdf}.
-
-\bibitem[Ph.D.(2019)]{deepQ}
-{\sc Ph.D., M. M.~P.} (2019).
+\bibitem[Pilát(2019)]{deepQ}
+{\sc Pilát, M.} (2019).
 \newblock Hluboké zpětnovazební učení.
 \newblock
   \url{https://martinpilat.com/cs/prirodou-inspirovane-algoritmy/hluboke-zpetnovazebni-uceni}.
@@ -70,5 +74,12 @@
 {\sc Shinners, P.} (2011).
 \newblock Pygame.
 \newblock \url{http://pygame.org/}.
+
+\bibitem[Sutton a Barto(2018)]{markovDecisionProcesses}
+{\sc Sutton, R.~S. {\rm a} Barto, A.~G.} (2018).
+\newblock \emph{Reinforcement Learning: An Introduction}.
+\newblock The MIT Press, second edition.
+\newblock ISBN 9780262039246.
+\newblock URL \url{http://incompleteideas.net/book/the-book-2nd.html}.
 
 \end{thebibliography}

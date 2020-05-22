@@ -27,9 +27,9 @@ Stačí popsat jak reprezentovat jedince a jak se vypočítá jeho fitness funkc
 
 \subsubsection{Reprezentace jedince}
 
-Ve 3. kapitole jsme si vybudovali abstrakace v podobě senzorů a akčních plánů a těch zde budeme chtít využít.
+Ve 3. kapitole jsme si vybudovali abstrakce v podobě senzorů a akčních plánů a těch zde budeme chtít využít.
 Jedince budeme podobně jako u symbolické regrese reprezentovat stromem.
-Strom jedince budeme budovat prvkami z následující množiny terminálů a neterminálů.
+Strom jedince budeme budovat prvky z následující množiny terminálů a neterminálů.
 
 \begin{itemize}
 \item{
@@ -56,13 +56,13 @@ Jako argumenty funkce jsem zvolil následující hodnoty: délky všech čtyř a
     \end{itemize}
 }
 \end{itemize}
-Z aritmetický operací nám stačí sčítání a násobení. Operaci odčítání získáme pomocí sčítání a násobení konstantou -1. 
+Z aritmetických operací nám stačí sčítání a násobení. Operaci odčítání získáme pomocí sčítání a násobení konstantou -1. 
 Hodnoty z intervalu $(1,100)$ jednoduše získáme také pomocí sčítáním a násobením potřebných konstant, proto pro operaci dělení není důvod.
-Všechny aritmetické operace jsou typu $([int,int], int)$.
-Funkce \emph{compare} je typu $([int,int], Bool)$, ta vrací zda je první argument větší než druhý.
+Všechny aritmetické operace jsou typu $(int, int) \rightarrow int$
+Funkce \emph{compare} je typu $(int, int) \rightarrow bool$, ta vrací zda je první argument větší než druhý.
 Poslední použitá funkce \emph{if\_then\_else} je typu 
 \newline
-$([Bool, ActionPlanEnum, ActionPlanEnum], ActionPlanEnum)$. 
+$(bool, ActionPlanEnum, ActionPlanEnum)\rightarrow ActionPlanEnum$. 
 Tato funkce dostává jako argumenty výraz typu bool a následně dvě hodnoty reprezentující akční plány. 
 Na základě pravdivosti výrazu vrací funkce první nebo druhou z hodnot akčních plánů.
 
@@ -71,7 +71,6 @@ Takto popsaná reprezentace jedince bude použita ve všech následujících exp
 \newpage
 \subsection{Experiment 1: Soupeření s obranným agentem}
 Cílem tohoto experimentu bylo vyvinout agenta, který bude lepší než obranný agent.
-Výpočet fitness funkce proto zahrnuje zahrání šesti her současného jedince s obranným agentem a výsledek je průměr z hodnot každé z her.
 Hra je pokaždé velmi náhodná, tedy zahrání jedné hry by mělo nízkou vypovídající hodnotu. Proto jsem pro přesnější informaci zvolil zahrání šesti her.
 Hodnota zahrané hry se skládá z více částí.
 \begin{itemize}
@@ -96,6 +95,7 @@ Algoritmus byl spuštěn s následujícími parametry:
     \item Velikost populace: 30
     \item Pravděpodobnost křížení: 60\%
     \item Pravděpodobnost mutace: 20\%
+    \item Genetické operátory: křížení dvou rodičů, jednobodová mutace a mutace celého podstromu
     \item Počet generací: 100
     \item Metoda selekce: turnajová selekce
 \end{itemize}
@@ -125,7 +125,7 @@ V průběhu evoluce si budeme pamatovat současného nejlepšího jedince.
 Na začátku bude tento jedinec vybrán zcela náhodně. Obvyklým způsobem vytvoříme počáteční populaci a započneme evoluci.
 Fitness funkce jedince bude počítat poměr, kolik ze šesti zahraných her jedinec vyhrál v souboji se současně nejlepším nalezeným jedincem.
 Evoluce hledá řešení, která budou proti současnému nejlepšímu jedinci co nejúspěšnější.
-V každé 3. generaci se následně kontroluje, zda již náhodou nebyl v populaci nalezen jedinec, který, pro současnou situaci, nejlepšího jedince porazil alespoň v pěti ze šesti hrách.
+V každé 3. generaci se následně kontroluje, zda již náhodou nebyl v populaci nalezen jedinec, který, pro současnou situaci, nejlepšího jedince porazil alespoň v pěti ze šesti her.
 Pokud ano, tak takový jedinec bude nově zvolen jako nejlepší a evoluce bude pokračovat stejným způsobem dál.
 \par
 Po výměně nejlepšího jedince musíme nově přepočítat fitness funkci všech stávajících jedinců v populaci, protože jejich současná hodnota se vztahovala k původnímu soupeři.
@@ -140,13 +140,14 @@ Algoritmus byl spuštěn s následujícími parametry
     \item Velikost populace: 10
     \item Pravděpodobnost křížení: 60\%
     \item Pravděpodobnost mutace: 20\%
+    \item Genetické operátory: křížení dvou rodičů, jednobodová mutace a mutace celého podstromu
     \item Počet generací: 450
     \item Metoda selekce: turnajová selekce
 \end{itemize}
 
 Výsledného agenta jsme nechali zahrát souboj s obranným agentem a tentokrát přinesl experiment daleko lepší výsledky.
-Nalezený agent se oproti předchozímu experimentu dokázal naučit lépe utočit, volil útočný akční plán téměř ve 40\% případech a díky tomu dosáhl našeho primárního cíle. V Souboji porazil obranného agenta se skóre 10:0.
-Nicméně ani tentokrát se agent nenaučil nic jiného než obranu a útok (viz \ref{Výsledek experimentu 02}). 
+Nalezený agent se oproti předchozímu experimentu dokázal naučit lépe utočit, volil útočný akční plán téměř ve 40\% případech a díky tomu dosáhl našeho primárního cíle. V Souboji porazil obranného agenta se skóre 10:0 a tím splnil primární cíl porazit obranného agenta.
+Nicméně ani tentokrát se agent nenaučil nic jiného než obranu a útok (viz \ref{Výsledek experimentu 02}) a proto agentovo chování opět není příliš pestré. 
 
 \newpage
 
@@ -184,6 +185,7 @@ Algoritmus byl spuštěn s následujícími parametry
     \item Velikost populace: 10
     \item Pravděpodobnost křížení: 60\%
     \item Pravděpodobnost mutace: 20\%
+    \item Genetické operátory: křížení dvou rodičů, jednobodová mutace a mutace celého podstromu
     \item Počet generací: 2000
     \item Metoda selekce: turnajová selekce
 \end{itemize}
@@ -193,7 +195,7 @@ První čeho si můžeme všimnout je, že náš agent v souboji prohrál s výs
 Druhá skutečnost, která stojí za povšimnutí je průměrná délka hry, ta byla v průměru přibližně o 500 kroků kratší než v předchozím experimentu. 
 Z toho vyplývá, že využívání úhybného akčního plánu k přežívání není tak účinné, jako bránění se pomocí obranného akčního plánu. 
 To ale není nijak překvapivé. Pro agenta je prostředí tím víc nebezepečné, čím více je v něm nebezpečných asteroidů. 
-Používání úhybného akčního plánu vede k vyhnutí vesmírné lodi před nebezepčným asteroidem, né před jeho zníčením, jako je to u obranného akčního plánu. To má za následek, že v případě úhybného akčního plánu agent neredukuje počet nebezepčných asteroidů a mnohem dříve se dostane do stavu, kdy je pro agenta příliš obtížné se roji asteroidů vyhnout. 
+Používání úhybného akčního plánu vede k vyhnutí vesmírné lodi před nebezepčným asteroidem, ne před jeho zničením, jako je to u obranného akčního plánu. To má za následek, že v případě úhybného akčního plánu agent neredukuje počet nebezepčných asteroidů a mnohem dříve se dostane do stavu, kdy je pro agenta příliš obtížné se roji asteroidů vyhnout. 
 
 \par
 Zajímavým výsledkem experimentu je také to, že, přestože agent používá v rámci úhybného akčního plánu akceleraci pro obranu velmi často, ani tentokrát nepoužívá zastavovací akční plán (viz \ref{Výsledek experimentu 03}).
@@ -238,21 +240,21 @@ Průběžným snižování hodnoty $\epsilon$ způsobíme, že z počátku učen
 
 
 \par
-Při trénování se nám stává, že měníme funkci, která odhaduje Q a tím je ovlivněno i chování agenta a odhady. K zachování větší stability trénování využijeme konceptu přehrávání zkušeností (ang. Experience replay).
+Při trénování se nám stává, že měníme funkci, která odhaduje Q a tím je ovlivněno i chování agenta a odhady. K zachování větší stability trénování využijeme konceptu přehrávání zkušeností (ang. Experience replay) (\cite{experienceReplay}).
 Při hraní hry si v každém kroku uložíme do paměti pětici současného stavu, provedené akce, obdržené odměny, stavu, do kterého jsme se dostali a informace zda hra neskončila.
 Po konci zahrání hry následně náhodně vybereme tyto pětice z paměti a trénování provedeme na nich.
 
 
 \newpage
 \subsection{Experiment 4: Soupeření s obranným agentem}
-V 1. experimentu jsme za pomocí genetického programování hledali agenta, který je úspěšný v souboji s obranným jedincem. Pro určení jak agent v souboji obstál jsme využívali fitness funkci.
-Zde, pomocí hlubokého q učení, budeme také učit agenta vzájemnými souboji s obranným agentem, ale budeme namísto fitness funkce pro trénování využívat odměny.
+V prvním experimentu jsme za pomocí genetického programování hledali agenta, který je úspěšný v souboji s obranným jedincem. Pro určení jak agent v souboji obstál jsme využívali fitness funkci.
+Zde, pomocí hlubokého q-učení, budeme také učit agenta vzájemnými souboji s obranným agentem, ale budeme namísto fitness funkce pro trénování využívat odměny.
 
-S 1. experimentem zde bude také stejný přístup ke vstupům a výstupům. 
+S prvním experimentem zde bude také stejný přístup ke vstupům a výstupům. 
 Na vstupu budou opět délky všech čtyř akčních plánů a počet kroků před srážkou vesmírné lodi s asteroidem.
 A na výstupu čtyři hodnoty reprezentující výběr konkrétního akčního plánu.
 
-Q učení spočívá v učení se rozhodování akcí. Akce zde v tomto pojetí však nebudou představovat elementární akce, nýbrž akční plány. 
+Q-učení spočívá v učení se rozhodování akcí. Akce zde v tomto pojetí však nebudou představovat elementární akce, nýbrž akční plány. 
 Q-síť bude tedy volit akční plány a proto zde budeme muset provádět mezikrok pro přechod od akčních plánů k akcím.
 Nejprve vždy zvolíme akční plán a následně pro pokračování v simulaci hry z vybraného akčního plánu vybereme první akci.
 V tomto experimentu budeme využívat přehrávání zkušeností, tj. budeme průběžně ukládat pětice informací o přechodech do dalších stavů. 
@@ -306,10 +308,10 @@ Parametry experimentu:
 
 
 
-Výsledný agent dopadlo velmi úspěšně. Z průběhu trénování vidíme, že agent se velmi dobře učil a od přibližně 2300. hry (viz \ref{Průběh trénování experimentu 06}) už začal vyhrávat ve větší části her.
+Výsledný agent dopadl velmi úspěšně. Z průběhu trénování vidíme, že agent se velmi dobře učil a od přibližně 2300. hry (viz \ref{Průběh trénování experimentu 06}) už začal vyhrávat ve větší části her.
 Rozšířením vstupních argumentů a přidání trénovacích her se nám podařilo zlepšit výsledek z předchozícho experimentu.
 Agent sice ztratil pestrost akčních plánů, ale za to se významně zlepšil ve vyhrávání. Z výsledku 4:10 z předchozícho experimentu se zlepšil na 10:3.
-Zajímavé na nalezeném agentovi je také jeho agresivita. Agent používá útočný akční plán přibližně dvakrát tak často jako obranný plán.
+Zajimavé na nalezeném agentovi je také jeho agresivita. Agent používá útočný akční plán přibližně dvakrát tak často jako obranný plán.
 
 
 \begin{figure}[H]\centering
@@ -327,7 +329,9 @@ V takovém stavu nemá velký smysl rozhodovat o volbě konkrétního akčního 
 
 Podobně jsem také vypozoroval, že během jedné hry často nastane situace, že právě jeden z akčních plánů je neprázdný. Překvapením pro mě bylo, že Q-síť někdy v takových případech volila jiný prázdný plán před tímto neprázdným.
 Proto jsem nastavil vyjímku i pro tyto případy a v současnou chvíli platí, že když agent má k dispozici právě jeden neprázdný akční plán, tak ho volí automaticky bez dotazování se Q-sítě.
-Těmito opatřeními bylo dosaženo lepší časové náročnosti hraní hry a také byl agent v souboji úspěšnější. Zlepšení agenta si vysvětluji právě tím, že volba jakéhokoliv neprázdného plánu před prázdným je vždy výhodnější.
+Těmito opatřeními bylo dosaženo lepší časové náročnosti hraní hry a také byl agent v souboji úspěšnější. 
+Zlepšení agenta si vysvětluji právě tím, že volba jakéhokoliv neprázdného plánu před prázdným je vždy výhodnější.
+Tím, že přepočítání akčních probíhá každých pár kroků, tak není pro agenta v příštím rozhodování problém tento plán opustit a začít následovat jiný.
 
 \begin{figure}[H]\centering
     \includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment05Training.png}
@@ -344,7 +348,7 @@ Výsledný agent bude volit vždy jen jednu akci, proto nebudeme moci využít k
 Opět budeme k trénování využívat soubojů s obranným agentem a učit se na základě odměn získaných od herního prostředí.
 
 \par
-K pěti elementárním akcím, pro které se bude agent rozhodovat, přidáme navíc také možnost prázdné akce. 
+K pěti elementárním akcím (rotace vlevo, rotace vpravo, akcelerace, obyčejná střela a rozdvojovací střela), pro které se bude agent rozhodovat, přidáme navíc také možnost prázdné akce. 
 Nebudeme zde volit akční plány, proto ani nemá dobrý smysl používat jejich délky jako argumenty pro rozhodování. Proto zde můžeme zvolit zcela jiný přístup.
 Samotné simulace pro získání akčních plánů jsou výpočetně velmi náročné, a tedy díky tomu, že zde volíme jednodušší přístup, budeme schopni, oproti předchozím experimentům, zahrát v rámci trénování větší množství her.
 
@@ -354,15 +358,15 @@ Jako vstupní argumenty jsem zvolil následující hodnoty:
     \item Vektor současného pohybu vesmírné lodi
     \item Úhel natočení vesmírné lodi
     \item Počet uplynulých kroků od posledního výstřelu
-    \item Relativní poloha nepřátelské lodi
-    \item Relativní polohy tří nejbližších nebezpečných asteroidů
+    \item Relativní poloha nepřátelské lodi (vektor spojující střed vlastní lodi a střed nepřátelské lodi v její nejbližší možné poloze)
+    \item Relativní polohy tří nejbližších nebezpečných asteroidů (tři vektory spojující střed vlastní vesmírné lodi se středy tří nejbližších nebezepčných asteroidů)
 \end{itemize}
 
 Parametry experimentu:
 \begin{itemize}
     \item Q-síť je hustá neuronová síť s dvěmi skrytými vstvami, čtrnácti vstupními a šesti výstupními hodnotami.
     \item Díky nevyužívání akčních plánů bude hraní her rychlejší, proto pro trénování zahrajeme 10000 her.
-    \item Konstanta pro snižoání $\epsilon$ je nastavena na hodnotu 0.9997
+    \item Konstanta pro snižování $\epsilon$ je nastavena na hodnotu 0.9997
 \end{itemize}
 
 
@@ -387,9 +391,11 @@ Veškeré asteroidy, před kterými se agent ubrání, zasáhne díky náhodě.
 
 \newpage
 \subsection{Experiment 7: Dva elementární agenti}
-Tento experiment rozšiřuje experiment předchozí. Budeme opět pracovat s elementárním agentem reprezentovaným neuronovou sítí stejného formátu jako v předhozím experimentu.
+V tomto experimentu budeme podobně jako v předchozím experimentu také pracovat s agenty využívajícími pouze elementární akce.
 Tentokrát ale nebudeme při trénování hrát hry proti obrannému agentovi, nýbrž proti dalšímu elementárnímu agentovi, který bude také zároveň trénován.
 Budeme tedy provádět dvojí Q-učení simultánně. Cílem je zde dosáhnout vzájemného adaptivního učení, kde se každý z agentů snaží zlepšovat proti svému nepříteli a postupně tak oba agenty zlepšovat.
+Agenti budou reprezentováni neuronovou sítí stejného formátu jako v předchozím experimentu.
+
 \par
 
 
@@ -408,8 +414,32 @@ Parametry experimentu:
 \end{figure}
 
 
-Výsledný souboj jsme výjmečně neprovedli proti obrannému agentovi, ale mezi vzniklými agenty mezi sebou.
+Výsledný souboj jsme výjimečně neprovedli proti obrannému agentovi, ale mezi vzniklými agenty mezi sebou.
 Z přehledu souboje je vidět, že se agenti od předchozího experimentu nijak zásadně nezlepšili. Oba agenti se v drtivé většině stavů jen točí na jednu stranu.
 Vidíme, že každý agent volí exklusivně pouze jednu stranu, na kterou se rotuje. 
 Agent 1 se z přehledu souboje zdá být mírně pestřejší, kombinuje oba typy střel a navíc v téměř pětině stavů volil akceleraci.
 Když jsem však vizuálně sledoval souboj agentů, tak žádný z agentů nejevil známky komplexnějšího chování. 
+
+\newpage
+\subsection{Experiment 8: Souboj nejlepších nalezených agentů}
+V předchozích exprimentech jsme pomocí algoritmů genetického programování a hlubokého q-učení nalezli více různých agentů. 
+V tomto experimentu již nebudeme hledat dalšího agenta, místo toho zkusíme v souboji porovnat dva agenty, reprezentující nejlepší dosažený výsledek z každého z použitých algoritmů.
+A nalézt tak celkově nejlepšího agenta.
+\par
+Z experimentů provedených v rámci genetického programování byl v souboji s obranným agentem nejúspěšnějsí agent z druhého experimentu, ten dokázal obranného agenta porazit se skórem 10:0.
+Z druhé série experimentů dopadl nejlépe agent získaný v pátém experimentu, ten také dokázal porazit obranného agenta, avšak s horším celkovým skóre 10:4.
+
+\begin{figure}[H]\centering
+\includegraphics[width=145mm, height=110mm]{./Obrazky/Experiment08Results.png}
+\caption{Výsledek experimentu 8}
+\label{Výsledek experimentu 08}
+\end{figure}
+
+Vybrané agenty jsme proti sobě opět nechali zápasit v souboji do deseti výher libovolného z nich.
+A z výsledku souboje vidíme, že agent z druhého experimentu, který dokázal obranného agenta porazit v souboji bez jediné prohrané hry, zvítězil s velmi solidním skóre 10:2 i v tomto souboji.
+Zajímavé je také, jak se agenti v tomto souboji chovali.
+Agent z pátého experimentu měl v původním souboji s obranným agentem velmi agresivní přístup a volil útočný akční plán v přibližně 68\% případech.
+V tomto souboji však vidíme, že podíl volby útočného plánu klesl na přibližně 54\%.
+Zato agent z druhého experimentu zůstal ve svém chování naprosto konzistentní. V souboji s obranným agentem byl jeho poměr útoku k obraně 40:60 a v souboji s agentem pátého experimentu se tento poměr změnil o jediné procento na 41:59.
+\par
+Agenta z druhého experimentu tedy můžeme označit jako celkového nejlepšího nalezeného jedince.

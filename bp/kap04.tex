@@ -5,13 +5,14 @@ Představíme jejich základní myšlenku. Zmíníme, kde se tyto algoritmy daj�
 \section{Genetické programování}
 
 \subsection{Základní princip}
-\cite{fieldguide}
-Genetické programování je evoluční technika, která vytváří počítačové programy. Cílem genetického programování je vyřešit co nejlépe zadaný problém, neklademe však žádné požadavky na to, jakým způsobem je potřeba ho vyřešit.
+
+Genetické programování je evoluční technika, která vytváří počítačové programy (\cite{fieldguide}). Cílem genetického programování je vyřešit co nejlépe zadaný problém, neklademe však žádné požadavky na to, jakým způsobem je potřeba ho vyřešit.
 \par
-Genetické programování spadá do kategorie evolučních algoritmů, s těmi se pojí jistá terminilogie.
+Genetické programování spadá do kategorie evolučních algoritmů, s těmi se pojí jistá terminologie.
 Každý program budeme nazývat jedincem a jejich množinu populací. Algoritmus poběží iterativně v generacích. 
 V každé iteraci se provede výběr některých jedinců z populace, ti se pomocí genetických operátorů a případných mutací upraví, a na závěr se rozhodne, kteří z nich přežijí do další generace.
-Jedince, kteří se v generaci vysktují na začátku iterace, nazývame rodiče. A podobně jedince, kteří byli na konci iterace vybráni do další generace, se nazývají potomci. 
+Jedince, kteří se v generaci vysktují na začátku iterace, nazývame rodiče. 
+A podobně jedinci, kteří vznikli mutací rodičů se nazývají potomoci.
 Každý program představuje jedno konkrétní řešení daného problému. Kvalitu tohoto řešení ohodnocujeme takzvanou fitness funkcí. Čím vyšší hodnotu tato funkce jedinci přidělí, tím je lepším řešením daného problému.
 
 
@@ -30,12 +31,16 @@ Po vyčerpání počtu neterminálů se opět pouze doplní terminály jako list
 
 \subsubsection{Selekce}
 V každé iteraci chceme vybrat několik jedinců, nad kterými budeme provádět různé genetické úpravy. Snahou selekce je volit jedince s vyšší hodnotou fitness funkce.
-Asi nejpoužívanější metodou selekce je turnajová selekce. V té se náhodně zvolí daný počet jedinců, kteří se mezi sebou porovnají na základě jejich hodnoty fitness funkce a nejlepší z nich je poté zvolen dso výběru.
+Asi nejpoužívanější metodou selekce je turnajová selekce. 
+V té se náhodně zvolí dva jedinci, porovnají se mezi sebou a s danou vysokou pravděpodobností se do výběru zvolí ten jedinec, který měl vyšší hodnotu fitness funkce. S opačnou pravděpodobností bude do výběru zvolen horší z jedinců.
 Dalším z mnoha metod (\cite{selekcniMetody}) selekce je ruletová selekce. Zde je pravděpodobnost zvolení jedince do výběru přímo úměrná jeho hodnotě fitness funkce.
-Pravděpodobnost výběru i-tého jedince je 
+Pravděpodobnost výběru $i$-tého jedince je 
 \[p(i) = \frac{f(i)}{\sum_{j=1}^{n} f(j)}. \]
-Ruletová selekce má jednoduchou implementaci a zároveň je rychlá na výpočet. 
-Jejím problémem je ale předčasná konvergence k lokálnímu optimu.
+Zvolí se náhodné číslo $r$ z intervalu $[0,1]$. Následně se postupně procházejí všichni jedinci a sčítají se jejich hodnoty $p(i)$. Při prvním okamžiku, kdy součet překročí hodnotu $r$, bude do výběru vybrán jedinec, jehož pravděpodobnost byla do součtu připočtena jako poslední.
+Problémem ruletové selekce je předčasná konvergence. V typické situaci je na počátku evoluce velký rozdíl v hodnotách fitness funkce jedinců a existuje jen pár jedinců, kteří mají vyšší hodnotu.
+Tito jedinci a jejich potomci se proto v populaci rychle rozšíří a nedají tak prostor ostatním slabším jedincům.
+
+
 \par
 Genetické operátory mohou občas upravit nejlepšího jedince tak, že se jeho hodnota fitness funkce výrazně zhorší.
 Z tohoto důvodu se často používá technika zvaná elitismus, která automaticky do další generace vybere pár nejlepších současných jedinců. 
@@ -51,7 +56,6 @@ Výsledný potomek má strukturu podobnou prvnímu rodiči, jen na původním m�
 Druhým genetickým operátorem je mutace, ta již nepotřebuje mít dva rodiče, ale úprava se provede nad jedincem samotným.
 Mutovat můžeme v jedinci buď jediný bod, nebo celý podstrom. V případě mutace podstromu se namísto vybraného podstromu vygeneruje zcela nový podstrom. 
 Toto v zásadě představuje křížení s novým náhodně vytvořeným jedincem.
-\newline
 Mutace jediného bodu změní náhodně jediný uzel ve stromě. V případě terminálu se může vybrat libovolný jiný terminál. A v případě vnitřního uzlu může být vybraný libovolný jiný neterminál, který je stejného typu.
 
 
@@ -67,8 +71,9 @@ Na závěr určíme hodnotové typy celého problému a algoritmus už se postar
 Genetické programování je využitelné ve všech problémech, kde jsme schopní vymyslet způsob, jak jedince představujícího řešení problému reprezentovat a jak počítat fitness funkci, která dané řešení ohodnotí.
 To tedy znamená, že možnosti využití jsou téměř nekonečné. 
 
-\cite{fieldGuideUsage}
-Obecně se genetické programování ukazuje být vhodné ve všech problémech, které splňují některou, z následujících podmínek:
+Obecně se genetické programování ukazuje být vhodné ve všech problémech, které splňují některou, z následujících podmínek (\cite{fieldGuideUsage}):
+
+
 
 \begin{itemize}
     \item Vzájemné vztahy zkoumaných proměnných nejsou dobře známy, nebo je podezření, že jejich současné porozumění může být mylné.
@@ -91,10 +96,10 @@ Budeme hledat funkci jedné proměnné $x$, proto $x$ přidáme jako terminál. 
 Pro náš případ bude stačit, když si jako aritmetické funkce přidáme ty základní, tedy sčítání, odečítání, násobení a dělení.
 Fitness funkci můžeme zvolit jako součet absolutních hodnot rozdílů výrazu jedince a hledaného výrazu $x^2+x+1$.
 Toto stačí pro spuštění evolučního algoritmu. 
-V takto triviálním případě se hledané řešení nalezne pravděpodobně vezmi brzo a bude mít jednu z podobu stromu reprezentujícího daný výraz (viz strom výrazu \ref{obr04:GrafFormule})
+V takto triviálním případě se hledané řešení nalezne pravděpodobně vezmi brzo a bude mít jednu z podob stromu reprezentujícího daný výraz (viz strom výrazu \ref{obr04:GrafFormule})
 
 
-\begin{figure}[p]\centering
+\begin{figure}[H]\centering
 \includegraphics[width=70mm, height=70mm]{./Obrazky/formule_graph_2.png}
 \caption{Strom výrazu}
 \label{obr04:GrafFormule}
@@ -128,8 +133,8 @@ Většinou ale řešíme problémy, kde třídy v datech lineárně separabilní
 Spojením více perceptronů získáváme dopřednou neuronovou síť.
 Ta se skládá z vrstev perceptronů, kde vstupy perceptronů první vrstvy jsou samotná data $x$ a vstupy perceptronů v dalších vrstvách jsou rovny výstupům perceptronů z vrstvy předchozí.
 
-Pro trénování více vrstvých perceptronů se používá gradientní metoda. Z toho důvodů se využívají jiné funkce $f$, než ta zmíněná nahoře, ta má totiž gradient ve většině případů roven 0.
-Typickým příkladem používané funkce je sigmoid \[f(x) = \frac{1}{1+e^{-x}}.\]
+Pro trénování vícevrstvých perceptronů se používá gradientní metoda. Z toho důvodu se využívají jiné funkce $f$, než ta zmíněná nahoře, ta má totiž gradient ve většině případů roven 0.
+Typickým příkladem používané funkce je sigmoida \[f(x) = \frac{1}{1+e^{-x}}.\]
 
 Následně musíme zvolit chybovou funkci $L(x,y|w)$ neuronové sítě. Zde se typicky využívá střední kvadratická chyba (ang. Mean squared error).
 Chybová funkce se derivuje podle vah v síti a následně se jednotlivé váhy upraví.
@@ -140,16 +145,17 @@ Chybová funkce se derivuje podle vah v síti a následně se jednotlivé váhy 
 
 
 \subsection{Zpětnovazební učení}
-Podobně jako v předchozí sekci, také zde musíme nejprve zavést nové pojemy a terminologii.
-Popišme si nejprve, co je to markovský rozhodovací prostor (\cite{markovDecisionProcesses}).
-Markovský rozhodovací prostor popisuje prostředí a je definován čtveřicí $(S,A,P,R)$, kde $S$ je množina stavů, $A$ je množina všech akcí (případně $A_s$ představuje množinu akcí, které mohou být provedeny ve stavu $s$), 
+Celá tato sekce významným způsobem čerpá z úvodní knihy o zpětnovazebném učení \cite{markovDecisionProcesses} a studijního materiálu \cite{deepQ}. 
+Podobně jako v předchozí sekci, také zde musíme nejprve zavést nové pojmy a terminologii.
+Popišme si nejprve, co je to markovský rozhodovací proces.
+Markovský rozhodovací proces popisuje prostředí a je definován čtveřicí $(S,A,P,R)$, kde $S$ je množina stavů, $A$ je množina všech akcí (případně $A_s$ představuje množinu akcí, které mohou být provedeny ve stavu $s$), 
 $P: S \times A \times S \rightarrow [0,1]$ představuje přechodovou funkci, 
 kde $P_a(s,s')$ vrací pravděpodobnost, že se aplikováním akce $a$ ve stavu $s$ dostaneme do stavu $s'$, 
 a $R: S \times A \times S \rightarrow \mathbb{R}$ představuje funkci odměn $R_a(s,s')$, která vrací odměnu, kterou agent obdrží, pokud ve stavu $s$ provede akci $a$ a dostane se tak do stavu $s'$.
 Přechodová funkce i funkce odměn musí navíc splňovat podmínku, že musí být jejich hodnoty nezávislé na předchozích stavech.
 
 
-Chování agenta v prostředí můžeme popsat pomocí strategie $\pi: S \times A \rightarrow [0,1]$, ta určuje pravděpodobnost, že se agent ve stavu $s$ rozhodne pro akci $a$ (\cite{deepQ}).
+Chování agenta v prostředí můžeme popsat pomocí strategie $\pi: S \times A \rightarrow [0,1]$, ta určuje pravděpodobnost, že se agent ve stavu $s$ rozhodne pro akci $a$.
 Pro agenta v prostředí ještě definujme jeho celkovou odměnu jako \[\sum_{t=0}^{\infty} \gamma^tR_{a_t}(s_t,s_{t+1})\], kde $\gamma<1$ je diskontní faktor, díky kterému je suma konečná a $a_t$ je akce agenta vybraná v kroku t.
 Cílem zpětnovazebního učení je nalézt optimální strategii $\pi^\star$, kde $a_t=\pi^\star(s_t)$, takovou, že její celková odměna je maximální.
 
@@ -157,9 +163,11 @@ Hodnotu stavu $s$ při použití strategie $\pi$ lze definovat jako
 \newline
 \[V^{\pi}(s)=\mathbf{E}[\sum_{t=o}^{\infty} \gamma^tr_t|s_0=s]\], kde $r_t$ značí odměnu získanou v kroku t.
 Podobně také můžeme definovat hodnotu $Q^{\pi}(s,a)$ akce $a$ provedené ve stavu $s$ při následování strategie $\pi$.
-\[Q^\pi(s,a)=\sum_{s'}P_a(s,s')[R_a(s,s') + \gamma\sum_{a'} \pi(s',a')Q^\pi(s',a')]\]
+
+\[Q^{\pi}(s,a)=\mathbf{E}[\sum_{t=o}^{\infty} \gamma^tr_t|s_0=s, a_0=a]\]
+% \[Q^\pi(s,a)=\sum_{s'}P_a(s,s')[R_a(s,s') + \gamma\sum_{a'} \pi(s',a')Q^\pi(s',a')]\]
 Z Bellmanovy rovnice pro optimální strategie platí:
-\[Q^*(s,a)=R_a(s,s') + \gamma\max_{a'}Q_k(s',a')\]
+\[Q^*(s,a)=R_a(s,s') + \gamma\max_{a'}Q^*(s',a')\]
 
 Agent ke zlepšování své strategie může využívat přechodové funkce a funkce odměn. Často ale agent hodnoty jednotlivých stavů předem nezná a musí se je učit za běhu.
 Zároveň musí volit mezi explorací tj. prohledáváním prostoru a exploatací tj. využíváním známého. Zde využijeme $\epsilon$-hladového (ang. $\epsilon$-greedy) přístupu, kdy s pravděpodobností $\epsilon$ vybere náhodou akci a s pravděpodobností $1-\epsilon$ vybere nejlepší známou akci.
@@ -173,7 +181,7 @@ Na základě těchto informací se provede aktualizace matice následovně:
 
 
 \subsection{Hluboké Q-učení}
-Po seznámí se se základy neuronových sítí a zpětnovazebního učení můžeme přejít k samotnému hlubokému Q-učení.
+Po seznámení se se základy neuronových sítí a zpětnovazebního učení můžeme přejít k samotnému hlubokému Q-učení.
 Hluboké Q-učení následuje stejnou myšlenku jako obyčejné Q-učení, také chceme nalézt odměnu vybrané akce v současném stavu.
 Hlavním rozdílem oproti normálnímu Q-učení je způsob, jak se Q hodnoty reprezentují. V normálním Q-učení jsou Q hodnoty uložené v matici, ta může být v případě velkých prostorů příliš obrovská a Q-učení pak může probíhat velmi pomalu, nebo dokonce vůbec.
 V hlubokém Q-učení bude Q reprezentováno pomocí neuronové sítě.
@@ -185,13 +193,13 @@ Chybovou funkcí pro trénování neuronové sítě pak může být střední č
 
 
 \subsection{Využití}
-V praxi bylo hluboké Q-učení použito například pro naučení se hraní atari her (\cite{atari}). 
+V praxi bylo hluboké Q-učení použito například pro naučení se hraní Atari her (\cite{atari}). 
 
 
 Namísto ručně zpracovaných informacích o stavu hry zde byly jako vstupy využity přímo vizuální výstupy hry.
 Q-síť je proto reprezentována konvoluční neuronovou sítí, která na vstupu bere vektor pixelů obrázku hry a na výstupu vrací odhad budoucích odměn pro každou z možných akcí.
 Modelu nebylo řečeno nic o principu fungování hry. Model se učil pouze na základě vizuálního výstupu, odměn, které dostával od prostředí, konečných stavů a množiny možných akcí, tedy podobně, jak by se hru učil hrát člověk.
 
-Stejná neuronová síť byla použitá na sedmi různých atari hrách. Na šesti z nich překonala všechny stávající přístupy, které využívaly algoritmy zpětnovazebního učení a na třech z nich překonala výsledky nejlepších lidských hráčů.
+Stejná neuronová síť byla použitá na sedmi různých Atari hrách. Na šesti z nich překonala všechny stávající přístupy, které využívaly algoritmy zpětnovazebního učení a na třech z nich překonala výsledky nejlepších lidských hráčů.
 
 

@@ -2,11 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def plot_multi_bar():
-    averaged_actions1 = [707.4, 2.2, 197.7, 32.2, 149.1, 0]
-    averaged_actions2 = [0.1, 796.4, 110.7, 180.2, 1.1, 0.2]
-    plans = ["Rotace \nvlevlo", "Rotace \nvpravo", "Akcelerace", "Střela", "Rozdvojovací \nstřela", "Prázdná \nakce"]
+    averaged_actions1 = [5.25500000e+02, 7.54333333e+02, 8.33333333e-02, 0.00000000e+00]
+    averaged_actions2 = [558.5       , 444.91666667,  24.58333333,   0.        ]
+    #plans = ["Rotace \nvlevlo", "Rotace \nvpravo", "Akcelerace", "Střela", "Rozdvojovací \nstřela", "Prázdná \nakce"]
+    plans = ["Útok", "Obrana", "Úhyb", "Zastavení"]
 
-    ind = np.arange(6)
+    ind = np.arange(4)
     width = 0.27
 
     fig = plt.figure()
@@ -14,10 +15,10 @@ def plot_multi_bar():
     rects1 = ax.bar(ind, averaged_actions1, width, color='r')
     rects2 = ax.bar(ind+width, averaged_actions2, width, color='g')
 
-    ax.set_ylabel("Počet vybrání akce")
+    ax.set_ylabel("Počet vybrání plánu")
     ax.set_xticks(ind+width)
     ax.set_xticklabels(plans, rotation=90)
-    ax.legend((rects1[0], rects2[0]),('agent 1', 'agent 2'))
+    ax.legend((rects1[0], rects2[0]),('agent z experimentu č.2', 'agent z experimentu č.5'))
 
     def autolabel(rects):
         for rect in rects:
@@ -28,7 +29,7 @@ def plot_multi_bar():
     autolabel(rects1)
     autolabel(rects2)
 
-    plt.title("Průměrný počet kroků hry: 1088.6\nVýsledek: 10:8")
+    plt.title("Průměrný počet kroků hry: 1694.5\nVýsledek: 10:2")
     #plt.suptitle("Výsledek: 10:8")
     plt.show()
 
@@ -110,5 +111,6 @@ def plot_results_of_games():
         plt.show()
 
 if __name__ == "__main__":
-    plot_games_times()
+    #plot_games_times()
+    plot_multi_bar()
 

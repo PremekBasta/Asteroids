@@ -410,6 +410,11 @@ INPUT ./Obrazky/Experiment07Results.png
 INPUT ./Obrazky/Experiment07Results.png
 INPUT ./Obrazky/Experiment07Results.png
 INPUT ./Obrazky/Experiment07Results.png
+INPUT Obrazky/Experiment08Results.png
+INPUT ./Obrazky/Experiment08Results.png
+INPUT ./Obrazky/Experiment08Results.png
+INPUT ./Obrazky/Experiment08Results.png
+INPUT ./Obrazky/Experiment08Results.png
 OUTPUT /home/premek/Asteroids/bp/zaver.aux
 INPUT /home/premek/Asteroids/bp/zaver.tex
 INPUT /home/premek/Asteroids/bp/zaver.tex

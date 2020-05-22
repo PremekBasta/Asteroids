@@ -19,6 +19,8 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
         game_over = False
         state = env.reset()
         start = time.time()
+        agent_one.history = [0,0,0,0]
+        agent_two.history = [0, 0, 0, 0]
         while game_over == False:
             if agent_one.input and agent_two.input:
                 actions_one, actions_two = agent_one.choose_actions(state)
@@ -39,6 +41,9 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
 
         end = time.time()
         total_time = total_time + (end - start)
+
+        #print(agent_one.history)
+        #print(agent_two.history)
 
         print(f"avg_time: {total_time / (i+1)}")
         total_steps = total_steps + step_count
@@ -102,6 +107,8 @@ class AgentsEnums(Enum):
 
 if __name__ == "__main__":
 
+
+
     parser = argparse.ArgumentParser(description='''Starts game of asteroids. Set players\' agents. Valid options are: 
     \"SD\" - Stable Defense agent\n
     \"IN\" - Keyboard controlled agent\n
@@ -110,7 +117,7 @@ if __name__ == "__main__":
     parser.add_argument('-dv', type=bool, default=False, help="disable visual game mode", nargs='?')
     parser.add_argument('-a1', type=str, default="SD", help="Agent choosen for player 1")
     parser.add_argument('-a2', type=str, default="SD", help="Agent choosen for player 2")
-    parser.add_argument('-ng', type=int, default=10, help="Number of games played")
+    parser.add_argument('-ng', type=int, default=19, help="Number of games played")
 
     args = parser.parse_args()
 
@@ -124,6 +131,8 @@ if __name__ == "__main__":
         draw_module = draw_module()
     else:
         draw_module = None
+
+
 
     agent_one = assign_agent(1, args.a1, draw_module)
     agent_two = assign_agent(2, args.a2, draw_module)
