@@ -156,12 +156,12 @@ Přechodová funkce i funkce odměn musí navíc splňovat podmínku, že musí 
 
 
 Chování agenta v prostředí můžeme popsat pomocí strategie $\pi: S \times A \rightarrow [0,1]$, ta určuje pravděpodobnost, že se agent ve stavu $s$ rozhodne pro akci $a$.
-Pro agenta v prostředí ještě definujme jeho celkovou odměnu jako \[\sum_{t=0}^{\infty} \gamma^tR_{a_t}(s_t,s_{t+1})\], kde $\gamma<1$ je diskontní faktor, díky kterému je suma konečná a $a_t$ je akce agenta vybraná v kroku t.
+Pro agenta v prostředí ještě definujme jeho celkovou odměnu jako \[\sum_{t=0}^{\infty} \gamma^tR_{a_t}(s_t,s_{t+1}),\] kde $\gamma<1$ je diskontní faktor, díky kterému je suma konečná a $a_t$ je akce agenta vybraná v kroku t.
 Cílem zpětnovazebního učení je nalézt optimální strategii $\pi^\star$, kde $a_t=\pi^\star(s_t)$, takovou, že její celková odměna je maximální.
 
 Hodnotu stavu $s$ při použití strategie $\pi$ lze definovat jako 
 \newline
-\[V^{\pi}(s)=\mathbf{E}[\sum_{t=o}^{\infty} \gamma^tr_t|s_0=s]\], kde $r_t$ značí odměnu získanou v kroku t.
+\[V^{\pi}(s)=\mathbf{E}[\sum_{t=o}^{\infty} \gamma^tr_t|s_0=s],\] kde $r_t$ značí odměnu získanou v kroku t.
 Podobně také můžeme definovat hodnotu $Q^{\pi}(s,a)$ akce $a$ provedené ve stavu $s$ při následování strategie $\pi$.
 
 \[Q^{\pi}(s,a)=\mathbf{E}[\sum_{t=o}^{\infty} \gamma^tr_t|s_0=s, a_0=a]\]
@@ -187,7 +187,7 @@ Hlavním rozdílem oproti normálnímu Q-učení je způsob, jak se Q hodnoty re
 V hlubokém Q-učení bude Q reprezentováno pomocí neuronové sítě.
 
 Trénování se provádí pomocí porovnávání rozdílu aktuální odměny $R_a(s,s')$ prostředí od odměny spočítané pomocí Bellmanovy rovnice z Q.
-Cílem je tedy minimalizovat rozdíl mezi \[Q(s,a) \hspace{5mm}\text{a}\hspace{5mm}  R_a(s,s') + \gamma\max_{a'}Q_{\theta}(s',a')\], kde $Q_{\theta}$ jsou parametry neuronové sítě reprezentující matici Q.
+Cílem je tedy minimalizovat rozdíl mezi \[Q(s,a) \hspace{5mm}\text{a}\hspace{5mm}  R_a(s,s') + \gamma\max_{a'}Q_{\theta}(s',a'),\] kde $Q_{\theta}$ jsou parametry neuronové sítě reprezentující matici Q.
 Chybovou funkcí pro trénování neuronové sítě pak může být střední čtvercová chyba tohoto rozdílu.
 
 
