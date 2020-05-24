@@ -196,7 +196,7 @@ Chybovou funkcí pro trénování neuronové sítě pak může být střední č
 V praxi bylo hluboké Q-učení použito například pro naučení se hraní Atari her (\cite{atari}). 
 
 
-Namísto ručně zpracovaných informacích o stavu hry zde byly jako vstupy využity přímo vizuální výstupy hry.
+Namísto ručně zpracovaných informacích o stavu hry zde byly jako vstupy využity přímo vizuální výstupy hry tj. obrázky velikosti 210×160 RGB pixelů.
 Q-síť je proto reprezentována konvoluční neuronovou sítí, která na vstupu bere vektor pixelů obrázku hry a na výstupu vrací odhad budoucích odměn pro každou z možných akcí.
 Modelu nebylo řečeno nic o principu fungování hry. Model se učil pouze na základě vizuálního výstupu, odměn, které dostával od prostředí, konečných stavů a množiny možných akcí, tedy podobně, jak by se hru učil hrát člověk.
 
