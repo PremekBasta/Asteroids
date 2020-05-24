@@ -23,6 +23,7 @@ class Agent():
         self.active_ticks = 0
         self.finished_plan = False
         self.finished_plan_attack = False
+        self.previous_actions_empty = False
         self.attack_count = 0
         self.evasion_count = 0
         self.defense_count = 0
@@ -50,21 +51,26 @@ class Agent():
 
 
     def finish_plan(self):
+        if self.finished_plan:
+            self.previous_actions_empty = True
         self.finished_plan = True
         self.plan = []
         self.target_asteroid = None
 
     def store_plan(self, actions):
         self.plan = actions
-        self.finished_plan = False
+        #self.finished_plan = False
         self.finished_plan_attack = False
         self.finished_plan_evasion = False
         self.finished_plan_gp = False
 
     def choose_action_from_plan(self):
+        actions = []
         if len(self.plan) > 0:
             actions = self.plan.pop(0)
         else:
+            if self.finished_plan:
+                self.previous_actions_empty = True
             actions = []
             self.plan = []
             # TODO: added, check
@@ -72,17 +78,22 @@ class Agent():
             self.finished_plan_attack = True
             self.finished_plan_evasion = True
             self.finished_plan_gp = True
+
         return actions
 
 
     def reevaluate_plan(self):
-        if (self.inactiv_ticks > INACTIV_STEPS_LIMIT):
+        if (self.inactiv_ticks > get_inactive_steps_limit()):
+        #if (self.inactiv_ticks > INACTIV_STEPS_LIMIT):
             self.inactiv_ticks = 0
+            self.previous_actions_empty = False
+            self.finished_plan = False
             return True
 
-        if self.finished_plan:
-            self.finished_plan = False
+        if self.finished_plan and not self.previous_actions_empty:
+            #self.finished_plan = False
             self.inactiv_ticks = 0
+            self.previous_actions_empty = False
             return True
 
 
@@ -1118,7 +1129,7 @@ class Evasion_agent(Agent):
         return super().convert_actions(actions)
 
     def reevaluate_plan(self):
-        if self.inactiv_ticks > INACTIVE_EVASION_TIME_LIMIT:
+        if self.inactiv_ticks > INACTIV_STEPS_LIMIT:
             self.inactiv_ticks = 0
             return True
 
@@ -1150,26 +1161,10 @@ class Stable_defensive_agent(Agent):
             self.active_steps = self.active_steps + 1
             self.active_ticks = 1
 
-            start = time.time()
             impact_neutral_asteroid, impact_neutral_asteroid_steps = super().first_impact_neutral_asteroid(own_rocket, state.neutral_asteroids, own_bullets)
             self.asteroids_arr.append(len(state.neutral_asteroids))
             self.bullets_arr.append(len(own_bullets))
-            end = time.time()
-            self.python_time = self.python_time + (end - start)
 
-
-
-            # start = time.time()
-            # impact_neutral_asteroid, impact_neutral_asteroid_steps = super().first_impact_neutral_asteroid_numpy(rocket,
-            #                                                                                                state.neutral_asteroids,
-            #                                                                                                own_bullets)
-            # end = time.time()
-            # self.numpy_time = self.numpy_time + (end - start)
-            # impact_neutral_asteroid_numpy, impact_neutral_asteroid_steps_numpy = super().first_impact_neutral_asteroid_numpy(rocket, state.neutral_asteroids, own_bullets)
-            # if impact_neutral_asteroid != impact_neutral_asteroid_numpy or impact_neutral_asteroid_steps != impact_neutral_asteroid_steps_numpy:
-            #     print(f"numpy steps: {impact_neutral_asteroid_steps_numpy}")
-            #     print(f"py steps: {impact_neutral_asteroid_steps}")
-            #     print(">>>")
             impact_enemy_asteroid, impact_enemy_asteroid_steps = super().first_impact_enemy_asteroid(own_rocket, enemy_asteroids, own_bullets)
 
 
@@ -1178,6 +1173,7 @@ class Stable_defensive_agent(Agent):
             elif impact_neutral_asteroid_steps > impact_enemy_asteroid_steps:
                 impact_asteroid = impact_enemy_asteroid
             elif impact_neutral_asteroid is None and impact_enemy_asteroid is None:
+                self.finish_plan()
                 return super().convert_actions([])
             else:
                 impact_asteroid = impact_enemy_asteroid
@@ -1198,7 +1194,6 @@ class Stable_defensive_agent(Agent):
             if not actions:
                 actions = [super().simple_shot()]
             super().store_plan(actions)
-            # actions = super().convert_actions(actions)
         else:
             self.inactive_steps = self.inactive_steps + 1
             if self.target_asteroid is not None:
@@ -1213,183 +1208,6 @@ class Stable_defensive_agent(Agent):
 
         return super().convert_actions(actions)
 
-class Dummy_agent(Agent):
-    def __init__(self, screen, player_name):
-        super().__init__(player_name)
-        self.screen = screen
-    def choose_actions(self, state, actions):
-        if len(state.neutral_asteroids) < 1:
-            return []
-        ast = state.neutral_asteroids[0]
-        rocket = state.player_one_rocket
-        return []
-
-
-class Smart_agent(Agent):
-    def __init__(self, screen, player_number):
-        super().__init__(player_number)
-        self.screen = screen
-        self.inactiv_ticks = 0
-        self.attack_count = 0
-        self.defense_count = 0
-        self.evasion_count = 0
-        self.odd = 0
-
-
-    def choose_actions(self, state, opposite_agent_actions):
-        own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
-        if self.reevaluate_plan(opposite_agent_actions):
-            impact, impact_asteroid, impact_steps_count = super().first_impact_asteroid(own_rocket, neutral_asteroids, own_bullets, enemy_asteroids)
-
-            evade_steps_count = NOT_FOUND_STEPS_COUNT
-            defense_steps_count = NOT_FOUND_STEPS_COUNT
-
-            if impact:
-                # evade_actions, evade_steps_count = super().evade_asteroid(own_rocket, impact_asteroid)
-                defense_shoot_actions, defense_steps_count = super().defense_shoot_asteroid_actions(own_rocket, impact_asteroid)
-
-                # if 2 * evade_steps_count < defense_steps_count :
-                #     actions = evade_actions
-                #     self.evasion_count = self.evasion_count + 1
-                # else:
-                actions = defense_shoot_actions
-                self.defense_count = self.defense_count + 1
-                if actions == []:
-                    return []
-                else:
-                    super().store_plan(actions)
-                    return super().convert_actions(super().choose_action_from_plan())
-
-
-
-
-
-
-            if self.odd < 1:
-                self.odd = self.odd + 1
-            else:
-                self.odd = 0
-                hit, attack_actions, attack_steps_count = super().shoot_in_all_directions_to_hit_enemy(own_rocket, enemy_rocket,
-                                                                                   state.neutral_asteroids, enemy_asteroids,
-                                                                                   own_bullets, enemy_bullets)
-
-                # shortest_plan_length = min([evade_steps_count, defense_steps_count, attack_steps_count])
-                # if impact:
-                #     if evade_steps_count == shortest_plan_length and 2 * evade_steps_count < defense_steps_count :
-                #         actions = evade_actions
-                #         self.evasion_count = self.evasion_count + 1
-                #     else:
-                #         actions = defense_shoot_actions
-                #         self.defense_count = self.defense_count + 1
-                #
-                # if attack_steps_count == shortest_plan_length:
-                actions = attack_actions
-                self.attack_count = self.attack_count + 1
-
-                if actions == []:
-                    super().store_plan([])
-                else:
-                    super().store_plan(actions)
-                # return super().convert_actions(actions[0])
-        return super().convert_actions(super().choose_action_from_plan())
-
-
-
-
-
-    def reevaluate_plan(self, opposite_player_actions):
-        if self.inactiv_ticks > INACTIVE_SMART_TIME_LIMIT:
-            self.inactiv_ticks = 0
-            return True
-
-
-
-        self.inactiv_ticks = self.inactiv_ticks + 1
-        return False
-
-class Neat_agent(Agent):
-    def __init__(self, player_number, net):
-        super().__init__(player_number)
-        self.net = net
-        self.inactiv_ticks = 0
-        self.attack_count = 0
-        self.defense_count = 0
-        self.evasion_count = 0
-        self.stop_count = 0
-        self.odd = 0
-        self.penalty = 0
-
-    def choose_actions(self, state):
-        actions = []
-        if self.reevaluate_plan([]):
-            (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (
-            evade_actions, evade_steps_count), (stop_actions, stop_steps_count) = self.get_state_stats(state)
-
-            output = self.net.activate((attack_steps_count, defense_steps_count, evade_steps_count, stop_steps_count))
-            actions_index = output[0]
-
-            if actions_index == ActionPlanEnum.ATTACK:
-                actions = attack_actions
-                self.attack_count += 1
-            elif actions_index == ActionPlanEnum.DEFFENSE:
-                actions = defense_shoot_actions
-                self.defense_count += 1
-            elif actions_index == ActionPlanEnum.EVASION:
-                actions = evade_actions
-                self.evasion_count += 1
-            elif actions_index == ActionPlanEnum.STOP:
-                actions = stop_actions
-                self.stop_count += 1
-            else:
-                self.penalty = self.penalty + 1
-
-            super().store_plan(actions)
-
-        return super().convert_actions(super().choose_action_from_plan())
-
-    def reevaluate_plan(self, opposite_player_actions):
-        if self.inactiv_ticks > INACTIVE_SMART_TIME_LIMIT:
-            self.inactiv_ticks = 0
-            return True
-
-        self.inactiv_ticks = self.inactiv_ticks + 1
-        return False
-
-
-    def get_state_stats(self, state):
-        own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
-        impact, impact_asteroid, impact_steps_count = super().first_impact_asteroid(own_rocket, neutral_asteroids,
-                                                                                    own_bullets, enemy_asteroids)
-
-        attack_actions = []
-        attack_steps_count = NOT_FOUND_STEPS_COUNT
-
-        evade_actions = []
-        evade_steps_count = NOT_FOUND_STEPS_COUNT
-
-        defense_shoot_actions = []
-        defense_steps_count = NOT_FOUND_STEPS_COUNT
-
-        stop_actions = []
-        stop_steps_count = NOT_FOUND_STEPS_COUNT
-
-        _, stop_actions, stop_steps_count = super().stop_moving(own_rocket)
-
-        if impact:
-            evade_actions, evade_steps_count = super().evade_asteroid(own_rocket, impact_asteroid)
-            defense_shoot_actions, defense_steps_count = super().defense_shoot_asteroid_actions(own_rocket,
-                                                                                                impact_asteroid)
-        if self.odd < 1:
-            self.odd = self.odd + 1
-        else:
-            self.odd = 0
-            hit, attack_actions, attack_steps_count = super().shoot_in_all_directions_to_hit_enemy(own_rocket,
-                                                                                                   enemy_rocket,
-                                                                                                   state.neutral_asteroids,
-                                                                                                   enemy_asteroids,
-                                                                                                   own_bullets,
-                                                                                                   enemy_bullets)
-        return (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count)
 
 class Genetic_agent(Agent):
     def __init__(self, player_number, decision_function):
@@ -1399,6 +1217,8 @@ class Genetic_agent(Agent):
         self.attack_count = 0
         self.defense_count = 0
         self.evasion_count = 0
+        self.active_choose_steps = 0
+        self.inactive_choose_steps = 0
         self.stop_count = 0
         self.odd = 0
         self.decision_function = decision_function
@@ -1408,7 +1228,10 @@ class Genetic_agent(Agent):
 
     def choose_actions(self, state):
         actions = []
-        if self.reevaluate_plan():
+        #if self.reevaluate_plan():
+
+        if super().reevaluate_plan():
+            self.active_choose_steps += 1
             (attack_actions, attack_steps_count), (defense_shoot_actions, defense_steps_count), (evade_actions, evade_steps_count), (stop_actions, stop_steps_count), impact_steps_count = self.get_state_stats(state)
 
             ###
@@ -1436,20 +1259,12 @@ class Genetic_agent(Agent):
             ###
 
             super().store_plan(actions)
+        else:
+            self.inactive_choose_steps += 1
 
 
 
         return super().convert_actions(super().choose_action_from_plan())
-
-
-    def reevaluate_plan(self):
-        if self.inactiv_ticks > INACTIVE_SMART_TIME_LIMIT:
-            self.inactiv_ticks = 0
-            return True
-
-
-        self.inactiv_ticks = self.inactiv_ticks + 1
-        return False
 
     def get_state_stats(self, state):
         own_rocket, enemy_rocket, neutral_asteroids, own_asteroids, enemy_asteroids, own_bullets, enemy_bullets = super().assign_objects_to_agent(state)
@@ -1498,6 +1313,8 @@ class DQAgent(Agent):
         self.eps_decay = 0.9989
         self.gamma = 0.95
         self.exp_buffer = []
+        self.active_choose_steps = 0
+        self.inactive_choose_steps = 0
         self.inactiv_ticks = 0
         self.attack_count = 0
         self.defense_count = 0
@@ -1506,7 +1323,6 @@ class DQAgent(Agent):
         self.penalty = 0
         self.odd = 0
         self.history=[0,0,0,0]
-        self.previous_actions_empty = False
         self.extended = extended
         if model is None:
             self.build_model()
@@ -1613,7 +1429,7 @@ class DQAgent(Agent):
 
         else:
             if self.reevaluate_plan(train=False):
-
+                self.active_choose_steps += 1
 
                 (attack_actions, attack_steps_count), \
                 (defense_shoot_actions, defense_steps_count), \
@@ -1653,6 +1469,8 @@ class DQAgent(Agent):
                         self.history[actions_index] += 1
 
                     super().store_plan(actions)
+            else:
+                self.inactive_choose_steps += 1
 
         return super().convert_actions(super().choose_action_from_plan())
 

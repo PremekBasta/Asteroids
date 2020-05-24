@@ -2,6 +2,7 @@ from draw_module import draw_module
 from enviroment import Enviroment
 from agents import *
 from gp import return_individual, return_E01Function, return_E02Function, return_E03Function
+from constants import *
 import time
 import numpy as np
 import argparse
@@ -24,20 +25,22 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
         while game_over == False:
             if agent_one.input and agent_two.input:
                 actions_one, actions_two = agent_one.choose_actions(state)
+                pygame.event.clear()
             elif agent_one.input:
                 actions_one, _ = agent_one.choose_actions(state)
                 actions_two = agent_two.choose_actions(state)
+                pygame.event.clear()
             elif agent_two.input:
                 actions_one = agent_one.choose_actions(state)
                 _,actions_two = agent_two.choose_actions(state)
+                pygame.event.clear()
             else:
                 actions_one = agent_one.choose_actions(state)
                 actions_two = agent_two.choose_actions(state)
 
-            pygame.event.clear()
-
 
             step_count, (game_over, rocket_one_won), state, _ = env.next_step(actions_one, actions_two)
+
 
         end = time.time()
         total_time = total_time + (end - start)
@@ -117,14 +120,15 @@ if __name__ == "__main__":
     parser.add_argument('-dv', type=bool, default=False, help="disable visual game mode", nargs='?')
     parser.add_argument('-a1', type=str, default="SD", help="Agent choosen for player 1")
     parser.add_argument('-a2', type=str, default="SD", help="Agent choosen for player 2")
-    parser.add_argument('-ng', type=int, default=19, help="Number of games played")
+    parser.add_argument('-ng', type=int, default=10, help="Number of games played")
+    parser.add_argument('-isl', type=int, default=3, help="Limit number of inactivate steps when agents do not recalculate action plans")
 
     args = parser.parse_args()
 
     if(str(args.a1).upper() == "IN" and str(args.a2).upper() == "IN"):
         sys.exit("Both players cannot use input agents.")
 
-    if((str(args.a1).upper() == "IN" or str(args.a2).upper()) and (args.dv is None or args.dv == True)):
+    if((str(args.a1).upper() == "IN" or str(args.a2).upper() == "In") and (args.dv is None or args.dv == True)):
         sys.exit("Invalid combination of disabled visual mode and input agent.")
 
     if args.dv == False:
@@ -132,11 +136,15 @@ if __name__ == "__main__":
     else:
         draw_module = None
 
+    inactive_steps_limit = int(args.isl)
+    if(inactive_steps_limit < 0 or inactive_steps_limit > 9):
+        sys.exit("Invalid value for limit number of inactivat steps. Valid range: 0-9")
+    set_inactive_steps_limit(inactive_steps_limit-1)
+
 
 
     agent_one = assign_agent(1, args.a1, draw_module)
     agent_two = assign_agent(2, args.a2, draw_module)
-
 
     play_games(args.ng, agent_one, agent_two, draw_module)
 

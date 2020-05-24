@@ -121,11 +121,11 @@ Můžeme zde ale využít triku pro zbavení se prahu. K prahu můžeme přistup
 V takovém případě pak perceptron provádí porovnání váženého součtu vstupů s hodnotou 0. 
 \newline
 Matematicky zapsáno:
-\[f(\sum_{i=0}^{n} w_if_i)\], kde $f$ vrací 1 pro $x>0$ a 0 jinak.
+\[f(\sum_{i=0}^{n} w_if_i),\] kde $f$ vrací 1 pro $x>0$ a 0 jinak.
 \tolerance=10000
 Trénování daného perceptronu probíhá pomocí předkládání dvojic vstupů a výstupů $(x,y)$ z trénovací množiny a upravování vah následujícím způsobem:
 \newline
-\[w_i = w_i + r(y-f(x_i)x_i\], kde $r$ je parametr učení.
+\[w_i = w_i + r(y-f(x_i)x_i,\] kde $r$ je parametr učení.
 
 Rozhodovací hranice perceptronu představuje nadrovinu ve vstupním prostoru. Lze ukázat, že trénování perceptronu zkonverguje, pokud jsou třídy v datech lineárně separabilní.
 

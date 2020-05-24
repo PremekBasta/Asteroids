@@ -31,6 +31,7 @@ Parametry spuštění:
 			"EV" = úhybný agent, který se řídí pouze úhybným akčním plánem
 -ng X		Počet her k zahrání (Default = 10)
 -dv 		Hry se budou hrát bez vizuálního zobrazení
+-isl		Maximální limit neaktivních kroků než agenti znovu přepočítají své akční plány. Validní hodnoty jsou čísla z intervalu (0,9). (Default=3)
 
 
 Ve hře byly použity obrázky zakoupeny z adresy http://www.graphic-buffet.com/products-page/asteroids-2d-assets-pack/.
