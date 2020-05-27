@@ -13,9 +13,9 @@ Informace získané z těchto senzorů, respektive senzorických metod, můžeme
 Většina senzorických metod v rámci svého výpočtu využívá simulování hry. 
 Simulace na základě současného rozpoložení všech vesmírných objektů ve stavu pokračuje v pohybu všech objektů tak, jak by hra probíhala obvyklým způsobem. 
 V simulaci žádný z hráčů neprovádí žádné akce, kromě těch, na jejichž dopad se v dané simulaci dotazujeme.
-Ze simulace můžeme zjistit jaké konkrétní události nastanou v nejbližších krocích hry.
-Všechny simulace pokračují ve hrání hry jen omezený počet kroků. Tento počet kroků je roven konstantě \emph{\uppercase{Impact\_radius}}. Pro tuto hodnotu se mi ukázal být vhodný počet 25.
-Je to hodnota dostatečně vysoká na to, aby senzorické metody včas zaznamenaly potřebné informace a zároveň je dostatečně nízká, aby nebyly výpočetně příliš náročné.
+Ze simulace můžeme zjistit, jaké konkrétní události nastanou v nejbližších krocích hry.
+Všechny simulace pokračují ve hraní hry jen omezený počet kroků. Tento počet kroků je roven konstantě \emph{\uppercase{Impact\_radius}}. Pro tuto hodnotu se mi ukázal být vhodný počet 25.
+Je to hodnota dostatečně vysoká na to, aby senzorické metody včas zaznamenaly potřebné informace, a zároveň je dostatečně nízká, aby nebyly výpočetně příliš náročné.
 Kromě senzorů, které využívají pro výpočet simulování hry, existují i senzory, jejichž výpočet probíhá nad současným stavem staticky bez nutnosti simulace.
 
 
@@ -26,32 +26,33 @@ Kromě senzorů, které využívají pro výpočet simulování hry, existují i
     V případě srážky vesmírné lodi s neutrálním asteroidem vrací tento senzor daný neutrální asteroid a počet kroků, po kterém ke srážce došlo.
     Do simulace se zahrnují i vlastní střely hráče. V případě sestřelení asteroidu střelou, jsou střela i asteroid z následné simulace odstraněny.    
     \item První sražený nepřátelský asteroid - Jde o téměř identický senzor. Jediným rozdílem je zde, že se senzor nesoustředí na asteroidy neutrální, ale nepřátelské.
-    \item Asteroid zasáhne nepřátelskou loď - V této simulaci se pohybujou pouze konkrétním asteroidem a nepřátelskou lodí.
-    Senzor vrací informaci zda, a případně v kolika krocích simulace se asteroid střetl s nepřátelskou lodí.
+    \item Asteroid zasáhne nepřátelskou loď - V této simulaci se pohybuje pouze konkrétním asteroidem a nepřátelskou lodí.
+    Senzor vrací informaci zda, a případně v kolika krocích simulace, se asteroid střetl s nepřátelskou lodí.
     V simulaci nepřátelská loď neprovádí žádné reakce.
     \item Střela zasáhne konkrétní asteroid - Jde o simulaci podobnou předchozí. Simuluje se pohyb konkrétního asteroidu a konkrétní střely.
     \item Střela zasáhne libovolný asteroid - Simuluje se pohyb konkrétní střely a všech neutrálních a nepřátelských asteroidů.
-        Tato senzorická metoda vrací zda střela zasáhla sestřelila asteroid, daný asteroid a počet kroků, po kterém k sestřelení došlo.
+        Tato senzorická metoda vrací, zda střela sestřelila asteroid, daný asteroid a počet kroků, po kterém k sestřelení došlo.
     \item Vzdálenost dvou bodů - Vrátí vzdálenost dvou bodů v Euklidovské metrice.
     \item Přepočítání nejbližší polohy asteroidu od vesmírné lodi - 
         Vesmírný prostor je v jistém pohledu cyklický, proto se pro získání nejkratší vzdálenosti asteroidu od vesmírné lodi nemůžeme spolehnout na vzdálenost jejich současných poloh, ale musíme vzít v úvahu všechny čtyři polohy asteroidu.
         Ty získáme postupným posunutím asteroidu o šířku a délku prostoru.
-        Jinými slovy vzdalenost vesmírné lodi od asteroidu posunutého přes hranici prostoru může být kratší než přímá vzdálenot k původní polohy asteroidu.
+        Jinými slovy vzdálenost vesmírné lodi od asteroidu posunutého přes hranici prostoru může být kratší než přímá vzdálenost k původní poloze asteroidu.
     \item \emph{N} nejblizších asteroidů od vesmírné lodi - Tento senzor spočítá nejkratší vzdálenosti vesmírné lodi od všech asteroidů ve hře a vrátí relativní polohu \emph{N} nejbližších z nich.
     
 \end{itemize}
 
 
+
 \begin{figure}[hp]
 
 \includegraphics[width=145mm, height=100mm]{./Obrazky/N_nearest_asteroids.png}
-\caption{Ukázka senzoru "\emph{N} nejbližších asteroidů od vesmírné lodi" pro \emph{N}=3}
+\caption{Ukázka senzoru ``\emph{N} nejbližších asteroidů od vesmírné lodi'' pro \emph{N}=3}
 \label{obr02:}
 \end{figure}
 
 
 \section{Akční plán}
-Druhou zmíněnou abstrakcí jsou akční plány, jejich cílem je podobně jako u senzoru pracovat namísto akcí nízké úrovně s akcemi vyšší úrovně. V případě akcí toto znamená namísto volby jednotlivých elementárních akcí volit akční plány, který mají komplexnější cíl.
+Druhou zmíněnou abstrakcí jsou akční plány. Jejich cílem je podobně jako u senzoru pracovat namísto akcí nízké úrovně s akcemi vyšší úrovně. V případě akcí toto znamená namísto volby jednotlivých elementárních akcí volit akční plány, který mají komplexnější cíl.
 Akční plán reprezentuje posloupnost elementárních akcí, které má agent vykonávat v následujících krocích hry.
 Cíl akčního plánu se liší podle toho, o jaký druh se jedná.
 \par
@@ -68,7 +69,7 @@ Podobně jako u senzorických metod i zde hledání většiny akčních plánů 
         Pokud v simulaci nastalo úspěšné sestřelení, tak se vrací útočný akční plán, který obsahuje přílušný počet rotací následovaný střelou.
     
     \item Obranný plán - Pro hledání obraného plánu je nejprve potřeba vědět, před kterým asteroidem je potřeba vesmírnou loď bránit. 
-        Zde využijeme připravené senzory. Posloupnost obraného plánu obsahuje dvě části. V První části se vesmírná loď rotuje tak, aby mířila na asteroid, před kterým je potřeba se bránit.
+        Zde využijeme připravené senzory. Posloupnost obraného plánu obsahuje dvě části. V první části se vesmírná loď rotuje tak, aby mířila na asteroid, před kterým je potřeba se bránit.
         A v druhé části probíhá samotná střelba, ta spočívá v jediné elementární akci střelby. Pro vyhodnocení, zda vystřelením střely sestřelíme konkrétní asteroid, využijeme připravené senzorické metody.
         \par
         Nalezení potřebné rotace pro nasměrování vesmírné lodi k nebezpečnému asteroidu probíhá statickým výpočtem bez použití simulace.
@@ -82,13 +83,13 @@ Podobně jako u senzorických metod i zde hledání většiny akčních plánů 
         
     
     \item Úhybný plán - Jedná se také o defenzivní plán, ale namísto přímého sestřelení nebezpečného asteroidu se tento akční plán snaží asteroidu vyhnout.
-    Podobně jako u obranného plánu potřebujeme vědět před jakým asteroidem je potřeba se vyhnout. Tento asteroid je stejně jako v předchozím obranném plánu získaný senzorem. Po nalezení nebezpečného asteroidu simulace postupně prochází všechny možné otočení a následnou akceleraci.
+    Podobně jako u obranného plánu potřebujeme vědět, před jakým asteroidem je potřeba se vyhnout. Tento asteroid je stejně jako v předchozím obranném plánu získaný senzorem. Po nalezení nebezpečného asteroidu simulace postupně prochází všechny možné otočení a následnou akceleraci.
     Počet potřebných akcí akcelerace probíhá také inkrementálně. Nejprve se vyzkouší provedení jedné akce akcelerace a následně se simuluje pohyb vesmírné lodi a asteroidu bez dalšího akcelerování.
     Při srážce vesmírné lodi s asteroidem se oba objekty vrátí na původní místo a vyzkouší se o jednu akci akcelerace více než v předešlém případě.
     V případě úspěšného vyhnutí bude úhybný akční plán obsahovat posloupnost akcí rotace následované posloupností správného počtu akcí akcelerace.
     
     \item Zastavovací plán - Tento plán jsem vytvořil na základě sledování chování agenta využívajícího úhybný plán. Úhybný plán vždy vrací nejkratší možný plán, který stačí na vyhnutí se srážce. Jako důsledek proto obvykle plán obsahuje minimální počet rotací, který je dostačující.
-        To mělo v praxi za následek, že agent, který se řídí pouze úhybními plány používá akceleraci mnohem častěji než rotace a lítá proto obrovskou rychlostí přibližně stejným směrem napříč prostorem. Proto mě napadlo vytvořit akční plán, který vesmírnou loď uvede do klidu.
+        To mělo v praxi za následek, že agent, který se řídí pouze úhybným plánem používá akceleraci mnohem častěji než rotace a lítá proto obrovskou rychlostí přibližně stejným směrem napříč prostorem. Proto mě napadlo vytvořit akční plán, který vesmírnou loď uvede do klidu.
         \par
         Zastavovací plán má přímočarou myšlenku. 
         Nejdříve se vesmírná loď otočí tak, aby byla nasměrována proti směru svého pohybu a následně provede potřebný počet akcelerací, aby zpomalila až do úplného zastavení. 
@@ -110,7 +111,7 @@ Změny mezi dvěmi po sobě jdoucími stavy hry nejsou veliké, ale mohou být o
 V každém kroku hry se proto rozhoduje, zda se daný plán přepočítá, nebo se bude následovat plán původní. 
 Plán se bude přepočítávat ve dvou možných případech, těmi jsou uplynutí daného počtu pasivních kroků, ve kterých jsme pouze pokračovali v již vytvořeném původním plánu, a nebo jeho dokončení.
 Počet neaktivních kroků, po kterých dochází k přepočítávání plánu, se rovná konstaně \emph{\uppercase{inactive\_steps\_limit}}. 
-S vyšším počtem pasivních kroků se velmi výrazně snižuje výpočetní čas potřebný k odehrání hry, ale počet kroků, který hra trvala, se sníží jen minimálně (viz obr03).
+S vyšším počtem pasivních kroků se velmi výrazně snižuje výpočetní čas potřebný k odehrání hry, ale počet kroků, který hra trvala, se sníží jen minimálně (viz \ref{obr03:}).
 Je zde vidět, že kvalita hráčů se mírně snižuje, ale v porovnání kolik se ušetří výpočetního času, je tato ztráta kvality zanedbatelná.
 V příštích kapitolách se nám bude pro učení agentů hodit odehrát velké množství her, proto si dovolíme nastavit vyšší počet pasivních kroků.
 
@@ -124,7 +125,7 @@ V příštích kapitolách se nám bude pro učení agentů hodit odehrát velk�
 
 \subsection{Použití akčních plánů}
 Metody, které vypočítávají akční plán vracejí kromě plánů samotných i jejich délku. 
-V případě nenalezení akčního plánsu se místo jeho délky vrací konstanta \emph{\uppercase{not\_found\_steps\_count}} vysoké hodnoty, ta reprezentuje, že akční plán neexistuje.
-Díky tomu lze tyto metody použí také jako senzorické metody. 
+V případě nenalezení akčního plánu se místo jeho délky vrací konstanta \emph{\uppercase{not\_found\_steps\_count}} vysoké hodnoty, ta reprezentuje, že akční plán neexistuje.
+Díky tomu lze tyto metody použít také jako senzorické metody. 
 
 

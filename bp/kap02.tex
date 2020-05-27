@@ -1,6 +1,13 @@
 \chapter{Architektura hry}
 V úvodní kapitole jsme se seznámili s fungováním hry z uživatelského pohledu. 
 Zde se pro změnu podíváme jak je hra navržena interně, jaké stavební kameny obsahuje, jak jsou reprezentovány a jaký je jejich význam.
+Cílem této práce bylo vytvořit jednoduchou hru pro experimentování s umělou inteligencí. 
+Programovací jazyk python nabízí jednoduchou knihovnu pygame pro tvorbu počítačových her a také je znám pro své široké použití v oblasti umělé inteligenci, pro které také nabízí praktické knihovny.
+Proto implementace hry i všechny později provedené experimenty byly implementovány právě v tomto jazyce.
+Jistě by všeho mohlo být dosaženo i v jiných programovacíh jazycích, ale pro naše účely je jazyk python zcela postačující.
+\todo{asdasda}
+
+
 
 \section{Vesmírné objekty}
 Všechny vesmírné objekty mají některá data společná. Každý vesmírný objekt má souřadnice své současné polohy a vektor rychlosti.
@@ -10,7 +17,7 @@ Asteroidy mají navíc informace o tom, jaké jsou velikosti a zdali byly vytvo�
 Na základě těchto dvou informací je asteroidu při vytvoření přiřazen obrázek, pomocí kterého je po dobu své existence vykreslován.
 
 \subsection{Střely}
-Vystřelené střely neletí věčně, ale mají omezenou životnost kolik kroků hry budou existovat.
+Vystřelené střely neletí věčně, ale mají omezenou životnost, kolik kroků hry budou existovat.
 Tato hodnota se nastavuje z konfiguračního souboru z položky \emph{\uppercase{bullet\_life\_count}}.
 V každém kroku hry se střele její živostnost sníží o jedna a pokud se dostane na nulu, tak střela bude zničena.
 Střele se při vytvoření nastaví úhel, pod kterým poletí. Tento úhel je roven úhlu natočení vesmírné lodi, který měla při vystřelení.
@@ -92,9 +99,7 @@ Poslední zatím nezmíněnou funkcí herního prostředí je kontrola, zda hra 
 
 
 Jedna instance prostředí odpovídá jedné hře. Herní prostředí má dvě základní metody pro řízení hry. 
-\newline 
 Metoda \emph{reset()} inicializuje hru do počátečního stavu a tento stav vrátí. Tato metoda se musí zavolat před začátkem hry.
-\newline 
 A druhou metodou je \emph{next\_step(actions\_one, actions\_two)}, ta na základě akcí hráčů, převede hru do následného stavu.
 Právě v této metodě je schovaná celá logika manipulace s vesmírnými objekty popsána výše.
 \newline
@@ -120,11 +125,10 @@ Mou snahou bylo, aby herní prostředí neomezovalo agenty v jejich rozhodován�
 
 
 \section{Agent}
-Agent je ústřední postavou celé hry a obzvláště v dalších kapitolách pro nás bude nejzajímavějším předmětem zájmu.
+Agent je ústřední postavou celé hry a obzvláště v dalších kapitolách pro nás bude hlavním předmětem zájmu.
 Je to právě toto místo, kde budeme později mluvit o umělé inteligenci. 
-V případě agenta, který je ovládán lidským hráčem, se agent, respektive člověk, který jej ovládá, neřídí datovou reprezentací stavu, tak jak jej obdržel od herního prostředí.
-Ale rozhoduje se na základě toho, jak hráč vizuálně vnímá herní průběh a příkazy k provedení jednotlivých akcí udává ovládáním kláves na klávesnici.
-Lidský hráč pro nás ale nebude primárním předmětem zájmu, my se budeme spíše soustředit na agenty strojové.
+V případě agenta, který je ovládán lidským hráčem, se agent, respektive člověk, který jej ovládá, neřídí datovou reprezentací stavu, tak jak jej obdržel od herního prostředí, ale rozhoduje se na základě toho, jak hráč vizuálně vnímá herní průběh a příkazy k provedení jednotlivých akcí udává ovládáním kláves na klávesnici.
+Lidský hráč pro nás ale nebude primárním předmětem zájmu, my se budeme spíše soustředit na agenty umělé.
 \par
 Každý agent musí implementovat jedinou metodu \emph{choose\_actions(state)}, která musí vracet akce, které chce agent v současném stavu hry vykonat. Úkolem agenta je, na základě obdrženého stavu, zvolit akci, kterou chce provést.
 A právě tento rozhodovací problém pro nás bude v dalších kapitolách předmětem experimentování s různými abstrakcemi a přístupy umělé inteligence. 
@@ -135,9 +139,9 @@ Pro grafické zobrazování hry jsem zvolil python knihovnu pygame \cite{pygame}
 Tato knihovna nabízí kromě různých grafických funkcí, také podporu pro manipulaci s herními objekty. Mimo jiné je v této knihovně zabudovaná podpora pro kontrolu srážek herních objektů.
 Mou přirozenou snahou bylo této funkcionality využít, ale toto se později ukázalo být nevhodné.
 Prvním problémem bylo, že herní objekty jsou v rámci této knihovny reprezentovány pomocí čtverce, nikoliv jako kruhy a kontrola srážek je tedy realizována jako dotaz, zda se dva odpovídající čtverce pronikají.
-Tato kontrola srážky je výpočetně náročnější než kontrola v případě objektů, které jsou reprezentovány kruhem.  
+Toto je pro naši situaci nevhodné, neboť chceme asteroidy reprezentovat kruhovitými tvary a tedy kolize pomocí čtverců by mohla vést k velkým nepřesnostem.
 Závažnějším problémem se ukázala být integrace pygame modulu do herního prostředí. Při pokusu o paralelizaci více běhů hry se objevily technické problémy, které se mi ani po značném úsilí nepodařilo vyřešit.
-Proto jsem se rozhodl, že pygame modul budu využívat pouze pro grafické vykreslování hry a kontrolu srážek si naimplementuju sám.
+Proto jsem se rozhodl, že pygame modul budu využívat pouze pro grafické vykreslování hry a kontrolu srážek si naimplementuji sám.
 V tomto rozsahu pro mě knihovna pygame byla zcela dostačující. 
 Použité obrázky pro vykreslování asteroidů byly zakoupeny na této adrese \url{http://www.graphic-buffet.com/products-page/asteroids-2d-assets-pack/}.
 Autor umožňuje jejich použití pro osobní i komerční účely za podmínky, že samotné obrázky nebudou dále přeprodávány.
@@ -170,6 +174,7 @@ Kostra herní simulace pak vypadá následovně:
 
 
 \section{Instalace a spuštění hry}
+Celá hra je uvedena v příloze této bakalářské práce. Případně je také možné k ní získat přístup online.
 Instrukce pro instalaci a spuštění hry jsou popsány v souboru README. (\url{https://github.com/PremekBasta/Asteroids/blob/v0.2/README})
 
 \todo{doplnit vysledný tag}

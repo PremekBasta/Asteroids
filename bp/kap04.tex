@@ -33,7 +33,7 @@ Po vyčerpání počtu neterminálů se opět pouze doplní terminály jako list
 V každé iteraci chceme vybrat několik jedinců, nad kterými budeme provádět různé genetické úpravy. Snahou selekce je volit jedince s vyšší hodnotou fitness funkce.
 Asi nejpoužívanější metodou selekce je turnajová selekce. 
 V té se náhodně zvolí dva jedinci, porovnají se mezi sebou a s danou vysokou pravděpodobností se do výběru zvolí ten jedinec, který měl vyšší hodnotu fitness funkce. S opačnou pravděpodobností bude do výběru zvolen horší z jedinců.
-Dalším z mnoha metod (\cite{selekcniMetody}) selekce je ruletová selekce. Zde je pravděpodobnost zvolení jedince do výběru přímo úměrná jeho hodnotě fitness funkce.
+Další z mnoha metod (\cite{selekcniMetody}) selekce je ruletová selekce. Zde je pravděpodobnost zvolení jedince do výběru přímo úměrná jeho hodnotě fitness funkce.
 Pravděpodobnost výběru $i$-tého jedince je 
 \[p(i) = \frac{f(i)}{\sum_{j=1}^{n} f(j)}. \]
 Zvolí se náhodné číslo $r$ z intervalu $[0,1]$. Následně se postupně procházejí všichni jedinci a sčítají se jejich hodnoty $p(i)$. Při prvním okamžiku, kdy součet překročí hodnotu $r$, bude do výběru vybrán jedinec, jehož pravděpodobnost byla do součtu připočtena jako poslední.
@@ -44,19 +44,19 @@ Tito jedinci a jejich potomci se proto v populaci rychle rozšíří a nedají t
 \par
 Genetické operátory mohou občas upravit nejlepšího jedince tak, že se jeho hodnota fitness funkce výrazně zhorší.
 Z tohoto důvodu se často používá technika zvaná elitismus, která automaticky do další generace vybere pár nejlepších současných jedinců. 
-Tímto způsobem máme garantováno, že neztracíme nejlepší současné jedince.
+Tímto způsobem máme garantováno, že neztrácíme nejlepší současné jedince.
 
 
 
 \subsubsection{Genetické operátory}
-Genetické operátory jsou dvojího druhu, křížení a mutace. Myšlenkou křížení je ze dvou jedinců, nazývejme je rodiče, vytvořit nového potomka, který bude tvořen kombinací obou z jeho rodičů.
+Genetické operátory jsou dvojího druhu, křížení a mutace. Myšlenkou křížení je ze dvou jedinců, nazývejme je rodiče, vytvořit nového potomka, který bude tvořen kombinací obou jeho rodičů.
 V genetickém programování pracujeme s jedinci reprezentovanými stromy, proto křížení jedinců je realizováno křížením jejich stromů. V každém z rodičů se pro křížení zvolí jeden uzel stejného typu. 
 Výsledný potomek má strukturu podobnou prvnímu rodiči, jen na původním místě vybraného uzlu bude nyní podstrom, který je zavěšený pod vybraným uzlem druhého rodiče.
 \par
 Druhým genetickým operátorem je mutace, ta již nepotřebuje mít dva rodiče, ale úprava se provede nad jedincem samotným.
 Mutovat můžeme v jedinci buď jediný bod, nebo celý podstrom. V případě mutace podstromu se namísto vybraného podstromu vygeneruje zcela nový podstrom. 
 Toto v zásadě představuje křížení s novým náhodně vytvořeným jedincem.
-Mutace jediného bodu změní náhodně jediný uzel ve stromě. V případě terminálu se může vybrat libovolný jiný terminál. A v případě vnitřního uzlu může být vybraný libovolný jiný neterminál, který je stejného typu.
+Mutace jediného bodu změní náhodně jediný uzel ve stromě. V případě terminálu se může vybrat libovolný jiný terminál. V případě vnitřního uzlu může být vybraný libovolný jiný neterminál, který je stejného typu.
 
 
 \subsubsection{Silná a volná typovanost}
@@ -64,7 +64,7 @@ Ve volně typovaném genetickém programování nezadáváme typy funkcí ani te
 Obvykle se nám ale více bude hodit silně typované genetické programování, zde určujeme u všech funkcí nejen jejich aritu, ale také typ každého z argumentů dané funkce a také typ návratové hodnoty.
 Podobně musíme určit i hodnotové typy terminálů.
 Na závěr určíme hodnotové typy celého problému a algoritmus už se postará o to, aby byly typové podmínky pro všechny jedince dodrženy.
-\cite{typedProgramming}
+(\cite{typedProgramming})
 
 
 \subsection{Využití}
@@ -87,16 +87,17 @@ Obecně se genetické programování ukazuje být vhodné ve všech problémech,
 
 
 \subsubsection{Symbolická regrese}
-V mnoha problémech je naším cílem nalézt funkci, jejíž hodnota splňuje nějakou požadovanou vlastnost. Toto známe pod názvem symbolická regrese.
-Obyčejná regrese má obvykle za cíl nalézt koeficienty předem zadané funkce, tak aby co nejlépe odpovídala daným datům.
-Zde je problém, že pokud potřebná funkce nemá stejnou strukturu, jako zadaná funkce, tak dobré koeficienty nenalezneme nikdy a musíme zkusit hledat funkci jiné struktury.
+V mnoha problémech je naším cílem nalézt funkci, jejíž hodnota splňuje nějakou požadovanou vlastnost. 
+Toto známe pod názvem symbolická regrese.
+Obyčejná regrese má obvykle za cíl nalézt koeficienty předem zadané funkce tak, aby co nejlépe odpovídala daným datům.
+Zde je problém, že pokud potřebná funkce nemá stejnou strukturu, jako zadaná funkce, dobré koeficienty nenalezneme nikdy a musíme zkusit hledat funkci jiné struktury.
 Tento problém může vyřešit právě symbolická regrese. Ta hledá vhodnou funkci, aniž by na začátku měla očekávání o její struktuře.
 Uvedeme triviální příklad. Řekněme, že hledáme výraz, jehož hodnoty odpovídají polynomu $x^2+x+1$ na intervalu $[-1,1]$.
 Budeme hledat funkci jedné proměnné $x$, proto $x$ přidáme jako terminál. Dále přidáme jako terminály číselné konstanty (například -1,1,2,5,10), které budou sloužit pro hledání koeficientů.
 Pro náš případ bude stačit, když si jako aritmetické funkce přidáme ty základní, tedy sčítání, odečítání, násobení a dělení.
 Fitness funkci můžeme zvolit jako součet absolutních hodnot rozdílů výrazu jedince a hledaného výrazu $x^2+x+1$.
 Toto stačí pro spuštění evolučního algoritmu. 
-V takto triviálním případě se hledané řešení nalezne pravděpodobně vezmi brzo a bude mít jednu z podob stromu reprezentujícího daný výraz (viz strom výrazu \ref{obr04:GrafFormule})
+V takto triviálním případě se hledané řešení nalezne pravděpodobně vezmi brzy a bude mít jednu z podob stromu reprezentujícího daný výraz (viz strom výrazu \ref{obr04:GrafFormule})
 
 
 \begin{figure}[H]\centering
@@ -107,7 +108,6 @@ V takto triviálním případě se hledané řešení nalezne pravděpodobně ve
 
 
 
-\newpage
 \section{Hluboké Q-učení}
 Než se dostaneme k samotnému fungování algoritmu hlubokého Q-učení, musíme nejprve vybudovat jeho stavební kameny.
 
@@ -119,7 +119,6 @@ Perceptron je algoritmus, který má na vstupu několik hodnot $x_i$ a jeden vý
 Kromě vah vstupů obsahuje perceptron ještě tzv. práh. Perceptron spočítá vážený součet vstupů a porovná výsledek s prahem. Pokud je výsledek větší než práh, tak perceptron vrací hodnotu 1, jinak 0.
 Můžeme zde ale využít triku pro zbavení se prahu. K prahu můžeme přistupovat jako k další váze s konstantním vstupem -1.
 V takovém případě pak perceptron provádí porovnání váženého součtu vstupů s hodnotou 0. 
-\newline
 Matematicky zapsáno:
 \[f(\sum_{i=0}^{n} w_if_i),\] kde $f$ vrací 1 pro $x>0$ a 0 jinak.
 \tolerance=10000
@@ -145,7 +144,7 @@ Chybová funkce se derivuje podle vah v síti a následně se jednotlivé váhy 
 
 
 \subsection{Zpětnovazební učení}
-Celá tato sekce významným způsobem čerpá z úvodní knihy o zpětnovazebném učení \cite{markovDecisionProcesses} a studijního materiálu \cite{deepQ}. 
+Celá tato sekce významným způsobem čerpá z úvodní knihy o zpětnovazebném učení (\cite{markovDecisionProcesses}) a studijního materiálu (\cite{deepQ}). 
 Podobně jako v předchozí sekci, také zde musíme nejprve zavést nové pojmy a terminologii.
 Popišme si nejprve, co je to markovský rozhodovací proces.
 Markovský rozhodovací proces popisuje prostředí a je definován čtveřicí $(S,A,P,R)$, kde $S$ je množina stavů, $A$ je množina všech akcí (případně $A_s$ představuje množinu akcí, které mohou být provedeny ve stavu $s$), 
@@ -172,10 +171,10 @@ Z Bellmanovy rovnice pro optimální strategie platí:
 Agent ke zlepšování své strategie může využívat přechodové funkce a funkce odměn. Často ale agent hodnoty jednotlivých stavů předem nezná a musí se je učit za běhu.
 Zároveň musí volit mezi explorací tj. prohledáváním prostoru a exploatací tj. využíváním známého. Zde využijeme $\epsilon$-hladového (ang. $\epsilon$-greedy) přístupu, kdy s pravděpodobností $\epsilon$ vybere náhodou akci a s pravděpodobností $1-\epsilon$ vybere nejlepší známou akci.
 
-Nyní se už dostáváme ke Q-učení. $Q$ je reprezentována jako matice zpočátku inicializovaná samými nulami. Agent následně ve stavu $s_t$ vybírá například $\epsilon$-hladovým přístupem akci $a_t$, získá od prostředí odměnu $r_t$ a přesune se do stavu $s'$.
+Nyní se už dostáváme ke Q-učení. Funkce $Q$ je reprezentována jako matice zpočátku inicializovaná samými nulami. Agent následně ve stavu $s_t$ vybírá například $\epsilon$-hladovým přístupem akci $a_t$, získá od prostředí odměnu $r_t$ a přesune se do stavu $s'$.
 Na základě těchto informací se provede aktualizace matice následovně:
 \newline
-\[Q(s_t,a_t) \leftarrow (1-\alpha)Q(s_t,a_t) + \alpha(r_t + \gamma(\max_a(Q(s_{t+1},a))))\]
+\[Q(s_t,a_t) \leftarrow (1-\alpha)Q(s_t,a_t) + \alpha(r_t + \gamma\max_aQ(s_{t+1},a))\]
 
 
 
@@ -201,5 +200,6 @@ Q-síť je proto reprezentována konvoluční neuronovou sítí, která na vstup
 Modelu nebylo řečeno nic o principu fungování hry. Model se učil pouze na základě vizuálního výstupu, odměn, které dostával od prostředí, konečných stavů a množiny možných akcí, tedy podobně, jak by se hru učil hrát člověk.
 
 Stejná neuronová síť byla použitá na sedmi různých Atari hrách. Na šesti z nich překonala všechny stávající přístupy, které využívaly algoritmy zpětnovazebního učení a na třech z nich překonala výsledky nejlepších lidských hráčů.
+\todo{vyuziti na dalsich hrach}
 
 

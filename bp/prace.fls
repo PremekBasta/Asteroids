@@ -272,6 +272,10 @@ OUTPUT /home/premek/Asteroids/bp/prace.out
 OUTPUT /home/premek/Asteroids/bp/titulka.aux
 INPUT /home/premek/Asteroids/bp/titulka.tex
 INPUT /home/premek/Asteroids/bp/titulka.tex
+INPUT Obrazky/logo-cs.pdf
+INPUT ./Obrazky/logo-cs.pdf
+INPUT ./Obrazky/logo-cs.pdf
+INPUT ./Obrazky/logo-cs.pdf
 INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmbx12.tfm
 INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmbx12.tfm
 INPUT /home/premek/.miktex/texmfs/install/fonts/tfm/public/lm/ec-lmr17.tfm
