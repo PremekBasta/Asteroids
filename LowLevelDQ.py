@@ -143,13 +143,13 @@ if __name__ == "__main__":
     batch = 500
     for i in range(40):
         try:
-            model = tf.keras.models.load_model("/content/drive/My Drive/20000_LL_DQ_stable_defensive_opponent_model")
+            model = tf.keras.models.load_model("/content/drive/My Drive/20000_LL_DQ_stable_defensive_opponent_model.txt")
             print("model loading succesful")
-        #model_two = tf.keras.models.load_model("/content/drive/My Drive/20000_LL_DQ_2_players_model_two")
+        #model_two = tf.keras.models.load_model("/content/drive/My Drive/20000_LL_DQ_2_players_model_two.txt")
         except:
             model = None
             print("failed model loading")
         model = train_single_thread_stable_deffensive_agent(batch, model)
-        tf.keras.models.save_model(model, '/content/drive/My Drive/20000_LL_DQ_stable_defensive_opponent_model')
-        #tf.keras.models.save_model(model_two, '/content/drive/My Drive/20000_LL_DQ_2_players_model_two')
+        tf.keras.models.save_model(model, '/content/drive/My Drive/20000_LL_DQ_stable_defensive_opponent_model.txt')
+        #tf.keras.models.save_model(model_two, '/content/drive/My Drive/20000_LL_DQ_2_players_model_two.txt')
         print(f"{i*batch} games played")

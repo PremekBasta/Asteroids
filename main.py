@@ -20,16 +20,16 @@ def play_games(num_games, agent_one, agent_two, draw_module = None):
         game_over = False
         state = env.reset()
         start = time.time()
-        agent_one.history = [0,0,0,0]
-        agent_two.history = [0, 0, 0, 0]
+        agent_one.history = [0,0,0,0,0,0]
+        agent_two.history = [0, 0, 0, 0,0,0]
         while game_over == False:
             if agent_one.input and agent_two.input:
                 actions_one, actions_two = agent_one.choose_actions(state)
                 pygame.event.clear()
             elif agent_one.input:
                 actions_one, _ = agent_one.choose_actions(state)
-                actions_two = agent_two.choose_actions(state)
                 pygame.event.clear()
+                actions_two = agent_two.choose_actions(state)
             elif agent_two.input:
                 actions_one = agent_one.choose_actions(state)
                 _,actions_two = agent_two.choose_actions(state)
@@ -84,15 +84,16 @@ def assign_agent(player_number, chosen_agent, draw_module):
                        )
 
     if chosen_agent.upper() == AgentsEnums.Experiment06.value:
-        model = tf.keras.models.load_model("LL_DQ_stable_deffensive_opponent/10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_model_1")
+        model = tf.keras.models.load_model(
+            "LL_DQ_stable_deffensive_opponent/10000_base_action_DQ_stable_deffensive_opponent_added_dense_layer_model_1.txt")
         return Low_level_sensor_DQAgent(player_number, num_inputs=14, num_outputs=6, model = model)
     if chosen_agent.upper() == AgentsEnums.Experiment07.value:
         if player_number == 1:
             model = tf.keras.models.load_model(
-                "LL_DQ_2_players/20000_LL_DQ_2_players_model_one")
+                "LL_DQ_2_players/20000_LL_DQ_2_players_model_one.txt")
         elif player_number == 2:
             model = tf.keras.models.load_model(
-                "LL_DQ_2_players/20000_LL_DQ_2_players_model_two")
+                "LL_DQ_2_players/20000_LL_DQ_2_players_model_two.txt")
         return Low_level_sensor_DQAgent(player_number, num_inputs=14, num_outputs=6, model=model)
 
 class AgentsEnums(Enum):

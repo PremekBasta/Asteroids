@@ -48,7 +48,7 @@
 \contentsline {subsection}{\numberline {5.2.3}Experiment 6: Elementární agent proti obrannému agentovi}{34}{subsection.5.2.3}%
 \contentsline {subsection}{\numberline {5.2.4}Experiment 7: Dva elementární agenti}{36}{subsection.5.2.4}%
 \contentsline {subsection}{\numberline {5.2.5}Experiment 8: Souboj nejlepších nalezených agentů}{37}{subsection.5.2.5}%
-\contentsline {subsection}{\numberline {5.2.6}Zkušenost z hraní her}{38}{subsection.5.2.6}%
-\contentsline {chapter}{Závěr}{39}{chapter*.10}%
-\contentsline {chapter}{Seznam použité literatury}{40}{chapter*.11}%
-\contentsline {chapter}{Seznam obr\'azk\r {u}}{41}{chapter*.12}%
+\contentsline {section}{\numberline {5.3}Zkušenost z hraní her se získanými agenty}{38}{section.5.3}%
+\contentsline {chapter}{Závěr}{40}{chapter*.10}%
+\contentsline {chapter}{Seznam použité literatury}{41}{chapter*.11}%
+\contentsline {chapter}{Seznam obr\'azk\r {u}}{42}{chapter*.12}%

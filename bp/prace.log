@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  27 MAY 2020 23:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300) (preloaded format=pdflatex 2020.3.7)  29 MAY 2020 09:28
 entering extended mode
 **/home/premek/Asteroids/bp/prace.tex
 (/home/premek/Asteroids/bp/prace.tex
@@ -638,12 +638,17 @@ Package pdftex.def Info: ./Obrazky/logo-cs.pdf  used on input line 10.
 
  <./Obrazky/logo-cs.pdf>]
 Package hyperref Info: Option `pageanchor' set `true' on input line 55.
- [1
+
+Underfull \hbox (badness 10000) detected at line 77
+\T1/lmr/m/n/12 V Praze dne 28.5.2020 
+ []
+
+[1
 
 ] [2
 
 ]
-Underfull \hbox (badness 2134) in paragraph at lines 110--112
+Underfull \hbox (badness 2134) in paragraph at lines 112--114
 []\T1/lmr/m/n/12 Vedoucí bakalá°ské práce: Mgr. Martin Pilát, Ph.D., Katedra teoretické
  []
 
@@ -982,22 +987,22 @@ Package pdftex.def Info: ./Obrazky/Experiment08Results.png  used on input line 4
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
 l.429 
-       <./Obrazky/Experiment07Results.png>]) [38pdfTeX warning (ext4): destination with the same identifier (name{figure.5.9}) has been already used, duplicate ignored
+       <./Obrazky/Experiment07Results.png>] [38pdfTeX warning (ext4): destination with the same identifier (name{figure.5.9}) has been already used, duplicate ignored
 
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
-l.160 \include{kap05}
-                      <./Obrazky/Experiment08Results.png>]
+l.450 
+       <./Obrazky/Experiment08Results.png>]) [39]
 \openout2 = `zaver.aux'.
 
- (/home/premek/Asteroids/bp/zaver.tex) [39
+ (/home/premek/Asteroids/bp/zaver.tex) [40
 
 
 
 ]
 \openout2 = `literatura.aux'.
 
- (/home/premek/Asteroids/bp/literatura.tex (/home/premek/Asteroids/bp/prace.bbl)) [40
+ (/home/premek/Asteroids/bp/literatura.tex (/home/premek/Asteroids/bp/prace.bbl)) [41
 
 
 
@@ -1005,7 +1010,7 @@ l.160 \include{kap05}
 \tf@lof=\write8
 \openout8 = `prace.lof'.
 
- [41
+ [42
 
 
 ]
@@ -1015,21 +1020,21 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 186.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 186.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 186.
 Package rerunfilecheck Info: File `prace.out' has not changed.
-(rerunfilecheck)             Checksum: 26F7ACBC39F112712C7C2AF380CA8CB7;8217.
+(rerunfilecheck)             Checksum: DBDE8CD6BE915FE9C177102E34BF49A2;8325.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 186.
  ) 
 Here is how much of TeX's memory you used:
- 20418 strings out of 483220
- 308551 string characters out of 2960823
- 756805 words of memory out of 3000000
+ 20419 strings out of 483220
+ 308548 string characters out of 2960823
+ 757807 words of memory out of 3000000
  35068 multiletter control sequences out of 15000+200000
  599461 words of font info for 66 fonts, out of 3000000 for 9000
  0 hyphenation exceptions out of 8191
  51i,6n,50p,985b,2341s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ec.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathsy.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-rm.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathit.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-mathex.enc}{/home/premek/.miktex/texmfs/install/fonts/enc/dvips/lm/lm-ts1.enc}</home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmbx12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmcsc10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmex10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmmi8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr17.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmr8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmri12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy10.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy6.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmsy8.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/lm/lmtt12.pfb></home/premek/.miktex/texmfs/install/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on /home/premek/Asteroids/bp/prace.pdf (45 pages, 1201273 bytes).
+Output written on /home/premek/Asteroids/bp/prace.pdf (46 pages, 1203071 bytes).
 PDF statistics:
- 711 PDF objects out of 1000 (max. 8388607)
- 149 named destinations out of 1000 (max. 500000)
+ 715 PDF objects out of 1000 (max. 8388607)
+ 150 named destinations out of 1000 (max. 500000)
  451 words of extra memory for PDF output out of 10000 (max. 10000000)
 
