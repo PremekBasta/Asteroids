@@ -1,6 +1,7 @@
 import math
 from enum import Enum, IntEnum
 from constants import *
+import random
 
 
 random.seed(RANDOM_SEED)

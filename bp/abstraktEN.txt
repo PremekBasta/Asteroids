@@ -1,0 +1,5 @@
+Part of this thesis consists of the implementation of my own simple space game which serves as an experimenting environment for testing different aproaches of artificial inteligence.
+There have been created abstractions in a form of sensoric methods and action plans as a transition between low level and high level information about game state and actions.
+These abstractions help algorithms of artifical inteligence with game agent manipulation.
+As far as algorithms are considered I chose genetic programming and Deep Q-learning as main aproachces for inteligent agent development.
+Final part contains description of behaviour of developed agents and discussion of performed experiments.

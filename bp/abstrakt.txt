@@ -1,0 +1,6 @@
+Součástí této práce je implementace mé vlastní, jednoduché, vesmírné hry, 
+která slouží jako experimentální prostředí pro testování různých přístupů umělé inteligence.
+Nad stavy a akcemi hry byly vytvořeny abstrakce ve formě senzorických metod a akčních plánů, 
+které umožňují jednoduše přecházet z informací nízké úrovně do informací vyšší úrovně a tak pomáhají algoritmům umělé inteligence jednodušeji manipulovat s agenty, kteří se ve hře pohybují.
+Jako algoritmy umělé inteligence byly pro hledání inteligentních agentů zvoleny genetické programování a hluboké Q-učení. 
+Závěrečná část se soustředí na popsání chování nalezených agentů a vzájemné porovnání výsledků z provedených experimentů.
