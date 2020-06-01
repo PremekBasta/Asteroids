@@ -1,19 +1,17 @@
 import math
 from enum import Enum, IntEnum
 from constants import *
-import random
+
 
 random.seed(RANDOM_SEED)
 
 
 class Rocket:
-
     def __init__(self, player):
         super().__init__()
         self.angle = 0
         self.speedx = 0
         self.speedy = 0
-        # self.screen = screen
         self.player = player
         self.health = ROCKET_HEALTH
         self.radius = int(ROCKET_IMAGE_WIDTH * ROCKET_RADIUS_RATIO)
@@ -36,6 +34,9 @@ class Rocket:
         self.angle = self.angle % 360
 
     def accelerate(self):
+        # Modifies rocket's speed. Adds vector of current rocket's angle orientation to it's speed.
+        # If resulting speed exceeds maximal speed limit speed vector will be shortened.
+        # Angle orientation of resulting speed will be preserved, but speed vector will be shortened to maximal speed limit.
         x_acc_difference = int(math.sin(self.angle / 180 * math.pi) * 10 / 2)
         y_acc_difference = int(math.cos(self.angle / 180 * math.pi) * 10 / 2)
         if (self.speedx * x_acc_difference) > 0 and (self.speedy * y_acc_difference) > 0:
@@ -67,10 +68,6 @@ class Rocket:
                 if minusy:
                     self.speedy = -self.speedy
 
-    # def draw(self):
-    #     pygame.draw.rect(self.screen, self.health_bar_color, pygame.Rect(0.85*SCREEN_WIDTH - self.player * 0.82*SCREEN_WIDTH, 0.95*SCREEN_HEIGHT, self.health, 10))
-    #     # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
-    #     self.screen.blit(Rocket.rocket_rotation_images[self.player][self.angle // 12], (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
     def move(self, *args):
         self.centerx = int((self.centerx + self.speedx / 8) % SCREEN_WIDTH)
@@ -102,10 +99,6 @@ class Bullet():
         self.centery = int((self.centery + self.speedy / 8) % SCREEN_HEIGHT)
         self.life_count = self.life_count - 1
 
-    # def draw(self):
-    #     # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
-    #     self.screen.blit(self.image, (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
-
     def is_alive(self):
         return self.life_count > 0
 
@@ -120,23 +113,19 @@ class Asteroid():
     def __init__(self, rocket_one, rocket_two, old_asteroid, rocket_shooter, impact_bullet):
         super().__init__()
         self.valid = True
-        # self.screen = screen
         if rocket_shooter is not None:
             if old_asteroid.size_index == AsteroidSize.SMALL:
-            #if old_asteroid.size_index == 0:
                 self.valid = False
                 return
 
             self.player = rocket_shooter.player
             if old_asteroid.size_index == AsteroidSize.BIG:
-            #if old_asteroid.size_index == 2:
                 self.speedx = impact_bullet.speedx / 20
                 self.speedy = impact_bullet.speedy / 20
             else:
                 self.speedx = impact_bullet.speedx // 14
                 self.speedy = impact_bullet.speedy // 14
 
-            #self.size_index = old_asteroid.size_index - 1
             self.size_index = AsteroidSize(int(old_asteroid.size_index - 1))
             self.random_image_index = random.randint(0, 2)
         else:
@@ -144,14 +133,11 @@ class Asteroid():
             self.random_image_index = random.randint(0, 2)
             self.speedx = -5 + random.randint(0, 10)
             self.speedy = -5 + random.randint(0, 10)
-            #self.size_index = 2
             self.size_index = AsteroidSize.BIG
 
-        #if self.size_index == 0:
         if self.size_index == AsteroidSize.SMALL:
             self.image_height, self.image_width = ASTEROID_IMAGE_DIMENSION_SIZE_0, ASTEROID_IMAGE_DIMENSION_SIZE_0
         elif self.size_index == AsteroidSize.MIDDLE:
-        #elif self.size_index == 1:
             self.image_height, self.image_width = ASTEROID_IMAGE_DIMENSION_SIZE_1, ASTEROID_IMAGE_DIMENSION_SIZE_1
         else:
             self.image_height, self.image_width = ASTEROID_IMAGE_DIMENSION_SIZE_2, ASTEROID_IMAGE_DIMENSION_SIZE_2
@@ -223,9 +209,6 @@ class Asteroid():
         self.centerx = int((self.centerx - steps_count * self.speedx) % SCREEN_WIDTH)
         self.centery = int((self.centery - steps_count * self.speedy) % SCREEN_HEIGHT)
 
-    # def draw(self):
-    #     # pygame.draw.circle(self.screen, (255, 255, 255), (self.centerx, self.centery), self.radius)
-    #     self.screen.blit(self.image, (self.centerx - self.image_width / 2, self.centery - self.image_height / 2))
 
 
 def collides(objectA, objectB):

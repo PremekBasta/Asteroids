@@ -118,18 +118,6 @@ def simulate_one_game(index, env, agent_one, agent_two, episode_num, exp_buffers
             (old_transformed_state, action_plan_index, reward_one, transformed_state, game_over))
     exp_buffers[index] = agent_one.exp_buffer
     print(f"episode: {episode_num}, index: {index} finished")
-    #agent_one.train()
-
-    #print(f"episode_num: {episode_num}, thread_num: {index}, reward: {R}, history: {agent_one.history}")
-    #with FileLock("myfile.txt.lock"):
-    #    file.write("#, " + str(episode_num) + ", " + str(index) + ", " + str(R) + "\n")
-    #    file.write(str(agent_one.history) + "\n\n")
-    #    file.flush()
-    #semi_result[index-1] = step_count - agent_one.penalty
-    #print(semi_result)
-    #return step_count
-    #return_vals[index] = result
-    #return
 
 def train_parallel(num_cores = 4, num_episodes = 200):
 

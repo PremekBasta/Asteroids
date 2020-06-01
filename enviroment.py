@@ -1,4 +1,3 @@
-# import pygame
 from space_objects import Rocket, RocketBaseAction, Bullet, Asteroid, collides
 from state import State
 from constants import *
@@ -308,44 +307,3 @@ class Enviroment:
             return True, True
         return False, False
 
-    # def get_actions_from_keyboard_input(self):
-    #     actions_one = []
-    #     actions_two = []
-    #     actions = []
-    #     events = pygame.event.get(pygame.KEYDOWN)
-    #     for event in events:
-    #         if(event.key == pygame.K_SPACE):
-    #             actions.append(Rocket_action.ROCKET_ONE_SHOOT)
-    #             actions_one.append(Rocket_action.ROCKET_ONE_SHOOT)
-    #         if(event.key == pygame.K_LCTRL):
-    #             actions.append(Rocket_action.ROCKET_TWO_SHOOT)
-    #             actions_two.append(Rocket_action.ROCKET_TWO_SHOOT)
-    #
-    #
-    #     all_keys = pygame.key.get_pressed()
-    #     if all_keys[pygame.K_UP]:
-    #         actions.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-    #         actions_one.append(Rocket_action.ROCKET_ONE_ACCELERATE)
-    #     if all_keys[pygame.K_LEFT]:
-    #         actions.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-    #         actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_LEFT)
-    #     if all_keys[pygame.K_RIGHT]:
-    #         actions.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-    #         actions_one.append(Rocket_action.ROCKET_ONE_ROTATE_RIGHT)
-    #
-    #
-    #     if all_keys[pygame.K_a]:
-    #         actions.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-    #         actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_LEFT)
-    #     if all_keys[pygame.K_d]:
-    #         actions.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-    #         actions_two.append(Rocket_action.ROCKET_TWO_ROTATE_RIGHT)
-    #     if all_keys[pygame.K_w]:
-    #         actions.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-    #         actions_two.append(Rocket_action.ROCKET_TWO_ACCELERATE)
-    #
-    #
-    #
-    #     # clearing it apparently prevents from stucking
-    #     pygame.event.clear()
-    #     return actions_one, actions_two

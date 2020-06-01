@@ -1,0 +1,31 @@
+Uživatelská dokumentace ke hře Asteroidy.
+
+Cíl hry:
+Asteroidy jsou hra pro dva hráče. Cílem hráče je vydržet ve hře déle než nepřítel. Hráčí ovládají svou vesmírnou loď, snaží se vyhýbat nebezpečným asteroidům a pomocí sestřelování asteroidů se snaží zasáhnout nepřátelskou loď.
+Při každém střetu vlastní vesmírné lodi s neutrálním, nebo nepřátelským asteroidem hráč ztrácí část životů. První hráč, kterému dojdou životy, prohrál. 
+
+
+Spuštění hry:
+python main.py
+
+
+Argumenty spuštění:
+Bez dalších zadaných argumentů se hra spustí s grafickým výstupem, oba hráči jsou reprezentování obranným agentem, bude odehráno 10 her a počet neaktivních kroků, během kterých nedochází k přepočítávání akčních plánů je nastaven na 3.
+
+-h		Zobrazí nápovědu o spouštění hry
+-a1 X		Který agent bude ovládat hráče 1
+-a2 X		Který agent bude ovládat hráče 2
+		Společné možné hodnoty za X pro agenty jsou:
+			"E01" = agent získaný z 1. Experimentu
+			...
+			"E07" = agent získaný z 7. Experimentu
+			"IN" = ovládání hráče přímo z klávesnice 
+				V případě prvního hráče se vesmírná loď ovládá klávesami šipky doleva a doprava pro levou a pravou rotaci, šipkou nahoru pro zrychlení a klávesy O a P pro jednoduchou a 					rozdvojovací střelu.				
+				V případě druhého hráče se vesmírná loď ovládá klávesami A,D pro levou a pravou rotaci, W pro zrychlení a klávesy F a G pro jednoduchou a rozdvojovací střelu
+				
+			"SD" = obranný agent, který se řídí pouze obranným akčním plánem
+			"EV" = úhybný agent, který se řídí pouze úhybným akčním plánem
+-ng X		Počet her k zahrání (Default = 10)
+-dv 		Hry se budou hrát bez vizuálního zobrazení. Slouží pouze pro rychlou simulaci her bez vykreslování.
+-isl		Maximální limit neaktivních kroků než agenti znovu přepočítají své akční plány. Validní hodnoty jsou čísla z intervalu (0,9). (Default=3)
+		Zvyšováním tohoto limitu se mírně zhoršuje kvalita agentů, protože agenti mohou v některých případech reagovat se zpožděním. Zároveň zvýšením tohoto limitu dochází ke snížení výpočetní 			náročnosti hry, díky tomu může hra běžet plynuleji a při simulace hry bez vizuálního zobrazení mohou hry běžet několikanásobně rychleji.

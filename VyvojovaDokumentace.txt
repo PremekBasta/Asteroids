@@ -1,0 +1,153 @@
+Vývojová dokumentace ke programu Asteroidy:
+
+1.) Architektura hry:
+	modul space_objects.py
+		Představuje třídu všech vesmírných objektů, které se ve hře vyskytují. 
+		Všechny vesmírné objekty mají polohu na souřadnici x, polohu na souřadnici y, rychlost ve směru x, rychlost ve směru y a poloměr.
+		
+		třída Rocket - Reprezentuje vesmírnou loď. Vesmírná loď na oproti ostatním objektům navíc úhel, který určuje jakým směrem je momentálně nasměrovaná.
+			Obsahuje metody pro rotování vesmírné lodi vlevo a vpravo, akceleraci a pohyb.
+
+		třída Bullet - Reprezentuje vystřelenou střelu. Střela má omezenou životnost, s každým zavoláním metody posunutí se životnost sníží.
+			Obsahuje metody pro posunutí střely a pro detekci, zda je střela stále naživu.
+
+		třída Asteroid - Reprezentuje asteroid. Každý asteroid je buď neutrální, nebo náleží jednomu z hráčů. Dále se u asteroidů určuje jaké jsou velikosti (SMALL, MIDDLE, BIG).
+			Obsahuje metodu pro vytvoření asteroidu na náhodném místě, kde přímo neohrožuje žádného z hráčů. Dále obsahuje metodu pro vytvoření asteroidu po sestřelení původního asteroidu.
+			Po sestřelení se vždy vytváří asteroid(y) o stupeň menší velikosti.
+
+		metoda collides(obj, obj) - Ta vezme dva vesmírné objekty a na základě polohy a poloměrů objektů vrátí, zda se objekty nepronikají.
+		
+	modul environment.py
+		třída Environment - Reprezentuje herní prostředí. Herní prostředí spravuje všechny herní objekty. Stará se o pohyb objektů, detekci jejich srážek a vytváření nových objektů.
+			Herní prostředí může být inicializováno s modulem pro vykreslování hry. Tento modul může být předán v konstruktoru instance herního prostředí.			
+
+			metoda reset() - Inicializuje herní prostředí do počátečního stavu.
+			
+			metoda next_step(actions_one, actions_two) - Na vstupu dostane akce každého z obou hráčů a na základě nich manipuluje s objekty.
+				Tato metoda vrací kompletní informace o stavu hry po konci tohoto kroku:
+					Stav hry reprezentovaný seznamy všech existujících vesmírných objektů včetně všech jejich informací
+					Počet kroků, které již v této hře proběhly
+					Zda hra neskončila, případně, který z hráčů zvítězil
+				Tato metoda je určena k volání v cyklu pro simulaci hry. Cyklus končí, když tato metoda vrací, že hra skončila.
+			
+			metoda handle_actions(actions_one, actions_two) - Na základě zadaných akcí upraví, případně vytvoří nové vesmírné objekty.
+				Elementární akce mohou mohou být následující:
+					Rotace vlevo (Rotuje danou vesmírnou loď vlevo)
+					Rotace vpravo (Rotuje danou vesmírnou loď vpravo)
+					Akcelerace (Zrychlí let vesmírné lodi v jejím současném směru)
+					Obyčejná střela (Vytvoří střelu ve směru letu vesmírné lodi)
+					Rozdvojovací střela (Vytvoří střelu, která při zasažení asteroidu vytvoří dva nové asteroidy, které poletí mírně jiným směrem)
+
+			metoda generate_asteroid() - Stará se o vytváření nových asteroidů. Prostředí vytvoří nový asteroid po dosažení určitého počtu kroku hry.
+				Tento počet pro vytvoření asteroidu se s každým vytvořeným asteroidem sníží a proto se postupně snižuje interval pro jejich další vytváření a tím se ve hře postupně 					objevuje více a více asteroidů.
+
+			metoda check_collisions() - Hlídá srážky herních objektů. Při střetu střely a asteroidu zanikají oba objekty. Při střetu asteroidu a vesmírné lodi dochází k zániku asteroidu a 				hráč, kterému patří vesmírná loď ztratí část životů.
+
+			metoda move_objects() - Projde všechny vesmírné objekty a posune jejich současnou polohu o jejich vektor rychlosti.
+
+			metoda render() - Pokud bylo herní prostředí vytvoření s vykreslovacím modulem, tak tato metoda vykreslí všechny existující vesmírné objekty.
+
+			metoda check_end() - Kontroluje, zda některý z hráčů nepřišel o všechny své životy a tedy neprohrál.
+
+	modul dto.py
+		třída Space_object_DTO - Představuje vesmírný objekt popsaný podobně jako v modulu space_objects. Tyto objekty slouží jako data transfer objects pro přenos informací z herního prostředí.
+			Herní prostředí na konci herního kroku vytvoří kopie herních objektů právě pomocí těchto objektů. Pro každý původní objekt v herním prostředí je v každém kroku vytvořen jedna 				instance této třídy.
+			Třída má podobné metody jako vesmírné objekty z modulu space_objects.			
+			
+
+	modul state.py
+		třída State - Slouží pouze jako holder pro seznamy jednotlivých objektů.
+			Stav obsahuje seznam objektů pro každou kategorii objektů:
+				Vesmírná loď prvního hráče,
+				Vesmírná loď druhého hráče,
+				Střely prvního hráče,
+				Střely druhého hráče,
+				Asteroidy patřící prvnímu hráči,
+				Asteroidy patřící druhému hráči,
+				Neutrální asteroidy
+
+	modul agents.py
+		Reprezentuje rozhodujícího se agenta ve hře. V tomto modulu je implementováno více různých tříd agentů. Každý agent v sobe obsahuje specifický rozhodovací mechanismum.
+		Ústřední metodou agentů je metoda choose_actions(State) - V té se agent na základě současného stavu hry rozhoduje jaké akce chce provést a tyto akce vrátí.
+
+	modul draw_modul.py
+		Modul, ve kterém jsou načteny obrázky všech herních objektů. Po každý vesmírný objekt zde existuje metoda pro jeho vykreslení. Vykreslovací metody jsou volány z herního prostředí v každém 			kroku hry.
+		Tento modul je také zodpovědný za hlídání vykreslovacího intervalu 30 FPS.
+		Modul využívá grafické knihovny pygame pro tvorbu her v jazyce python.
+
+	modul constans.py
+		Modul, ve kterém jsou uložený všechny konstatny potřebné pro správný běh hry. Tyto hodnoty se nemají měnit.
+		
+
+	main.py
+		Vstupní bod pro spouštění hry. Zde se zpracovávají zadané argumenty a na základě toho se volí, kteří agenti budou hru hrát.
+		Následně se zde volá základní herní smyčka:			
+			Na základě předchozího stavu oba agenti zvolí své akce,
+			Tyto akce se předají prostředí, které vrátí další stav
+		
+
+2.) Senzory a akční plány
+	Slouží jako abstrakce nad současným stavem hry a nad elementárními akcemi. 
+	
+	Senzory - Jde o senzorické metody implementované přímo ve třídě Agent. Zde se na základě stavu hry reprezentovaného pomocí instance třídy State extrahují ze stavu konkrétní informace vyšší úrovně.
+		V těchto metodách se zjisťují vzdálenosti mezi objekty, pomocí simulace hry se detekují srážky objektů, případně se hledají takové simulace, ve kterých ke srážkám nedochází.
+		V simulacích se také zjišťují počty kroků, po kterých dojde k jistým událostem.
+
+	Akční plány - Jde o posloupnost elementárních akcí, které, když se jimi agent bude řídit, tak dosáhne vyššího cíle.
+		Akční plány se získávají z některých senzorických metod implementovaných na třídě Agent.
+		Technicky jsou akční plány reprezentovány jako seznamy seznamů akcí. Agent, který se daným akčním plánem chce řídit, v každém kroku z toho seznamu vezme první seznam akcí a tyto akce předá 			hernímu prostředí.
+
+	Přepočítávání akčních plán - Z výpočetních důvodů se ukázalo být problematické přepočítávat akční plány v každém kroku hry.
+		Agent si udržuje předchozí spočítaný akční plán.
+		V rámci metody choose_actions(State), kterou musí mít každý agent, někteří agenti volají metodu reevaluate_plan(), v této metodě se rozhoduje zda se bude přepočítávat nový plán, nebo se 			použije plán předchozí. K přepočítání dochází pokud byl v předchozím kroku dokončen předchozí plán, anebo uplynul daný počet kroků od předchozího výpočtů plánu. Tento limit neaktivních 			kroků zadává uživatel jako vstupní argument -ils při spouštění hry.
+	
+3.) Umělá inteligence
+	Umělá inteligence je realizována na úrovni každé třídy Agenta. Samotné rozhodování o provedených akcí agenta probíhá v metodě choose_actions(State).
+
+	Triviální umělá inteligence:
+		třída Evasion_agent - Reprezentuje úhybného agenta, který se vždy rozhoduje pouze pro úhybný akční plán. Tento plán získává přímým využitím senzorických metod třídy Agent.
+
+		třída Stable_defensive_agent - Reprezentuje obranného agenta, který se vždy rozhoduje pouze pro obranný akční plán. Tento plán získává přímým využitím senzorických metod třídy Agent.
+
+	Genetické programování:
+		třída Genetic_agent - Reprezentuje genetického agenta, který využívá pro rozhodování mezi akčními plány rozhodovací funkci získanou z evolučního algoritmu.
+
+		modul GP.py 
+			Modul, ve kterém je realizován evoluční algoritmus. Zde se využívá knihovny deap, která slouží ke konfiguraci evolučních algoritmů v jazyce python.
+			V tomto modulu se definují všechny terminály a neterminály, ze kterých se tvoří výsledné stromy reprezentující řešení problému.
+			Je zde nadefinována funkce fitness pro ohodnocení jedinců.
+			Taktéž se zde konfiguruje, jakým způsobem se v evolučním algoritmu generují, kříží a mutují jedinci.
+			V tomto modulu probíhal výpočet experimentů číslo 1, 2 a 3.
+
+		modul GP_result_functions.py
+			Obsahuje rozhodovací funkce získané z experimentů 1, 2 a 3.
+
+
+	Hluboké Q-učení (Vysoká úroveň):
+		třída DQAgent - Reprezentuje agenta využívajícího neuronovou síť natrénovanou pomocí algoritmu hlubokého Q-učení. Tento agent se rozhoduje, který akční plán zvolí.
+			Struktura neuronové sítě se nastavuje v konstruktoru agenta. 
+
+		modul HighLevelDQ.py
+			Modul, ve kterém probíhal výpočet trénování neuronových sítí pro experimenty 4 a 5.
+
+
+
+	Hluboké Q-učení (Nízská úroveň):
+		třída Low_level_senzor_DQAgent - Reprezentuje agenta využívajícího neuronovou síť natrénovanou pomocí algoritmu hlubokého Q-učení. Tento agent se na základě senzorických metod nízské 				úrovně rozhoduje přímo pro elementární akce. Tedy nevyužívá abstrakcí akčních plánů. Struktura neuronové sítě se nastavuje v konstruktoru agenta. Využívá se zde knihovny tensorflow.
+
+		modul LowLevelDQ.py 
+			Modul, ve kterém probíhal výpočet trénování neuronových sítí pro experimenty 6 a 7.
+			
+			
+
+
+
+	
+
+
+	
+	
+
+
+
+
